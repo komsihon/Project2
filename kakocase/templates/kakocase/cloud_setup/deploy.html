@@ -1,0 +1,21 @@
+{% extends "core/cloud_setup/deploy.html" %}
+{% load i18n static %}
+
+{% block config_info %}
+    {% if settings.IS_IKWEN and user.is_staff %}
+        <div class="form-group row">
+            <label for="business-type" class="col-sm-4 col-md-3">{% trans "Business Type" %}</label>
+            <div class="col-sm-6 col-md-6">
+                <select id="business-type" name="business_type" class="form-control input-sm">
+                    <option value="">-------</option>
+                    <option value="Provider">{% trans "Merchant" %}</option>
+                    <option value="Bank">{% trans "Financial Institution" %}</option>
+                    <option value="Logistics">{% trans "Logistics" %}</option>
+                </select>
+                {{ form.business_type.errors }}
+            </div>
+        </div>
+    {% else %}
+        <input type="hidden" id="business-type" name="business_type" value="Provider">
+    {% endif %}
+{% endblock %}

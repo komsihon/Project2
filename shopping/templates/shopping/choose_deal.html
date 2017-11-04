@@ -1,0 +1,230 @@
+{% extends "core/base_bs.html" %}
+{% load i18n staticfiles humanize currency %}
+
+{% block page_title %}<title>{% trans "CashFlex Checkout" %} - {{ service.project_name }} </title>{% endblock %}
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/deals.css' %}" />
+{% endblock %}
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand" href="#" style="width: 200px; max-width: none">
+        <span>
+            <strong style="font-size: 25px">ikwen</strong>
+            CashFlex
+        </span>
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="container">
+        <div class="ceil content-tab-list">
+            <div class="bank-list{% if bank_list|length == 1 %} single{% endif %} swiper-container">
+                <div class="nav nav-tabs" role="tablist">
+                {% for bank in bank_list %}
+                    <div role="presentation" class="tab bank{% if forloop.counter == 1 %} active{% endif %}">
+                        <a href="#{{ bank.id }}" aria-controls="{{ bank.id }}" role="tab" data-toggle="tab">
+                            <div class="bank-logo swiper-slide hidden-xs" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ bank.config.logo.name }})"
+                                 data-bank-id="{{ bank.id }}"></div>
+                            <div class="bank-name">
+                                {{ bank.config.company_name }}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            {% for bank in bank_list %}
+                {% with bank_name=bank.config.company_name cashflex_terms_url=bank.config.cashflex_terms_url create_account_url=bank.config.create_account_url %}
+                <div id="{{ bank.id }}" role="tabpanel" class="deals tab-pane{% if forloop.counter == 1 %} active{% endif %}">
+                    {% if order.entries|length > 1 %}
+                        <div class="msg-tag info terms-payment-notice">
+                            {% trans "Terms Payment is only possible for one single product at a time" %}
+                        </div>
+                    {% endif %}
+                    <div>
+                        <div class="col-sm-4 col-lg-3">
+                            <div class="deal pay-cash" data-bank-id="{{ bank.id }}" data-toggle="modal"
+                                 {% if user.is_anonymous %}data-target="#login-to-continue"{% endif %}>
+                                <h2 class="cost">
+                                    <span>{{ order.total_cost|floatformat:CURRENCY.precision|intcomma }}</span>
+                                    <sup class="currency text-muted">{{ CURRENCY.symbol }}</sup>
+                                </h2>
+                                <div class="description">
+                                    {% trans "Pay Cash" %}
+                                </div>
+                                <p class="about">{% trans "Choose this options if you have enough money on your account" %}</p>
+                                <button class="btn btn-sm btn-warning cta btn-block choose">{% trans "Confirm" %}</button>
+                            </div>
+                        </div>
+                        {% for deal in bank.deal_list %}
+                            <div class="col-sm-4 col-lg-3">
+                                <div class="deal" data-bank-id="{{ bank.id }}" data-id="{{ deal.id }}"
+                                     data-toggle="modal" {% if user.is_anonymous %}data-target="#login-to-continue"{% endif %}>
+                                    <h2 class="cost">
+                                        <span>{{ deal.term_cost|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</span>
+                                        <sup class="currency text-muted">{{ CURRENCY.symbol }}/{%  trans deal.frequency %}</sup>
+                                    </h2>
+                                    <p class="text-muted terms-count">{{ deal.terms_count }} {%  trans deal.frequency %}s</p>
+                                    <div class="description">
+                                        <p>
+                                            {% if deal.first_term %}
+                                                <strong>{% trans "First Term" %}:</strong>
+                                                <span>{{ deal.first_term|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</span>
+                                                <sup class="text-muted" style="font-size: 12px">{{ CURRENCY.symbol }}</sup>
+                                            {% else %}
+                                                <strong>{% trans "No deposit" %}</strong>
+                                            {% endif %}
+                                        </p>
+                                        <p class="about">{{ deal.about }}</p>
+                                    </div>
+                                    <button class="btn btn-sm btn-warning cta btn-block choose">{% trans "Confirm" %}</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="cashflex-terms">{% blocktrans %}
+                        By confirming payment with your {{ bank_name }} account, you agree our
+                        <a href="{{ cashflex_terms_url }}" target="_blank">CASHFLEX Terms</a>
+                    {% endblocktrans %}
+                    </div>
+                    <div class="cashflex-terms">{% blocktrans %}
+                        Don't have an account with us ?
+                        <a class="btn btn-success btn-sm cta"
+                           href="{{ create_account_url }}" target="_blank">Open your account now</a>
+                    {% endblocktrans %}</div>
+                </div>
+                {% endwith %}
+            {% endfor %}
+            <div class="clearfix"></div>
+        </div>
+        <div style="margin: 45px 15px">
+            <a href="{% url 'shopping:cancel' %}" class="cancel-payment">{% trans "Cancel" %}</a>
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-checkout" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Confirm" %} ?</h4>
+                </div>
+                <div class="modal-body">
+                    <p style="margin-bottom: 2em">{% trans "Please confirm this purchase with your account number" %}</p>
+                    <form method="post" action="{% url 'shopping:confirm_checkout' %}">{% csrf_token %}
+                        <input type="hidden" id="bank-id" name="bank_id" />
+                        <input type="hidden" id="deal-id" name="deal_id" />
+                        <div>
+                            <ul class="bank-accounts">
+                                {% for account in bank_accounts %}
+                                    <li class="ik-li bank-account {{ account.bank.id }}">
+                                        <div class="select subtle-shade"> <i class="glyphicon glyphicon-ok"></i> </div>
+                                        <strong class="name number">{{ account.number }}</strong>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="alt-account">
+                            <span class="text-muted">OR</span>
+                            <a href="javascript:;" class="show-account-input">{% trans "Input new account" %}</a>
+                        </div>
+                        <div class="form-group row new-account">
+                            <label for="account-number" class="col-sm-5 col-md-4">{% trans "Account Number" %}</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input id="account-number" class="form-control input-sm" type="text" name="account_number" value=""/>
+                            </div>
+                        </div>
+                        <div class="failure account-error" style="padding: 6px 10px">{% trans "Ooops! Account number seems invalid." %}</div>
+                        <div class="actions" style="margin-top: 2em" >
+                            <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                                <button type="submit"
+                                   class="btn btn-sm btn-success btn-block">{% trans "OK" %}</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                                <button type="button" class="btn btn-sm btn-default btn-block"
+                                        data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="login-to-continue" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Sign in" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="col-xs-12" style="margin-bottom: 1em">{% trans "Please sign in to continue" %}</p>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <a href="{% url 'ikwen:sign_in' %}next={{ request.META.REQUEST_URI }}"
+                               class="btn btn-sm btn-success btn-block do-empty-cart">{% trans "Sign in" %}</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <a href="{% url 'ikwen:register' %}next={{ request.META.REQUEST_URI }}"
+                               class="btn btn-sm btn-warning btn-block">{% trans "Register" %}</a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            var newAccHeight = 35;
+            if ($(window).width() < 768) newAccHeight = 61;
+            $('#content').on('click', '.deal', function() {
+                {% if user.is_authenticated %}
+                    var bankId = $(this).data('bank-id'),
+                        dealId = $(this).data('id');
+                    $('#bank-id').val(bankId);
+                    if (dealId) $('#deal-id').val(dealId);
+                    $('.bank-account, .account-error').hide().removeClass('selected');
+                    $('#account-number').val('');
+                    if ($('.bank-account.' + bankId).length >= 1) {
+                        $('.bank-accounts, .alt-account, .bank-account.' + bankId).show();
+                        $('.new-account').hide();
+                    } else {
+                        $('.bank-accounts, .alt-account').hide();
+                        $('.new-account').height(newAccHeight).show();
+                    }
+                    $('#confirm-checkout').modal('show');
+                {% endif %}
+            });
+            $('#confirm-checkout').on('click', '.show-account-input', function() {
+                $('.new-account').show().height(0).animate({height: newAccHeight + 'px'});
+                $('.bank-account').removeClass('selected');
+                $('#account-number').val('');
+            }).on('click', '.bank-account', function() {
+                $('.bank-account').removeClass('selected');
+                $(this).toggleClass('selected');
+                var number = $(this).find('.number').text();
+                $('#account-number').val(number);
+            }).on('submit', 'form', function() {
+                var number = $('#account-number').val();
+                if (number.length < 8) {
+                    $('.account-error').fadeIn();
+                    return false
+                }
+            })
+        })()
+    </script>
+    {{ config.scripts|safe }}
+{% endblock %}

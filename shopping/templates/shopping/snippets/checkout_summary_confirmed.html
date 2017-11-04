@@ -1,0 +1,32 @@
+{% load i18n staticfiles humanize auth_tokens currency %}
+{% with crcy=order.currency %}
+    <div id="items-summary" class="co subtle-shade">
+        <h4><span class="count">{{ order.items_count }}</span> {% trans "item(s), totaling" %}:</h4>
+        <p class="price">
+            <span>{{ crcy.symbol }}</span> <span class="total">{{ order.items_cost|currency:crcy.code|floatformat:crcy.precision|intcomma }}</span>
+        </p>
+        <div class="actions">
+            <div class="delivery-option active" style="margin-bottom: .5em">
+                <div class="img">
+                    {% if order.delivery_option.icon.name %}
+                        <img src="{{ order.delivery_option.icon.url }}" class="img-responsive"/>
+                    {% endif %}
+                </div>
+                <div>
+                    <p>
+                        <span class="name">{{ order.delivery_option.name }}</span>
+                        {% if order.delivery_option.cost > 0 %}
+                            <span class="cost">
+                                {{ crcy.symbol }}
+                                <span class="val">{{ order.delivery_option.cost|currency:crcy.code|floatformat:crcy.precision|intcomma }}</span></span>
+                        {% else %}
+                            <span class="cost">{% trans "Free" context "Free delivery" %}</span>
+                        {% endif %}
+                    </p>
+                    <p class="short-description">{{ order.delivery_option.short_description }}</p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endwith %}

@@ -1,0 +1,172 @@
+{% load i18n staticfiles humanize auth_tokens media_from_provider %}
+<div id="admin-tools" class="ceil bottom-shade-xs">
+    <form id="context-search" onsubmit="return false">
+        <div>
+            <i class="glyphicon glyphicon-search"></i>
+            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+            <input type="text" class="form-input input-sm" placeholder="{% trans "Search product" %}"/>
+        </div>
+        {% if filter and filter|length > 0 %}
+            <div class="filter-trigger">
+                <i class="glyphicon glyphicon-filter"></i>
+                <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                {% for elt in filter %}
+                <div class="tool filter">
+                    <label for="{{ elt.parameter_name }}" class="sr-only">{% trans elt.title %}</label>
+                    <select id="{{ elt.parameter_name }}" style="float: left; width: 120px" class="form-control input-sm {{ elt.parameter_name }} widget" name="{{ elt.parameter_name }}">
+                        <option value="all">{% trans "All" %}</option>
+                        {% for choice in elt.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </form>
+    {% if settings.IS_BANK %}
+        <button class="btn btn-sm btn-success cta pull-right action" style="border-color: #18bc9c; min-width: 90px"
+                data-toggle="modal" data-target="#load-product">
+            <i class="glyphicon glyphicon-import"></i>
+            {% trans "Import" %}
+        </button>
+    {% endif %}
+</div>
+<div id="results">
+    {% include 'core/snippets/spinner.html' %}
+    <ul class="object-list">
+    {% for product in objects_page.object_list %}
+        <li class="ik-li img-lg product" id="{{ product.id }}" data-id="{{ product.id }}"
+            {% if product.stock %}data-stock="{{ product.stock }}{% endif %}"
+            {% if product.retail_price %}data-retail_price="{{ product.retail_price }}{% endif %}">
+            <div class="select subtle-shade">
+                <i class="glyphicon glyphicon-ok"></i>
+            </div>
+            {% if settings.IS_BANK %}
+                {% url 'trade:deal_list' product.id as product_url %}
+            {% else %}
+                {% url 'kako:change_product' product.id as product_url %}
+            {% endif %}
+            {% if product.image.name %}
+                <a href="{{ product_url }}" class="image" style="background-image: url({{ product.image.small_url|from_provider:product.provider }})"></a>
+            {% else %}
+                <a href="{{ product_url }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.jpg' %})"></a>
+            {% endif %}
+            <div class="info">
+                <a href="{{ product_url }}">
+                    <span class="name">{{ product.name }}</span>
+                    {% if product.size %}<span class="text-muted">({{ product.size }})</span>{% endif %}
+                </a>
+                <div class="about">
+                    <p>
+                        {% if settings.IS_BANK %}
+                            <span class="meta retail_price">
+                                {{ CURRENCY.symbol }} <span class="value">{{ product.retail_price|floatformat:CURRENCY.precision|intcomma }}</span>
+                            </span>
+                        {% else %}
+                            <span class="meta wholesale_price">
+                                {% if product.wholesale_price %}<strong>{% trans "Wholesale" %}</strong>: {{ CURRENCY.symbol }}{{ product.wholesale_price|floatformat:CURRENCY.precision|intcomma }}{% endif %}
+                            </span>
+                            <span class="meta retail_price">
+                                {% if product.retail_price %}
+                                    <strong>{% trans "Retail" %}</strong>:
+                                    {{ CURRENCY.symbol }}<span class="value">{{ product.retail_price|floatformat:CURRENCY.precision|intcomma }}</span>
+                                {% endif %}
+                            </span>
+                            <span class="meta max_price">{% if product.max_price %}<strong>{% trans "Max" %}</strong>: {{ CURRENCY.symbol }}{{ product.max_price|floatformat:CURRENCY.precision|intcomma }}{% endif %}</span>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% if settings.IS_BANK %}
+                            <em class="meta provider">{{ product.provider.project_name }}</em>
+                        {% else %}
+                            <strong>{% trans "Stock" %}</strong>:
+                            <span class="stock">{% if product.stock %}{{ product.stock|intcomma }}{% else %}N/A{% endif %}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="actions">
+                {% if not request.GET.smart_link %}
+                    {% if settings.IS_PROVIDER %}
+                        <i class="glyphicon glyphicon-duplicate duplicate" title="{% trans "Duplicate" %}"></i>
+                        <i class="glyphicon glyphicon-scale update-stock" data-toggle="modal" data-target="#update-stock" title="{% trans "Update stock" %}"></i>
+                    {% elif settings.IS_RETAILER %}
+                        <i class="glyphicon glyphicon-edit update-price{% if product.retail_price_is_modifiable %} edit{% endif %}"
+                           {% if product.retail_price_is_modifiable %}data-toggle="modal" data-target="#update-price"{% endif %} title="{% trans "Update retail price" %}"></i>
+                    {% endif %}
+                    <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+        <li class="ik-li img-lg product tpl" style="display: none">
+            <div class="select subtle-shade">
+                <i class="glyphicon glyphicon-ok"></i>
+            </div>
+            <a class="image bg-img target_url"></a>
+            <div class="info">
+                <a class="target_url">
+                    <span class="name"></span>
+                    <span class="size text-muted in-brackets"></span>
+                </a>
+                <div class="about">
+                    <p>
+                        <span class="wholesale_price hide"><strong>{% trans "Wholesale" %}</strong>: {{ CURRENCY.symbol }}<span class="value"></span></span>
+                        <span class="retail_price hide"><strong>{% trans "Retail" %}</strong>: {{ CURRENCY.symbol }}<span class="value"></span></span>
+                        <span class="max_price hide"><strong>{% trans "Max" %}</strong>: {{ CURRENCY.symbol }}<span class="value"></span></span>
+                    </p>
+                    <p>
+                        {% if settings.IS_BANK %}
+                            <em class="meta provider"></em>
+                        {% else %}
+                            <strong>{% trans "Stock" %}</strong>: <span class="stock n-a"></span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="actions">
+                {% if not request.GET.smart_link %}
+                    {% if settings.IS_PROVIDER %}
+                        <i class="glyphicon glyphicon-duplicate duplicate" title="{% trans "Duplicate" %}"></i>
+                        <i class="glyphicon glyphicon-scale update-stock" data-toggle="modal" data-target="#update-stock" title="{% trans "Update stock" %}"></i>
+                    {% elif settings.IS_RETAILER %}
+                        <i class="glyphicon glyphicon-edit update-price" data-toggle="modal" data-target="#update-price" title="{% trans "Update retail price" %}"></i>
+                    {% endif %}
+                    <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                {% endif %}
+            </div>
+        </li>
+    </ul>
+    <div class="empty" style="display: none; padding: 10px 15px 5px">
+        <p class="text-muted">{% trans "Not found" %}</p>
+        <p>
+            <span class="search-text"></span>
+            {% if settings.IS_PROVIDER %}
+                <a href="{% url 'kako:change_product' %}" id="new-product"
+                   class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+            {% endif %}
+        </p>
+    </div>
+    {% if objects_page.paginator.num_pages > 1 %}
+    <ul class="pagination">
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        {% for page in objects_page.paginator.page_range %}
+            <li class="{% if page == objects_page.number %}active{% endif %}" data-val="{{ page }}">
+                <a href="#">
+                    {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+            </li>
+        {% endfor %}
+        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+    {% endif %}
+    <div id="page-navigation" class="text-muted">
+        {% if objects_page.paginator.num_pages > 1  %}
+            <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
+                {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+        {% else %}
+            <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,97 @@
+/*--
+Author: ikwen
+Author URL: http://www.ikwen.com/kakocase
+
+Blue Theme for Kakocase Origin Template
+--*/
+
+@import url('https://fonts.googleapis.com/css?family=Cagliostro');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300');
+
+h1,h2,h3,h4,h5,h6{color: #1f1137}
+.header-top {background: #1565c0}
+.header-bottom {background: #0d59af}
+.header-bottom.fixed {background: #0d59af}
+.header-xs {background: #0d59af}
+#megadropdown-tabs-xs {background: #0d59af; border-top: 1px solid #064c9c}
+.dropdown-menu li, .dropdown-menu li a {color: #0d59af}
+.checkout-header {background: #F19E1F}
+.ban-text {background: rgba(13, 89, 175, 0.72)}
+.ban-text1 {background: rgba(13, 89, 175, 0.72)}
+.hvr-sweep-to-top:before {background: #F19E1F}
+
+h2.tittle {
+    color: #1565C0;
+}
+
+.product-about h6 a {
+    color: #1565C0;
+}
+.ribben {
+    background: #F19E1F;
+}
+.ribben1 {
+    background: #AF1D0D;
+}
+.ribben:after {
+    border-top-color: #BF8020;
+}
+.my-cart-b {
+    color: #1565C0;
+    border: 2px solid #F19E1F;
+}
+.my-cart-b:before {
+  background: #1565C0;
+  border: 2px solid #1565C0;
+}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {
+	border: 2px solid #1565C0;
+}
+a.button1 {
+    background: #F19E1F;
+}
+.latest-text {
+    background: rgba(21, 101, 192, 0.71);
+}
+.latest-text2 {
+   background: #1565C0;
+}
+.footer-w3l {
+    background: #1565C0;
+}
+.footer-grid i {
+    border: 1px solid #F19E1F;
+}
+.social-icon a i {
+    background-color:#F19E1F;
+}
+.social-icon i.instagram {
+    background-color: #F19E1F;
+}
+.categories h3{
+    background: #f19e1f;
+}
+.price h3,.top-rates h3,.brand-w3l h3{
+    background: #f19e1f;
+}
+.left-tab > li > a {
+    background: #F19E1F;
+}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {
+    background-color: #AF1D0D;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    background: #af1d0d;
+}
+#megadropdown-tabs-xs .nav > li > a:hover, .nav > li > a:focus {
+    background: #0b3a6f;
+}
+#reviews input[type="submit"] {
+    background: #AF1D0D;
+}
+.core-slider__carousel .core-slider_arrow__left {
+    background-color: #1565c0;
+}
+.core-slider__carousel .core-slider_arrow__right {
+    background-color: #1565c0;
+}

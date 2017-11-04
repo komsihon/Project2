@@ -1,0 +1,403 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens media_from_provider %}
+
+{% block page_title %}
+<title> {% if product %}{{ product }}{% else %}{% trans "New product" %}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <style>
+        .verify {border: 1px solid #e74c3c}
+        #product-sharing .social-media {margin-bottom: 10px}
+        @media (max-width: 767px) {
+            #product-sharing .social-media {text-align: center}
+        }
+    </style>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        (function () {
+            var properties = {
+                menubar: false,
+                statusbar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste code'
+                ],
+                content_css: [
+                    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                    '//www.tinymce.com/css/codepen.min.css'
+                ]
+            };
+            var summaryProperties = properties, descriptionProperties = JSON.parse(JSON.stringify(properties));
+
+            summaryProperties['selector'] = '#id_summary';
+            summaryProperties['height'] = 150;
+            summaryProperties['toolbar'] = 'undo redo | bold italic underline | bullist numlist outdent indent';
+
+            descriptionProperties['selector'] = '#id_description';
+            descriptionProperties['height'] = 300;
+            descriptionProperties['toolbar'] = 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+            if ($(window).width() >= 768) {
+                summaryProperties['width'] = 450;
+                descriptionProperties['width'] = 740
+            }
+            tinymce.init(summaryProperties);
+            tinymce.init(descriptionProperties);
+        })()
+    </script>
+{% endblock %}
+
+{% block header %}
+    {% if product %}
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+        <script>window.twttr = (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+          if (d.getElementById(id)) return t;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js, fjs);
+
+          t._e = [];
+          t.ready = function(f) {
+            t._e.push(f);
+          };
+
+          return t;
+        }(document, "script", "twitter-wjs"));</script>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% url 'kako:product_list' as product_url %}
+        <a href="{{ product_url|append_auth_tokens:request }}">{% trans "Products" %}</a>
+    </li>
+    {% if product %}
+        <li>{{ product.name }}</li>
+    {% else %}
+        <li>{% trans 'New' %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="change-form">
+        <div class="container-fluid">
+            <div class="content-tab-list ceil">
+                <div class="swiper-container">
+                    <div class="nav nav-tabs" role="tablist">
+                        <div role="presentation" class="tab photos active">
+                            <a href="#product-photos" aria-controls="product-photos" role="tab" data-toggle="tab">{% trans "Photos" %}</a>
+                        </div>
+                        <div role="presentation" class="tab info">
+                            <a href="#product-info" aria-controls="product-info" role="tab" data-toggle="tab">{% trans "Info" %}</a>
+                        </div>
+                        <div role="presentation" class="tab pricing">
+                            <a href="#product-pricing" aria-controls="product-pricing" role="tab" data-toggle="tab">{% trans "Pricing" %}</a>
+                        </div>
+                        <div role="presentation" class="tab management">
+                            <a href="#product-management" aria-controls="product-management" role="tab" data-toggle="tab">{% trans "Management" %}</a>
+                        </div>
+                        {% if product %}
+                            <div role="presentation" class="tab sharing">
+                                <a href="#product-sharing" aria-controls="product-sharing" role="tab" data-toggle="tab">{% trans "Share" %}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <form id="submit-product" class="tab-content admin-form" method="post" action="{{ request.META.path|append_auth_tokens:request }}">{% csrf_token %}
+                {% url 'kako:submit_product' as submit_product_url %}
+                {% if error %}<p class="alert alert-danger">{{ error }}</p>{% endif %}
+                <input type="hidden" id="product-id" name="product_id" value="{{ product.id }}" />
+                <input type="hidden" name="slug" id="slug" value="{{ product.slug }}" />
+                <input type="hidden" name="photos_ids" id="photos_ids" value="" />
+                <div id="product-photos" class="tab-pane active" role="tabpanel" style="padding-bottom: 90px">
+                    <div id="upload-container" class="images-uploader">
+                        {% for photo in product.photos %}
+                            <div class="frame image" id="{{ photo.id }}" style="background-image: url('{{ photo.image.small_url|from_provider:product.provider }}')">
+                                {% if settings.IS_PROVIDER %}
+                                    <div class="delete has-shade" title="{% trans 'Delete image ?' %}">&times;</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="frame image tpl">
+                            <span class="progress"></span>
+                            {% include 'core/snippets/spinner.html' %}
+                            <div class="delete has-shade" title="{% trans 'Delete image' %}">&times;</div>
+                        </div>
+                        {% if settings.IS_PROVIDER %}
+                            <div class="frame uploader"></div>
+                        {% endif %}
+                    </div>
+                    {% if settings.IS_PROVIDER and product %}
+                        <div class="form-group submit col-xs-12 col-sm-4 col-md-3" style="clear: both; margin-left: -15px; padding-top: 15px">
+                            <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="product-info">
+                    {% include 'core/snippets/model_admin_form.html' %}
+                    {% if settings.IS_PROVIDER and product %}
+                        <div class="form-group submit col-xs-12 col-sm-4 col-md-3" style="clear: both; margin-left: -15px; padding-top: 15px">
+                            <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="product-pricing">
+                    {% if settings.IS_PROVIDER %}
+                        <div class="form-group submit col-xs-12 col-sm-4 col-md-3" style="clear: both; margin-left: -15px; padding-top: 15px">
+                            <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id="product-management">
+                    {% if settings.IS_PROVIDER %}
+                        <div class="form-group submit col-xs-12 col-sm-4 col-md-3" style="clear: both; margin-left: -15px; padding-top: 15px">
+                            <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                        </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+                {% if product %}
+                {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                <div role="tabpanel" class="tab-pane" id="product-sharing">
+                    <div>
+                        <div style="margin-bottom: 30px">
+                            <div class="text-muted">{% trans "Product URL" %}</div>
+                            <a href="{{ service.url }}{{ product_url }}">{{ service.url }}{{ product_url }}</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 social-media">
+                            <div class="fb-share-button" data-href="{{ service.url }}{{ product_url }}" data-layout="button" data-size="large" data-mobile-iframe="true">
+                                <a class="fb-xfbml-parse-ignore" target="_blank"
+                                   href="https://www.facebook.com/sharer/sharer.php?u={{ service.url }}{{ product_url }}">{% trans "Share" %}</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 social-media">
+                            <a class="twitter-share-button" data-size="large"
+                               href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}">Tweet</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 social-media">
+                            <div class="g-plus" data-action="share" data-height="28"
+                                 data-href="{{ service.url }}{{ product_url }}" data-annotation="bubble" ></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                {% endif %}
+                <div class="clearfix"></div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {% if product %}<script src="https://apis.google.com/js/platform.js" async defer></script>{% endif %}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .products').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+            {% if settings.IS_PROVIDER %}
+                {% if request.GET.name %}
+                    $('#id_name').val("{{ request.GET.name }}");
+                {% endif %}
+                {% if error %}
+                    ikwen.showFloatingNotice("{{ error }}", '', 6);
+                {% endif %}
+                $('div#upload-container').on('click', '.image .delete', function() {
+                    var productId = $('#product-id').val(),
+                        $photo = $(this).parent(),
+                        id = $photo.attr('id'),
+                        photosIDs = $('#photos_ids').val();
+                    photosIDs = photosIDs.replace(id, '');
+                    $('#photos_ids').val(photosIDs);
+                    $photo.fadeOut('normal', function() {
+                        $(this).remove()
+                    });
+                    var product = getLocalProduct(), photos;
+                    if (product.photos) photos = product.photos;
+                    else photos = [];
+                    product.photos = [];
+                    for (var i=0; i<photos.length; i++) {
+                        var photo = photos[i];
+                        if (photo.id != id) product.photos.push(photo)
+                    }
+                    localStorage.setItem('product', JSON.stringify(product));
+                    $.getJSON('{% url 'kako:delete_photo' %}', {photo_id: $photo.attr('id'), product_id: productId});
+                });
+                $('form#submit-product').on('change', 'input, textarea', function() {
+                    var product = getLocalProduct();
+                    localStorage.setItem('product', JSON.stringify(product));
+                }).submit(function() {
+                    return checkInput();
+                });
+                var pageLoading = true,
+                    product;
+                function getLocalProduct() {
+                    product = localStorage.getItem('product') ? JSON.parse(localStorage.getItem('product')):{};
+                    if (pageLoading) {
+                        // Do not override locally saved product with form data upon page loading
+                        pageLoading = false;
+                        return product
+                    }
+                    var photos = [];
+                    if (product != {} && product.photos) photos = product.photos; //Keep a copy of photos objects
+                    var productAsArray = $('form#submit-product').serialize().split('&');
+                    for (var i=0; i<productAsArray.length; i++) {
+                        var elt = productAsArray[i].split('=');
+                        product[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
+                    }
+                    product.photos = photos; //Then restore the photos objects on the update serialized form
+                    return product
+                }
+                function checkInput() {
+                    var check = true;
+                    $('input.required').each(function() {
+                        if (!(this).val()) {
+                            ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                            $(this).addClass('verify');
+                            check = false;
+                        }
+                    });
+                    var photosIDs = $('#photos_ids').val().replace(',', '');
+                    if (!photosIDs) {
+                        return confirm("{% trans "Product without photos will be automatically hidden. Continue ?" %}");
+                    }
+                    return check;
+                }
+                var uploader = new qq.FileUploader({
+                    action: "{% url 'kako:product_photo_uploader' %}",
+                    element: $('div#upload-container .uploader')[0],
+                    buttonText: "+",
+                    multiple: false,
+                    onSubmit: function(id, fileName) {
+                        var uploadId = 'u' + id;
+                        $('div#upload-container .image.tpl').clone().removeClass('tpl').addClass('loading ' + uploadId).insertBefore('div#upload-container .image.tpl');
+                    },
+                    onProgress: function(id, fileName, loaded, total) {
+                        var ratio = loaded / total,
+                            percent = ratio * 100,
+                            uploadId = 'u' + id;
+                        $('div#upload-container .image.loading.' + uploadId + ' .progress').animate({opacity: 1 - ratio, width: percent + '%'});
+                        if (ratio == 1) $('div#upload-container .image.loading.' + uploadId + ' .spinner').show()
+                    },
+                    onComplete: function(id, fileName, responseJSON) {
+                        if(responseJSON.success) {
+                            var uploadId = 'u' + id,
+                                photo = {id: responseJSON.id, url: responseJSON.url},
+                                photosIDs = $('#photos_ids').val(),
+                                img = new Image(),
+                                product = getLocalProduct();
+                            $('div#upload-container .image.loading.' + uploadId).attr('id', photo.id);
+                            img.onload = function() {
+                                $('div#upload-container .image.loading.' + uploadId).removeClass('loading').css('background-image', "url('" + photo.url +"')")
+                                    .find('.progress, .spinner').remove();
+                            };
+                            img.src = photo.url;
+                            product.photos_IDs = photosIDs + ',' + photo.id;
+                            $('#photos_ids').val(product.photos_IDs);
+                            product.photos.push(photo);
+                            localStorage.setItem('product', JSON.stringify(product));
+                        } else {
+                            alert("upload failed!");
+                        }
+                    },
+                    params: {
+                        'csrf_token': '{{ csrf_token }}',
+                        'csrf_name': 'csrfmiddlewaretoken',
+                        'csrf_xname': 'X-CSRFToken',
+                        'product_id': '{{ product.id }}'
+                    }
+                });
+                {% if product %}
+                    $('#photos_ids').val("{{ product.get_photos_ids_list }}");
+                    localStorage.removeItem('product');
+                {% else %}
+                    product = getLocalProduct();  // Post from an unterminated submit
+                    if (product) {
+                        $('#id_category').val(product.category_id);
+                        $('#id_name').val(product.name);
+                        $('#id_brand').val(product.brand);
+                        $('#id_summary').val(product.summary);
+                        $('#id_description').val(product.description);
+                        $('#id_reference').val(product.reference);
+                        $('#id_original_id').val(product.original_id);
+                        $('#id_wholesale_price').val(product.wholesale_price);
+                        $('#id_retail_price').val(product.retail_price);
+                        $('#id_max_price').val(product.max_price);
+                        $('#id_size').val(product.size);
+                        $('#id_weight').val(product.weight);
+                        $('#id_stock').val(product.stock);
+                        $('#id_visible').prop('checked', product.visible);
+                        if (product.photos) {
+                            var photosIDs = '';
+                            for (var i=0; i<product.photos.length; i++) {
+                                var $photo = $('div#upload-container .image.tpl').clone().removeClass('tpl'),
+                                    photo = product.photos[i];
+                                $photo.attr('id', photo.id);
+                                photosIDs += ',' + photo.id;
+                                $photo.insertBefore('div#upload-container .uploader');
+                                $photo.css('background-image', "url('" + photo.url +"')");
+                            }
+                            $('#photos_ids').val(photosIDs.substr(1));
+                        }
+                    }
+                {% endif %}
+                {% if request.GET.name %}
+                    $('#id_name').val("{{ request.GET.name }}");
+                {% endif %}
+                {# BEGIN: Separate form accross tabs: Order is important as they are stacked LIFO #}
+
+                $('.field-retail_price_is_modifiable').prependTo('#product-pricing');
+                $('.field-max_price').prependTo('#product-pricing');
+                $('.field-retail_price').prependTo('#product-pricing');
+                $('.field-wholesale_price').prependTo('#product-pricing');
+
+                $('.field-visible').prependTo('#product-management');
+                $('.field-stock').prependTo('#product-management');
+                $('.field-original_id').prependTo('#product-management');
+                $('.field-reference').prependTo('#product-management');
+
+                {# END #}
+
+                var $new = $('<option value="new">{% trans "New" %} ...</option>');
+                $new.appendTo('#id_category');
+                $('#id_category').on('change', function() {
+                    var val = $(this).val();
+                    if (val === 'new') {
+                        window.location = "{% url 'kako:change_category' %}"
+                    }
+                });
+            {% endif %}
+            {% if messages %}
+                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
+            {% endif %}
+        })()
+    </script>
+{% endblock %}

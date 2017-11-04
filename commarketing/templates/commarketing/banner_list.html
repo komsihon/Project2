@@ -1,0 +1,273 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% trans "Banners" %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        #admin-content section {border-top: 1px solid #eee; clear: both}
+        #admin-content section:first-of-type {border-top: none}
+        #admin-content section h3 {font-size: 16px}
+        #admin-content section h3 a {color: #1c699d; font-weight: 400}
+        #admin-content .empty {padding: 0 15px}
+    </style>
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete selected" %}"></i>
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Smart Categories" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="no-edge-panel-right">
+        <div class="container-fluid">
+            <section>
+                <h3 class="col-xs-12" style="margin-top: 0">{% trans "Homepage slideshow" %} <a href="#" target="_blank">{% trans "View example" %}</a></h3>
+                <ul class="tiles object-list">
+                {% for slide in slide_list %}
+                    <li class="ik-li category" id="{{ slide.id }}" data-id="{{ slide.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'banner' slide.id as change_slide_url %}
+                            {% if slide.image and slide.image.name %}
+                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ slide.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="full_name">{{ slide.name }}</a>
+                                <p class="about">{{ slide.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if slide.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ slide.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ slide.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                {% if slide.is_active %}
+                                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                                {% else %}
+                                    <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
+                                {% endif %}
+                                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="empty">
+                        <p class="text-muted">{% trans "No Slide" %}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'banner' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </section>
+            {% if settings.TEMPLATE_WITH_HOME_TILES %}
+            <section>
+                <h3 class="col-xs-12">{% trans "Homepage Tiles" %} <a href="#" target="_blank">{% trans "View example" %}</a></h3>
+                <ul class="tiles object-list" style="padding: 20px 0 0 0">
+                {% for tile in tiles_list %}
+                    <li class="ik-li category" id="{{ tile.id }}" data-id="{{ tile.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'banner' tile.id as change_slide_url %}
+                        {% if tile.image and tile.image.name %}
+                            <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ tile.image.small_url }})"></a>
+                        {% else %}
+                            <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                        {% endif %}
+                            <div class="info">
+                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="full_name">{{ tile.name }}</a>
+                                <p class="about">{{ tile.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if tile.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ tile.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ tile.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="empty">
+                        <p class="text-muted">{% trans "No Slide" %}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'banner' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </section>
+            {% endif %}
+            <section>
+                <h3 class="col-xs-12">{% trans "Full Width Section" %} <a href="#" target="_blank">{% trans "View example" %}</a></h3>
+                <ul class="tiles object-list" style="padding: 20px 0 0 0">
+                {% for section in fw_section_list %}
+                    <li class="ik-li category" id="{{ section.id }}" data-id="{{ section.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'banner' section.id as change_section_url %}
+                            {% if section.image and section.image.name %}
+                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ section.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="full_name">{{ section.name }}</a>
+                                <p class="about">{{ section.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if section.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ section.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ section.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="empty">
+                        <p class="text-muted">{% trans "No Full Width Section" %}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'banner' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </section>
+            <section>
+                <h3 class="col-xs-12">{% trans "Popup" %} <a href="#" target="_blank">{% trans "View example" %}</a></h3>
+                <ul class="tiles object-list" style="padding: 20px 0 0 0">
+                {% for popup in popup_list %}
+                    <li class="ik-li category" id="{{ popup.id }}" data-id="{{ popup.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'banner' popup.id as change_popup_url %}
+                            {% if popup.image and popup.image.name %}
+                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="full_name">{{ popup.name }}</a>
+                                <p class="about">{{ popup.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if popup.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ popup.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ popup.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="empty">
+                        <p class="text-muted">{% trans "No Popup" %}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'banner' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </section>
+            <section>
+                <h3 class="col-xs-12">{% trans "Full Screen Popup" %} <a href="#" target="_blank">{% trans "View example" %}</a></h3>
+                <ul class="tiles object-list" style="padding: 20px 0 0 0">
+                {% for popup in fs_popup_list %}
+                    <li class="ik-li category" id="{{ popup.id }}" data-id="{{ popup.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'banner' popup.id as change_banner_url %}
+                            {% if popup.image and popup.image.name %}
+                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="full_name">{{ popup.name }}</a>
+                                <p class="about">{{ popup.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if popup.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ popup.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ popup.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <div class="empty">
+                        <p class="text-muted">{% trans "No Full Screen Popup" %}</p>
+                    </div>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'banner' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'kakocase/js/jquery-ui.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .banners').addClass('active');
+            ikwen.deleteEndpoint = '{% url 'marketing:delete_smart_object' %}';
+        })();
+    </script>
+    {% include 'commarketing/snippets/sort_and_actions.html' %}
+{% endblock %}

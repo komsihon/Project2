@@ -1,0 +1,50 @@
+
+#navbar {background: #fff}
+#navbar form.search input, #navbar-search, #user-home, #user-apps, #nav-xs {display: none}
+.navbar-default .navbar-brand, #user-menu .glyphicon-user  {color: #888}
+.bank-accounts {margin-top: -1.5em; padding-left: 0}
+.bank-accounts:empty {display: none}
+.ik-li.bank-account {padding: 9px 15px}
+.alt-account {margin: 1em 0}
+.new-account {overflow: hidden}
+.cancel-payment {border: 1px solid; padding: 5px 15px}
+.terms-payment-notice {margin: 10px 15px; padding: 15px}
+.deals {clear: both}
+.cashflex-terms {clear: both; float: left; margin-top: 2em; padding-left: 15px}
+.deal {
+    border: 1px solid #c5c5c5;
+    cursor: pointer;
+    display: block;
+    height: 270px;
+    padding: 5px 15px 0;
+    margin-top: 20px;
+}
+.deal .terms-count {text-align: center}
+a.deal:hover {text-decoration: none}
+.deal .cost {color: #333; font-weight: 700; text-align: center}
+.deal .currency {font-size: 15px; font-weight: 400; left: -0.5em; top: -1.5em}
+.deal .description {color:  #666; font-size: 1.3em; margin-top: 24px; padding: 0 8px}
+.deal.pay-cash .description {margin-top: 1.5em; height: 64px; text-align: center}
+.deal .about {font-size: 15px; height: 40px}
+.deal .btn {display: none; transition: display .3s}
+.deal:hover .btn {display: block; transition: display .3s}
+
+@media (max-width: 767px) {
+    .deal .cost {font-size: 3em}
+    .bank-name {height: 18px; overflow: hidden}
+    .content-tab-list {position: fixed; width: 100%; z-index: 10}
+    .deals {margin-top: 40px}
+}
+@media (min-width: 768px) {
+    .bank a {color: #666; float: left; padding: 5px 10px}
+    .nav-tabs > .tab.active > a, .nav-tabs > .tab.active > a:hover, .nav-tabs > .tab.active > a:focus {background: #f8f6f6}
+    .bank-list.single .bank a, .bank-list.single .bank.active a {background: none; border: none}
+    .bank-logo {background: no-repeat center; background-size: cover; border-radius: 3px; float: left; height: 60px; width: 60px}
+    .bank-name {float: left; margin: 12px 0 0 10px; width: 90px}
+    .deal .cost {font-size: 2em}
+    .deal .currency {font-size: 13px; top: -1.2em}
+}
+@media (min-width: 992px) {
+    .deal .cost {font-size: 2.5em; font-weight: 700; text-align: center}
+    .deal .currency {font-size: 15px; left: -0.5em; top: -1.5em}
+}

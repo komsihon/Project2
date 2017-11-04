@@ -1,0 +1,224 @@
+{% extends 'shopping/base.html' %}
+{% load i18n staticfiles humanize auth_tokens %}
+
+{% block page_title %}
+    <title>{% trans "Checkout" %} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        #previous-addresses h3 {cursor: pointer; transition: color .3s}
+        #previous-addresses h3:hover {color: #ac2925; transition: color .3s}
+        .previous-address {border: 3px solid transparent; color: #555; cursor: pointer; display: block;
+            font-size: 15px; padding: .6em 1em; transition: border .1s, color .3s, background-color .3s}
+        .previous-address:not(.selected):hover {background: #f6f6f6; color: #0d59af; transition: color .3s, background-color .3s}
+        .previous-address.selected {border: 3px solid #FFB74D; transition: border .1s, color .3s, background-color .3s}
+        .previous-address .country-city {color: #444; font-weight: 700}
+        .previous-address .details {color: #777; font-size: 13px}
+        .container p {line-height: 1.5em}
+        #new-address {margin-top: 2em}
+        #new-address h3 {margin-bottom: 1em}
+        #new-address .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
+            position: absolute; width: 100%; z-index: 100}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="checkout-content">
+        <h2 class="checkout-header">{% trans "Checkout" %}</h2>
+        <div class="container" style="background: #fff; min-height: 450px; padding: 2em 15px">
+            <div class="row">
+                <form id="checkout" action="{{ payment_action_url }}?mean={{ payment_mean.slug }}" method="post" class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+                    {% csrf_token %}
+                    <input type="hidden" id="entries" name="entries" />
+                    <input type="hidden" id="previous-address-index" name="previous_address_index" />
+                    <input type="hidden" name="anonymous_buyer_id" value="{{ request.GET.anonymous_buyer_id }}" />
+                    <input type="hidden" name="delivery_option_id" value="{{ request.GET.delivery_option_id }}" />
+                    {% if previous_addresses %}
+                        <div id="previous-addresses">
+                            <h3 class="alert alert-info" style="font-size: 1.3em">{% trans "Click on a previous address below to use it." %}</h3>
+                            <ul class="collapse in" style="padding: 1em 0 0 0">
+                                {% for address in previous_addresses %}
+                                    <li class="previous-address{% if previous_addresses|length == 1 %} selected{% endif %}" data-index="{{ forloop.counter0 }}">
+                                        <div>
+                                            <div class="col-sm-8">
+                                                <p>{{ address.details }}</p>
+                                                <p class="country-city">
+                                                    {{ address.city }}, {{ address.country }}
+                                                </p>
+                                                <p class="details">
+                                                    {{ address.email }}
+                                                </p>
+                                                <p class="details">
+                                                    <em>{{ address.phone }}</em>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button id="submit-checkout" type="submit" style="border: none; background: none; border-radius: 3px">
+                                                    <img src="{{ payment_mean.button_img_url }}" alt="{{ payment_mean.name }} Checkout" class="payment-btn-img">
+                                                </button>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <p style="margin: 2em 0 1em">{% blocktrans %}
+                            No thanks, I want to
+                            <button class="btn btn-default new-address" type="button" data-toggle="collapse"
+                                    data-target="#new-address" aria-expanded="false" aria-controls="new-address">
+                                Input new address
+                            </button>
+                        {% endblocktrans %}</p>
+                    {% endif %}
+
+                    <div id="new-address"{% if previous_addresses %} class="collapse"{% endif %}>
+                        <p class="alert alert-info location-attempt">{% blocktrans %}
+                            Please hold on a second while <strong>we are trying to locate you.</strong> {% endblocktrans  %}
+                        </p>
+                        <p class="alert alert-warning failed-to-locate" style="display: none">{% blocktrans %}
+                            Sorry, we couldn't locate you. <strong>Please enter your location manually.</strong> {% endblocktrans  %}
+                        </p>
+                        <div>
+                            {% include 'core/snippets/spinner.html' %}
+                            {% if previous_addresses %}
+                                <h3>{% trans "Please, give us your address" %}</h3>
+                            {% else %}
+                                <h3>{% trans "New delivery address" %}</h3>
+                            {% endif %}
+                            <div>
+                                <div class="form-group row">
+                                    <label for="country" class="col-sm-4 col-md-3">{% trans "Country" %}</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <select id="country" class="form-control required" name="country_iso2">
+                                            {% for country in countries %}
+                                            <option class="entry" value="{{ country.iso2 }}">{% trans country.name %}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="city" class="col-sm-4 col-md-3">{% trans "City" %}</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <input id="city" class="form-control required" type="text" name="city" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="details" class="col-sm-4 col-md-3">{% trans "Address" %}</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <input id="details" class="form-control required" type="text" name="details" />
+                                    </div>
+                                </div>
+                                {% if config.is_pro_version %}
+                                    <div class="form-group row">
+                                        <label for="postal-code"
+                                               class="col-sm-4 col-md-3">{% trans "Postal Code" %}</label>
+                                        <div class="col-sm-7 col-md-7">
+                                            <input id="postal-code" class="form-control required" type="text"
+                                                   name="postal_code"/>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="form-group row">
+                                    <label for="phone" class="col-sm-4 col-md-3">{% trans "Phone" %}</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <input id="phone" class="form-control required" type="text" name="phone" value="{{ user.phone }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-4 col-md-3">Email</label>
+                                    <div class="col-sm-7 col-md-7">
+                                        <input id="email" class="form-control required" type="text" name="email" value="{{ user.email }}"/>
+                                    </div>
+                                </div>
+                                {% if user.is_anonymous %}
+                                    <div class="form-group row">
+                                        <label for="name" class="col-sm-4 col-md-3">{% trans "Your name" %}</label>
+                                        <div class="col-sm-7 col-md-7">
+                                            <input id="name" class="form-control required" type="text" name="name"/>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <input id="name" type="hidden" name="name" value="{{ user.full_name }}"/>
+                                {% endif %}
+                                <div class="form-group row">
+                                    <div class="col-sm-5 col-md-4 col-sm-offset-5 col-md-offset-6">
+                                        <button id="submit-checkout" type="submit" style="border: none; background: none">
+                                            <img src="{{ payment_mean.button_img_url }}" alt="{{ payment_mean.name }} Checkout" class="payment-btn-img" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        (function() {
+            $('body').on('click', '.previous-address', function() {
+                $('#previous-address-index').val($(this).index());
+                $('.previous-address').removeClass('selected');
+                $('#new-address.in').collapse('hide');
+                $(this).toggleClass('selected');
+            }).on('click', 'button.new-address', function() {
+                $('#previous-address-index').val('');
+                $('.previous-address').removeClass('selected');
+                $('div#previous-addresses ul.in').collapse('hide');
+                $('div#new-address .spinner').hide();
+                $('div#previous-addresses h3').text("{% trans "Click here to view previous addresses." %}");
+            }).on('click', '#previous-addresses h3', function() {
+                $('div#previous-addresses ul:not(.in)').collapse('show');
+                $('#new-address.in').collapse('hide');
+                $('div#previous-addresses h3').text("{% trans "Click on a previous address below to use it." %}");
+                if ($('.previous-address').length == 1) $('.previous-address').addClass('selected');
+                else $('.previous-address').removeClass('selected');
+            });
+
+            var entries = [];
+            simpleCart.load();
+            simpleCart.each(function(item) {
+                entries.push(item.id() + ':' + item.quantity());
+            });
+            $('#entries').val(entries.join(','));
+            $('div#new-address .spinner').fadeIn();
+            $.getJSON('{% url 'ikwen:get_location_by_ip' %}', function(resp) {
+                $('div#new-address .spinner').fadeOut();
+                $('div#new-address .location-attempt').hide();
+                if (resp.error) {
+                    $('div#new-address .failed-to-locate').show();
+                    return;
+                }
+                $('#country').val(resp.country.iso2);
+                $('#city').val(resp.city)
+            });
+
+            $('#checkout').submit(function () {
+                var previousAddressIndex = $('.previous-address.selected').data('index');
+                if (previousAddressIndex >= 0) {
+                    $('#previous-address-index').val(previousAddressIndex);
+                    return true;
+                }
+                var check = true;
+                $('form#checkout .required').each(function() {
+                    if (!$(this).val()) {
+                        $(this).parents('.form-group').addClass('has-error');
+                        check = false;
+                    }
+                });
+                if (!check) ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                return check;
+            })
+        })()
+    </script>
+{% endblock %}

@@ -1,0 +1,247 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% trans "Products" %} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'kakocase/css/admin.css' %}" />
+    <style>
+        .ik-li.product .about p {margin-bottom: 0}
+        .ik-li.product .about p strong {padding-left: 10px}
+        .ik-li.product .about .provider {font-size: .9em}
+        .ik-li.product .actions .glyphicon-edit:not(.edit) {color: #ddd}
+        #results .spinner {padding-top: 8%; position: fixed; right: 0; top: 0}
+        @media (min-width: 768px) {
+            #admin-tools + #results {margin-top: 45px}
+            #results .spinner {padding-top: 10%}
+        }
+        @media (min-width: 992px) {
+            #results .spinner {padding-top: 12%}
+        }
+    </style>
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        {% if request.GET.smart_link %}
+            <i class="glyphicon glyphicon-link link" title="{% trans "Link products" %}"></i>
+        {% else %}
+            <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete selected" %}"></i>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Products" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            {% include 'kako/snippets/product_list_results.html' %}
+        </div>
+        <div class="modal fade" id="update-stock" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-info">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% trans "Update stock" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="col-xs-12" style="margin: 1em 0"><input type="text" class="form-control" placeholder="New stock" /> </p>
+                        <div class="col-xs-12 col-sm-4 col-md-3">
+                            <button class="btn btn-success btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Update" %}</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3">
+                            <button class="btn btn-default btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="update-price" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-info">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% trans "Update retail price" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="col-xs-12" style="margin: 1em 0"><input type="text" class="form-control" placeholder="New price" /> </p>
+                        <div class="col-xs-12 col-sm-4 col-md-3">
+                            <button class="btn btn-success btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Update" %}</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3">
+                            <button class="btn btn-default btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="load-product" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-info">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% trans "Import product" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" action="{% url 'kako:save_product_from_url' %}">
+                            <input id="product-url" name="url" type="url" class="form-control input-sm" autocomplete="off"
+                               placeholder="{% trans "Product URL (Eg. http://www.partnerstore.cm/tv/samsung-led-32)" %}" value="{{ partner.config.company_name }}"/>
+                            <p class="text-danger" style="display: none"></p>
+                            <div class="item-preview" style="display: none; height: 0">
+                                {% include 'core/snippets/spinner.html' %}
+                                <div class="img"></div>
+                                <div style="float: left">
+                                    <strong class="name"></strong>
+                                    <p class="about">
+                                        <span class="currency text-muted">{{ CURRENCY.symbol }}</span>
+                                        <span class="value"></span>
+                                    </p>
+                                    <p class="about"> <em class="provider"></em> </p>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="actions">
+                            <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                                <button class="btn btn-success btn-block btn-sm ok" aria-label="OK">OK</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                                <button class="btn btn-default btn-block btn-sm"
+                                        data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .products').addClass('active');
+            var searchDescriptor = [{
+                endpoint: '{% url 'kako:product_list' %}',
+                resultTplSelector: '#results li.ik-li'
+            }];
+            function beforeSearch() {
+                var val = $('form#context-search input').val();
+                $('div#results .search-text').text(val);
+            }
+            function afterSearch() {
+                var val = $('form#context-search input').val(),
+                    endpoint = '{% url 'kako:change_product' %}?name=' + val;
+                {% if request.GET.collection_id %}
+                    endpoint += '&collection_id={{ request.GET.collection_id }}';
+                {% endif %}
+                $('#new-product').attr('href', endpoint);
+                {% if request.GET.smart_link and smart_object.items_fk_list %}
+                    var $elt;
+                    {% for pk in smart_object.items_fk_list %}
+                        $elt = $('#{{ pk }}');
+                        if (!$elt.hasClass('selected')) $('#{{ pk }} .select').click();
+                    {% endfor %}
+                {% endif %}
+            }
+            $('#admin-content').on('click', 'li.ik-li.product .duplicate', function() {
+                var id = $(this).parents('.ik-li.product').data('id');
+                window.location = '{% url 'kako:change_product' %}?product_id=' + id + '&duplicate=yes';
+            }).on('click', 'li.product .actions .update-stock', function() {
+                var productId = $(this).parents('.ik-li.product').data('id'),
+                    currentStock = $(this).parents('.ik-li.product').data('stock');
+                $('div#update-stock input').val(currentStock);
+                $('div#update-stock button.btn-success').data('product-id', productId);
+            }).on('click', 'li.product .actions .update-price', function() {
+                var productId = $(this).parents('.ik-li.product').data('id'),
+                    retailPrice = $(this).parents('.ik-li.product').data('retail_price');
+                $('div#update-price input').val(retailPrice);
+                $('div#update-price button.btn-success').data('product-id', productId);
+            });
+            $('div#update-stock button.btn-success').click(function() {
+                var newStock = $('div#update-stock input').val(),
+                    productId = $(this).data('product-id');
+                $.getJSON('{% url 'kako:update_product_stock' %}', {stock: newStock, product_id: productId}, function(resp) {
+                    if (resp.error) {
+                        ikwen.showFloatingNotice("Unknown error occurred", '', 3);
+                        return
+                    }
+                    $('#' + productId + ' .about .stock').text(newStock)
+                })
+            });
+            $('div#update-price button.btn-success').click(function() {
+                var newPrice = $('div#update-price input').val(),
+                    productId = $(this).data('product-id');
+                $.getJSON('{% url 'kako:update_product_retail_price' %}', {price: newPrice, product_id: productId}, function(resp) {
+                    if (resp.error) {
+                        ikwen.showFloatingNotice("Unknown error occurred", '', 3);
+                        return
+                    }
+                    $('#' + productId + ' .retail_price .value').text(newPrice)
+                })
+            });
+            ikwen.setupSearch('#context-search input', '#results', searchDescriptor, beforeSearch, afterSearch);
+            ikwen.deleteEndpoint = '{% url 'kako:put_product_in_trash' %}';
+            {% if messages %}
+                {% for msg in messages %}
+                    ikwen.showFloatingNotice('{{ msg }}', '{{ msg.tags }}', 6);
+                    {% if msg.tags == 'success' %}localStorage.removeItem('product');{% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if request.GET.smart_link %}
+                $('.glyphicon-link').click(function() {
+                    var selection = $('#selection-control').data('selection');
+                    window.location = '{% url 'marketing:set_smart_object_content' 'add' %}?smart_object_id={{ smart_object.id }}&selection=' + selection;
+                });
+                {% for product_id in smart_object.items_fk_list %}
+                    $('#{{ product_id }} .select').click();
+                {% endfor %}
+            {% endif %}
+
+            var productLoaded = false;
+            $('#load-product').on('keyup', 'input', loadProductFromURL)
+            .on('paste', 'input', loadProductFromURL)
+            .on('click', 'button.ok', function() {
+                if (productLoaded) {
+                    $('#load-product').modal('hide');
+                    $('#load-product form').submit();
+                }
+            });
+            function loadProductFromURL() {
+                var url = $('#product-url').val();
+                if (url.length < 30) return;
+                productLoaded = false;
+                $('#load-product .spinner').show();
+                $('#load-product form .text-danger').hide();
+                $('.item-preview').hide().css('height', 0);
+                $.getJSON('{% url 'kako:load_product_from_url' %}', {'url': url}, function(data) {
+                    $('#load-product .spinner').hide();
+                    if (data.error) {
+                        $('#load-product form .text-danger').show().html(data.error);
+                        return;
+                    }
+                    productLoaded = true;
+                    var product = data.product;
+                    $('.item-preview .img').css('background-image', 'url(' + product.image + ')');
+                    $('.item-preview .name').html(product.name);
+                    $('.item-preview .about .value').html(product.retail_price);
+                    $('.item-preview .provider').html(product.provider);
+                    $('.item-preview').show().animate({'height': '100px'});
+                })
+            }
+        })()
+    </script>
+{% endblock %}

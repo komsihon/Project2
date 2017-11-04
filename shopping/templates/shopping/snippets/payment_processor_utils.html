@@ -1,0 +1,32 @@
+{% load i18n %}
+{% if config.is_pro_version %}  {# For this 1st release of Kakocase, PRO VERSION uses PayPal exclusively #}
+{#    <script>#}
+{#        window.paypalCheckoutReady = function() {#}
+{#            paypal.checkout.setup("BHA4WQNSZPB6L", {#}
+{#                locale: 'en_US',#}
+{#                environment: 'sandbox',#}
+{#                container: 'submit-checkout',#}
+{#                click: function() {#}
+{#                    var formOK = true;#}
+{#                    $('input.required').each(function() {#}
+{#                        if (!(this).val()) {#}
+{#                            ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);#}
+{#                            $(this).parents('.form-control').addClass('has-error');#}
+{#                            formOK = false;#}
+{#                        }#}
+{#                    });#}
+{#                    if (!formOK) return;#}
+{#                    paypal.checkout.initXO();#}
+{#                    var action = $.post('{% url 'shopping:paypal_set_checkout' %}');#}
+{#                    action.done(function (data) {#}
+{#                        paypal.checkout.startFlow(data.token);#}
+{#                    });#}
+{#                    action.fail(function () {#}
+{#                        paypal.checkout.closeFlow();#}
+{#                    });#}
+{#                }#}
+{#            });#}
+{#    }#}
+{#    </script>#}
+{#    <script async src="//www.paypalobjects.com/api/checkout.js"></script>#}
+{% endif %}

@@ -1,0 +1,131 @@
+{% extends 'core/mails/base.html' %}
+{% load i18n media_from_provider humanize currency %}
+{% block content %}
+    {% with crcy=order.currency rcc=order.rcc|upper %}
+    <div style="color: #777; font: normal 1.35em 'Open Sans', 'Helvetica Neue', Lato, Verdana, Arial, sans-serif; line-height: 1.44em; margin-top: 45px; min-height: 180px; padding: 0 15px; text-align: justify">
+        {% url 'shopping:cart' order.id as order_cart_url  %}
+        {% blocktrans %}Dear {{ buyer_name }}{% endblocktrans %},<br>
+        {% if IS_BANK %}
+            {% if order.status == 'Confirmed' %}
+                {% blocktrans with merchant=order.retailer.project_name %}
+                    Your order on {{ merchant }} with number <strong>{{ rcc }}</strong> was confirmed.
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans with merchant=order.retailer.project_name service_url=order.retailer.url %}
+                    Your order on {{ merchant }} with number <strong>{{ rcc }}</strong> was rejected.
+                {% endblocktrans %}
+                {% if message %}<br/><br/>
+                    {% trans "Message" %}:<br/>
+                    <p style="color: #c35c51">{{ message }}</p>
+                {% endif %}
+            {% endif %}
+            <br><br>
+            <p style="clear: both; padding-top: 2em">{% trans "Thanks for your business with us." %}</p>
+        {% else %}
+            {% if order.status == 'PendingForApproval' %}
+                {% blocktrans with service_url=service.url bank_name=order.deal.bank.config.company_name %}
+                    Your order was issued with success under number <strong>{{ rcc }}</strong> and
+                    submit for approval to {{ bank_name }}.<br>
+                    You can follow order status anytime by clicking the link down here:<br><br>
+                     <a href="{{ service_url }}{{ order_cart_url }}">{{ service_url }}{{ order_cart_url }}</a>
+                {% endblocktrans %}
+            {% elif order.status == 'Pending' %}
+                {% if order.delivery_option.type == 'HomeDelivery' %}
+                    {% blocktrans with service_url=service.url %}
+                        Your order was issued with success under number <strong>{{ rcc }}</strong>.
+                        You can follow order status anytime by clicking the link down here:<br><br>
+                         <a href="{{ service_url }}{{ order_cart_url }}">{{ service_url }}{{ order_cart_url }}</a>
+                    {% endblocktrans %}
+                {% else %}
+                    {% blocktrans with max_delay=order.delivery_option.get_delay_as_string service_url=service.url %}
+                        Your order was issued with success under number <strong>{{ rcc }}</strong>.
+                        You can pick up your package in our store in about {{ max_delay }}.<br>
+                        Follow order status anytime by clicking the link down here:<br><br>
+                         <a href="{{ service_url }}{{ order_cart_url }}">{{ service_url }}{{ order_cart_url }}</a>
+                    {% endblocktrans %}
+                {% endif %}
+            {% else %}
+                {% if order.delivery_option.type == 'HomeDelivery' %}
+                    {% trans "Your order was shipped. You will receive it in about" %} {{ order.delivery_option.get_delay_as_string }}
+                {% else %}
+                    {% trans "Your order was packaged and is ready for you to come and collect using the RCC:" %} <strong>{{ rcc }}</strong>
+                {% endif %}
+            {% endif %}
+
+            <br><br>
+
+            {% trans "See details below" %}:
+            <div style="clear: both">
+                {% blocktrans with items_count=order.items_count items_cost=order.items_cost %}
+                {{ items_count }} items(s), totaling
+                    <ins>
+                        {{ currency_symbol }}
+                        {{ items_cost|currency:crcy.code|floatformat:crcy.precision|intcomma }}
+                    </ins><br>
+                {% endblocktrans %}
+                {% if order.delivery_option.type == 'HomeDelivery' %}
+                     {% if order.delivery_option.cost > 0 %}
+                         {% trans "Shipping fees" %}:
+                         <ins style="font-weight: 700">
+                             {{ crcy.symbol }}
+                             {{ order.delivery_option.cost|currency:crcy.code|floatformat:crcy.precision|intcomma }}
+                         </ins>
+                     {% else %}
+                         <ins>{% trans "Free shipping" %}</ins>
+                     {% endif %}<br>
+                    <div style="font-size: .9em">
+                        <h4 style="color: #555; margin-bottom: 0">{% trans "Deliver to" %}:</h4>
+                        {{ order.delivery_address.name }}
+                        <p style="font-size: .8em; line-height: 1.4em; margin-top: .3em">
+                            {{ order.delivery_address.details }}, <br>
+                            {% trans "Postal code" %}: {{ order.delivery_address.postal_code }}, <br>
+                            <strong style="color: #666">{{ order.delivery_address.city }}, {{ order.delivery_address.country.name }}.</strong><br>
+                            <em>{{ order.delivery_address.phone }}</em>
+                        </p>
+                    </div>
+                {% else %}
+                    <ins>{% trans "Pick up in store" %}</ins>
+                {% endif %}
+            </div>
+            <div style="border-top: 1px solid #eee; clear: both; margin-top: 1.5em">
+                <h4 style="color: #555; margin-bottom: 0">{% trans "Items details" %}:</h4>
+                {% for entry in order.entries %}
+                     <div style="clear: both; padding: 15px">
+                         <div>
+                             <div style="float: left; margin-right: 3%; width: 20%">
+                                 <img src="{% if entry.product.image.name %}{{ entry.product.image|from_provider:entry.product.provider }}{% endif %}"
+                                      alt="{{ entry.product.name }}" style="display: block; height: auto; width: 100%">
+                             </div>
+                             <div>
+                                 <h4 style="color: #333; font-weight: 400; margin: 0 0 1em">
+                                     <strong>{{ entry.product.name }}</strong>
+                                     <span style="color: #999">
+                                         {% if entry.product.size %}(<span>{{ entry.product.size }}</span>){% endif %}
+                                     </span>
+                                 </h4>
+                                 <div style="float: left; width: 75%">
+                                     <div style="padding: 0 15px 5px">
+                                         <span style="color: #555">{% trans "Price" %}:</span>
+                                         {{ crcy.symbol }} {{ entry.product.retail_price|currency:crcy.code|floatformat:crcy.precision|intcomma }}
+                                     </div>
+                                     <div style="padding: 0 15px 5px">
+                                         <span style="color: #555">{% trans "Quantity" %}:</span> {{ entry.count }}
+                                     </div>
+                                     <div style="padding: 0 15px 5px">
+                                         <span style="color: #555">{% trans "Subtotal" %}:</span>
+                                         {{ crcy.symbol }} {{ entry.get_total|currency:crcy.code|floatformat:crcy.precision|intcomma }}
+                                     </div>
+                                 </div>
+                             </div>
+                             <div style="clear: both"></div>
+                         </div>
+                     </div>
+                {% endfor %}
+                <div style="clear: both"></div>
+            </div>
+            <br/>
+            <p style="clear: both; padding-top: 2em">{% trans "Thank you for shopping with us." %}</p>
+        {% endif %}
+    </div>
+    {% endwith %}
+{% endblock %}

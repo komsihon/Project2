@@ -1,0 +1,216 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% if smart_object %}{{ smart_object }}{% else %}{% trans "New" %}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'ikwen/css/uploader-single.css' %}" media="screen" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        <i class="action icon trash" title="{% trans "Remove selected" %}"></i>
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    {% if object_type == 'banner' %}
+        <li style="text-transform: capitalize">{% url 'marketing:banner_list' as banner_list_list_url %}
+            <a href="{{ banner_list_list_url|append_auth_tokens:request }}">{{ object_type }}</a>
+        </li>
+    {% else %}
+        <li style="text-transform: capitalize">{% url 'marketing:smart_category_list' as smart_category_list_url %}
+            <a href="{{ smart_category_list_url|append_auth_tokens:request }}">{{ object_type }}</a>
+        </li>
+    {% endif %}
+    {% if smart_object %}
+        <li>{{ smart_object.title }}</li>
+    {% else %}
+        <li>{% trans 'New' %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="change-form">
+        {% url 'marketing:change_smart_object' object_type as change_smart_object_url %}
+        {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
+        <form id="submit-category" class="admin-form" method="post" action="{{ change_smart_object_url|append_auth_tokens:request }}">{% csrf_token %}
+            <input type="hidden" name="smart_object_id" value="{{ smart_object.id }}" />
+            <input type="hidden" name="image_url" id="image_url" />
+            <input type="hidden" name="items_fk_list" id="items_fk_list" value="{{ smart_object.items_fk_list }}" />
+            <div class="container-fluid">
+                {% include 'core/snippets/model_admin_form.html' %}
+                <section class="photos" style="width: 100%">
+                    <label class="required" style="float: left; width: 100%">{% trans "Cover image" %}</label>
+                    <div id="upload-container">
+                        {% if smart_object.image and smart_object.image.name %}
+                        <div class="image" style="background-image: url('{{ smart_object.image.url }}')">
+                        {% else %}
+                        <div class="image">
+                        {% endif %}
+                            <span class="progress"></span>
+                            <div class="uploader"></div>
+                            {% include 'core/snippets/spinner.html' %}
+                        </div>
+                    </div>
+                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %}</p>
+                </section>
+            </div>
+            <h3 class="col-xs-12">{% trans "Content" %}</h3>
+            {% if smart_object %}
+                <section class="content" style="width: 100%">
+                    <ul id="content-items" style="padding-left: 0">
+                        {% for item in smart_object.content %}
+                            <li class="ik-li" id="{{ item.id }}" data-id="{{ item.id }}">
+                                <div class="subtle-shade select">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                </div>
+                                {% if smart_object.content_type == 'Categories' %}
+                                    {% url 'kako:change_category' item.id as change_item_url %}
+                                {% else %}
+                                    {% url 'kako:change_product' item.id as change_item_url %}
+                                {% endif %}
+                                {% if item.image and item.image.name %}
+                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ item.image.small_url }})"></a>
+                                {% else %}
+                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                {% endif %}
+                                <div class="info">
+                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="full_name">{{ item.name }}</a>
+                                </div>
+                                <div class="actions">
+                                    <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        <li class="ik-li">
+                            {% if smart_object.content_type == 'Categories' %}
+                                <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ smart_object.id }}">
+                                    <i class="icon link"></i>{% trans "Add categories" %}
+                                </a>
+                            {% else %}
+                                <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ smart_object.id }}">
+                                    <i class="icon link"></i>
+                                    {% trans "Add products" %}
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </section>
+            {% endif %}
+            <div class="form-group col-xs-12 col-sm-4 col-md-3" style="clear: both; padding-top: 15px">
+                <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .categories').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+            {% for msg in messages %}
+                ikwen.showFloatingNotice("{{ msg }}", '', 6);
+                {% if msg.tags == 'success' %}
+                    localStorage.removeItem('smartObject');
+                {% endif %}
+            {% endfor %}
+            $('form#submit-category').on('change', 'input, textarea', function() {
+                var smartObject = getLocalSmartObject();
+                localStorage.setItem('smartObject', JSON.stringify(smartObject));
+            }).submit(function() {
+                return checkInput();
+            });
+            var pageLoading = true,
+                smartObject;
+            function getLocalSmartObject() {
+                smartObject = localStorage.getItem('smartObject') ? JSON.parse(localStorage.getItem('smartObject')):null;
+                if (pageLoading) {
+                    // Do not override locally saved category with form data upon page loading
+                    pageLoading = false;
+                    return smartObject
+                }
+                if (smartObject === null) smartObject = {};
+                var categoryAsArray = $('form#submit-category').serialize().split('&');
+                for (var i=0; i<categoryAsArray.length; i++) {
+                    var elt = categoryAsArray[i].split('=');
+                    smartObject[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
+                }
+                return smartObject
+            }
+            function checkInput() {
+                var check = true;
+                $('input.required').each(function() {
+                    if (!(this).val()) {
+                        ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                        $(this).addClass('verify');
+                        check = false;
+                    }
+                });
+                var img = $('#image_url').val();
+                if (!img) {
+                    return confirm("{% trans "Categories look better with image. Continue without it ?" %}");
+                }
+                return check;
+            }
+            var uploader = new qq.FileUploader({
+                action: "{% url 'ikwen:upload_image' %}",
+                element: $('div#upload-container .uploader')[0],
+                buttonText: "{% trans "Upload cover" %}",
+                multiple: false,
+                onProgress: function(id, fileName, loaded, total) {
+                    var ratio = loaded / total,
+                        percent = ratio * 100;
+                    $('div#upload-container .image .progress').animate({width: percent + '%'});
+                    if (ratio == 1) $('div#upload-container .image .spinner').show()
+                },
+                onComplete: function(id, fileName, responseJSON) {
+                    if(responseJSON.success) {
+                        var imageUrl = responseJSON.path,
+                            img = new Image(),
+                            category = getLocalSmartObject();
+                        img.onload = function() {
+                            $('div#upload-container .image').css('background-color', "#fff")  // Causes the placeholder image to disappear
+                                    .css('background-image', "url('" + imageUrl +"')")
+                                    .find('.progress, .spinner').hide();
+                        };
+                        img.src = imageUrl;
+                        $('#image_url').val(imageUrl);
+                        category.image_url = imageUrl;
+                        localStorage.setItem('smartObject', JSON.stringify(category));
+                    } else {
+                        alert("upload failed!");
+                    }
+                },
+                params: {
+                    'csrf_token': '{{ csrf_token }}',
+                    'csrf_name': 'csrfmiddlewaretoken',
+                    'csrf_xname': 'X-CSRFToken'
+                }
+            });
+            {% if smart_object and smart_object.image.name %}
+                $('#image_url').val("{{ smart_object.image.url }}");
+            {% else %}
+                smartObject = getLocalSmartObject();  // Category from an unterminated submit
+                if (smartObject) {
+                    $('#id_title').val(smartObject.title);
+                    $('#id_content_type').val(smartObject.content_type);
+                    $('#id_display').val(smartObject.display);
+                    $('#id_description').val(smartObject.description);
+                    $('#id_cta').val(smartObject.cta);
+                    $('#image_url').val(smartObject.image_url);
+                    $('div#upload-container .image').css('background-image', "url('" + smartObject.image_url +"')");
+                }
+            {% endif %}
+            ikwen.deleteEndpoint = '{% url 'marketing:set_smart_object_content' 'remove' %}?smart_object_id={{ smart_object.id }}';
+        })()
+    </script>
+{% endblock %}

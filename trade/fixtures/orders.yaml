@@ -1,0 +1,261 @@
+- model: trade.order
+  pk: 55d1feb60008099bd4151fa1
+  fields:
+    retailer: 56eb6d04b37b3379b531b103
+    member: 56eb6d04b37b3379b531e014
+    items_count: 1
+    items_cost: 480000
+    total_cost: 481000
+    rcc: rcc1
+    delivery_company: 56eb6d04b37b3379b531b105
+    delivery_expected_on: 2016-06-19T11:34:08.120Z
+    status: Pending
+    currency:
+      code: XAF
+      symbol: XAF
+      precision: 0
+    payment_mean: 5880870e4fc0c229da8da3d1
+    delivery_option:
+      id: 55d1feb9b37b301e070604d1
+      company_id: 56eb6d04b37b3379b531b105
+      type: HomeDelivery
+      name: Classic
+      cost: 1000
+      max_delay: 2
+    delivery_address:
+      country_id: 56ec6d04b37b3379b7446c01
+      city: Douala
+      details: 92, Rue Joffre
+      phone: 661253074
+      email: tamo@yogam.com
+      name: Tamo Foka
+    entries:
+      - count: 1
+        product:
+          id: 55d1fa8feb60008099bd4151
+          provider_id: 56eb6d04b37b3379b531b101
+          category_id: 569228a9b37b3301e0706b51
+          name: Samsung Galaxy S7
+          slug: samsung-galaxy-s7
+          photos:
+            - id: 56eb6d04b3779b33b531e091
+              image: kako/photos/samsung-galaxy-s7.jpg
+          wholesale_price: 430000
+          retail_price: 480000
+          max_price: 520000
+          retail_price_is_modifiable: Yes
+          total_units_sold: 137
+          units_sold_history: 30, 14, 48, 45
+
+- model: trade.order
+  pk: 55d1feb60008099bd4151fa2
+  fields:
+    retailer: 56eb6d04b37b3379b531b103
+    anonymous_buyer: 57b336eb6d04b379b531a001
+    items_count: 12
+    items_cost: 6000
+    total_cost: 8000
+    rcc: rcc2
+    delivery_company: 56eb6d04b37b3379b531b105
+    delivery_expected_on: 2016-06-19T11:34:08.120Z
+    status: Pending
+    currency:
+      code: XAF
+      symbol: XAF
+      precision: 0
+    payment_mean: 5880870e4fc0c229da8da3d1
+    delivery_option:
+      id: 55d1feb9b37b301e070604d2
+      company_id: 56eb6d04b37b3379b531b105
+      type: HomeDelivery
+      name: Express
+      cost: 2000
+      max_delay: 2
+    delivery_address:
+      country_id: 56ec6d04b37b3379b7446c01
+      city: Douala
+      details: 92, Rue Joffre
+      phone: 661253074
+      email: tamo@yogam.com
+      name: Tamo Foka
+    entries:
+      - count: 6
+        product:
+          id: 55d1fa8feb60008099bd4152
+          provider_id: 56eb6d04b37b3379b531b102
+          category_id: 569228a9b37b3301e0706b52
+          name: Coca-Cola
+          slug: coca-cola
+          photos:
+            - id: 56eb6d04b3779b33b531e092
+              image: kako/photos/coca-cola.jpg
+          wholesale_price: 375
+          retail_price: 450
+          max_price: 500
+          retail_price_is_modifiable: Yes
+          total_units_sold: 177
+          units_sold_history: 48, 51, 16, 62
+      - count: 6
+        product:
+          id: 55d1fa8feb60008099bd4153
+          provider_id: 56eb6d04b37b3379b531b102
+          category_id: 569228a9b37b3301e0706b52
+          name: Mutzig
+          slug: mutzig
+          photos:
+            - id: 56eb6d04b3779b33b531e093
+              image: kako/photos/mutzig.jpg
+          wholesale_price: 460
+          retail_price: 550
+          max_price: 800
+          retail_price_is_modifiable: No
+          total_units_sold: 249
+          units_sold_history: 74, 51, 35, 89
+
+- model: trade.order
+  pk: 55d1feb60008099bd4151fa3
+  fields:
+    retailer: 56eb6d04b37b3379b531b103
+    member: 56eb6d04b37b3379b531e014
+    items_count: 7
+    items_cost: 483300
+    total_cost: 486300
+    rcc: rcc3
+    delivery_company: 56eb6d04b37b3379b531b105
+    delivery_expected_on: 2016-06-19T11:34:08.120Z
+    status: Pending
+    currency:
+      code: XAF
+      symbol: XAF
+      precision: 0
+    payment_mean: 5880870e4fc0c229da8da3d1
+    delivery_option:
+      id: 55d1feb9b37b301e070604d3
+      company_id: 56eb6d04b37b3379b531b105
+      type: HomeDelivery
+      name: Eyeblink
+      cost: 3000
+      max_delay: 2
+    delivery_address:
+      country_id: 56ec6d04b37b3379b7446c01
+      city: Douala
+      details: 92, Rue Joffre
+      phone: 661253074
+      email: tamo@yogam.com
+      name: Tamo Foka
+    entries:
+      - count: 1
+        product:
+          id: 55d1fa8feb60008099bd4151
+          provider_id: 56eb6d04b37b3379b531b101
+          category_id: 569228a9b37b3301e0706b51
+          name: Samsung Galaxy S7
+          slug: samsung-galaxy-s7
+          photos:
+            - id: 56eb6d04b3779b33b531e091
+              image: kako/photos/samsung-galaxy-s7.jpg
+          wholesale_price: 430000
+          retail_price: 480000
+          max_price: 520000
+          retail_price_is_modifiable: Yes
+          total_units_sold: 137
+          units_sold_history: 30, 14, 48, 45
+      - count: 6
+        product:
+          id: 55d1fa8feb60008099bd4153
+          provider_id: 56eb6d04b37b3379b531b102
+          category_id: 569228a9b37b3301e0706b52
+          name: Mutzig
+          slug: mutzig
+          photos:
+            - id: 56eb6d04b3779b33b531e093
+              image: kako/photos/mutzig.jpg
+          wholesale_price: 460
+          retail_price: 550
+          max_price: 800
+          retail_price_is_modifiable: No
+          total_units_sold: 249
+          units_sold_history: 74, 51, 35, 89
+
+- model: trade.subscription
+  pk: 55d1feb60008099bd4151f01
+  fields:
+    member: 56eb6d04b37b3379b531e014
+    product: 55d1fa8feb60008099bd4154
+    monthly_cost: 2000
+    expiry: 2016-07-22T12:52:08.120Z
+    invoice_tolerance: 5
+    since: 2016-06-22T12:52:08.120Z
+    service:
+      id: 55d1fa8feb60008099bd4154
+      provider_id: 56eb6d04b37b3379b531b101
+      category_id: 569228a9b37b3301e0706b52
+      name: Theft insurance
+      slug: theft-insurance
+      photos:
+        - id: 56eb6d04b3779b33b531e094
+          image: kako/photos/theft-insurance.jpg
+      wholesale_price: 4500
+      retail_price: 5500
+      max_price: 7000
+      duration: 91
+      duration_text: 3 Mois
+      retail_price_is_modifiable: Yes
+      total_units_sold: 101
+      units_sold_history: 30, 14, 48, 9
+
+- model: trade.package
+  pk: 57d1feb900080151fa399bd1
+  fields:
+    order: 55d1feb60008099bd4151fa3
+    provider: 56eb6d04b37b3379b531b101
+    items_count: 1
+    retail_cost: 480000
+    provider_revenue: 430000
+    ppc: PPC1
+    delivery_company: 56eb6d04b37b3379b531b105
+    entries:
+      - count: 1
+        product:
+          id: 55d1fa8feb60008099bd4151
+          provider_id: 56eb6d04b37b3379b531b101
+          category_id: 569228a9b37b3301e0706b51
+          name: Samsung Galaxy S7
+          slug: samsung-galaxy-s7
+          photos:
+            - id: 56eb6d04b3779b33b531e091
+              image: kako/photos/samsung-galaxy-s7.jpg
+          wholesale_price: 430000
+          retail_price: 480000
+          max_price: 520000
+          retail_price_is_modifiable: Yes
+          total_units_sold: 137
+          units_sold_history: 30, 14, 48, 45
+
+- model: trade.package
+  pk: 57d1feb900080151fa399bd2
+  fields:
+    order: 55d1feb60008099bd4151fa3
+    provider: 56eb6d04b37b3379b531b102
+    items_count: 6
+    retail_cost: 3300
+    provider_revenue: 2760
+    ppc: PPC2
+    delivery_company: 56eb6d04b37b3379b531b105
+    entries:
+      - count: 6
+        product:
+          id: 55d1fa8feb60008099bd4153
+          provider_id: 56eb6d04b37b3379b531b102
+          category_id: 569228a9b37b3301e0706b52
+          name: Mutzig
+          slug: mutzig
+          photos:
+            - id: 56eb6d04b3779b33b531e093
+              image: kako/photos/mutzig.jpg
+          wholesale_price: 460
+          retail_price: 550
+          max_price: 800
+          retail_price_is_modifiable: No
+          total_units_sold: 249
+          units_sold_history: 74, 51, 35, 89

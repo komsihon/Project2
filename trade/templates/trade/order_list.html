@@ -1,0 +1,184 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% if is_drivy %}Drivy{% else %}{% trans "Orders" %}{% endif %} - ikwen</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'kakocase/css/admin.css' %}" />
+{% endblock %}
+
+{% block breadcrumb_location %}
+    {% if is_drivy %}
+        <li>Drivy</li>
+    {% else %}
+        <li>{% trans "Orders" %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="has-edge-panel-right">
+        <div class="container-fluid">
+            {% include 'core/snippets/spinner.html' %}
+            {% include 'trade/snippets/order_list_results.html' %}
+        </div>
+    </div>
+    <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Confirm Order" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                        <button class="btn btn-sm btn-success btn-block confirm-order"
+                                data-dismiss="modal" aria-label="Close">{% trans "OK" %}</button>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                        <button class="btn btn-sm btn-default btn-block"
+                                data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="reject-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Reject Order" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <p style="margin-bottom: 2em">
+                        <textarea class="form-control reject-message" style="height: 120px" placeholder="{% trans 'Message to' %}"></textarea>
+                    </p>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <button class="btn btn-sm btn-success btn-block reject-order"
+                                    data-dismiss="modal" aria-label="Close">{% trans "OK" %}</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <button class="btn btn-sm btn-default btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            {% if is_drivy %}
+                $('div#admin-nav .drivy').addClass('active');
+            {% else %}
+                $('div#admin-nav .orders').addClass('active');
+            {% endif %}
+            $('body').on('click', 'li.order', function() {
+                var orderId = $(this).data('id');
+                $('ul li.order').removeClass('active');
+                $(this).addClass('active');
+                $('div#object-detail .empty').hide();
+                $('div#object-detail .info .spinner').show();
+                $('div#object-detail .info .content').load('{% url 'trade:get_order_details' %}?order_id=' + orderId, null, function() {
+                    $('div#object-detail .info .spinner').hide();
+                });
+                if ($(window).width() < 768) {
+                    ikwen.swipeInRightPanel()
+                }
+            }).on('click', '.show-confirm-modal', function() {
+                var orderId = $(this).data('id'),
+                    rcc = $(this).data('rcc');
+                $('#confirm-modal .btn-success').data('id', orderId);
+                $('#confirm-modal .modal-title').text("{% trans 'Confirm Order' %}" + " " + rcc);
+            }).on('click', '.confirm-order', function() {
+                var orderId = $(this).data('id'),
+                {% if settings.IS_BANK %}
+                    url = '{% url 'trade:approve_or_reject' %}',
+                    params = {order_id: orderId, status: 'Confirmed'};
+                {% else %}
+                    url = '{% url 'trade:confirm_shipping' %}',
+                    params = {order_id: orderId};
+                {% endif %}
+                $.getJSON(url, params, function(resp) {
+                    if (resp.error) {
+                        ikwen.showFloatingNotice(resp.error, "", 6);
+                        return;
+                    }
+                    $('.show-confirm-modal, .show-reject-modal').hide();
+                    ikwen.showFloatingNotice("{% trans "Order confirmed" %}", "", 6);
+                    $('#' + orderId).removeClass('pending').removeClass('pendingforapproval');
+                })
+            }).on('click', '.show-reject-modal', function() {
+                var orderId = $(this).data('id'),
+                    rcc = $(this).data('rcc'),
+                    name = $(this).data('name');
+                $('#reject-modal .btn-success').data('id', orderId);
+                $('#reject-modal .modal-title').text("{% trans 'Reject Order' %}" + " " + rcc);
+                $('#reject-modal textarea').prop("placeholder", "{% trans 'Message to' %}" + " " + name).show();
+            }).on('click', '.reject-order', function() {
+                var orderId = $(this).data('id'),
+                    message = $('.reject-message').val();
+                $.getJSON('{% url 'trade:approve_or_reject' %}', {order_id: orderId, message: message, status: 'Rejected'}, function(resp) {
+                    if (resp.error) {
+                        ikwen.showFloatingNotice(resp.error, "", 6);
+                        return;
+                    }
+                    $('.show-confirm-modal, .show-reject-modal').hide();
+                    ikwen.showFloatingNotice("{% trans "Order rejected" %}", "", 6);
+                    $('#' + orderId).removeClass('pending').removeClass('pendingforapproval');
+                })
+            });
+
+            $('#admin-content').on('change', '.status', function() {
+                $('form#context-search input').val('');
+                loadResults();
+            }).on('click', '.pagination li', function() {
+                $('.pagination li').removeClass('active');
+                $(this).addClass('active');
+                loadResults();
+            }).on('submit', '#context-search', function() {
+                loadResults();
+                return false
+            }).on('click', '.action.export', function() {
+                var status = $('#order-status').val();
+                window.location = window.location + '?action=export&status=' + status
+            });
+
+            function loadResults() {
+                var search = $('form#context-search input').val();
+                if (search) {
+                    var params = 'q=' + search;
+                } else {
+                    var status = $('div#admin-tools .status').val();
+                    var params = 'status=' + status;
+                }
+
+                var currentPage = $('.pagination li.active').data('val');
+                params += '&page=' + currentPage + '&format=html_results';
+
+                var query = '{{ request.META.QUERY_STRING|safe }}' ;
+                if (query) query += '&' + params;
+                else query = params;
+
+                $('div#admin-content > .spinner').fadeIn();
+                $('div#admin-content .container-fluid').load('{{ request.path }}', query, function() {
+                    $('div#admin-content > .spinner').fadeOut();
+                    if (status) $('#order-status').val(status);
+                })
+            }
+
+            function rejectOrder() {
+            }
+        })()
+    </script>
+{% endblock %}

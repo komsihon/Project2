@@ -1,0 +1,195 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens media_from_provider %}
+
+{% block page_title %}
+<title>{% trans "Deals" %} - ikwen</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'kakocase/css/admin.css' %}" />
+    <style>
+        @media (min-width: 768px) {
+            #admin-content .container-fluid {padding: 0 15px}
+        }
+        .deal {clear: both; padding-top: 10px}
+        .deal:not(:first-of-type) {border-top: 1px solid #ddd}
+        #admin-content .submit {padding: 24px 0 0 0}
+        .row.buttons {margin-top: 15px}
+        .actions {float: left; width: 100%}
+        .actions .glyphicon {float: right; padding: 5px;}
+    </style>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li><a href="{% url 'kako:product_list' %}">{% trans "Products" %}</a></li>
+    <li>{{ product.name }}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div class="item-preview">
+                <div class="img" style="background-image: url({{ product.image.small_url|from_provider:product.provider }})"></div>
+                <div style="float: left">
+                    <strong class="name">{{ product.name }}</strong>
+                    <p class="about">
+                        <span class="currency text-muted">{{ CURRENCY.symbol }}</span>
+                        <span class="value">{{ product.retail_price|floatformat:CURRENCY.precision|intcomma }}</span>
+                    </p>
+                    <p class="about"> <em>{{ product.provider.project_name }}</em> </p>
+                </div>
+            </div>
+            <form method="post" class="form-horizontal deals" style="padding-bottom: 150px">{% csrf_token %}
+                {% for deal in deal_list %}
+                <div id="{{ deal.id }}" class="deal">
+                    <div class="actions">
+                        <i class="glyphicon glyphicon-trash delete-deal" title="{% trans 'Delete' %}"></i>
+                    </div>
+                    <div class="info">
+                        <div class="form-group">
+                            <label for="frequency{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "Frequency" %}</label>
+                            <div class="col-sm-5 col-md-3">
+                                <select id="frequency{{ forloop.counter0 }}" name="frequency{{ forloop.counter0 }}" class="form-control input-sm">
+                                    {% for fqcy in frequencies %}
+                                        <option value="{{ fqcy.0 }}"
+                                        {% if deal.frequency == fqcy.0 %}selected="selected"{% endif %}>{{ fqcy.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="term-cost{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "Term cost" %}</label>
+                            <div class="col-sm-5 col-md-3">
+                                <input id="term-cost{{ forloop.counter0 }}" type="text" class="form-control input-sm"
+                                       name="term_cost{{ forloop.counter0 }}" value="{{ deal.term_cost|floatformat:CURRENCY.precision }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="terms-count{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "Terms count" %}</label>
+                            <div class="col-sm-5 col-md-3">
+                                <input id="terms-count{{ forloop.counter0 }}" type="text" class="form-control input-sm"
+                                       name="terms_count{{ forloop.counter0 }}" value="{{ deal.terms_count }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="first-term{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "First term" %}</label>
+                            <div class="col-sm-5 col-md-3">
+                                <input id="first-term{{ forloop.counter0 }}" type="text" class="form-control input-sm"
+                                       name="first_term{{ forloop.counter0 }}" value="{{ deal.first_term|floatformat:CURRENCY.precision }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="about{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "About" %}</label>
+                            <div class="col-sm-5 col-md-3">
+                                <input id="about{{ forloop.counter0 }}" type="text" class="form-control input-sm"
+                                       name="about{{ forloop.counter0 }}" value="{{ deal.about }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="is-active{{ forloop.counter0 }}" class="col-sm-3 col-md-2">{% trans "Active" %} ?</label>
+                            <div class="col-sm-5 col-md-3">
+                                <input type="checkbox" id="is-active{{ forloop.counter0 }}"
+                                       name="is_active{{ forloop.counter0 }}" {% if deal.is_active %}checked{% endif %} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <p class="text-muted empty" style="padding-top: 30px">{% blocktrans %}
+                        No payment option yet. <a href="#" class="add-option">Add new</a>
+                    {% endblocktrans %}</p>
+                {% endfor %}
+                <div class="row buttons">
+                    <div class="col-sm-2 pull-right">
+                        <button type="submit" class="btn btn-sm btn-success btn-block cta">{% trans "Save" %}</button>
+                    </div>
+                    <div class="col-sm-2 pull-right">
+                        <button type="button" class="btn btn-sm btn-default btn-block cta add-option">{% trans "Add" %}</button>
+                    </div>
+                </div>
+            </form>
+            <div class="deal tpl">
+                <div class="actions">
+                    <i class="glyphicon glyphicon-trash delete-deal" title="{% trans 'Delete' %}"></i>
+                </div>
+                <div class="info">
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "Frequency" %}</label>
+                        <div class="col-sm-5 col-md-3">
+                            <select class="form-control input-sm frequency">
+                                {% for fqcy in frequencies %}
+                                    <option value="{{ fqcy.0 }}">{{ fqcy.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "Term cost" %}</label>
+                        <div class="col-sm-5 col-md-3">
+                            <input type="text" class="form-control input-sm term-cost" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "Terms count" %}</label>
+                        <div class="col-sm-5 col-md-3">
+                            <input type="text" class="form-control input-sm terms-count" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "First term" %}</label>
+                        <div class="col-sm-5 col-md-3">
+                            <input type="text" class="form-control input-sm first-term" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "About" %}</label>
+                        <div class="col-sm-5 col-md-3">
+                            <input type="text" class="form-control input-sm about" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-2">{% trans "Active" %} ?</label>
+                        <div class="col-sm-5 col-md-3">
+                            <input name="is_active" type="checkbox" class="is-active" checked />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static "ikwen/js/jquery.autocomplete.min.js" %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .products').addClass('active');
+            $('#admin-content').on('click', '.add-option', function() {
+                $('.deals .empty').remove();
+                var i = $('.deal:not(.tpl)').length;
+                var $opt = $('.deal.tpl').clone();
+                $opt.find('.frequency').attr('name', 'frequency' + i);
+                $opt.find('.terms-count').attr('name', 'terms_count' + i);
+                $opt.find('.first-term').attr('name', 'first_term' + i);
+                $opt.find('.term-cost').attr('name', 'term_cost' + i);
+                $opt.find('.about').attr('name', 'about' + i);
+                $opt.find('.is-active').attr('name', 'is_active' + i);
+                $opt.removeClass('tpl').insertBefore('.deals .buttons').show();
+                return false
+            }).on('click', '.delete-deal', function() {
+                if (!confirm("{% trans "Confirm deletion ?" %}")) return;
+                var $opt = $(this).parents('.deal'),
+                    id = $opt.attr('id');
+                $opt.remove();
+                if (id) $.getJSON('', {action: 'delete', deal_id: id})
+            });
+            {% if messages %}
+                {% for msg in messages %}
+                    ikwen.showFloatingNotice('{{ msg }}', '{{ msg.tags }}', 6);
+                {% endfor %}
+            {% endif %}
+        })();
+    </script>
+{% endblock %}

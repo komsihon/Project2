@@ -1,0 +1,22 @@
+Product Categories:
+
+    They are managed in kakocase application, so that all kakocase sites share the same categories. When a
+    category is created in an operator website, it is sent back to ikwen umbrella database. Thus, next kakocase
+    websites are setup with all categories that were previously created by Operators of that specific BusinessCategory.
+    Whenever a category is created, it is appended to the product_categories of the current operator BusinessCategory
+
+
+Billing:
+    IAO should not be allowed to add Payment for retailed services on Kakocase because the sharing of money
+    won't be possible.
+
+
+OperatorProfile:
+    1 - Create Operator Wallet in WALLETS Database then copy the id in the rel_id field of OperatorProfile in NoSQL Datastore
+    2 - DeliveryMan profile must absolutely use the same currency as the Provider or Retailer.
+    3 - media_url field must be set for Providers
+
+
+ConsoleEventType:
+    Upon deployment make sure app_id matches the Application id. This to avoid taking a local application id online
+    and not matching it to the online ConsoleEventType.

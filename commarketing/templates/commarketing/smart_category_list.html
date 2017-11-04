@@ -1,0 +1,95 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% trans "Smart Categories" %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'kakocase/css/admin.css' %}" media="screen" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        <i class="action icon trash" title="{% trans "Delete selected" %}"></i>
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Smart Categories" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="no-edge-panel-right">
+        <div class="container-fluid">
+            <div id="results">
+                <ul class="tiles object-list tiles-panel">
+                {% for category in smart_category_list %}
+                    <li class="ik-li category{% if category.appear_in_menu %} appear-in-menu{% endif %}" id="{{ category.id }}" data-id="{{ category.id }}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'marketing:change_smart_object' 'smartcategory' category.id as change_category_url %}
+                            {% if category.image and category.image.name %}
+                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ category.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="full_name">{{ category.title }}</a>
+                                <p class="about">{{ category.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if category.content_type == 'Categories' %}
+                                    <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ category.id }}"
+                                       class="action glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
+                                {% else %}
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ category.id }}"
+                                       class="action glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
+                                {% endif %}
+                                {% if category.is_active %}
+                                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                                {% else %}
+                                    <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
+                                {% endif %}
+                                {% if category.appear_in_menu %}
+                                    <i class="action glyphicon glyphicon-th-list toggle main-menu off" title="{% trans "Remove from main menu" %}"></i>
+                                {% else %}
+                                    <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to main menu" %}"></i>
+                                {% endif %}
+                                <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li style="padding: 10px 15px 5px">
+                        <p class="text-muted">{% trans "No smart category" %}</p>
+                    </li>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'marketing:change_smart_object' 'smartcategory' %}"
+                           class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'kakocase/js/jquery-ui.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .smart-categories').addClass('active');
+            ikwen.deleteEndpoint = '{% url 'marketing:delete_smart_object' %}';
+        })()
+    </script>
+    {% include 'commarketing/snippets/sort_and_actions.html' %}
+{% endblock %}

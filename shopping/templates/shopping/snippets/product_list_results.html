@@ -1,0 +1,110 @@
+{% load i18n staticfiles humanize auth_tokens media_from_provider currency %}
+<div>
+    {% if content_type == 'Products' %}
+        <div class="results-toolbar">
+            {% if products_page.paginator.num_pages > 1  %}
+                <p>{% blocktrans with count=products_page.paginator.count start=products_page.start_index end=products_page.end_index %}
+                    {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+            {% else %}
+                <p>{% blocktrans with count=products_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+            {% endif %}
+             <p class="showing">{% trans "Sorting by" %}
+                <select class="order-by" name="order_by">
+                    <option value="-updated_on">{% trans "Most recent" %}</option>
+                    <option value="name">{% trans "Name" %}</option>
+    {#                <option value="rate"> Rate</option>#}
+                    {% if config.show_prices %}
+                        <option value="retail_price">{% trans "Price" %}</option>
+                    {% endif %}
+    {#                <option value=""> Color </option>#}
+                </select>
+              </p>
+            <div class="clearfix"></div>
+        </div>
+    {% endif %}
+    <div id="tile-view">
+    {% for row in product_list_as_matrix %}
+        <div class="product-row">
+            {% for product in row %}
+                {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                <div class="col-md-4 product-tab-grid simpleCart_shelfItem">
+                    <div class="product-tile">
+                        <div  class="product-img">
+                            <figure>
+                                <a href="{{ product_url|append_auth_tokens:request }}">
+                                    {% for photo in product.photos|slice:"1:2" %}
+                                        <div class="grid-img">
+                                            <img  src="{{ photo.image|from_provider:product.provider }}" class="img-responsive" alt="">
+                                        </div>
+                                    {% endfor %}
+                                    <div class="grid-img">
+                                        <img  src="{{ product.image|from_provider:product.provider }}" class="img-responsive" alt="">
+                                    </div>
+                                </a>
+                            </figure>
+                        </div>
+                        {% if product.stock == 0 %}
+                            <div class="ribben2">
+                                <p>{% trans "SOLD OUT" %}</p>
+                            </div>
+                        {% else %}
+                            {% if product.badge_text %}
+                                <div class="ribben">
+                                    <p>{{ product.badge_text }}</p>
+                                </div>
+                            {% endif %}
+                            {% if config.auto_manage_sales and product.on_sale %}
+                                <div class="ribben1">
+                                    <p>{% trans "SALE" context 'Sale on a product' %}</p>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="block">
+                            <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
+                        </div>
+                        <div class="product-about">
+                            <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
+                            {% with size_list=product.get_size_list %}
+                                {% if size_list %}
+                                    <span class="size">({{ product.get_size_list_label }})</span>
+                                    <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
+                                {% else %}
+                                    <span class="size">&nbsp;</span>
+                                {% endif %}
+                            {% endwith %}
+                            {% if config.show_prices %}
+                                <p class="product-price">
+                                    {% if config.auto_manage_sales and product.on_sale %}
+                                        <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
+                                    {% endif %}
+                                    <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                </p>
+                            {% endif %}
+                            {% if config.allow_shopping and config.show_prices %}
+                                <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                        {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
+                                        data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
+                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="clearfix"></div>
+        </div>
+    {% endfor %}
+    </div>
+    {% if products_page.paginator.num_pages > 1 %}
+    <ul class="pagination">
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        {% for page in products_page.paginator.page_range %}
+            <li class="{% if page == products_page.number %}active{% endif %}" data-val="{{ page }}">
+                <a href="#">
+                    {{ page }} {% if page == products_page.number %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+            </li>
+        {% endfor %}
+        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    </ul>
+    {% endif %}
+</div>

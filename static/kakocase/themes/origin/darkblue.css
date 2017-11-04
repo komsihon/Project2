@@ -1,0 +1,94 @@
+/*--
+Author: ikwen
+Author URL: http://www.ikwen.com/kakocase
+
+Blue Theme for Kakocase Origin Template
+--*/
+
+@import url('https://fonts.googleapis.com/css?family=Cagliostro');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300');
+
+h1,h2,h3,h4,h5,h6{color: #1f1137}
+.header-top {background: #150b27}
+.header-bottom {background: #1F1137}
+.header-bottom.fixed {background: #1F1137}
+.header-xs {background: #1F1137}
+#megadropdown-tabs-xs {background: #1F1137; border-top: 1px solid #4b3d63}
+.dropdown-menu li, .dropdown-menu li a {color: #1F1137}
+.checkout-header {background: #F6002C}
+.ban-text {background: rgba(1, 3, 33, 0.71)}
+.ban-text1 {background: rgba(1, 3, 33, 0.71)}
+.hvr-sweep-to-top:before {background: #f6002c}
+
+h2.tittle {
+    color: #1f1137;
+}
+
+.product-about h6 a {
+    color: #1f1137;
+}
+.ribben {
+    background: #1f1137;
+}
+.ribben1 {
+    background: #c10023;
+}
+.ribben:after {
+    border-top-color: #150b27;
+}
+.my-cart-b {
+    color: #1f1137;
+    border: 2px solid #c10023;
+}
+.my-cart-b:before {
+  background: #1f1137;
+  border-color: #1f1137;
+}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {
+	border-color: #1f1137;
+}
+a.button1 {
+    background: #F6002C;
+}
+.latest-text {
+    background: rgba(1, 3, 33, 0.71);
+}
+.latest-text2 {
+   background: #1f1137;
+}
+.footer-w3l {
+    background: #1f1137;
+}
+.footer-grid i {
+    border-color: #f6002c;
+}
+.social-icon a i {
+    background-color:#f6002c;
+}
+.social-icon i.instagram {
+    background-color: #f6002c;
+}
+.categories h3{
+    background: #F6002C;
+}
+.price h3,.top-rates h3,.brand-w3l h3{
+    background: #F6002C;
+}
+.left-tab > li > a {
+    background: #712835;
+}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {
+    background-color: #c10023;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    background: #c10023;
+}
+#reviews input[type="submit"] {
+    background: #D2D2D2;
+}
+.core-slider__carousel .core-slider_arrow__left {
+    background-color: #1f1137;
+}
+.core-slider__carousel .core-slider_arrow__right {
+    background-color: #1f1137;
+}

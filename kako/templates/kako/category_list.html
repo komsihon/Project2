@@ -1,0 +1,169 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% trans "Categories" %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'kakocase/css/admin.css' %}" media="screen" rel="stylesheet" type="text/css" />
+    <style>
+        #results {clear: both}
+    </style>
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        {% if request.GET.smart_link %}
+            <i class="action glyphicon glyphicon-link link" title="{% trans "Link categories" %}"></i>
+        {% else %}
+            <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete selected" %}"></i>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Categories" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            {% if request.GET.smart_link %}
+                <p class="alert alert-info">{% trans "Choose items to link to " %} {{ smart_object.title }}</p>
+            {% endif %}
+            <div id="results">
+                <ul class="tiles object-list tiles-panel">
+                {% if category_list|length == 0 %}
+                    <li class="ik-li">{% trans "No category" %}</li>
+                {% endif %}
+                {% for category in category_list %}
+                    <li id="{{ category.id }}" data-id="{{ category.id }}"
+                        class="ik-li category{% if category.appear_in_menu %} appear-in-menu{% endif %}">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            {% url 'kako:change_category' category.id as change_category_url %}
+                            {% if category.image and category.image.name %}
+                                <a href="{{ change_category_url }}" class="image" style="background-image: url({{ category.image.small_url }})"></a>
+                            {% else %}
+                                <a href="{{ change_category_url }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></a>
+                            {% endif %}
+                            <div class="info">
+                                <a href="{{ change_category_url }}" class="full_name">{{ category.name }}</a>
+                                <p class="about">{{ category.items_count }} {% trans "items" %}</p>
+                            </div>
+                            <div class="actions">
+                                {% if not request.GET.smart_link %}
+                                    {% if category.is_active %}
+                                        <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                                    {% else %}
+                                        <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
+                                    {% endif %}
+                                    {% if category.appear_in_menu %}
+                                        <i class="action glyphicon glyphicon-th-list toggle main-menu off" title="{% trans "Remove from main menu" %}"></i>
+                                    {% else %}
+                                        <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to main menu" %}"></i>
+                                    {% endif %}
+                                    <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                {% endif %}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                {% endfor %}
+                    <li class="ik-li category tpl" style="display: none">
+                        <div class="content">
+                            <div class="subtle-shade select">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </div>
+                            <a class="image bg-img target_url"></a>
+                            <div class="info">
+                                <a class="name target_url"></a>
+                                <p class="about">
+                                    <span class="items_count"></span> {% trans "items" %}
+                                </p>
+                            </div>
+                            <div class="actions">
+                                {% if not request.GET.smart_link %}
+                                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                                    <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to menu" %}"></i>
+                                    <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                {% endif %}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="add-new">
+                    <p>
+                        <span class="search-text"></span>
+                        <a href="{% url 'kako:change_category' %}"
+                           class="btn btn-sm btn-success"
+                           style="margin: 15px 0 0 6px;; min-width: 120px">{% trans "Add" %}</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'kakocase/js/jquery-ui.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .categories').addClass('active');
+            ikwen.deleteEndpoint = '{% url 'kako:delete_category' %}';
+            $(".tiles").sortable({
+                placeholder: "sortable-placeholder",
+                forcePlaceholderSize: true,
+                update: function (event, ui) {
+                    var sorted = [];
+                    $('.tiles li').each(function (i) {
+                        sorted.push($(this).attr('id') + ':' + i)
+                    });
+                    $.getJSON('', {sorted: sorted.join(',')})
+                }
+            }).disableSelection();
+            $('#results').on('click', '.category .active.on', function() {
+                var categoryId = $(this).parents('.category').data('id');
+                $(this).toggleClass('on off');
+                $.getJSON('{% url 'kako:toggle_category_attribute' %}', {'category_id': categoryId, 'attr': 'is_active', 'val': true})
+            }).on('click', '.category .active.off', function() {
+                var categoryId = $(this).parents('.category').data('id');
+                $(this).toggleClass('on off');
+                $.getJSON('{% url 'kako:toggle_category_attribute' %}', {'category_id': categoryId, 'attr': 'is_active', 'val': false})
+            }).on('click', '.category .main-menu.on', function() {
+                var $category = $(this).parents('.category'),
+                    categoryId = $category.data('id');
+                $(this).toggleClass('on off');
+                $category.insertAfter('.category.appear-in-menu:last').addClass('appear-in-menu');
+                $.getJSON('{% url 'kako:toggle_category_attribute' %}', {'category_id': categoryId, 'attr': 'appear_in_menu', 'val': true})
+            }).on('click', '.category .main-menu.off', function() {
+                var $category = $(this).parents('.category'),
+                    categoryId = $category.data('id');
+                $(this).toggleClass('on off');
+                $category.removeClass('appear-in-menu');
+                $.getJSON('{% url 'kako:toggle_category_attribute' %}', {'category_id': categoryId, 'attr': 'appear_in_menu', 'val': false})
+            });
+            {% if messages %}
+                {% for msg in messages %}
+                    ikwen.showFloatingNotice('{{ msg }}', '', 6);
+                    {% if msg.tags == 'success' %}localStorage.removeItem('category');{% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if request.GET.smart_link %}
+                $('.glyphicon-link').click(function() {
+                    var selection = $('#selection-control').data('selection');
+                    window.location = '{% url 'marketing:set_smart_object_content' 'add' %}?smart_object_id={{ smart_object.id }}&selection=' + selection;
+                });
+                {% for category_id in smart_object.items_fk_list %}
+                    $('#{{ category_id }} .select').click();
+                {% endfor %}
+            {% endif %}
+        })()
+    </script>
+{% endblock %}

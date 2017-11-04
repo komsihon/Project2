@@ -1,0 +1,203 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% trans "Dashboard" %} - ikwen </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        #admin-content > h5 {float: left; margin-top: 45px; padding-right: 15px; width: 100%}
+        #admin-content > h5 > span {float: left; margin-top: 0}
+        #admin-content em {font-style: normal; font-size: 34px}
+        .show-details {float: right; font-size: 13px}
+        .watch h5 + div > * {float: left; font-size: 24px}
+        .watch h5 {margin-bottom: 0}
+        .watch p.change {clear: both; font-size: 13px; margin-bottom: 0}
+        .watch p.change.up {color: #2ab732; font-size: 13px}
+        .watch p.change.down {color: #ee4032; font-size: 13px}
+        .watch p.vs {clear: both; color: #888; font-size: 12px}
+        .arrow {background-size: 12px auto; height: 12px; margin: 13px 0 0 3px; width: 12px}
+        .arrow.up {background-image: url({% static 'ikwen/img/Green_Arrow_Up.png' %})}
+        .arrow.down {background-image: url({% static 'ikwen/img/Red_Arrow_Down.png' %})}
+        .payments > div h6, .payments > div a {display: block; font-size: 13px; margin: 0; width: 100%}
+        .performances > div > div {border: 1px solid #eee; margin: 5px 0 15px; padding: 10px 10px 20px}
+        .performances header {margin-bottom: 15px; padding: 0 5px}
+        .performances h5 {float: left; margin: 0}
+        .performances .th {color: #888; float: left; font-size: 13px; font-weight: 700; margin-bottom: 5px; padding: 0 5px; width: 100%}
+        .ranking {clear: both; padding-left: 0}
+        .ranking li {background: #f6f6f6; display: block; float: left; height: 30px; padding: 5px 5px 0; width: 100%}
+        .ranking li:nth-child(2n) {background: #fff}
+        .ranking li span {float: left}
+        .ranking li span:last-child {float: right}
+    </style>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Dashboard" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="container-fluid">
+        <h5 style="margin-top: 0">
+            <span>{% trans "Earnings" %}</span>
+            <a href="#" class="show-details">{% trans "Details" %}</a>
+        </h5>
+        <div class="row" style="clear: both">
+            <div class="col-xs-6 col-sm-3 watch">
+                <h5>{% trans "Today" %}</h5>
+                <div>
+                    <img src="" width="15">
+                    <span style="font-size: 30px">2 960 000</span>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3 watch">
+                <h5>{% trans "Yesterday" %}</h5>
+                <div>
+                    <img src="" width="15">
+                    <span>2 960 000</span>
+                    <div class="arrow up"></div>
+                </div>
+                <p class="change up">5000 (+12.3%)</p>
+                <p class="vs">{% trans "vs same day last week" %}</p>
+            </div>
+            <div class="col-xs-6 col-sm-3 watch">
+                <h5>{% trans "Last week" %}</h5>
+                <div>
+                    <img src="" width="15">
+                    <span>2 960 000</span>
+                    <div class="arrow down"></div>
+                </div>
+                <p class="change down">5000 (-12.3%)</p>
+                <p class="vs">{% trans "vs same day last week" %}</p>
+            </div>
+            <div class="col-xs-6 col-sm-3 watch">
+                <h5 title="{% trans "Last 28 days" %}">{% trans "Last month" %}</h5>
+                <div>
+                    <img src="" width="15">
+                    <span>2 960 000</span>
+                    <div class="arrow down"></div>
+                </div>
+                <p class="change down">5000 (-12.3%)</p>
+                <p class="vs">{% trans "vs same day last week" %}</p>
+            </div>
+        </div>
+        {% if perms.accesscontrol.sudo and not config.is_pro_version or settings.DEBUG %}
+            <h5 style="clear: both">
+                <span>{% trans "Payments" %} <span class="text-muted">({{ config.currency_code }})</span></span>
+            </h5>
+            <div class="row payments">
+                <div class="col-xs-6 col-sm-4">
+                    <h6 class="text-muted">{% trans "Balance" %}</h6>
+                    <em>{{ wallet.balance|intcomma }}</em>
+                    <div>
+                        <a href="{% url 'cashout:home' %}">{% trans "Payment details" %}</a>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <h6 class="text-muted">{% trans "Last payment" %}</h6>
+                    <em style="color: #555; display: block; font-size: 25px; width: 100%">422</em>
+                    <time style="float: left; font-size: 12px; margin-top: -4px">10/05, 2016</time>
+                    <span style="float: left; font-size: 12px; margin-top: -5px">
+                        <span style="float: left; margin: 0 6px">-</span>
+                        <a href="{% url 'cashout:home' %}" style="float: left; width: auto">{% trans "View payments" %}</a>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row performances" style="clear: both">
+            <div class="col-sm-6">
+                <div>
+                    <header>
+                        <h5>{% trans "Orders" %}</h5>
+                        <a href="#" class="show-details">{% trans "Details" %}</a>
+                        <div class="clear"></div>
+                    </header>
+                    <div>
+                        <em>284</em>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <header>
+                        <h5>{% trans "AEPO" %} <i class="text-muted">(Avg. Earning Per Order)</i></h5>
+                        <a href="#" class="show-details">{% trans "Details" %}</a>
+                        <div class="clear"></div>
+                    </header>
+                    <div>
+                        <em>6 375</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row performances" style="clear: both">
+            <div class="col-sm-6">
+                <div>
+                    <header>
+                        <h5>{% trans "Top categories" %}</h5>
+                        <a href="#" class="show-details">{% trans "Details" %}</a>
+                        <div class="clear"></div>
+                    </header>
+                    <div class="th">
+                        <span style="float: left">{% trans "Category" %}</span>
+                        <span title="Estimated earnings" style="float: right">{% trans "Earnings" %}</span>
+                    </div>
+                    <ul class="ranking">
+                        <li>
+                            <span>Electro-menager</span>
+                            <span>320 000</span>
+                        </li>
+                        <li>
+                            <span>Nourriture</span>
+                            <span>320 000</span>
+                        </li>
+                        <li>
+                            <span>Entretien</span>
+                            <span>320 000</span>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <header>
+                        <h5>{% trans "Top providers" %}</h5>
+                        <a href="#" class="show-details">{% trans "Details" %}</a>
+                        <div class="clear"></div>
+                    </header>
+                    <div class="th">
+                        <span style="float: left">{% trans "Provider" %}</span>
+                        <span title="Estimated earnings" style="float: right">{% trans "Earnings" %}</span>
+                    </div>
+                    <ul class="ranking">
+                        <li>
+                            <span>Electro-menager</span>
+                            <span>320 000</span>
+                        </li>
+                        <li>
+                            <span>Nourriture</span>
+                            <span>320 000</span>
+                        </li>
+                        <li>
+                            <span>Entretien</span>
+                            <span>320 000</span>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .dashboard').addClass('active');
+        })()
+    </script>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% load i18n staticfiles humanize auth_tokens currency %}
+{% url 'shopping:checkout' as checkout_url %}
+<div{% if delivery_options|length > 1 %} class="multiple-delivery-options"{% endif %}>
+    <div id="items-summary" class="co subtle-shade" data-total="{{ items_cost }}">
+        <h4><span class="count">{{ items_count }}</span> {% trans "item(s), totaling" %}:</h4>
+        <p class="price">
+            <span>{{ CURRENCY.symbol }}</span>
+            <span class="total">{{ items_cost|floatformat:CURRENCY.precision|intcomma }}</span>
+        </p>
+        {% if items_cost >= config.checkout_min %}
+            {% if delivery_options|length == 1 %}
+                <div class="actions">
+                    <div class="delivery-option active" style="margin-bottom: .5em" data-id="{{ delivery_options.0.id }}" data-cost="{{ delivery_options.0.cost|currency:CURRENCY.code }}">
+                        <div class="img">
+                            {% if delivery_options.0.icon.name %}
+                                <img src="{{ delivery_options.0.icon.url }}" class="img-responsive"/>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p>
+                                <span class="name">{{ delivery_options.0.name }}</span>
+                                {% if delivery_options.0.cost > 0 %}
+                                    <span class="cost">{{ CURRENCY.symbol }} <span class="val">{{ delivery_options.0.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</span></span>
+                                {% else %}
+                                    <span class="cost">{% trans "Free" context "Free delivery" %}</span>
+                                {% endif %}
+                            </p>
+                            <p class="short-description">{{ delivery_options.0.short_description }}</p>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <a href="#" id="checkout" class="start-checkout" data-slug="{{ main_payment_mean.slug }}">
+                            <i class="glyphicon glyphicon-lock" style="border: none; color: #fff" aria-hidden="true"></i> {% trans "Checkout" %}
+                        </a>
+                    {% else %}
+                        <a href="javascript:;" id="checkout" data-toggle="modal"
+                           data-target="#suggest-login" data-slug="{{ main_payment_mean.slug }}">
+                            <i class="glyphicon glyphicon-lock" style="border: none; color: #fff" aria-hidden="true"></i> {% trans "Checkout" %}
+                        </a>
+                    {% endif %}
+                    <img src="{{ settings.IKWEN_MEDIA_URL }}{{ main_payment_mean.watermark.name }}" class="processor img-responsive"/>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% if items_cost >= config.checkout_min %}
+        {% if delivery_options|length > 1 %}
+            <div class="actions">
+                <div id="delivery" class="co subtle-shade">
+                    <h4>{% trans "Shipping" %}</h4>
+                    <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Choose a shipping option below" %}</p>
+                    <ul style="padding: 1em 0 0 0">
+                        {% for option in delivery_options %}
+                            <li class="delivery-option{% if option == delivery_option %} active{% endif %}"
+                                data-id="{{ option.id }}" data-cost="{{ option.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision }}">
+                                <div class="img">
+                                    {% if option.icon.name %}
+                                        <img src="{{ option.icon.url }}" class="img-responsive"/>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <p>
+                                        <span class="name">{{ option.name }}</span>
+                                        {% if option.cost > 0 %}
+                                            <span class="cost">{{ CURRENCY.symbol }}
+                                                <span class="val">{{ option.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</span></span>
+                                        {% else %}
+                                            <span class="cost">{% trans "Free" context "Free delivery"%}</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="short-description">
+                                        <em>{{ option.short_description }}</em>
+                                    </p>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <p class="price">
+                        <span class="currency">{% if delivery_option %}{{ CURRENCY.symbol }}{% else %}&nbsp;{% endif %}</span>
+                        <span class="val">
+                            {% if delivery_option.cost %}
+                            {{ delivery_option.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+                <div class="co total subtle-shade">
+                    <h4>{% trans "Total" %}:</h4>
+                    <p class="price">
+                        <span>{{ CURRENCY.symbol }}</span>
+                        <span class="val">{{ total_cost|floatformat:CURRENCY.precision|intcomma }}</span>
+                    </p>
+                    {% if items_cost >= config.checkout_min %}
+                        {% if user.is_authenticated %}
+                            <a id="checkout" class="start-checkout" href="{{ checkout_url }}" data-slug="{{ main_payment_mean.slug }}">
+                                <i class="glyphicon glyphicon-lock" aria-hidden="true" style="border: none; color: #fff"></i>
+                                {% trans "Checkout" %}
+                            </a>
+                        {% else %}
+                        <a href="javascript:;" id="checkout" class="start-checkout"
+                           data-toggle="modal" data-target="#suggest-login"
+                           data-slug="{{ main_payment_mean.slug }}"{% if main_payment_mean.is_cashflex %} data-is_cashflex="true"{% endif %}
+                           title="{% trans "Pay with" %} {{ main_payment_mean.name }}">
+                            <i class="glyphicon glyphicon-lock" aria-hidden="true" style="border: none; color: #fff"></i>
+                            {% trans "Checkout" %}
+                        </a>
+                        {% endif %}
+                        <img src="{{ settings.IKWEN_MEDIA_URL }}{{ main_payment_mean.watermark.name }}" class="processor img-responsive"/>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if items_cost >= config.checkout_min %}
+        {% if payment_mean_list %}
+            <p class="text-center" style="margin-bottom: .5em">{% trans "OR" %}</p>
+            <div>
+                {% for mean in payment_mean_list %}
+                    {% if user.is_authenticated %}
+                        <a class="payment-mean start-checkout subtle-shade" href="{{ checkout_url }}"
+                           data-slug="{{ mean.slug }}" title="{% trans 'Pay with' %} {{ mean.name }}">
+                    {% else %}
+                        <a class="payment-mean start-checkout subtle-shade" href="javascript:;"
+                           data-toggle="modal" data-target="#suggest-login" data-slug="{{ mean.slug }}"
+                           {% if mean.is_cashflex %}data-is_cashflex="true"{% endif %} title="{% trans 'Pay with' %} {{ mean.name }}">
+                    {% endif %}
+                            <span class="pay-with">{% trans "Pay with" %}</span>
+                            <span class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ mean.watermark.name }})"></span>
+                        </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

@@ -1,0 +1,260 @@
+{% extends 'shopping/base.html' %}
+{% load i18n static humanize user_agents media_from_provider currency cache %}
+
+{% block meta %}
+    {% if obj_group %}
+        <meta property="description" content="{{ obj_group.description }}"/>
+        <meta property="og:title" content="{{ obj_group.name }} - {{ service.project_name }}"/>
+        <meta property="og:description" content="{{ obj_group.description }}"/>
+        <meta property="og:image" content="{% get_media_prefix %}{{ obj_group.image.name }}"/>
+        <meta property="og:site_name" content="{{ service.domain|upper }}" />
+    {% endif %}
+{% endblock %}
+
+{% block page_title %}
+    <title>{{ page_title }} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/jquery-ui.css' %}">
+    <style>
+        .product-row {padding-bottom: 3em}
+        .smart-category-level2.last, .smart-category-level1.last {
+            border-bottom: 1px solid #eee; margin-bottom: .8em; padding-bottom: 1.5em}
+        .latest-text {bottom: -60%}
+        .latest-text2 {border-radius: 60px; top: 6%; width: 16%;}
+        #product-stage {text-align: center}
+        #product-stage .caption:first-child {margin-top: 0}
+        #product-stage .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
+            position: absolute; width: 100%; z-index: 100}
+        {% if object_id %}
+            li#id-{{ object_id }} a {color: #F44336; font-weight: 700}
+        {% endif %}
+        .top-rates:first-child {padding-top: 0}
+        @media (max-width: 991px) {
+            .container {
+                padding: 0
+            }
+
+            #menu-panel {
+                padding: 0 5px 0 0
+            }
+
+            #product-stage {
+                padding: 0 0 0 10px
+            }
+        }
+
+        @media (max-width: 414px) {
+            .container {
+                padding: 0 15px
+            }
+
+            #menu-panel {
+                padding: 0 15px
+            }
+
+            #product-stage {
+                padding: 0 15px
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% cache 300 product_list_content category.slug smart_object.slug request.GET.q %}
+    <div id="content" class="content">
+        <div class="products-agileinfo">
+            <div class="container">
+            {% if request.GET.q %}
+                <h3 class="text-muted">{% trans "Search" %}: <strong>{{ request.GET.q }}</strong></h3>
+            {% else %}
+                <h2 class="tittle">{{ page_title }}</h2>
+            {% endif %}
+                <div class="product-agileinfo-grids w3l">
+                    <div id="menu-panel" class="col-sm-3">
+                        {% if show_categories_filter %}
+                            <div class="categories">
+                                <h3>{% trans "Categories" %}</h3>
+                                <ul class="tree-list-pad">
+                                    {% for smart_category in filter_smart_categories_level2 %}
+                                    <li class="smart-category-level2{% if forloop.counter == filter_smart_categories_level2|length %} last{% endif %}">
+                                        <input type="checkbox" checked="checked" id="item-{{ forloop.counter0 }}" />
+                                        <label for="item-{{ forloop.counter0 }}"><span></span>{{ smart_category.title }}</label>
+                                        <ul>
+                                            {% for category in smart_category.get_category_queryset %}
+                                                {% url 'shopping:product_list' category.slug as category_url %}
+                                                <li id="id-{{ category.id }}"><a href="{{ category_url }}">{{ category.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                    {% for smart_category in filter_smart_categories_level1 %}
+                                        {% url 'shopping:smart_object_detail' smart_category.slug as smart_category_url %}
+                                        <li id="id-{{ smart_category.id }}" class="smart-category-level1{% if forloop.counter == filter_smart_categories_level1|length %} last{% endif %}">
+                                            <a href="{{ smart_category_url }}">{{ smart_category.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    {% for category in category_list %}
+                                        {% url 'shopping:product_list' category.slug as category_url %}
+                                        <li id="id-{{ category.id }}"><a href="{{ category_url }}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if config.show_prices and min_price >= 0 and max_price %}
+                            <div class="price">
+                                <h3>{% trans "Prices" %}</h3>
+                                <ul class="dropdown-menu6">
+                                    <li>
+                                        <div id="price-range" style="margin-top: 2em"></div>
+                                        <input type="text" id="amount" style="border: 0; color: #ffffff; font-weight: normal;" />
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="top-rates">
+                            <h3>{% trans "Most popular" %}</h3>
+                            {% for product in top_products %}
+                                {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                                <div style="margin-bottom: .6em">
+                                    <div class="recent-left">
+                                        <a href="{{ product_url }}">
+                                            <img class="img-responsive " src="{{ product.image.small_url|from_provider:product.provider }}" alt="{{ product.name }}">
+                                        </a>
+                                    </div>
+                                    <div class="recent-right">
+                                        <h6 class="best2">
+                                            <a href="{{ product_url }}">{{ product.name }}</a>
+                                        </h6>
+                                        {% if config.show_prices %}
+                                            <p>
+                                                {% if config.auto_manage_sales and product.on_sale %}
+                                                    <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
+                                                {% endif %}
+                                                <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="clearfix"> </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {#                        <div class="brand-w3l">#}
+                        {#                            <h3>{% trans "Brands" %}</h3>#}
+                        {#                            <ul>#}
+                        {#                                {% for brand in brands %}#}
+                        {#                                    <li>#}
+                        {#                                        <a href="#">{{ brand }}</a>#}
+                        {#                                    </li>#}
+                        {#                                {% endfor %}#}
+                        {#                            </ul>#}
+                        {#                        </div>#}
+{#                        <div class="cat-img">#}
+{#                            <img class="img-responsive " src="img/45.jpg" alt="">#}
+{#                        </div>#}
+                    </div>
+                    <div id="product-stage" class="col-sm-9">
+                        {% if content_type == 'Categories' %}
+                            {% for row in category_list_as_matrix %}
+                                <div class="caption">
+                                    {% for category in row %}
+                                        <div class="col-md-6 latest-grid">
+                                            <div class="latest-top">
+                                                {% url 'shopping:product_list' category.slug as product_list_url %}
+                                                <a href="{{ product_list_url }}" class="category-tile">
+                                                    <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-responsive"  alt="">
+                                                    <div class="latest-text">
+                                                        <h4>{{ category.name }}</h4>
+                                                    </div>
+                                                    {% if category.badge_text %}
+                                                        <div class="latest-text2 hvr-sweep-to-top">
+                                                            <h4>{{ category.badge_text }}</h4>
+                                                        </div>
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="clearfix"></div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% include 'core/snippets/spinner.html' %}
+                            <div id="product-results">
+                                {% include 'shopping/snippets/product_list_results.html' %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <script>
+                    (function () {
+                    })()
+                </script>
+            </div>
+        </div>
+    </div>
+    {% include 'shopping/snippets/modal_preview.html' %}
+    {% endcache %}
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'kakocase/js/jquery-ui.js' %}"></script>
+    <script>
+        (function() {
+            var screenWidth = $(window).width();
+            if (screenWidth < 415) {
+                $('#menu-panel').remove().insertAfter('#product-stage')
+            }
+            {% if min_price >= 0 and max_price %}
+                $("#price-range").slider({
+                    range: true,
+                    values: [{{ min_price }}, {{ max_price }}],
+                    min: {{ min_price }} - 20,
+                    max: {{ max_price }} + 20,
+                    slide: function(event, ui) {
+                        var v0 = (ui.values[0] * {{ CURRENCY.factor }}).formatMoney(),
+                            v1 = (ui.values[1] * {{ CURRENCY.factor }}).formatMoney();
+                        $("#amount").val('{{ CURRENCY.symbol }}' + v0 + " - {{ CURRENCY.symbol }}" + v1);
+                    },
+                    change: loadResults
+                });
+                var rangeVal = "{{ CURRENCY.symbol }}{{ min_price|currency:CURRENCY.code|floatformat:"0"|intcomma }} - {{ CURRENCY.symbol }}{{ max_price|currency:CURRENCY.code|floatformat:"0"|intcomma }}";
+                $( "#amount" ).val(rangeVal);
+            {% endif %}
+
+            $('#product-results').on('change', '.order-by', loadResults)
+                    .on('click', '.pagination li', function() {
+                        $('.pagination li').removeClass('active');
+                        $(this).addClass('active');
+                        loadResults();
+                    });
+
+
+            function loadResults() {
+                var params = 'format=html_results',
+                    range = $("#price-range").slider("values");
+                if (range) {
+                    params += '&min_price=' + range[0] + '&max_price=' + range[1];
+                }
+                var currentPage = $('.pagination li.active').data('val'),
+                    order_by = $('div#product-results .order-by').val();
+                    params += '&page=' + currentPage + '&order_by=' + order_by;
+
+                var query = '{{ request.META.QUERY_STRING|safe }}' ;
+                if (query) query += '&' + params;
+                else query = params;
+
+                $('div#product-stage .spinner').fadeIn();
+                $('#product-results').load('{{ request.path }}', query, function() {
+                    $('div#product-stage .spinner').fadeOut();
+                    $('div#product-results .order-by').val(order_by);
+                })
+            }
+        })()
+    </script>
+    {{ config.scripts|safe }}
+{% endblock %}

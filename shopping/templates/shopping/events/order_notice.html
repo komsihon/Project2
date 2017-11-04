@@ -1,0 +1,81 @@
+{% load i18n staticfiles humanize media_from_provider auth_tokens currency %}
+<h4 class="text-primary col-xs-12">
+    <span>{% trans event.event_type.title %}</span>
+    <a href="{{ service.url }}{% url 'shopping:cart' order.id %}" target="_blank" style="float: right; font-size: .8em">{% trans "Details" %}</a>
+</h4>
+<div style="padding: 0 15px">
+    {% with service=event.service member=order.member anonymous_buyer=order.anonymous_buyer provider=order.entries.0.product.provider crcy=order.currency %}
+        <div>
+            <a class="event-media" href="{{ service.url }}{% url 'shopping:cart' order.id %}" target="_blank">
+                {% if entries_count == 1 %}
+                    <div class="stretched card-tile"
+                         style="background-image: url({{ order.entries.0.product.image|from_provider:provider }})"></div>
+                {% elif entries_count == 2 %}
+                    <div class="stretched card-tile tile-2"
+                         style="background-image: url({{ order.entries.0.product.image|from_provider:provider }})"></div>
+                    <div class="stretched card-tile tile-2"
+                         style="background-image: url({{ order.entries.1.product.image|from_provider:provider }})"></div>
+                {% elif entries_count == 3 %}
+                    <div class="stretched card-tile tile-3-1"
+                         style="background-image: url({{ order.entries.0.product.image|from_provider:provider }})"></div>
+                    <div class="stretched card-tile tile-3-2"
+                         style="background-image: url({{ order.entries.1.product.image|from_provider:provider }})"></div>
+                    <div class="stretched card-tile tile-3-2"
+                         style="background-image: url({{ order.entries.2.product.image|from_provider:provider }})"></div>
+                {% elif entries_count >= 4 %}
+                    <div class="stretched card-tile tile-3-1"
+                         style="background-image: url({{ order.entries.0.product.image|from_provider:provider }})"></div>
+                    <div class="stretched card-tile tile-3-2"
+                         style="background-image: url({{ order.entries.1.product.image|from_provider:provider }})"></div>
+                    <div class="card-tile tile-3-2"
+                         style="background-image: url({{ order.entries.2.product.image|from_provider:provider }})">
+                        <div class="stretched more">
+                            <h2 class="main">+{{ more_entries }}</h2>
+                        </div>
+                    </div>
+                {% endif %}
+            </a>
+            <strong style="color: #444; float: right; margin-top: -12px; padding: 0 7px 7px 0">
+                {{ crcy.symbol }}
+                {{ order.items_cost|currency:crcy.code|floatformat:crcy.precision|intcomma }}
+            </strong>
+        </div>
+        <div class="card-signature">
+            {% if event.event_type.codename == 'NewOrderEvent' %}
+                <div class="photo">
+                    {% if member %}
+                        {% url 'ikwen:profile' member.id as member_url %}
+                        <a href="{{ member_url|ikwenize }}">
+                            {% if member.photo.name %}
+                                <img src="{{ IKWEN_MEDIA_URL }}{{ member.photo.thumb_name }}" alt="{{ member.full_name }}" class="img-responsive" />
+                            {% else %}
+                                <img src="{% static MEMBER_AVATAR %}" alt="{{ member.full_name }}" class="img-responsive" />
+                            {% endif %}
+                        </a>
+                    {% else %}
+                        <img src="{% static MEMBER_AVATAR %}" alt="{{ anonymous_buyer.name }}" class="img-responsive" />
+                    {% endif %}
+                </div>
+                <div class="member-info">
+                    <p class="member-name">
+                        {% if member %}
+                            {% url 'ikwen:profile' member.id as member_url %}
+                            <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                        {% else %}
+                            <span>{{ anonymous_buyer.name }}</span>
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <p>
+                    {% if order.delivery_option.type == 'HomeDelivery' %}
+                        {% trans "Your order was shipped. You will receive it in about" %} {{ order.delivery_option.get_delay_as_string }}
+                    {% else %}
+                        {% trans "Your order was packaged and is ready for you to come and collect using the RCC:" %} <strong>{{ order.rcc|upper }}</strong>
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+    {% endwith %}
+    <div class="clearfix"></div>
+</div>

@@ -1,0 +1,21 @@
+{% extends 'core/mails/base.html' %}
+{% load i18n humanize %}
+{% block content %}
+    <div style="color: #777; font: normal 1.35em 'Open Sans', 'Helvetica Neue', Lato, Verdana, Arial, sans-serif; line-height: 1.44em; margin-top: 45px; min-height: 180px; padding: 0 15px; text-align: justify">
+        {% if settings.IS_BANK %}
+            {% blocktrans %}
+                Hello, <br>
+                Your were successfully added as a Partner Merchant in our network.
+            {% endblocktrans %}
+            <br><br>
+            <p style="clear: both; padding-top: 2em">{% trans "Thank you for your interest in us." %}</p>
+        {% else %}
+            {% blocktrans %}
+                Hello, <br>
+                We would like to add you as a Partner Bank on our website.
+            {% endblocktrans %}
+            <br><br>
+            <p style="clear: both; padding-top: 2em">{% trans "Regards." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}

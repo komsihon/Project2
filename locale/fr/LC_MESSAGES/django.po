@@ -1,0 +1,1876 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-22 08:59+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: commarketing/models.py:19 kako/templates/kako/category_list.html:5
+#: kako/templates/kako/category_list.html:26
+#: kako/templates/kako/change_category.html:27
+#: shopping/templates/shopping/product_list.html:67
+#: templates/core/app_base_admin.html:60
+msgid "Categories"
+msgstr ""
+
+#: commarketing/models.py:20 kako/templates/kako/change_product.html:26
+#: kako/templates/kako/product_detail.html:5
+#: kako/templates/kako/product_detail.html:16
+#: kako/templates/kako/product_list.html:5
+#: kako/templates/kako/product_list.html:29
+#: templates/core/app_base_admin.html:64
+msgid "Products"
+msgstr ""
+
+#: commarketing/models.py:21
+msgid "Services"
+msgstr ""
+
+#: commarketing/models.py:33 commarketing/models.py:42
+msgid "Slide"
+msgstr ""
+
+#: commarketing/models.py:34
+msgid "Tiles"
+msgstr ""
+
+#: commarketing/models.py:35 commarketing/models.py:43
+#: commarketing/templates/commarketing/banner_list.html:151
+msgid "Popup"
+msgstr ""
+
+#: commarketing/models.py:36 commarketing/models.py:44
+msgid "Full-width section"
+msgstr ""
+
+#: commarketing/models.py:37 commarketing/models.py:45
+msgid "Full screen popup"
+msgstr ""
+
+#: commarketing/models.py:51
+msgid "Smart commercial title."
+msgstr ""
+
+#: commarketing/models.py:54
+msgid "Whether it is a list of categories or a list of products"
+msgstr ""
+
+#: commarketing/models.py:59 kakocase/models.py:71
+msgid "Make it visible or no."
+msgstr ""
+
+#: commarketing/models.py:107
+msgid "Call To Action"
+msgstr ""
+
+#: commarketing/models.py:108
+msgid ""
+"Action you want you visitors to undertake. <em><strong>E.g:</strong> \"Buy "
+"Now\"</em>"
+msgstr ""
+
+#: commarketing/models.py:115
+msgid "Manage marketing tools"
+msgstr ""
+
+#: commarketing/models.py:124 kakocase/models.py:64 kakocase/models.py:171
+msgid "Description of the category."
+msgstr ""
+
+#: commarketing/models.py:126
+msgid ""
+"Text in the badge that appears on the smart category. <strong>E.g.:</strong> "
+"-20%, -30%, New, etc."
+msgstr ""
+
+#: commarketing/models.py:129
+msgid "Smart Category will appear in main menu if checked."
+msgstr ""
+
+#: commarketing/models.py:131
+msgid ""
+"Order of appearance of the section. Same order of appearance will result in "
+"an ordering in alphabetical order"
+msgstr ""
+
+#: commarketing/views.py:211
+msgid "Items successfully removed"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:5
+#: templates/core/app_base_admin.html:86
+msgid "Banners"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:21
+#: commarketing/templates/commarketing/smart_category_list.html:17
+#: kako/templates/kako/category_list.html:20
+#: kako/templates/kako/product_list.html:23
+msgid "Delete selected"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:26
+#: commarketing/templates/commarketing/smart_category_list.html:5
+#: commarketing/templates/commarketing/smart_category_list.html:22
+msgid "Smart Categories"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:32
+msgid "Homepage slideshow"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:32
+#: commarketing/templates/commarketing/banner_list.html:72
+#: commarketing/templates/commarketing/banner_list.html:112
+#: commarketing/templates/commarketing/banner_list.html:151
+#: commarketing/templates/commarketing/banner_list.html:190
+msgid "View example"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:45
+#: commarketing/templates/commarketing/banner_list.html:85
+#: commarketing/templates/commarketing/banner_list.html:125
+#: commarketing/templates/commarketing/banner_list.html:164
+#: commarketing/templates/commarketing/banner_list.html:203
+#: commarketing/templates/commarketing/smart_category_list.html:40
+#: kako/templates/kako/category_list.html:60
+#: kako/templates/kako/category_list.html:76
+msgid "items"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:49
+#: commarketing/templates/commarketing/banner_list.html:89
+#: commarketing/templates/commarketing/banner_list.html:129
+#: commarketing/templates/commarketing/banner_list.html:168
+#: commarketing/templates/commarketing/banner_list.html:207
+#: commarketing/templates/commarketing/smart_category_list.html:44
+msgid "Link Categories"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:51
+#: commarketing/templates/commarketing/banner_list.html:91
+#: commarketing/templates/commarketing/banner_list.html:131
+#: commarketing/templates/commarketing/banner_list.html:170
+#: commarketing/templates/commarketing/banner_list.html:209
+#: commarketing/templates/commarketing/smart_category_list.html:46
+msgid "Link Products"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:53
+#: commarketing/templates/commarketing/banner_list.html:93
+#: commarketing/templates/commarketing/banner_list.html:133
+#: commarketing/templates/commarketing/banner_list.html:172
+#: commarketing/templates/commarketing/banner_list.html:211
+#: commarketing/templates/commarketing/change_banner.html:86
+#: commarketing/templates/commarketing/change_smart_object.html:93
+#: commarketing/templates/commarketing/smart_category_list.html:48
+#: kako/templates/kako/category_list.html:64
+#: kako/templates/kako/category_list.html:81
+#: kako/templates/kako/snippets/product_list_results.html:69
+#: kako/templates/kako/snippets/product_list_results.html:100
+msgid "Delete item"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:58
+#: commarketing/templates/commarketing/banner_list.html:98
+msgid "No Slide"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:66
+#: commarketing/templates/commarketing/banner_list.html:106
+#: commarketing/templates/commarketing/banner_list.html:146
+#: commarketing/templates/commarketing/banner_list.html:185
+#: commarketing/templates/commarketing/banner_list.html:224
+#: commarketing/templates/commarketing/smart_category_list.html:61
+#: kako/templates/kako/category_list.html:91
+#: kako/templates/kako/snippets/product_list_results.html:111
+msgid "Add"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:72
+msgid "Homepage Tiles"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:112
+msgid "Full Width Section"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:138
+msgid "No Full Width Section"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:177
+msgid "No Popup"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:190
+msgid "Full Screen Popup"
+msgstr ""
+
+#: commarketing/templates/commarketing/banner_list.html:216
+msgid "No Full Screen Popup"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:5
+msgid "New Smart Category"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:26
+#: commarketing/templates/commarketing/change_smart_object.html:27
+msgid "Remove selected"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:32
+#: templates/core/app_base_admin.html:83
+msgid "Smart categories"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:37
+#: commarketing/templates/commarketing/change_smart_object.html:5
+#: commarketing/templates/commarketing/change_smart_object.html:44
+#: kako/templates/kako/change_category.html:32
+#: kako/templates/kako/change_product.html:31
+msgid "New"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:51
+#: commarketing/templates/commarketing/change_smart_object.html:58
+#: kako/templates/kako/change_category.html:45
+msgid "Cover image"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:63
+#: commarketing/templates/commarketing/change_smart_object.html:70
+#: kako/templates/kako/change_category.html:57
+msgid "Nice cover photo to help customer have an idea"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:67
+#: commarketing/templates/commarketing/change_smart_object.html:74
+msgid "Content"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:93
+#: commarketing/templates/commarketing/change_smart_object.html:100
+msgid "Add categories"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:98
+#: commarketing/templates/commarketing/change_smart_object.html:105
+msgid "Add products"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:106
+#: commarketing/templates/commarketing/change_smart_object.html:113
+#: kako/templates/kako/change_category.html:60
+#: kako/templates/kako/change_product.html:66
+msgid "Save"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:122
+#: commarketing/templates/commarketing/change_smart_object.html:129
+msgid "Smart category successfully saved."
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:152
+#: commarketing/templates/commarketing/change_smart_object.html:159
+#: kako/templates/kako/change_category.html:105
+#: kako/templates/kako/change_product.html:142
+#: shopping/templates/shopping/checkout.html:219
+msgid "Missing information. Please check."
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:159
+#: commarketing/templates/commarketing/change_smart_object.html:166
+#: kako/templates/kako/change_category.html:112
+msgid "Categories look better with image. Continue without it ?"
+msgstr ""
+
+#: commarketing/templates/commarketing/change_banner.html:166
+#: commarketing/templates/commarketing/change_smart_object.html:173
+#: kako/templates/kako/change_category.html:119
+msgid "Upload cover"
+msgstr ""
+
+#: commarketing/templates/commarketing/smart_category_list.html:53
+msgid "No smart category"
+msgstr ""
+
+#: kako/models.py:14
+msgid "Your wholesale price. Retailers may set their own price."
+msgstr ""
+
+#: kako/models.py:15
+msgid "Wholesale price of the provider"
+msgstr ""
+
+#: kako/models.py:16
+msgid ""
+"Price at which retailers must sell this product on their website. If set, "
+"retailers will not be allowed to set their own price."
+msgstr ""
+
+#: kako/models.py:18
+msgid "Your retail price."
+msgstr ""
+
+#: kako/models.py:19
+msgid ""
+"Maximum price at which retailers must sell this product on their website. If "
+"given, then <em class='text-primary'>retail price</em> must be left blank."
+msgstr ""
+
+#: kako/models.py:21
+msgid "Maximum retail price allowed by your provider."
+msgstr ""
+
+#: kako/models.py:32
+msgid "Name of the product."
+msgstr ""
+
+#: kako/models.py:34
+msgid "Slug of the product."
+msgstr ""
+
+#: kako/models.py:36
+msgid "Brand of the product."
+msgstr ""
+
+#: kako/models.py:38
+msgid "Description of the product."
+msgstr ""
+
+#: kako/models.py:40
+msgid ""
+"Text in the badge that appears on the product. <strong>E.g.:</strong> -20%, "
+"-30%, New, etc."
+msgstr ""
+
+#: kako/models.py:43
+msgid "Reference number of the product as in your current IS."
+msgstr ""
+
+#: kako/models.py:45
+msgid "ID of the product in your current database."
+msgstr ""
+
+#: kako/models.py:51
+msgid "modifiable price ?"
+msgstr ""
+
+#: kako/models.py:145
+msgid "Size in custom unit of measurement for this product."
+msgstr ""
+
+#: kako/models.py:148
+msgid "Color of product as hexadecimal code."
+msgstr ""
+
+#: kako/models.py:150
+msgid "Weight in grams."
+msgstr ""
+
+#: kako/models.py:152
+msgid "Stock of the product."
+msgstr ""
+
+#: kako/models.py:163
+msgid "Manage products"
+msgstr ""
+
+#: kako/views.py:251 templates/core/app_base_admin.html:7
+#: trade/templates/trade/provider/dashboard.html:317
+#: trade/templates/trade/retailer/dashboard.html:140
+msgid "Category"
+msgstr ""
+
+#: kako/views.py:576
+msgid "Product already imported by some retailers. Delete and start again."
+msgstr ""
+
+#: kako/views.py:582
+#, python-format
+msgid "Product cannot be added because the limit of %d products is reached."
+msgstr ""
+
+#: kako/views.py:701
+msgid ""
+"Product already imported by some retailers. Delete and register a new one."
+msgstr ""
+
+#: kako/views.py:800
+#, python-format
+msgid "Product taken out by %s"
+msgstr ""
+
+#: kako/views.py:801
+#, python-format
+msgid ""
+"Hi %s,<br/> The product below was removed by <strong>%s.</strong> It won't "
+"appear on your website anymore."
+msgstr ""
+
+#: kako/templates/kako/category_list.html:18
+msgid "Link categories"
+msgstr ""
+
+#: kako/templates/kako/category_list.html:45
+msgid "Choose items to link to "
+msgstr ""
+
+#: kako/templates/kako/category_list.html:69
+msgid "No result"
+msgstr ""
+
+#: kako/templates/kako/change_category.html:5
+msgid "New category"
+msgstr ""
+
+#: kako/templates/kako/change_category.html:76
+msgid "Category info successfully saved."
+msgstr ""
+
+#: kako/templates/kako/change_product.html:5
+msgid "New product"
+msgstr ""
+
+#: kako/templates/kako/change_product.html:45
+msgid "Photos"
+msgstr ""
+
+#: kako/templates/kako/change_product.html:50
+msgid "Delete image"
+msgstr ""
+
+#: kako/templates/kako/change_product.html:55
+msgid "Delete image ?"
+msgstr ""
+
+#: kako/templates/kako/change_product.html:84
+msgid "Product successfully saved."
+msgstr ""
+
+#: kako/templates/kako/change_product.html:149
+msgid "Product without photos will be automatically hidden. Continue ?"
+msgstr ""
+
+#: kako/templates/kako/product_list.html:21
+msgid "Link products"
+msgstr ""
+
+#: kako/templates/kako/product_list.html:41
+#: kako/templates/kako/snippets/product_list_results.html:63
+#: kako/templates/kako/snippets/product_list_results.html:95
+msgid "Update stock"
+msgstr ""
+
+#: kako/templates/kako/product_list.html:47
+#: kako/templates/kako/product_list.html:69
+msgid "Update"
+msgstr ""
+
+#: kako/templates/kako/product_list.html:51
+#: kako/templates/kako/product_list.html:73
+#: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:17
+msgid "Cancel"
+msgstr ""
+
+#: kako/templates/kako/product_list.html:63
+#: kako/templates/kako/snippets/product_list_results.html:67
+#: kako/templates/kako/snippets/product_list_results.html:98
+msgid "Update retail price"
+msgstr ""
+
+#: kako/templates/kako/events/product_notice.html:10
+msgid "Provider removed this product. It won't appear on your website anymore."
+msgstr ""
+
+#: kako/templates/kako/events/product_notice.html:14
+#: kako/templates/kako/events/product_notice.html:16
+msgid ""
+"A customer tried to order more than the available stock for this product."
+msgstr ""
+
+#: kako/templates/kako/events/product_notice.html:18
+msgid "This product went out of stock after customer order."
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:4
+#: shopping/templates/shopping/base.html:232
+#: shopping/templates/shopping/base.html:329
+#: shopping/templates/shopping/product_list.html:60
+#: templates/admin/search_form.html:7
+#: trade/templates/trade/snippets/order_list_results.html:5
+msgid "Search"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:8
+msgid "of"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:36
+#: kako/templates/kako/snippets/product_list_results.html:84
+msgid "Wholesale"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:40
+#: kako/templates/kako/snippets/product_list_results.html:85
+msgid "Retail"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:44
+#: kako/templates/kako/snippets/product_list_results.html:86
+msgid "Max"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:47
+#: kako/templates/kako/snippets/product_list_results.html:88
+msgid "Stock"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:62
+#: kako/templates/kako/snippets/product_list_results.html:94
+msgid "Duplicate"
+msgstr ""
+
+#: kako/templates/kako/snippets/product_list_results.html:106
+msgid "Not found"
+msgstr ""
+
+#: kakocase/admin.py:22
+msgid "Business"
+msgstr ""
+
+#: kakocase/admin.py:23
+msgid "Platform"
+msgstr ""
+
+#: kakocase/admin.py:24
+msgid "SMS"
+msgstr ""
+
+#: kakocase/admin.py:25 kakocase/admin.py:48
+msgid "Mailing"
+msgstr ""
+
+#: kakocase/admin.py:42
+msgid "Company"
+msgstr ""
+
+#: kakocase/admin.py:43
+msgid "Website"
+msgstr ""
+
+#: kakocase/admin.py:44
+msgid "Address & Contact"
+msgstr ""
+
+#: kakocase/admin.py:45
+msgid "Social"
+msgstr ""
+
+#: kakocase/admin.py:52
+msgid "PayPal"
+msgstr ""
+
+#: kakocase/admin.py:53
+msgid "External scripts"
+msgstr ""
+
+#: kakocase/admin.py:80
+msgid "Only one option of type <strong>Pick up in store</strong> is allowed."
+msgstr ""
+
+#: kakocase/deploy_cloud.py:220
+msgid "Service activated"
+msgstr ""
+
+#: kakocase/deploy_cloud.py:222
+msgid "Join"
+msgstr ""
+
+#: kakocase/models.py:59 kakocase/models.py:198
+msgid "name"
+msgstr ""
+
+#: kakocase/models.py:60 kakocase/models.py:167
+msgid "Name of the category."
+msgstr ""
+
+#: kakocase/models.py:62 kakocase/models.py:169
+msgid "Slug of the category."
+msgstr ""
+
+#: kakocase/models.py:63 kakocase/models.py:204
+msgid "description"
+msgstr ""
+
+#: kakocase/models.py:65
+msgid "badge text"
+msgstr ""
+
+#: kakocase/models.py:66
+msgid ""
+"Text in the badge that appears on the category. <strong>E.g.:</strong> -20%, "
+"-30%, New, etc."
+msgstr ""
+
+#: kakocase/models.py:68
+msgid "appear in menu"
+msgstr ""
+
+#: kakocase/models.py:69
+msgid "Category will appear in main menu if checked."
+msgstr ""
+
+#: kakocase/models.py:73
+msgid "Order of appearance in a list of categories."
+msgstr ""
+
+#: kakocase/models.py:74
+msgid "elements in preview"
+msgstr ""
+
+#: kakocase/models.py:75
+msgid ""
+"Number of elements in the category preview on home page. Must be a multiple "
+"of 4."
+msgstr ""
+
+#: kakocase/models.py:193
+#: shopping/templates/shopping/mails/order_notice.html:56
+msgid "Pick up in store"
+msgstr ""
+
+#: kakocase/models.py:194
+msgid "Home delivery"
+msgstr ""
+
+#: kakocase/models.py:197
+msgid "type"
+msgstr ""
+
+#: kakocase/models.py:199
+msgid "Name of the option."
+msgstr ""
+
+#: kakocase/models.py:200
+msgid "Slug of the option."
+msgstr ""
+
+#: kakocase/models.py:201
+msgid "short description"
+msgstr ""
+
+#: kakocase/models.py:202
+msgid "Short description of the option.Typically max delay as a text value."
+msgstr ""
+
+#: kakocase/models.py:205
+msgid "Description of the option. Typically coverage and conditions."
+msgstr ""
+
+#: kakocase/models.py:207
+msgid "24x24 PNG icon to illustrate the option."
+msgstr ""
+
+#: kakocase/models.py:208
+msgid "cost"
+msgstr ""
+
+#: kakocase/models.py:209
+msgid "max delay"
+msgstr ""
+
+#: kakocase/models.py:211 kakocase/models.py:294
+msgid "checkout minimum"
+msgstr ""
+
+#: kakocase/models.py:212
+msgid "Minimum checkout to make this option available."
+msgstr ""
+
+#: kakocase/models.py:213 kakocase/models.py:314
+msgid "active"
+msgstr ""
+
+#: kakocase/models.py:214
+msgid "Check/Uncheck to make it active on you webshop."
+msgstr ""
+
+#: kakocase/models.py:225
+#, python-format
+msgid "%d days"
+msgstr ""
+
+#: kakocase/models.py:226
+#, python-format
+msgid "%d hours"
+msgstr ""
+
+#: kakocase/models.py:283
+msgid "Straight"
+msgstr ""
+
+#: kakocase/models.py:284
+msgid "Upon buyer confirmation"
+msgstr ""
+
+#: kakocase/models.py:289
+msgid "API Signature"
+msgstr ""
+
+#: kakocase/models.py:293
+msgid "business type"
+msgstr ""
+
+#: kakocase/models.py:295
+msgid "Minimum amount you allow to customers to buy."
+msgstr ""
+
+#: kakocase/models.py:296
+msgid "ikwen share"
+msgstr ""
+
+#: kakocase/models.py:297
+msgid "Percentage ikwen collects on the turnover made by this person."
+msgstr ""
+
+#: kakocase/models.py:298
+msgid "payment delay"
+msgstr ""
+
+#: kakocase/models.py:299
+msgid ""
+"When cash should be deposited on trader's account. Right when the buyer pays "
+"or when he acknowledges reception of the order."
+msgstr ""
+
+#: kakocase/models.py:301
+msgid "Auto-manage sales"
+msgstr ""
+
+#: kakocase/models.py:302
+msgid ""
+"If checked, may show a strike-through <em>previous price</em> right before "
+"the current <em>retail price</em> and a <em>'SALE'</em> badge on the product "
+"image whenever a product retail price is updated by a smaller value."
+msgstr ""
+
+#: kakocase/models.py:308
+msgid "certified"
+msgstr ""
+
+#: kakocase/models.py:309
+msgid "Manage delivery options"
+msgstr ""
+
+#: kakocase/models.py:310
+msgid ""
+"If checked, IAO of the platform will be able to set delivery options like "
+"<strong>FREE SHIPPING</strong> or <strong>PICK-UP IN STORE</strong> besides "
+"those offered by ikwen delivery company partners."
+msgstr ""
+
+#: kakocase/models.py:315
+msgid "balance"
+msgstr ""
+
+#: kakocase/models.py:317
+msgid "pro version"
+msgstr ""
+
+#: kakocase/models.py:318
+msgid ""
+"Standard version uses <strong>ikwen</strong> payment accounts (PayPal, "
+"MobileMoney, BankCard, etc.) and collects user's money upon purchases. He "
+"can later request a Cash-out and his money will be sent to him by any mean."
+"Pro version users can access more advanced configuration options like:"
+"<ul><li>Personal Payment accounts (Personal PayPal, Personal Mobile Money, "
+"etc.)</li><li>Set the Checkout minimum without restriction</li><li>Technical "
+"tools like configuring their own Google Analytics scripts, etc.</li></ul>"
+msgstr ""
+
+#: kakocase/models.py:351
+msgid "Last time provider updated the stock"
+msgstr ""
+
+#: kakocase/utils.py:16
+#, python-format
+msgid "Cash-out requested by %s"
+msgstr ""
+
+#: kakocase/utils.py:17
+#, python-format
+msgid ""
+"Dear %(member_name)s,<br><br>This is a notice that an invoice has been "
+"generated on %(date_issued)s.<br><br><strong style='font-size: "
+"1.2em'>Invoice #%(invoice_number)s</strong><br>Amount: %(amount).2f "
+"%(currency)s<br>Due Date:  %(due_date)s<br><br><strong>Invoice items:</"
+"strong><br><span style='color: #111'>%(invoice_description)s</"
+"span><br><br>Thank you for your business with %(company_name)s."
+msgstr ""
+
+#: kakocase/views.py:23
+msgid "Delivery Option"
+msgstr ""
+
+#: kakocase/views.py:49
+msgid "Yourself"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:6
+#, python-format
+msgid ""
+"\n"
+"            Dear %(member.first_name)s,<br>\n"
+"            Your service <strong>%(service_activated.project_name)s</strong> "
+"was successfully deployed.\n"
+"        "
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:13
+#: shopping/templates/shopping/mails/order_notice.html:33
+msgid "See details below"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:16
+msgid "Monthly cost"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:18
+msgid "Invoiced to"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:27
+msgid "Your invoice has been generated"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:28
+msgid "Invoice"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:29
+msgid "Amount"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:30
+msgid "Due Date"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:31
+msgid "Pay Now"
+msgstr ""
+
+#: kakocase/templates/deployment/service_activated.html:33
+#, python-format
+msgid "Thank you for your business with %(company_name)s."
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:5
+#: kakocase/templates/kakocase/deploy_cloud.html:82
+msgid "Deploy Cloud"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:86
+msgid "Customer"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:94
+msgid "Project name"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:101
+msgid "Subdomain"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:109
+msgid "Billing plan"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:121
+msgid "Monthly Cost"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:133
+msgid "Choose template"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:151
+#: shopping/templates/shopping/contact.html:42 templates/admin/login.html:122
+msgid "Submit"
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:189
+msgid "Please use digits only and prepend country code."
+msgstr ""
+
+#: kakocase/templates/kakocase/deploy_cloud.html:199
+msgid "Please, enter valid email"
+msgstr ""
+
+#: shopping/views.py:444
+msgid "No order found with this AOTC"
+msgstr ""
+
+#: shopping/views.py:626
+msgid "Order successful"
+msgstr ""
+
+#: shopping/paypal/views.py:50 shopping/paypal/views.py:160
+msgid "No description"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:46
+msgid "Help"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:72
+#: shopping/templates/shopping/base.html:316
+msgid "Account cloud_setup"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:74
+#: shopping/templates/shopping/base.html:318
+msgid "Logout"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:78
+#: shopping/templates/shopping/base.html:348 templates/admin/login.html:105
+msgid "Login"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:79
+#: shopping/templates/shopping/base.html:349
+msgid "Create Account"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:135
+#: shopping/templates/shopping/base.html:170
+#: shopping/templates/shopping/base.html:203
+msgid "More"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:243
+msgctxt "cart items"
+msgid "items"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:251
+msgid "Empty Cart"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:344
+#: shopping/templates/shopping/contact.html:6
+#: templates/admin/change_list.html:40
+msgid "Home"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:345
+#: shopping/templates/shopping/checkout.html:5
+#: shopping/templates/shopping/checkout.html:29
+#: shopping/templates/shopping/paypal/cancel.html:10
+#: shopping/templates/shopping/paypal/confirmation.html:10
+#: shopping/templates/shopping/snippets/checkout_summary.html:33
+#: shopping/templates/shopping/snippets/checkout_summary.html:37
+#: shopping/templates/shopping/snippets/checkout_summary.html:91
+#: shopping/templates/shopping/snippets/checkout_summary.html:93
+#: shopping/templates/shopping/snippets/modal_added_to_cart.html:17
+msgid "Checkout"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:347
+msgid "Terms and Conditions"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:353
+msgid "Quick access"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:364
+msgid "About"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:381
+msgid "Contacts"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:396
+msgid "All rights reserved"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:397
+msgid "Legal mentions"
+msgstr ""
+
+#: shopping/templates/shopping/base.html:454
+#: shopping/templates/shopping/base.html:541
+msgid "Please select a size."
+msgstr ""
+
+#: shopping/templates/shopping/base.html:474
+msgid "Available stock limit reached."
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:5
+msgid "Cart"
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:101
+msgid "My Shopping Bag"
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:107
+#, python-format
+msgid ""
+"\n"
+"                    Dear customer, please reach a minimum of <strong>"
+"%(currency_symbol)s %(checkout_min)s</strong> to checkout."
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:134
+#: shopping/templates/shopping/mails/order_notice.html:77
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:17
+#: shopping/templates/shopping/snippets/product_list_results.html:16
+msgid "Price"
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:137
+#: shopping/templates/shopping/mails/order_notice.html:80
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:20
+#: shopping/templates/shopping/snippets/modal_preview.html:31
+#: shopping/templates/shopping/snippets/product_size_qty.html:14
+msgid "Quantity"
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:140
+#: shopping/templates/shopping/cart.html:159
+#: shopping/templates/shopping/mails/order_notice.html:83
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:23
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:40
+msgid "Subtotal"
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:164
+msgid "Sorry, we had to adjust your quantity to currently available stock."
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:165
+msgid "Sorry, unfortunately this product went out of stock meanwhile."
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:193
+msgid ""
+"\n"
+"                        <a href=\"#\" class=\"btn btn-success connect"
+"\">Login</a> to proceed. You can still\n"
+"                        <a href=\"#\" class=\"register\">register</a> if you "
+"don't have an account with us.\n"
+"                    "
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:199
+msgid ""
+"\n"
+"                        <a href=\"#\" class=\"turn-down\">No, thanks</a> I "
+"will checkout anonymously.\n"
+"                        "
+msgstr ""
+
+#: shopping/templates/shopping/cart.html:339
+msgid "Please choose a delivery option."
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:40
+#: shopping/templates/shopping/checkout.html:183
+msgid "Click on a previous address below to use it."
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:69
+msgid ""
+"\n"
+"                            No thanks, I want to\n"
+"                            <button class=\"btn btn-default new-address\" "
+"type=\"button\" data-toggle=\"collapse\"\n"
+"                                    data-target=\"#new-address\" aria-"
+"expanded=\"false\" aria-controls=\"new-address\">\n"
+"                                Input new address\n"
+"                            </button>\n"
+"                        "
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:79
+msgid ""
+"\n"
+"                            Please hold on a second while <strong>we are "
+"trying to locate you.</strong> "
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:82
+msgid ""
+"\n"
+"                            Sorry, we couldn't locate you. <strong>Please "
+"enter your location manually.</strong> "
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:88
+msgid "Please, give us your address"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:90
+msgid "New delivery address"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:94
+msgid "Country"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:104
+msgid "City"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:110
+#: shopping/templates/shopping/contact.html:17
+msgid "Address"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:118
+msgid "Postal Code"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:126
+#: shopping/templates/shopping/contact.html:22
+msgid "Phone"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:139
+msgid "Your name"
+msgstr ""
+
+#: shopping/templates/shopping/checkout.html:179
+msgid "Click here to view previous addresses."
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:6
+msgid "Contact"
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:12
+msgid "Contact Us"
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:36
+msgid "Send us a mail"
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:38
+#: shopping/templates/shopping/product_detail.html:179
+#: shopping/templates/shopping/product_detail.html:180
+#: shopping/templates/shopping/snippets/product_list_results.html:14
+msgid "Name"
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:40
+msgid "Telephone"
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:41
+msgid "Message..."
+msgstr ""
+
+#: shopping/templates/shopping/contact.html:43
+msgid "Clear"
+msgstr ""
+
+#: shopping/templates/shopping/home.html:190
+#: shopping/templates/shopping/home.html:307
+#: shopping/templates/shopping/home.html:383
+#: shopping/templates/shopping/product_detail.html:127
+#: shopping/templates/shopping/snippets/product_list_results.html:46
+msgid "SOLD OUT"
+msgstr ""
+
+#: shopping/templates/shopping/home.html:200
+#: shopping/templates/shopping/home.html:317
+#: shopping/templates/shopping/home.html:393
+#: shopping/templates/shopping/snippets/product_list_results.html:56
+msgctxt "Sale on a product"
+msgid "SALE"
+msgstr ""
+
+#: shopping/templates/shopping/home.html:223
+#: shopping/templates/shopping/home.html:226
+#: shopping/templates/shopping/home.html:340
+#: shopping/templates/shopping/home.html:343
+#: shopping/templates/shopping/home.html:416
+#: shopping/templates/shopping/home.html:419
+#: shopping/templates/shopping/product_detail.html:123
+#: shopping/templates/shopping/snippets/product_list_results.html:79
+#: shopping/templates/shopping/snippets/product_list_results.html:82
+msgid "Add To Cart"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:116
+msgid ""
+"Select your desired size and quantity, then click\n"
+"                                                    <strong>Add to Cart</"
+"strong>"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:130
+msgid "Share"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:143
+msgid "Description"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:148
+msgid "Reviews"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:158
+msgid "No description available"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:167
+msgid "Your Rating"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:174
+msgid "Add a public review"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:189
+msgid "Your email address will not be published. Required fields are marked"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:192
+msgid "SEND"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:216
+msgid "No review yet. Be the first to review"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:241
+msgid "Suggestions"
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:322
+msgid "Please rate using the stars."
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:327
+msgid "Please write a small comment."
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:341
+msgid "Please input name and email."
+msgstr ""
+
+#: shopping/templates/shopping/product_detail.html:346
+msgid "Please input valid email."
+msgstr ""
+
+#: shopping/templates/shopping/product_list.html:95
+msgid "Prices"
+msgstr ""
+
+#: shopping/templates/shopping/product_list.html:105
+msgid "Most popular"
+msgstr ""
+
+#: shopping/templates/shopping/events/order_notice.html:31
+#: shopping/templates/shopping/events/order_notice.html:42
+#: trade/templates/trade/provider/dashboard.html:158
+#: trade/templates/trade/provider/dashboard.html:274
+#: trade/templates/trade/provider/dashboard.html:281
+#: trade/templates/trade/provider/dashboard.html:296
+#: trade/templates/trade/provider/dashboard.html:313
+#: trade/templates/trade/provider/dashboard.html:382
+#: trade/templates/trade/retailer/dashboard.html:45
+#: trade/templates/trade/retailer/dashboard.html:103
+#: trade/templates/trade/retailer/dashboard.html:110
+#: trade/templates/trade/retailer/dashboard.html:122
+#: trade/templates/trade/retailer/dashboard.html:136
+#: trade/templates/trade/retailer/dashboard.html:164
+#: trade/templates/trade/snippets/order_list_results.html:48
+msgid "Details"
+msgstr ""
+
+#: shopping/templates/shopping/events/order_notice.html:36
+#: shopping/templates/shopping/mails/order_notice.html:16
+msgid "Your order was shipped. You will receive it in about"
+msgstr ""
+
+#: shopping/templates/shopping/events/order_notice.html:38
+#: shopping/templates/shopping/mails/order_notice.html:27
+msgid ""
+"Your order was packaged and is ready for you to come and collect using the "
+"RCC:"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:6
+#, python-format
+msgid "Dear %(buyer_name)s"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:10
+#, python-format
+msgid ""
+"\n"
+"                    Your order was issued with success under number <strong>"
+"%(rcc)s</strong>.\n"
+"                    You can follow order status anytime by clicking the link "
+"below:<br><br>\n"
+"                     <a href=\"%(service_url)s%(order_cart_url)s\">"
+"%(service_url)s%(order_cart_url)s</a>\n"
+"                "
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:20
+#, python-format
+msgid ""
+"\n"
+"                    Your order was issued with success under number <strong>"
+"%(rcc)s</strong>.\n"
+"                    You can pick up your package in our store in about "
+"%(max_delay)s.<br>\n"
+"                    Follow order status anytime by clicking the link below:"
+"<br><br>\n"
+"                     <a href=\"%(service_url)s%(order_cart_url)s\">"
+"%(service_url)s%(order_cart_url)s</a>\n"
+"                "
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:35
+#, python-format
+msgid ""
+"\n"
+"            %(items_count)s items(s), totaling <ins>%(currency_symbol)s "
+"%(items_cost)s</ins><br>\n"
+"            "
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:40
+msgid "Shipping fees"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:43
+msgid "Free shipping"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:46
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:16
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:36
+#: trade/templates/trade/snippets/order_details.html:21
+msgid "Deliver to"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:50
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:20
+#: trade/templates/trade/snippets/order_details.html:25
+msgid "Postal code"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:60
+msgid "Items details"
+msgstr ""
+
+#: shopping/templates/shopping/mails/order_notice.html:92
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:25
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:45
+msgid "Thank you for shopping with us."
+msgstr ""
+
+#: shopping/templates/shopping/paypal/cancel.html:5
+msgid "Payment canceled"
+msgstr ""
+
+#: shopping/templates/shopping/paypal/cancel.html:17
+msgid "PayPal payment failed with the following error"
+msgstr ""
+
+#: shopping/templates/shopping/paypal/cancel.html:23
+msgid "Ooops! Payment canceled"
+msgstr ""
+
+#: shopping/templates/shopping/paypal/cancel.html:28
+#, python-format
+msgid ""
+"\n"
+"                You can <a href=\"%(cart_url)s\"><ins>go back to cart</ins></"
+"a> and retry or try again later.\n"
+"            "
+msgstr ""
+
+#: shopping/templates/shopping/paypal/confirmation.html:5
+msgid "Confirm payment"
+msgstr ""
+
+#: shopping/templates/shopping/paypal/confirmation.html:16
+msgid "Do you confirm this payment ?"
+msgstr ""
+
+#: shopping/templates/shopping/paypal/confirmation.html:19
+msgid "Pay"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:12
+msgid "Status"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:32
+#, python-format
+msgid ""
+"\n"
+"                <h3>Your order was issued with success under number <strong>"
+"%(rcc)s</strong>.</h3>"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:44
+msgid "We will contact you as soon as the package is shipped."
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_confirmation.html:49
+#, python-format
+msgid ""
+"\n"
+"                        You can still follow your package status from your "
+"<a href=\"%(console_url)s\">timeline</a>.\n"
+"                    "
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_summary.html:5
+#: shopping/templates/shopping/snippets/checkout_summary_confirmed.html:3
+msgid "item(s), totaling"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_summary.html:24
+#: shopping/templates/shopping/snippets/checkout_summary.html:68
+#: shopping/templates/shopping/snippets/checkout_summary_confirmed.html:20
+msgctxt "Free delivery"
+msgid "Free"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_summary.html:51
+msgid "Shipping"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_summary.html:52
+msgid "Choose a shipping option below"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/checkout_summary.html:85
+msgid "Total"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_added_to_cart.html:10
+msgid "Great,"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_added_to_cart.html:11
+msgid ""
+"\n"
+"                    You just added\n"
+"                    <ins><span class=\"name\"></span> <span class=\"size "
+"text-muted\"></span></ins> to your\n"
+"                    cart."
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_added_to_cart.html:21
+msgid "Keep shopping"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:10
+msgid "Do you really want to empty cart ?"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:13
+msgid "Yes, empty"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_preview.html:18
+msgid "Quick Overview"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_preview.html:21
+msgid ""
+"Select your desired size and quantity, then click <strong><ins>Add to Cart</"
+"ins></strong>"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_preview.html:25
+#: shopping/templates/shopping/snippets/product_size_qty.html:5
+#: trade/templates/trade/snippets/order_details.html:9
+msgid "Size"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/modal_preview.html:44
+msgid "Add to Cart"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/product_list_results.html:6
+#: trade/templates/trade/snippets/order_list_results.html:21
+#, python-format
+msgid ""
+"\n"
+"                    %(start)s – %(end)s of %(count)s results"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/product_list_results.html:9
+#: trade/templates/trade/snippets/order_list_results.html:24
+#, python-format
+msgid "%(count)s results"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/product_list_results.html:11
+msgid "Sorting by"
+msgstr ""
+
+#: shopping/templates/shopping/snippets/product_list_results.html:13
+msgid "Most recent"
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Run the selected action"
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Go"
+msgstr ""
+
+#: templates/admin/actions.html:11
+msgid "Click here to select the objects across all pages"
+msgstr ""
+
+#: templates/admin/actions.html:11
+#, python-format
+msgid "Select all %(total_count)s %(module_name)s"
+msgstr ""
+
+#: templates/admin/actions.html:13
+msgid "Clear selection"
+msgstr ""
+
+#: templates/admin/change_list.html:58
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/change_list.html:67 templates/admin/login.html:90
+msgid "Please correct the error below."
+msgstr ""
+
+#: templates/admin/change_list.html:67 templates/admin/login.html:91
+msgid "Please correct the errors below."
+msgstr ""
+
+#: templates/admin/change_list.html:78 templates/core/app_base_admin.html:26
+msgid "Filter"
+msgstr ""
+
+#: templates/admin/login.html:113
+msgid "Username or email"
+msgstr ""
+
+#: templates/admin/login.html:118
+msgid "Password"
+msgstr ""
+
+#: templates/admin/search_form.html:9
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/search_form.html:9
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#: templates/core/app_base_admin.html:6
+#: trade/templates/trade/provider/dashboard.html:386
+msgid "Product"
+msgstr ""
+
+#: templates/core/app_base_admin.html:9
+msgid "Banner"
+msgstr ""
+
+#: templates/core/app_base_admin.html:10
+msgid "Smart Category"
+msgstr ""
+
+#: templates/core/app_base_admin.html:35
+#: trade/templates/trade/provider/dashboard.html:5
+#: trade/templates/trade/provider/dashboard.html:151
+#: trade/templates/trade/retailer/dashboard.html:5
+#: trade/templates/trade/retailer/dashboard.html:38
+msgid "Dashboard"
+msgstr ""
+
+#: templates/core/app_base_admin.html:42
+#: trade/templates/trade/provider/dashboard.html:280
+#: trade/templates/trade/retailer/dashboard.html:109
+#: trade/templates/trade/retailer/order_list.html:5
+#: trade/templates/trade/retailer/order_list.html:32
+msgid "Orders"
+msgstr ""
+
+#: templates/core/app_base_admin.html:47
+msgid "Packages"
+msgstr ""
+
+#: templates/core/app_base_admin.html:74
+msgid "Com & Marketing"
+msgstr ""
+
+#: templates/core/app_base_admin.html:76
+msgid "Homepage"
+msgstr ""
+
+#: templates/core/app_base_admin.html:137
+msgid "Delivery Options"
+msgstr ""
+
+#: templates/core/app_base_admin.html:145
+msgid "Pages"
+msgstr ""
+
+#: templates/core/app_base_admin.html:149
+msgid "Community"
+msgstr ""
+
+#: templates/core/app_base_admin.html:156
+msgid "Configuration"
+msgstr ""
+
+#: trade/models.py:59
+msgid "View report dashboard"
+msgstr ""
+
+#: trade/models.py:60
+msgid "Manage orders"
+msgstr ""
+
+#: trade/models.py:221
+msgid "Manage packages"
+msgstr ""
+
+#: trade/models.py:274
+msgid "Manage issues"
+msgstr ""
+
+#: trade/provider/views.py:49
+msgid "No order found with this RCC"
+msgstr ""
+
+#: trade/provider/views.py:99
+msgid "No order found with this ID"
+msgstr ""
+
+#: trade/provider/views.py:102 trade/provider/views.py:190
+msgid "Unknow error occured"
+msgstr ""
+
+#: trade/provider/views.py:153
+msgid "Your order was shipped"
+msgstr ""
+
+#: trade/provider/views.py:157
+msgid "Your order is packaged and ready"
+msgstr ""
+
+#: trade/provider/views.py:187
+msgid "No package found with this ID"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:157
+#: trade/templates/trade/provider/dashboard.html:319
+#: trade/templates/trade/retailer/dashboard.html:44
+#: trade/templates/trade/retailer/dashboard.html:141
+#: trade/templates/trade/retailer/dashboard.html:169
+msgid "Earnings"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:162
+#: trade/templates/trade/provider/dashboard.html:263
+#: trade/templates/trade/provider/dashboard.html:267
+#: trade/templates/trade/retailer/dashboard.html:49
+#: trade/templates/trade/retailer/dashboard.html:101
+msgid "Today"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:169
+#: trade/templates/trade/provider/dashboard.html:268
+#: trade/templates/trade/retailer/dashboard.html:56
+msgid "Yesterday"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:188
+#: trade/templates/trade/retailer/dashboard.html:63
+#: trade/templates/trade/retailer/dashboard.html:73
+#: trade/templates/trade/retailer/dashboard.html:83
+msgid "vs same day last week"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:191
+#: trade/templates/trade/provider/dashboard.html:269
+#: trade/templates/trade/retailer/dashboard.html:66
+msgid "Last week"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:210
+msgid "vs previous 7 days"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:213
+#: trade/templates/trade/provider/dashboard.html:270
+#: trade/templates/trade/retailer/dashboard.html:76
+msgid "Last 28 days"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:232
+msgid "vs previous 28 days"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:237
+#: trade/templates/trade/retailer/dashboard.html:86
+msgid "Payments"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:241
+#: trade/templates/trade/retailer/dashboard.html:89
+msgid "Balance"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:244
+msgid "Payment details"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:248
+#: trade/templates/trade/retailer/dashboard.html:93
+msgid "Last payment"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:253
+msgid "View payments"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:260
+#: trade/templates/trade/retailer/dashboard.html:100
+msgid "Performances"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:295
+#: trade/templates/trade/retailer/dashboard.html:121
+msgid "AEPO"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:312
+#: trade/templates/trade/retailer/dashboard.html:135
+msgid "Top categories"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:381
+msgid "Top products"
+msgstr ""
+
+#: trade/templates/trade/provider/dashboard.html:387
+msgid "Units ordered"
+msgstr ""
+
+#: trade/templates/trade/retailer/dashboard.html:76
+msgid "Last month"
+msgstr ""
+
+#: trade/templates/trade/retailer/dashboard.html:163
+msgid "Top providers"
+msgstr ""
+
+#: trade/templates/trade/retailer/dashboard.html:168
+msgid "Provider"
+msgstr ""
+
+#: trade/templates/trade/retailer/order_list.html:64
+msgid "Shipping confirmed"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:8
+msgid "Ref"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:10
+msgid "Qty"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:18
+#, python-format
+msgid ""
+"\n"
+"        %(items_count)s items"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:32
+msgid "Delivery expected on"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:41
+msgid "Confirm"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:46
+msgid "Confirmed on"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_details.html:50
+msgid "By"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:8
+msgid "Show"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:10
+msgid "Pending"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:11
+msgid "Packaged"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:12
+msgid "All"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:51
+msgid "Cost"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:52
+msgid "Delivery fees"
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:83
+msgid "Click on an order in the list to view details."
+msgstr ""
+
+#: trade/templates/trade/snippets/order_list_results.html:87
+msgid "Order details"
+msgstr ""

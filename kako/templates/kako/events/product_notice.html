@@ -1,0 +1,21 @@
+{% load i18n %}
+{% with event_type=event.event_type %}
+    <h4 class="text-primary col-xs-12">{% trans event_type.title %}</h4>
+    {% if product.image.name %}
+        <div class="event-media" style="background-image: url({{ product.image.url }})">
+{#            <img src="{{ product.image.url }}" alt="Product" class="img-responsive" />#}
+        </div>
+    {% endif %}
+    {% if event_type.codename == 'ProviderRemovedProductEvent' %}
+        <p class="col-xs-12">{% trans "Provider removed this product. It won't appear on your website anymore." %}</p>
+    {% elif event_type.codename == 'ProviderPushedProductEvent' %}
+        <p class="col-xs-12"></p>
+    {% elif event_type.codename == 'InsufficientStockEvent' %}
+        <p class="col-xs-12">{% trans "A customer tried to order more than the available stock for this product." %}</p>
+    {% elif event_type.codename == 'LowStockEvent' %}
+        <p class="col-xs-12">{% trans "A customer tried to order more than the available stock for this product." %}</p>
+    {% elif event_type.codename == 'SoldOutEvent' %}
+        <p class="col-xs-12">{% trans "This product went out of stock after customer order." %}</p>
+    {% endif %}
+{% endwith %}
+<div class="clear"></div>

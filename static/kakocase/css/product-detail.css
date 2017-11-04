@@ -1,0 +1,80 @@
+/**
+    Document   : product-detail.css
+    Created on : June 27, 2017, 12:48
+    Author     : Kom Sihon
+    Description:
+        Kakocase rules for product detail page
+*/
+
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
+.gallery-thumbs {height: 82px; padding: 6px 0}
+.gallery-thumbs .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.7;
+}
+.gallery-thumbs .swiper-slide-active {
+    opacity: 1;
+}
+.gallery-top .glyphicon-fullscreen {background: #fff; cursor: pointer; font-size: 18px;
+    margin-top: -1px; padding: 5px; position: absolute; z-index: 1}
+
+.gallery-enlarge .modal-content {background: none;box-shadow: none;border: none;}
+.gallery-enlarge img {margin: auto}
+
+.reviews-bottom {border-bottom: 1px solid #eee; padding-bottom: 2em}
+.review-list {padding: 1.5em 0}
+.review-list li {display: block; margin-bottom: 1em}
+.reviews-right .name {color: #1f1137; font-size: 1.4em; margin-bottom: .2em}
+.reviews-right .comment {color: #555}
+.review-list .img {border-radius: 50%; margin: 4% auto; overflow: hidden; width: 70%}
+#stars-rating {padding: 1em  0}
+#stars-rating.failure {background: none; margin-bottom: 1em; padding: 1em 15px}
+label sup {color: #ff0000}
+.fb-share-button, .twitter-share-button, .g-plus {float: left; margin-right: 6px}
+.item_add {margin-top: -58px}
+.summary ul {padding-left: 17px; margin: 0}
+.product-deals {border-top: 1px solid #eee; padding: 15px 0}
+.bank-logo {background: no-repeat center; background-size: cover; border-radius: 3px; float: left; height: 30px; margin-right: 5px; width: 30px}
+.deal {cursor: pointer; padding-right: 0}
+.deal .term-cost {float: left; font-size: 16px; margin-top: 4px}
+.deal sup {color: #333; font-size: 10px; font-weight: 700; margin-left: 1px; top: 0.2em}
+#modal-deal-details .bank-logo {height: 120px; margin-right: 15px; width: 120px}
+#modal-deal-details .modal-content {padding-bottom: 10px}
+#modal-deal-details .modal-body {font-size: 16px}
+#modal-deal-details .item_add {margin: -35px 15px 0 0}
+.bank-notice {float: left; line-height: 30px; margin-top: 20px; width: 60%}
+.open-bank-account {clear: both; float: right; font-size: 14px; margin-top: 15px}
+
+@media (max-width: 375px) {
+    #reviews input[type="submit"] {
+        width: 100%
+    }
+
+    #bottom-tabs li {
+        text-align: center;
+        width: 49%
+    }
+}
+
+@media (max-width: 800px) {
+    #suggestions {
+        border-top: 1px solid #eee;
+        padding-top: 1em
+    }
+}
+
+@media (max-width: 991px) {
+    .single-grid {padding: 0}
+    .single-wl3 .container {padding: 0}
+}
+
+@media (max-width: 767px) {
+    #modal-deal-details .bank-logo {float: none; margin: auto}
+    .bank-notice {width: 100%}
+    .single-wl3 .container {padding: 0 10px}
+    .open-bank-account a {float: left; margin-top: 10px; width: 100%}
+}

@@ -1,0 +1,473 @@
+{% extends 'shopping/base.html' %}
+{% load i18n static humanize user_agents auth_tokens media_from_provider currency cache %}
+
+{% block meta %}
+    <meta property="description" content="{{ config.short_description }}" />
+    <meta property="og:title" content="{{ service.project_name }}" />
+    <meta property="og:image" content="{% get_media_prefix %}{{ config.logo.name }}" />
+    <meta property="og:description" content="{{ config.short_description }}" />
+    <meta property="og:url" content="{{ service.url }}" />
+    <meta property="og:site_name" content="{{ service.domain|upper }}" />
+{% endblock %}
+
+{% block page_title %}
+    <title>{{ service.project_name }} - {{ config.slogan }}</title>
+{% endblock %}
+
+{% block head_style %}
+    <link href="{% static 'kakocase/css/coreSlider.css' %}" rel="stylesheet" type="text/css">
+    {{ block.super }}
+    <style>
+        .core-slider_item .slide {
+            background: center;
+            background-size: auto 100%;
+            height: 250px;
+            width: 100%
+        }
+        .core-slider_item .cta {font-weight: 700; letter-spacing: 1px; margin-top: -90px; position: absolute; text-transform: uppercase}
+
+        @media (max-width: 400px) {
+            .core-slider_item .cta {
+                position: absolute;
+                margin-top: -55px
+            }
+        }
+        .core-slider_list .button1 {display: block; margin: auto; text-align: center; width: 225px}
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% cache 300 home_content %}
+    <div class="banner-w3">
+        <div class="demo-1">
+            <div id="slideshow" class="core-slider core-slider__carousel example_1">
+                <div class="core-slider_viewport">
+                    <div class="core-slider_list">
+                        {% for slide in slideshow %}
+                            {% if slide.image.name %}
+                                <div class="core-slider_item">
+                                    {% if request|is_mobile %}
+                                        <div class="slide" style="background-image: url({% get_media_prefix %}{{ slide.image.name }})">
+                                            {% if slide.cta %}
+                                                <div class="cta">
+                                                    <a href="{% url 'shopping:smart_object_detail' slide.slug %}" class="button1">{{ slide.cta }}</a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <img src="{% get_media_prefix %}{{ slide.image.name }}" class="img-responsive" alt="">
+                                    {% endif %}
+                                    {% if slide.cta %}
+                                        <div class="cta">
+                                            <a href="{% url 'shopping:smart_object_detail' slide.slug %}" class="button1">{{ slide.cta }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                     </div>
+                </div>
+                <div class="core-slider_nav hidden-xs">
+                    <div class="core-slider_arrow core-slider_arrow__right"></div>
+                    <div class="core-slider_arrow core-slider_arrow__left"></div>
+                </div>
+                <div class="core-slider_control-nav hidden-xs"></div>
+            </div>
+        </div>
+        <script src="{% static 'kakocase/js/coreSlider.js' %}"></script>
+        <script>
+            (function() {
+                $('#slideshow').coreSlider({
+                    pauseOnHover: true,
+                    interval: 3000,
+                    controlNavEnabled: true
+                });
+                var count = $('.core-slider_item').length;
+                $('.core-slider_item .cta').css('width', (100/count) + '%')
+            })()
+        </script>
+    </div>
+    <div id="content">
+        {% if home_tiles|length >= 4 %}
+            <div class="ban-bottom-w3l">
+                <div class="container{% if request|is_tablet %}-fluid{% endif %}">
+                    <div class="col-md-6 ban-bottom">
+                        <div class="ban-top">
+                            {% url 'shopping:smart_object_detail' home_tiles.0.slug as target_url %}
+                            <a href="{{ target_url }}">
+                                <img src="{% if home_tiles.0.image.name %}{% get_media_prefix %}{{ home_tiles.0.image.name }}{% endif %}" class="img-responsive" alt="" />
+                            </a>
+                            <div class="ban-text">
+                                <h4>{{ home_tiles.0.title }}</h4>
+                            </div>
+                            {% if home_tiles.0.badge_text %}
+                                <div class="ban-text2 hvr-sweep-to-top">
+                                    <h4>{{ home_tiles.0.badge_text }}</h4>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6 ban-bottom3">
+                        <div class="ban-top">
+                            {% url 'shopping:smart_object_detail' home_tiles.1.slug as target_url %}
+                            <a href="{{ target_url }}">
+                                <img src="{% if home_tiles.1.image.name %}{% get_media_prefix %}{{ home_tiles.1.image.name }}{% endif %}" class="img-responsive" alt=""/>
+                            </a>
+                            <div class="ban-text1">
+                                <h4>{{ home_tiles.1.title }}</h4>
+                            </div>
+                        </div>
+                        <div class="ban-img">
+                            <div class=" ban-bottom1">
+                                <div class="ban-top">
+                                    {% url 'shopping:smart_object_detail' home_tiles.2.slug as target_url %}
+                                    <a href="{{ target_url }}">
+                                        <img src="{% if home_tiles.2.image.name %}{% get_media_prefix %}{{ home_tiles.2.image.name }}{% endif %}" class="img-responsive" alt=""/>
+                                    </a>
+                                    <div class="ban-text1">
+                                        <h4>{{ home_tiles.2.title }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ban-bottom2">
+                                <div class="ban-top">
+                                    {% url 'shopping:smart_object_detail' home_tiles.3.slug as target_url %}
+                                    <a href="{{ target_url }}">
+                                        <img src="{% if home_tiles.3.image.name %}{% get_media_prefix %}{{ home_tiles.3.image.name }}{% endif %}" class="img-responsive" alt=""/>
+                                    </a>
+                                    <div class="ban-text1">
+                                        <h4>{{ home_tiles.3.title }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        {% endif %}
+        {% if preview_smart_categories  %}
+            <section class="product-agile">
+                <div class="container">
+                    <h2 class="tittle">{{ preview_smart_categories.0.title }}</h2>
+                    {% if preview_smart_categories.0.content_type == 'Categories' %}
+                        {% for row in preview_smart_categories.0.as_matrix %}
+                            <div class="caption">
+                                {% for category in row %}
+                                    <div class="col-md-4 latest-grid">
+                                        {% if category.items_count > 0 %}
+                                            {% url 'shopping:product_list' category.slug as product_list_url %}
+                                            <a href="{{ product_list_url }}"
+                                               class="category-tile">
+                                        {% else %}
+                                            <a href="#" onclick="return false" class="category-tile empty">
+                                        {% endif %}
+                                        <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-responsive" alt="">
+                                        {% if category.items_count > 0 %}
+                                            <div class="latest-text">
+                                                <h4>{{ category.name }}</h4>
+                                            </div>
+                                        {% endif %}
+                                            {% if category.badge_text %}
+                                                <div class="latest-text2 hvr-sweep-to-top">
+                                                    <h4>{{ category.badge_text }}</h4>
+                                                </div>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for row in preview_smart_categories.0.as_matrix %}
+                            <div class="caption">
+                                {% for product in row %}
+                                    {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                                    <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                        <div class="product-tile">
+                                            <div class="product-img">
+                                                <figure>
+                                                    <a href="{{ product_url }}">
+                                                        {% for photo in product.photos|slice:"1:2" %}
+                                                            <div class="grid-img">
+                                                                <img src="{{ photo.image|from_provider:product.provider }}" class="img-responsive" alt="">
+                                                            </div>
+                                                        {% endfor %}
+                                                        <div class="grid-img">
+                                                            <img src="{{ product.image|from_provider:product.provider }}" class="img-responsive" alt="">
+                                                        </div>
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                            {% if product.stock == 0 %}
+                                                <div class="ribben2">
+                                                    <p>{% trans "SOLD OUT" %}</p>
+                                                </div>
+                                            {% else %}
+                                                {% if product.badge_text %}
+                                                    <div class="ribben">
+                                                        <p>{{ product.badge_text }}</p>
+                                                    </div>
+                                                {% endif %}
+                                                {% if config.auto_manage_sales and product.on_sale %}
+                                                    <div class="ribben1">
+                                                        <p>{% trans "SALE" context 'Sale on a product' %}</p>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="block">
+                                                <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
+                                            </div>
+                                            <div class="product-about">
+                                                <h6><a href="{{ product_url }}">{{ product.name }}</a></h6>
+                                                {% with size_list=product.get_size_list %}
+                                                    {% if size_list %}
+                                                        <span class="size">({{ product.get_size_list_label }})</span>
+                                                        <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
+                                                    {% else %}
+                                                        <span class="size">&nbsp;</span>
+                                                    {% endif %}
+                                                {% endwith %}
+                                                {% if config.show_prices %}
+                                                    <p class="product-price">
+                                                        {% if config.auto_manage_sales and product.on_sale %}
+                                                            <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
+                                                        {% endif %}
+                                                        <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                                    </p>
+                                                {% endif %}
+                                                {% if config.allow_shopping and config.show_prices %}
+                                                    <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                                            {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
+                                                            data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
+                                                            data-description="{{ product.description }}">{% trans "Add To Cart" %}</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+        {% if fw_section and fw_section.image.name %}
+            <section class="fw-section" style="background-image: url({% get_media_prefix %}{{ fw_section.image.name }})">
+                <div class="container">
+                    <div class="button">{% url 'shopping:smart_object_detail' fw_section.slug as smart_object_detail_url %}
+                        <a href="{{ smart_object_detail_url }}" class="button1 cta">
+                            {{ fw_section.cta }}
+                        </a>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+        {% for smart_category in preview_smart_categories|slice:"1:" %}
+            <section class="product-agile">
+                <div class="container">
+                    <h2 class="tittle">{{ smart_category.title }}</h2>
+                    {% if smart_category.content_type == 'Categories' %}
+                        {% for row in smart_category.as_matrix %}
+                            <div class="caption">
+                                {% for category in row %}
+                                    <div class="col-md-4 latest-grid">
+                                        {% if category.items_count > 0 %}
+                                            {% url 'shopping:product_list' category.slug as product_list_url %}
+                                            <a href="{{ product_list_url }}"
+                                               class="category-tile">
+                                        {% else %}
+                                            <a href="#" onclick="return false" class="category-tile empty">
+                                        {% endif %}
+                                            <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-responsive"  alt="">
+                                        {% if category.items_count > 0 %}
+                                            <div class="latest-text">
+                                                <h4>{{ category.name }}</h4>
+                                            </div>
+                                        {% endif %}
+                                            {% if category.badge_text %}
+                                                <div class="latest-text2 hvr-sweep-to-top">
+                                                    <h4>{{ category.badge_text }}</h4>
+                                                </div>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for row in smart_category.as_matrix %}
+                            <div class="caption">
+                                {% for product in row %}
+                                    {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                                    <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                        <div class="product-tile">
+                                            <div  class="product-img">
+                                                <figure>
+                                                    <a href="{{ product_url }}">
+                                                        {% for photo in product.photos|slice:"1:2" %}
+                                                            <div class="grid-img">
+                                                                <img src="{{ photo.image|from_provider:product.provider }}"
+                                                                     class="img-responsive" alt="">
+                                                            </div>
+                                                        {% endfor %}
+                                                        <div class="grid-img">
+                                                            <img src="{{ product.image|from_provider:product.provider }}"
+                                                                 class="img-responsive" alt="">
+                                                        </div>
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                            {% if product.stock == 0 %}
+                                                <div class="ribben2">
+                                                    <p>{% trans "SOLD OUT" %}</p>
+                                                </div>
+                                            {% else %}
+                                                {% if product.badge_text %}
+                                                    <div class="ribben">
+                                                        <p>{{ product.badge_text }}</p>
+                                                    </div>
+                                                {% endif %}
+                                                {% if config.auto_manage_sales and product.on_sale %}
+                                                    <div class="ribben1">
+                                                        <p>{% trans "SALE" context 'Sale on a product' %}</p>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="block">
+                                                <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
+                                            </div>
+                                            <div class="product-about">
+                                                <h6><a href="{{ product_url }}" class="item_name">{{ product.name }}</a></h6>
+                                                {% with size_list=product.get_size_list %}
+                                                    {% if size_list %}
+                                                        <span class="size">({{ product.get_size_list_label }})</span>
+                                                        <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
+                                                    {% else %}
+                                                        <span class="size">&nbsp;</span>
+                                                    {% endif %}
+                                                {% endwith %}
+                                                {% if config.show_prices %}
+                                                    <p class="product-price">
+                                                        {% if config.auto_manage_sales and product.on_sale %}
+                                                            <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
+                                                        {% endif %}
+                                                        <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                                    </p>
+                                                {% endif %}
+                                                {% if config.allow_shopping and config.show_prices %}
+                                                    <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                                            {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
+                                                            data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
+                                                            data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+        {% endfor %}
+        {% for category in preview_categories %}
+            <section class="product-agile">
+                <div class="container">
+                    <h2 class="tittle">{{ category.name }}</h2>
+                    {% for row in category.as_matrix %}
+                        <div class="caption">
+                            {% for product in row %}
+                                {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
+                                <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                    <div class="product-tile">
+                                        <div  class="product-img">
+                                            <figure>
+                                                <a href="{{ product_url }}">
+                                                    {% for photo in product.photos|slice:"1:2" %}
+                                                        <div class="grid-img">
+                                                            <img src="{{ photo.image|from_provider:product.provider }}"
+                                                                 class="img-responsive" alt="">
+                                                        </div>
+                                                    {% endfor %}
+                                                    <div class="grid-img">
+                                                        <img src="{{ product.image|from_provider:product.provider }}"
+                                                             class="img-responsive" alt="">
+                                                    </div>
+                                                </a>
+                                            </figure>
+                                        </div>
+                                        {% if product.stock == 0 %}
+                                            <div class="ribben2">
+                                                <p>{% trans "SOLD OUT" %}</p>
+                                            </div>
+                                        {% else %}
+                                            {% if product.badge_text %}
+                                                <div class="ribben">
+                                                    <p>{{ product.badge_text }}</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if config.auto_manage_sales and product.on_sale %}
+                                                <div class="ribben1">
+                                                    <p>{% trans "SALE" context 'Sale on a product' %}</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        <div class="block">
+                                            <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
+                                        </div>
+                                        <div class="product-about">
+                                            <h6><a href="{{ product_url }}">{{ product.name }}</a></h6>
+                                            {% with size_list=product.get_size_list %}
+                                                {% if size_list %}
+                                                    <span class="size">({{ product.get_size_list_label }})</span>
+                                                    <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
+                                                {% else %}
+                                                    <span class="size">&nbsp;</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                            {% if config.show_prices %}
+                                                <p class="product-price">
+                                                    {% if config.auto_manage_sales and product.on_sale %}
+                                                        <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
+                                                    {% endif %}
+                                                    <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                                </p>
+                                            {% endif %}
+                                            {% if config.allow_shopping and config.show_prices %}
+                                                <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                                        {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
+                                                        data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
+                                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="clearfix"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    </div>
+    {% include 'shopping/snippets/modal_preview.html' %}
+    {% endcache %}
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script>
+        (function() {
+            $('section.product-agile:first').css('background', '#f9f8f8');
+            $('section.product-agile:not(:first)').each(function(i) {
+                if ((i%2) === 1) $(this).css('background', '#f9f8f8');
+            });
+        })()
+    </script>
+    {{ config.scripts|safe }}
+{% endblock %}

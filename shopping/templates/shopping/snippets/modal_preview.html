@@ -1,0 +1,53 @@
+{% load i18n staticfiles humanize auth_tokens %}
+<div class="modal fade" id="product-modal-preview" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content modal-info">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body simpleCart_shelfItem">
+                <span class="item_id hidden"></span>
+                <span class="item_image hidden"></span>
+                <span class="item_url hidden"></span>
+                <div class="news-gr">
+                    <div class="col-md-5 new-grid1">
+                        <a class="target" href="#"><img class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="col-md-7 new-grid">
+                        <h5 class="item_name hidden-xs"></h5>
+                        <h6 class="hidden-xs">{% trans "Quick Overview" %}</h6>
+                        <span class="description hidden-xs"></span>
+                        <p class="alert alert-info size-hint hidden-xs">
+                            {% blocktrans %}Select your desired size and quantity, then click <strong><ins>Add to Cart</ins></strong>{% endblocktrans%}
+                        </p>
+                        <div class="size-quantity">
+                            <div class="size-list">
+                                <h6 style="margin: 0">{% trans "Size" %} :</h6>
+                                <div class="size-radios"></div>
+                                <span class="hidden item_size"></span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="qty-select">
+                                <h6>{% trans "Quantity" %} :</h6>
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <div class="entry value-minus1">&nbsp;</div>
+                                        <div class="entry value1 item_quantity"><span>1</span></div>
+                                        <div class="entry value-plus1 active" data-max="">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-about">
+                            <p class="product-price"><del>$100.00</del><em class="item_price"> $70.00 </em></p>
+                            <div class="add">
+                                <button class="btn btn-danger my-cart-btn my-cart-b item_add">{% trans "Add to Cart" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

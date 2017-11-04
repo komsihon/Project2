@@ -1,0 +1,23 @@
+{% load i18n staticfiles humanize auth_tokens %}
+<div class="size-quantity">
+    {% if size_list %}
+        <div class="size-list">
+            <h6 style="margin: 0">{% trans "Size" %} :</h6>
+            <div class="size-radios">{% include 'shopping/snippets/product_size_radios.html' %}</div>
+            <span class="hidden item_size">{% if size_list|length == 1 %}{{ size_list.0.label }}{% endif %}</span>
+            <div class="clearfix"></div>
+        </div>
+    {% else %}
+        <span class="hidden item_size">-------</span>
+    {% endif %}
+    <div class="qty-select">
+        <h6>{% trans "Quantity" %} :</h6>
+        <div class="quantity">
+            <div class="quantity-select">
+                <div class="entry value-minus1">&nbsp;</div>
+                <div class="entry value1 item_quantity"><span>1</span></div>
+                <div class="entry value-plus1 active" data-max="{{ product.stock }}">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>

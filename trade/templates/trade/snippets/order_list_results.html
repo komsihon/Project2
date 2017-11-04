@@ -1,0 +1,128 @@
+{% load i18n staticfiles humanize auth_tokens media_from_provider %}
+<div id="admin-tools" class="ceil bottom-shade-xs">
+    <form id="context-search">
+        <div>
+            <i class="glyphicon glyphicon-search"></i>
+            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+            <input type="text" class="input-sm tool search" placeholder="{% trans "Search" %}" value="{% if q %}{{ q }}{% endif %}"/>
+        </div>
+        <div class="filter-trigger">
+            <i class="glyphicon glyphicon-filter"></i>
+            <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+            <div class="tool filter">
+                <label for="order-status" class="sr-only"></label>
+                <select id="order-status" style="float: left; width: 120px" class="form-control input-sm status widget" name="status">
+                    <option value="{% if settings.IS_BANK %}PendingForApproval{% else %}Pending{% endif %}">{% trans "Pending" %}</option>
+                    {% if settings.IS_BANK %}
+                        <option value="Confirmed">{% trans "Confirmed" %}</option>
+                        <option value="Rejected">{% trans "Rejected" %}</option>
+                    {% endif %}
+                    {% if settings.IS_DELIVERY_COMPANY %}<option value="Delivered">{% trans "Delivered" %}</option>{% endif %}
+                    <option value="all">{% trans "All" %}</option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" id="filter-action" name="action" />
+    </form>
+    <button class="btn btn-sm btn-success cta pull-right action export" style="border-color: #18bc9c"
+            data-toggle="modal" data-target="#load-product" title="{% trans "Export as Spreadsheet" %}">
+        <i class="glyphicon glyphicon-list-alt"></i>
+        <span class="hidden-xs">{% trans "Export" %}</span>
+    </button>
+    <div class="clearfix"></div>
+</div>
+<div id="results" style="clear: both">
+    <ul class="object-list">
+    {% for order in orders_page.object_list %}
+        <li class="ik-li order {{ order.status|lower }}" id="{{ order.id }}" data-id="{{ order.id }}">
+            {% with member=order.member %}
+                {% if member %}
+                    {% url 'ikwen:profile' member.id as member_url %}
+                    <a href="{{ member_url|ikwenize }}" class="image rounded"
+                       style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
+                {% else %}
+                    <a class="image rounded" style="background-image: url({% static settings.MEMBER_AVATAR %})"></a>
+                {% endif %}
+                <div class="info">
+                    {% if member %}
+                        <a class="name" href="{{ member_url|ikwenize }}">
+                            {{ member.full_name }}
+                            {% if settings.IS_BANK %}<span class="account-number">({{ order.account_number }})</span>{% endif %}
+                        </a>
+                    {% else %}
+                        <span class="name">{{ order.anonymous_buyer.name }}</span>
+                    {% endif %}
+                    <div class="about">
+                        {% if settings.IS_BANK %}
+                        <p>
+                            <strong>{% trans "Cost" %}</strong>: {{ config.currency_symbol }} {{ order.items_cost|intcomma }}
+                        </p>
+                        {% else %}
+                        <p class="items">
+                            {{ order.get_products_as_string|truncatechars:90 }} &nbsp;&nbsp;&nbsp;<a href="{% url 'shopping:cart' order.id %}" target="_blank">{% trans "Details" %}</a>
+                        </p>
+                        {% endif %}
+                        <p>
+                            {% if settings.IS_PROVIDER or settings.IS_RETAILER %}<strong>{% trans "Cost" %}</strong>: {{ config.currency_symbol }} {{ order.items_cost|intcomma }}{% endif %}
+                            {% if settings.IS_DELIVERY_COMPANY %}<strong>{% trans "Delivery fees" %}</strong>: {{ config.currency_symbol }} {{ order.delivery_option.cost|intcomma }}{% endif %}
+                            {% if settings.IS_BANK %}
+                                <span class="meta">
+                                    <strong>{% trans "RCC" %}</strong>: {{ order.rcc|upper }}
+                                </span>
+                                <span class="meta">
+                                    <strong>{% trans "From" %}</strong>:
+                                    {% url 'ikwen:company_profile' order.retailer.project_name_slug as provider_url %}
+                                    <a href="{{ provider_url|ikwenize }}" target="_blank">{{ order.retailer.project_name }}</a>
+                                </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endwith %}
+            <date class="date text-muted">{{ order.created_on|date }}</date>
+            <i class="glyphicon status{% if order.status == 'Confirmed' %} text-success glyphicon-ok{% elif order.status == 'Rejected' %} text-danger glyphicon-remove{% endif %}"></i>
+        </li>
+    {% endfor %}
+    </ul>
+    {% if orders_page.paginator.num_pages > 1 %}
+    <ul class="pagination" style="float: left">
+        {% if orders_page.paginator.num_pages > 10 %}
+            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        {% endif %}
+        {% for page in orders_page.paginator.page_range %}
+            {% if page <= 10 %}
+                <li class="{% if page == orders_page.number %}active{% endif %}" data-val="{{ page }}">
+                    <a href="#">
+                        {{ page }} {% if page == orders_page.number %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if orders_page.paginator.num_pages > 10 %}
+            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+    <div id="page-navigation" class="text-muted">
+        {% if orders_page.paginator.num_pages > 1  %}
+            <p>{% blocktrans with count=orders_page.paginator.count start=orders_page.start_index end=orders_page.end_index %}
+                {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+        {% else %}
+            <p>{% blocktrans with count=orders_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+        {% endif %}
+    </div>
+</div>
+<div class="edge-panel-right-container">
+    <div id="object-detail" class="edge-panel edge-panel-right">
+        <div class="empty">
+            {% trans "Click on an order in the list to view details." %}
+        </div>
+        <div>
+            <div class="info">
+                {% include 'core/snippets/spinner.html' %}
+                <div class="content"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

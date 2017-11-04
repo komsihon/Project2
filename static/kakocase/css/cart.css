@@ -1,0 +1,87 @@
+/**
+	Document   : admin.css
+	Created on : June 01, 2017, 13:58
+	Author     : Kom Sihon
+	Description:
+		Additional rules for kakocase cart page
+*/
+
+.cart-item {background: #fff; margin-bottom: 1em; padding: 15px}
+.cart-item h2 {font-size: 24px; margin-bottom: 1em}
+.cart-item h3 {font-size: 18px; color: #666}
+.cart-item span.size {color: #999; font-weight: 400}
+
+.cart-item-description {
+	float: right;
+	width: 77%
+}
+#checkout-summary .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
+	position: absolute; width: 100%; z-index: 100}
+.co {background: #fff; margin-bottom: 1em; padding: 15px}
+.multiple-delivery-options .co:not(.total) h4 {color: #666}
+.multiple-delivery-options .co:not(.total) .price {color: #009688; font-size: 1.5em}
+.delivery-option:not(:first-of-type) {border-top: 1px solid #eee}
+.delivery-option {color: #555; cursor: pointer; display: block; padding: .6em; transition: color .3s, background-color .3s}
+.delivery-option:hover, .delivery-option.active {background: #f6f6f6; color: #0d59af; transition: color .3s, background-color .3s}
+.delivery-option .img {float: left; width: 15%}
+.delivery-option .cost {color: #888; float: right; font-weight: 700}
+.delivery-option .short-description {color: #777; font-size: 12px}
+.processor {margin-top: 1em}
+#checkout {background: rgba(253,108,0,.8); color: #fff; display: block; padding: 1em 0;
+	font-weight: 700; text-align: center; text-transform: uppercase; transition: background-color .3s; width: 100%}
+#checkout:hover {background: #FD6C00; text-decoration: none; transition: background-color .3s}
+#suggest-login {color: #777}
+#suggest-login .register {color: #1c699d}
+#suggest-login .turn-down {color: #999; font-weight: 700; text-decoration: underline}
+#checkout-confirmation {background: #fff; border: 2px solid #0d59af; margin: 1em 0 2em; padding: 15px}
+#checkout-confirmation h3 {font-weight: 400; margin-bottom: 1em; padding: 0 15px}
+#checkout-confirmation h3 strong {font-family: monospace, "Helvetica Neue", Helvetica, Arial, sans-serif}
+#checkout-confirmation p {margin-bottom: .5em}
+#checkout-confirmation .highlight {background: #f1f6f6; border-radius: 5px; padding: 20px}
+#checkout-confirmation .highlight a {color: #0d59af; text-decoration: underline}
+.status-bullet.shipped, .status-bullet.delivered {background: #2ab732}
+
+@media (max-width: 800px) {
+	#checkout-summary {
+		padding-left: 0
+	}
+}
+
+@media (max-width: 414px) {
+	.cart-item {
+		padding: 10px 7px
+	}
+
+	.cart-item-info .col-xs-5, .cart-item-info .col-xs-7 {
+		padding: 0 7px
+	}
+
+	.cart-item-info .col-xs-7 h3 {
+		text-align: center
+	}
+
+	.cart-item.confirmed .cart-item-info .col-xs-7 h3 {
+		text-align: right;
+	}
+
+	.cart-item-info .col-xs-7 .quantity {
+		float: right
+	}
+
+	.value-minus, .value-plus, .value-minus1, .value-plus1, .value, .value1 {
+		height: 35px;
+		width: 35px
+	}
+
+	.value-plus, .value-plus1 {
+		margin-right: 0
+	}
+
+	.value, .value1 {
+		line-height: 18px
+	}
+
+	#checkout-summary {
+		padding-left: 15px
+	}
+}

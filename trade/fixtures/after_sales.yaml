@@ -1,0 +1,21 @@
+- model: trade.latedelivery
+  pk: 57d1feb60bd4100809951de1
+  fields:
+    order: 55d1feb60008099bd4151fa1
+    retailer_called: Yes
+
+- model: trade.latedelivery
+  pk: 57d1feb60bd4100809951de2
+  fields:
+    order: 55d1feb60008099bd4151fa2
+    retailer_called: No
+
+- model: trade.brokenproduct
+  pk: 5760bd4100809951ded1feb1
+  fields:
+    order: 55d1feb60008099bd4151fa1
+
+- model: trade.brokenproduct
+  pk: 5760bd4100809951ded1feb2
+  fields:
+    order: 55d1feb60008099bd4151fa2

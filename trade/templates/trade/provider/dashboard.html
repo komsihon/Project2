@@ -1,0 +1,196 @@
+{% extends 'core/dashboard_base.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block performances %}
+    <h5 class="section-title perf">
+        <div>
+            <span style="float: left">{% trans "Performances" %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</span>
+            <div class="dropdown" style="cursor: pointer; float: left; margin-left: 15px">
+                <span class="dropdown-toggle" id="period" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="target">{% trans "Today" %}</span>
+                    <span class="caret"></span>
+                </span>
+                <ul id="performances-period" class="dropdown-menu" aria-labelledby="period">
+                    <li data-target="today" style="display: none"><a>{% trans "Today" %}</a></li>
+                    <li data-target="yesterday"><a>{% trans "Yesterday" %}</a></li>
+                    <li data-target="last_week"><a>{% trans "Last week" %}</a></li>
+                    <li data-target="last_28_days"><a>{% trans "Last 28 days" %}</a></li>
+                </ul>
+            </div>
+        </div>
+        <a href="#" class="show-details">{% trans "Details" %}</a>
+    </h5>
+    <div class="row performances" style="clear: both">
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Orders" %}</h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div>
+                    <em class="report today">{{ orders_report.today.count|intcomma }}</em>
+                    <em class="report yesterday tpl">{{ orders_report.yesterday.count|intcomma }}</em>
+                    <em class="report last_week tpl">{{ orders_report.last_week.count|intcomma }}</em>
+                    <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "AEPO" %} <i class="text-muted">(Avg. Earning Per Order)</i></h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div>
+                    <em class="report today">{{ CRNCY.symbol }} {{ orders_report.today.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report yesterday tpl">{{ CRNCY.symbol }} {{ orders_report.yesterday.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report last_week tpl">{{ CRNCY.symbol }} {{ orders_report.last_week.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row performances" style="clear: both">
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Top categories" %}</h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div class="th">
+                    <span style="float: left">{% trans "Category" %}</span>
+                    <span title="Estimated earnings" style="float: right">
+                        {% trans "Earnings" %}
+                        <span class="text-muted" style="font-weight: 400">({{ CRNCY.code }})</span>
+                    </span>
+                </div>
+                <ul class="report ranking today">
+                    {% if categories_report.today and categories_report.today.0.total > 0 %}
+                        {% for category in categories_report.today|slice:"5" %}
+                            {% if category.total > 0 %}
+                                <li>
+                                    <span>{{ category.name }}</span> <span>{{ category.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking yesterday tpl">
+                    {% if categories_report.yesterday and categories_report.yesterday.0.total > 0 %}
+                        {% for category in categories_report.yesterday|slice:"5" %}
+                            {% if category.total > 0 %}
+                                <li>
+                                    <span>{{ category.name }}</span> <span>{{ category.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_week tpl">
+                    {% if categories_report.last_week and categories_report.last_week.0.total > 0 %}
+                        {% for category in categories_report.last_week|slice:"5" %}
+                            {% if category.total > 0 %}
+                                <li>
+                                    <span>{{ category.name }}</span> <span>{{ category.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_28_days tpl">
+                    {% if categories_report.last_28_days and categories_report.last_28_days.0.total > 0 %}
+                        {% for category in categories_report.last_28_days|slice:"5" %}
+                            {% if category.total > 0 %}
+                                <li>
+                                    <span>{{ category.name }}</span> <span>{{ category.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Top products" %}</h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div class="th">
+                    <span style="float: left">{% trans "Product" %}</span>
+                    <span title="Estimated earnings" style="float: right">{% trans "Units ordered" %}</span>
+                </div>
+                <ul class="report ranking today">
+                    {% if products_report.today and products_report.today.0.total > 0 %}
+                        {% for product in products_report.today|slice:"5" %}
+                            {% if product.total > 0 %}
+                                <li>
+                                    <span>{{ product.name }} {% if product.size %}({{ product.size }}){% endif %}</span>
+                                    <span>{{ product.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking yesterday tpl">
+                    {% if products_report.yesterday and products_report.yesterday.0.total > 0 %}
+                        {% for product in products_report.yesterday|slice:"5" %}
+                            {% if product.total > 0 %}
+                                <li>
+                                    <span>{{ product.name }} {% if product.size %}({{ product.size }}){% endif %}</span>
+                                    <span>{{ product.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_week tpl">
+                    {% if products_report.last_week and products_report.last_week.0.total > 0 %}
+                        {% for product in products_report.last_week|slice:"5" %}
+                            {% if product.total > 0 %}
+                                <li>
+                                    <span>{{ product.name }} {% if product.size %}({{ product.size }}){% endif %}</span>
+                                    <span>{{ product.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_28_days tpl">
+                    {% if products_report.last_28_days and products_report.last_28_days.0.total > 0 %}
+                        {% for product in products_report.last_28_days|slice:"5" %}
+                            {% if product.total > 0 %}
+                                <li>
+                                    <span>{{ product.name }} {% if product.size %}({{ product.size }}){% endif %}</span>
+                                    <span>{{ product.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

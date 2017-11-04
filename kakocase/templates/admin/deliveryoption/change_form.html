@@ -1,0 +1,32 @@
+{% extends 'admin/change_form.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .form-row > div > strong {display: none}
+    </style>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <script>
+        (function() {
+            $('<div id="raw-id-suggestions"></div>').insertAfter('#id_company');
+            $('<input type="hidden" id="company-id" name="company" />').insertAfter('#id_company');
+            {% if original %}
+                $('#id_company').val('{{ original.company.config.company_name }}');
+                $('#company-id').val('{{ original.company.id }}');
+            {% endif %}
+            $('#id_company').removeAttr('name').autocomplete({
+                serviceUrl: "{% url 'kakocase:list_available_companies' %}",
+                minChars: 2,
+                appendTo: '#raw-id-suggestions',
+                onSelect: function(suggestion) {
+                    var id = suggestion.data;
+                    $('#company-id').val(id);
+                    $.getJSON("{% url 'kakocase:add_delivery_company_to_local_database' %}", {company_id: id})
+                }
+            });
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,121 @@
+/*--
+Author: ikwen
+Author URL: http://www.ikwen.com/kakocase
+
+Blue Theme for Kakocase Origin Template
+--*/
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700|Ubuntu:400,700');
+
+body{
+	font-family: 'Ubuntu', sans-serif;
+}
+h1,h2,h3,h4,h5,h6{font-family: 'PT Sans Narrow', sans-serif;}
+.header-top {background: #000;padding: .6em 0;}
+.top-left a {font-family: 'PT Sans Narrow', sans-serif; font-size: 1.1em}
+.header-bottom {background: #131313;}
+.header-bottom.fixed {background: rgba(0, 0, 0, 0.94);}
+.header-xs {background: #080000}
+#megadropdown-tabs-xs {background: #080000; border-top: 1px solid #1f1f1f}
+.dropdown-menu li, .dropdown-menu li a {color: #0d59af}
+.checkout-header {background: #696969;}
+.ban-text {background: rgba(13, 89, 175, 0.72)}
+.ban-text1 {background: rgba(13, 89, 175, 0.72)}
+.hvr-sweep-to-top:before {background: #540000}
+.logo-nav-left h1 a {font-family: 'PT Sans Narrow', sans-serif;}
+.logo-nav-left1 ul li a {font-family: 'PT Sans Narrow', sans-serif; font-size: 1.1em}
+.top-right ul li a {font-size: 1.1em;font-weight: 700;font-family: 'PT Sans Narrow', sans-serif;}
+.box_1, .box_1 h3 {
+    font-family: 'Ubuntu', sans-serif;
+}
+h2.tittle {
+    color: #080000;
+    font-family: 'PT Sans Narrow', 'Ubuntu', sans-serif;
+}
+
+.product-about h6 a {
+    color: #080000;
+}
+em.item_price {
+    font-family: 'Ubuntu', sans-serif;
+}
+.ribben {
+    background: #F19E1F;
+}
+.ribben1 {
+    background: #AF1D0D;
+}
+.ribben:after {
+    border-top-color: #BF8020;
+}
+.my-cart-b {
+    color: #080000;
+    border: 2px solid #131313;
+}
+.my-cart-b:before {
+  background: #131313;
+  border: 2px solid #131313;
+}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {
+	border: 2px solid #131313;
+}
+a.button1 {
+    background: #131313;
+}
+.latest-text {
+    background: rgba(0, 0, 0, 0.81);
+}
+.latest-text2 {
+   background: #080000;
+}
+.footer-w3l {
+    background: #080000;
+}
+.footer-grid h4 {font-family: 'PT Sans Narrow', sans-serif;}
+.footer-grid i {
+    border: 1px solid #505050;
+}
+.footer-grid ul li a:hover {
+    color: #a01414;
+}
+
+.social-icon i {
+    background-color: #F19E1F;
+}
+
+.social-icon a i {
+    background-color: #505050;
+}
+
+.social-icon i:hover {
+    background: #AF1D0D;
+}
+
+.categories h3{
+    background: #131313;
+}
+.price h3,.top-rates h3,.brand-w3l h3{
+    background: #131313;
+}
+.left-tab > li > a {
+    background: #151515;
+}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {
+    background-color: #AF1D0D;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    background: #af1d0d;
+}
+#megadropdown-tabs-xs .nav > li > a:hover, .nav > li > a:focus {
+    background: #230404;
+}
+#reviews input[type="submit"] {
+    background: #151515;
+}
+.core-slider__carousel .core-slider_arrow__left {
+    background-color: #080000;
+}
+.core-slider__carousel .core-slider_arrow__right {
+    background-color: #080000;
+}
+p.price, .cart-item-info .item_price, .cart-item-info .subtotal {font-family: 'PT Sans Narrow', sans-serif;}

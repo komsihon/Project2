@@ -1,0 +1,166 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title> {% if category %}{{ category }}{% else %}{% trans "New category" %}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        .verify {border: 1px solid #e74c3c}  {# Highlights form errors (Check performed by javascript) #}
+        div#upload-container { float: left; margin-top: 3px; width: 74% }
+        div#upload-container .image {background: url('{% static 'ikwen/img/no_photo.png' %}') no-repeat center; background-size: 100%; border: solid 1px #DBE6FF; height: 225px; float: left; margin: 5px; overflow: hidden; width: 280px}
+        div#upload-container .image .progress {float: left; background: #3C63FF; height: 10px; margin-top: 228px}
+        div#upload-container .image .spinner {margin-top: 90px}
+        div#upload-container .uploader {display: none; height: 225px; position: absolute; text-align: center; width: 280px}
+        div#upload-container .image:hover .uploader {display: block}
+        .qq-uploader {background: rgba(0, 0, 0, .7); height: 40px; padding-top: 8px}
+        .qq-upload-button {background: none; border: none; box-shadow: none; color: #fff; text-shadow: none; height: 100px; width: 100%}
+        .qq-upload-button-hover {box-shadow: none; color: #fff}
+        .qq-upload-list {display: none}
+    </style>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% url 'kako:category_list' as category_list_url %}
+        <a href="{{ category_list_url|append_auth_tokens:request }}">{% trans "Categories" %}</a>
+    </li>
+    {% if category %}
+        <li>{{ category.name }}</li>
+    {% else %}
+        <li>{% trans 'New' %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="change-form">
+        <div class="container-fluid">
+            {% url 'kako:change_category' as change_category_url %}
+            {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
+            <form id="submit-category" class="admin-form" method="post" action="{{ change_category_url|append_auth_tokens:request }}">{% csrf_token %}
+                <input type="hidden" name="category_id" value="{{ category.id }}" />
+                <input type="hidden" name="image_url" id="image_url" value="" />
+                {% include 'core/snippets/model_admin_form.html' %}
+                <section class="photos" style="width: 100%">
+                    <label class="required" style="float: left; width: 100%">{% trans "Cover image" %}</label>
+                    <div id="upload-container">
+                        {% if category.image and category.image.name %}
+                        <div class="image" style="background-image: url('{{ category.image.url }}')">
+                        {% else %}
+                        <div class="image">
+                        {% endif %}
+                            <span class="progress"></span>
+                            <div class="uploader"></div>
+                            {% include 'core/snippets/spinner.html' %}
+                        </div>
+                    </div>
+                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %} (640px &times; 426px Recommended)</p>
+                </section>
+                <div class="form-group col-xs-12 col-sm-4 col-md-3" style="clear: both; padding-top: 15px">
+                    <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .categories').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+            $('form#submit-category').on('change', 'input, textarea', function() {
+                var category = getLocalCategory();
+                localStorage.setItem('category', JSON.stringify(category));
+            }).submit(function() {
+                return checkInput();
+            });
+            var pageLoading = true,
+                category;
+            function getLocalCategory() {
+                category = localStorage.getItem('category') ? JSON.parse(localStorage.getItem('category')):{};
+                if (pageLoading) {
+                    // Do not override locally saved category with form data upon page loading
+                    pageLoading = false;
+                    return category
+                }
+                var categoryAsArray = $('form#submit-category').serialize().split('&');
+                for (var i=0; i<categoryAsArray.length; i++) {
+                    var elt = categoryAsArray[i].split('=');
+                    category[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
+                }
+                return category
+            }
+            function checkInput() {
+                var check = true;
+                $('input.required').each(function() {
+                    if (!(this).val()) {
+                        ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                        $(this).addClass('verify');
+                        check = false;
+                    }
+                });
+                var img = $('#image_url').val();
+                if (!img) {
+                    return confirm("{% trans "Categories look better with image. Continue without it ?" %}");
+                }
+                return check;
+            }
+            var uploader = new qq.FileUploader({
+                action: "{% url 'ikwen:upload_image' %}",
+                element: $('div#upload-container .uploader')[0],
+                buttonText: "{% trans "Upload cover" %}",
+                multiple: false,
+                onProgress: function(id, fileName, loaded, total) {
+                    var ratio = loaded / total,
+                        percent = ratio * 100;
+                    $('div#upload-container .image .progress').animate({width: percent + '%'});
+                    if (ratio == 1) $('div#upload-container .image .spinner').show()
+                },
+                onComplete: function(id, fileName, responseJSON) {
+                    if(responseJSON.success) {
+                        var imageUrl = responseJSON.path,
+                            img = new Image(),
+                            category = getLocalCategory();
+                        img.onload = function() {
+                            $('div#upload-container .image').css('background-color', "#fff")  // Causes the placeholder image to disappear
+                                    .css('background-image', "url('" + imageUrl +"')")
+                                    .find('.progress, .spinner').hide();
+                        };
+                        img.src = imageUrl;
+                        category.image_url = imageUrl;
+                        $('#image_url').val(imageUrl);
+                        localStorage.setItem('category', JSON.stringify(category));
+                    } else {
+                        alert("upload failed!");
+                    }
+                },
+                params: {
+                    'csrf_token': '{{ csrf_token }}',
+                    'csrf_name': 'csrfmiddlewaretoken',
+                    'csrf_xname': 'X-CSRFToken'
+                }
+            });
+            {% if category and category.image.name %}
+                $('#image_url').val("{{ category.image.url }}");
+            {% else %}
+                category = getLocalCategory();  // Category from an unterminated submit
+                if (category) {
+                    $('#id_name').val(category.name);
+                    $('#id_description').val(category.description);
+                    $('#image_url').val(category.image_url);
+                    $('#id_is_active').prop('checked', product.is_active);
+                    $('div#upload-container .image').css('background-image', "url('" + category.image_url +"')");
+                }
+            {% endif %}
+            {% if messages %}
+                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
+            {% endif %}
+        })()
+    </script>
+{% endblock %}

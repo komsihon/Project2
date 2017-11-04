@@ -1,0 +1,13 @@
+{% extends 'core/mails/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div>
+        <p style="color: #888; font-size: 1.4em; line-height: 1.44em; margin-top: 30px; padding: 0 15px; text-align: justify">
+            {{ message|safe }}
+        </p>
+        <a href="{{ service.url }}{% url 'kako:provider_product_detail' provider_id product.id %}" style="border: 1px solid #ddd; display: block; margin: 30px auto; padding: 3px; width: 90%">
+            <img src="{{ product.photos.0.url }}" />
+        </a>
+    </div>
+{% endblock %}

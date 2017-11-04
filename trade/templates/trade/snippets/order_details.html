@@ -1,0 +1,90 @@
+{% load i18n humanize staticfiles auth_tokens media_from_provider %}
+<h3 class="main-title">{% trans "Order details" %}</h3>
+{% if not settings.IS_BANK %}
+    <ul class="object-list">
+        {% for entry in order.entries %}
+            <li class="ik-li">
+                {% with product=entry.product %}
+                    {% url 'kako:change_product' product.id as product_url %}
+                    <a href="{{ product_url }}" target="_blank" class="image" style="background-image: url({{ product.image|from_provider:product.provider }})"></a>
+                    <div class="info">
+                        <span class="name">{{ product.name }}</span>
+                        <div class="about">
+                            <div class="meta">
+                                <strong>{% trans "Ref" %}:</strong> <span>{% if entry.product.reference %}{{ entry.product.reference }}{% else %}N/A{% endif %}</span>
+                            </div>
+                            <div>
+                                <strong>{% trans "Size" %}:</strong> <span>{{ entry.product.size }}</span>
+                            </div>
+                            <div>
+                                <strong>{% trans "Qty" %}:</strong> <span>{{ entry.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% with delivery_company=order.delivery_option.company %}
+    <div class="container-fluid" style="clear: both">
+        {% if not settings.IS_BANK %}
+        <div class="order-summary">
+            <p>{% blocktrans with items_count=order.items_count %}
+                {{ items_count }} items{% endblocktrans %}</p>
+            <div>
+                {% if delivery_company == service %}
+                    <h4>{% trans "Deliver to" %}:</h4>
+                    {{ order.delivery_address.name }}
+                    <p style="font-size: .8em; line-height: 1.4em">
+                        {{ order.delivery_address.details }}<br>
+                        {% if order.delivery_address.postal_code %}
+                            {% trans "Postal code" %}: {{ order.delivery_address.postal_code }}, <br>
+                        {% endif %}
+                        <strong style="color: #666">{{ order.delivery_address.city }}, {{ order.delivery_address.country.name }}.</strong><br>
+                        <em>{{ order.delivery_address.phone }}</em>
+                    </p>
+                {% else %}
+                    <h4>{% trans "Company in charge" %}:</h4>
+                    {% url 'ikwen:company_profile' delivery_company.project_name_slug as company_url %}
+                    <a href="{{ company_url|ikwenize }}" target="_blank">{{ delivery_company.config.company_name }}</a>
+                {% endif %}
+            </div>
+            {% if order.status == 'Pending' or order.status == 'PendingForApproval' %}
+                <div>
+                    <h4>{% trans "Delivery expected on" %}:</h4>
+                    <span class="text-muted" style="font-size: 14px">{{ order.delivery_expected_on|naturaltime }}</span>
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+{#        {% if settings.IS_PROVIDER or settings.IS_DELIVERY_COMPANY %}#}
+        {% if order.status == 'Pending' or order.status == 'PendingForApproval' %}
+            <div style="margin-top: 25px">
+                <button class="btn btn-success btn-sm btn-block show-confirm-modal" style="margin-bottom: 120px"
+                        data-id="{% if package %}{{ package.id }}{% else %}{{ order.id }}{% endif %}" data-rcc="{{ order.rcc|upper }}"
+                        data-toggle="modal" data-target="#confirm-modal">{% trans "Confirm" %}</button>
+            </div>
+            {% if settings.IS_BANK %}
+                <div style="margin-top: 15px">
+                    <button class="btn btn-danger btn-sm btn-block show-reject-modal" style="margin-top: -100px"
+                            data-id="{{ order.id }}" data-rcc="{{ order.rcc|upper }}" data-name="{{ order.member.full_name }}"
+                            data-toggle="modal" data-target="#reject-modal">{% trans "Reject" %}</button>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="delivery-report">
+                <div>
+                    <strong>{% trans "Confirmed on" %}:</strong>
+                    <span class="text-muted">{{ order.confirmed_on }}</span>
+                </div>
+                <div>
+                    <strong>{% trans "By" %}:</strong>
+                    <span class="text-muted">{{ order.confirmed_by.full_name }}</span>
+                </div>
+            </div>
+        {% endif %}
+{#        {% endif %}#}
+    </div>
+{% endwith %}

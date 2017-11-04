@@ -1,0 +1,10 @@
+- model: trade.deal
+  pk: 59a456d04b379b531a0016d1
+  fields:
+    product_slug: samsung-galaxy-s7
+    merchant: 56eb6d04b37b3379b531b101
+    bank: 56eb6d04b37b3379b531b107
+    frequency: Day
+    term_cost: 1000
+    terms_count: 15
+    first_term: 10000

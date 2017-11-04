@@ -1,0 +1,36 @@
+<script>
+    (function() {
+        $(".tiles").sortable({
+            placeholder: "sortable-placeholder",
+            forcePlaceholderSize: true,
+            update: function (event, ui) {
+                var sorted = [];
+                $('.tiles li').each(function (i) {
+                    sorted.push($(this).attr('id') + ':' + i)
+                });
+                $.getJSON('', {sorted: sorted.join(',')})
+            }
+        }).disableSelection();
+        $('#admin-content').on('click', '.category .active.on', function() {
+            var categoryId = $(this).parents('.category').data('id');
+            $(this).toggleClass('on off');
+            $.getJSON('{% url 'marketing:toggle_smart_object_attribute' %}', {'object_id': categoryId, 'attr': 'is_active', 'val': true})
+        }).on('click', '.category .active.off', function() {
+            var categoryId = $(this).parents('.category').data('id');
+            $(this).toggleClass('on off');
+            $.getJSON('{% url 'marketing:toggle_smart_object_attribute' %}', {'object_id': categoryId, 'attr': 'is_active', 'val': false})
+        }).on('click', '.category .main-menu.on', function() {
+            var $category = $(this).parents('.category'),
+                categoryId = $category.data('id');
+            $(this).toggleClass('on off');
+            $category.insertAfter('.category.appear-in-menu:last').addClass('appear-in-menu');
+            $.getJSON('{% url 'marketing:toggle_smart_object_attribute' %}', {'object_id': categoryId, 'attr': 'appear_in_menu', 'val': true})
+        }).on('click', '.category .main-menu.off', function() {
+            var $category = $(this).parents('.category'),
+                categoryId = $category.data('id');
+            $(this).toggleClass('on off');
+            $category.removeClass('appear-in-menu');
+            $.getJSON('{% url 'marketing:toggle_smart_object_attribute' %}', {'object_id': categoryId, 'attr': 'appear_in_menu', 'val': false})
+        });
+    })()
+</script>

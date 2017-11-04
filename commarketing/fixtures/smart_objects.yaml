@@ -1,0 +1,37 @@
+- model: commarketing.banner
+  pk: 56a9b37b3301e0706b549221
+  fields:
+    title: New Trendy
+    slug: new-trendy
+    content_type: Products
+    display: Slide
+    image: commarketing/banners/new-trendy.jpg
+    items_fk_list: []
+
+- model: commarketing.banner
+  pk: 56a9b37b3301e0706b549222
+  fields:
+    title: Sales
+    slug: sales
+    content_type: Categories
+    display: Slide
+    image: commarketing/banners/sales.jpg
+    items_fk_list: []
+
+- model: commarketing.smartcategory
+  pk: 56a9b37b3301e0706b549223
+  fields:
+    title: New arrivals
+    slug: new-arrivals
+    content_type: Categories
+    image: commarketing/smart_categories/new-arrivals.jpg
+    items_fk_list: []
+
+- model: commarketing.smartcategory
+  pk: 56a9b37b3301e0706b549224
+  fields:
+    title: Trending Designs
+    slug: trending-designs
+    content_type: Products
+    image: commarketing/smart_categories/trending-designs.jpg
+    items_fk_list: []

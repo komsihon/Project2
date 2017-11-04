@@ -1,0 +1,116 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% trans "Banks" %} - ikwen</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb_location %}
+    {% if settings.IS_PROVIDER %}
+        <li>{% trans "Partner Banks" %}</li>
+    {% else %}
+        <li>{% trans "Partner Merchants" %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div id="results">
+                <ul class="object-list" style="padding: 20px 0 0 0">
+                {% for partner in partner_list %}
+                    <li class="ik-li mean" id="{{ partner.id }}" data-id="{{ partner.id }}">
+                        <div class="image" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ partner.logo.name }})"></div>
+                        <div class="info">
+                            <span class="name" style="float: left; margin-top: 18px">{{ partner.company_name }}</span>
+                        </div>
+                        <div class="actions">
+                            <i class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#confirm-delete" title="{% trans "Remove" %}"></i>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="ik-li empty">
+                        <div>
+                            {% if settings.IS_PROVIDER %}
+                                {% trans "No Partner Bank found." %}
+                            {% else %}
+                                {% trans "No Partner Merchant found." %}
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+                <div class="add-new-tile">
+                    <button class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px"
+                            data-toggle="modal" data-target="#add-partner">{% trans "Add" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add-partner" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        {% if settings.IS_PROVIDER %}
+                            {% trans "Add Partner Bank" %}
+                        {% else %}
+                            {% trans "Add Partner Merchant" %}
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input id="search-partner-name" type="text" class="form-control input-sm" autocomplete="off"
+                           placeholder="{% trans "Search partner" %}" value="{{ partner.config.company_name }}"/>
+                        <input type="hidden" name="action" value="add_partner" />
+                        <input id="partner-id" type="hidden" name="partner_id" />
+                        <div id="partner-suggestions"></div>
+                    </form>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                            <button type="submit" class="btn btn-success btn-block btn-sm ok" aria-label="OK">OK</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                            <button type="button" class="btn btn-default btn-block btn-sm"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static "ikwen/js/jquery.autocomplete.min.js" %}"></script>
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .banks').addClass('active');
+            $('#search-partner-name').autocomplete({
+                serviceUrl: "{% url 'kakocase:list_available_companies' %}?business_type={% if settings.IS_BANK %}Provider{% else %}Bank{% endif %}",
+                minChars: 2,
+                appendTo: '#partner-suggestions',
+                onSelect: function(suggestion) {
+                    var partnerId = suggestion.data;
+                    $('#partner-id').val(partnerId)
+                }
+            });
+            $('#add-partner').on('click', 'button.ok', function() {
+                var partnerId = $('#partner-id').val();
+                if (partnerId) $('#add-partner form').submit();
+                else return false;
+            })
+            {% if messages %}
+                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
+            {% endif %}
+        })();
+    </script>
+{% endblock %}
