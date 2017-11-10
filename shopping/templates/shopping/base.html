@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		{% block head_style %}
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}?v=17.11.10" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
