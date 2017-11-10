@@ -408,6 +408,7 @@ class OperatorProfile(AbstractConfig):
                 obj_mirror.cash_out_min = self.cash_out_min
                 obj_mirror.is_certified = self.is_certified
                 obj_mirror.can_manage_delivery_options = self.can_manage_delivery_options
+                obj_mirror.can_manage_currencies = self.can_manage_currencies
                 obj_mirror.is_pro_version = self.is_pro_version
                 obj_mirror.max_products = self.max_products
                 super(OperatorProfile, obj_mirror).save(using=db)
