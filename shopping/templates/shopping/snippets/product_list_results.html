@@ -59,9 +59,9 @@
                                 </div>
                             {% endif %}
                         {% endif %}
-                        <div class="block">
-                            <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
-                        </div>
+{#                        <div class="block">#}
+{#                            <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>#}
+{#                        </div>#}
                         <div class="product-about">
                             <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
                             {% with size_list=product.get_size_list %}
