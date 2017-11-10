@@ -48,6 +48,7 @@ label sup {color: #ff0000}
 #modal-deal-details .item_add {margin: -35px 15px 0 0}
 .bank-notice {float: left; line-height: 30px; margin-top: 20px; width: 60%}
 .open-bank-account {clear: both; float: right; font-size: 14px; margin-top: 15px}
+.toggle-fullscreen {margin: 5px 0; text-align: center}
 
 @media (max-width: 375px) {
     #reviews input[type="submit"] {

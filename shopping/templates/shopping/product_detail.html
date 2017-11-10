@@ -15,7 +15,7 @@
 
 {% block head_js %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'kakocase/css/product-detail.css' %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static 'kakocase/css/product-detail.css' %}?v=17.11.10" type="text/css" media="screen" />
     <link rel="stylesheet" href="{% static 'ikwen/swiper/css/swiper.min.css' %}" type="text/css" media="screen" />
 {% endblock %}
 
@@ -72,8 +72,14 @@
                                     <!-- Add Arrows -->
                                     <div class="swiper-button-next swiper-button-white"></div>
                                     <div class="swiper-button-prev swiper-button-white"></div>
-                                    <i class="glyphicon glyphicon-fullscreen hidden-xs"></i>
+
                                 </div>
+                                <p class="toggle-fullscreen">
+                                    <i class="glyphicon glyphicon-fullscreen hidden-xs"></i>
+                                    <a href="javascript:;">
+                                        {% trans "Full screen" %}
+                                    </a>
+                                </p>
                                 <div class="swiper-container gallery-thumbs">
                                     <div class="swiper-wrapper">
                                         {% for photo in product.photos %}
@@ -358,7 +364,7 @@
                     spaceBetween: 10
                 });
             });
-            $('body').on('click', ".gallery-top .glyphicon-fullscreen", function () {
+            $('body').on('click', ".toggle-fullscreen a", function () {
                 $('#modal-slider').modal('show');
             }).on('click', '.deal', function() {
                 var bankName = $(this).data('bank-name'),

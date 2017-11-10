@@ -163,6 +163,8 @@ class Product(AbstractProduct):
                               help_text=_("Weight in grams."))
     stock = models.FloatField(blank=True, null=True,
                               help_text=_("Stock of the product."))
+    min_order = models.IntegerField(default=1,
+                                    help_text=_("Minimum number of units one can order. Excellent for wholesale."))
     batch_upload = models.ForeignKey('BatchUpload', blank=True, null=True, editable=False)
 
     # Django ORM does not support .distinct() with MongoDB Backend.

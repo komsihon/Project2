@@ -758,7 +758,7 @@ h2.tittle {
 }
 .product-about p {
     font-size: 1em;
-    margin: .3em 0 .6em;
+    margin: .6em 0 .1em;
 }
 em.item_price {
     font-style: normal;
@@ -3621,6 +3621,9 @@ h3.tittle1, h3.tittle {
 .currency-switcher select:active {color: #888;}
 #megadropdown-tabs-xs .currency-switcher {margin: 5px}
 #megadropdown-tabs-xs .currency-switcher select {color: #888;}
+
+.qty-select .min-order {color: #888; font-size: .85em; font-weight: normal}
+.product-about p.min-order {color: #888; font-size: .85em; margin: 0 0 1em}
 
 .payment-mean {height: 40px;display: block;background: #fff;margin-bottom: 10px;}
 .payment-mean .pay-with {float: left;line-height: 40px;text-align: center;width: 35%;}

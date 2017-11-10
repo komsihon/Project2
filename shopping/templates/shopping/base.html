@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		{% block head_style %}
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}?v=17.11.10" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
@@ -424,16 +424,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     }
                     divUpd.text(newVal);
                 }).on('click', '.value-minus1', function () {
+                    var min = $(this).data('min');
                     var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) - 1;
+                    if (newVal < min) {
+                        ikwen.showFloatingNotice("{% trans "You reached the minimum number of units to order." %}", "", 3);
+                        return;
+                    }
                     if (newVal >= 1) divUpd.text(newVal);
                 }).on('click', '.size-list input[type=radio]', function () {
                     var id = $(this).data('id'),
-                            size = $(this).val(),
-                            price = $(this).data('retail_price'),
-                            stock = $(this).data('stock'),
-                            max = stock,
-                            item = simpleCart.find({'id': id})[0],
-                            currency = simpleCart.currency().symbol;
+                        size = $(this).val(),
+                        price = $(this).data('retail_price'),
+                        stock = $(this).data('stock'),
+                        max = stock,
+                        item = simpleCart.find({'id': id})[0],
+                        currency = simpleCart.currency().symbol;
                     $(this).parents('.size-list').find('.item_size').text(size);
                     $(this).parents('.simpleCart_shelfItem').find('.item_id').text(id);
                     $(this).parents('.simpleCart_shelfItem').find('.item_price').html(currency + ' ' + price);
@@ -447,15 +452,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 });
                 $('#content').on('click', '.product-tile button.my-cart-b:not(.sold-out)', function () {
                     var id = $(this).data('id'),
-                            image = $(this).data('image'),
-                            name = $(this).data('name'),
-                            description = $(this).data('description'),
-                            stock = $(this).data('stock'),
-                            max = stock,
-                            url = $(this).parents('.product-about').find('h6 a').attr('href'),
-                            $sizeRadios = $(this).parents('.product-about').find('.size-radios'),
-                            $price = $(this).parents('.product-about').find('.product-price'),
-                            item = simpleCart.find({'id': id})[0];
+                        image = $(this).data('image'),
+                        name = $(this).data('name'),
+                        description = $(this).data('description'),
+                        stock = $(this).data('stock'),
+                        max = stock,
+                        minOrder = $(this).data('min-order'),
+                        url = $(this).parents('.product-about').find('h6 a').attr('href'),
+                        $sizeRadios = $(this).parents('.product-about').find('.size-radios'),
+                        $price = $(this).parents('.product-about').find('.product-price'),
+                        item = simpleCart.find({'id': id})[0];
                     $('div#product-modal-preview .item_id').text(id);
                     $('div#product-modal-preview .item_image').text(image);
                     $('div#product-modal-preview .item_name').text(name);
@@ -480,10 +486,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             $('div#product-modal-preview .size-hint').show();
                         }
                     }
-                    if (item) max = stock - item.quantity();
-                    if (max == 0) $('div#product-modal-preview .value1').text(0);
-                    else $('div#product-modal-preview .value1').text(1);
+                    if (item) {
+                        max = stock - item.quantity();
+                        minOrder = 1 //Reset the min order to 1 because we are actually adding more of this item to the cart
+                    }
+                    if (max <= 0) $('div#product-modal-preview .value1').text(0);
+                    else $('div#product-modal-preview .value1').text(minOrder);
                     $('div#product-modal-preview .value-plus1').data('max', max);
+                    $('div#product-modal-preview .value-minus1').data('min', minOrder);
                 });
                 $('div#product-modal-preview').on('click', '.my-cart-b', function () {
                     if ($('div#product-modal-preview .size-radios input').length > 0) {
@@ -496,7 +506,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $('div#product-modal-preview').modal('hide')
                 });
                 var headerTopH = $('.header-top').height(),
-                        headerBottomH = $('.header-bottom').height();
+                    headerBottomH = $('.header-bottom').height();
                 $(window).scroll(function () {
                     var scrollTop = $(this).scrollTop();
                     if (scrollTop > headerTopH + headerBottomH) {

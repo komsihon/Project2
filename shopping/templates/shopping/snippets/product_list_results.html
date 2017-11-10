@@ -66,10 +66,7 @@
                             <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
                             {% with size_list=product.get_size_list %}
                                 {% if size_list %}
-                                    <span class="size">({{ product.get_size_list_label }})</span>
                                     <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
-                                {% else %}
-                                    <span class="size">&nbsp;</span>
                                 {% endif %}
                             {% endwith %}
                             {% if config.show_prices %}
@@ -80,10 +77,15 @@
                                     <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                 </p>
                             {% endif %}
+                            {% if product.min_order > 1 %}
+                                <p class="min-order">{% trans "Min. order" %}: {{ product.min_order }}</p>
+                            {% else %}
+                                <p class="min-order">&nbsp;</p>
+                            {% endif %}
                             {% if config.allow_shopping and config.show_prices %}
                                 <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
                                         {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
-                                        data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
+                                        data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-min-order="{{ product.min_order }}" data-name="{{ product.name }}"
                                         data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}</button>
                             {% endif %}
                         </div>

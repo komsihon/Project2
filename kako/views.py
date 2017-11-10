@@ -639,6 +639,9 @@ class ChangeProduct(BaseView):
             size = request.POST.get('size')
             weight = request.POST.get('weight')
             stock = request.POST.get('stock')
+            min_order = request.POST.get('min_order')
+            if not min_order:
+                min_order = 1
             visible = request.POST.get('visible')
             photos_ids = request.POST.get('photos_ids')
             photos_ids_list = photos_ids.strip(',').split(',') if photos_ids else []
@@ -686,6 +689,7 @@ class ChangeProduct(BaseView):
             product.original_id = original_id
             product.size = size
             product.weight = weight
+            product.min_order = min_order
             product.tags = product.slug.replace('-', ' ')
             try:
                 product.stock = float(stock.strip())

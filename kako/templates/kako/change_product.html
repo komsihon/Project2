@@ -354,6 +354,7 @@
                         $('#id_size').val(product.size);
                         $('#id_weight').val(product.weight);
                         $('#id_stock').val(product.stock);
+                        $('#id_min_order').val(product.min_order);
                         $('#id_visible').prop('checked', product.visible);
                         if (product.photos) {
                             var photosIDs = '';
@@ -380,6 +381,7 @@
                 $('.field-wholesale_price').prependTo('#product-pricing');
 
                 $('.field-visible').prependTo('#product-management');
+                $('.field-min_order').prependTo('#product-management');
                 $('.field-stock').prependTo('#product-management');
                 $('.field-original_id').prependTo('#product-management');
                 $('.field-reference').prependTo('#product-management');

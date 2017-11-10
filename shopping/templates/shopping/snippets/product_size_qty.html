@@ -11,11 +11,14 @@
         <span class="hidden item_size">-------</span>
     {% endif %}
     <div class="qty-select">
-        <h6>{% trans "Quantity" %} :</h6>
+        <h6>
+            {% trans "Quantity" %} :
+            {% if product.min_order > 1 %}<span class="min-order">({% trans "Min. order" %}: {{ product.min_order }})</span>{% endif %}
+        </h6>
         <div class="quantity">
             <div class="quantity-select">
-                <div class="entry value-minus1">&nbsp;</div>
-                <div class="entry value1 item_quantity"><span>1</span></div>
+                <div class="entry value-minus1" data-min="{{ product.min_order }}">&nbsp;</div>
+                <div class="entry value1 item_quantity"><span>{{ product.min_order }}</span></div>
                 <div class="entry value-plus1 active" data-max="{{ product.stock }}">&nbsp;</div>
             </div>
         </div>

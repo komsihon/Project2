@@ -207,11 +207,11 @@
                         $.getJSON("{% url 'shopping:check_stock_single' %}", {product_id: item.id(), qty: item.quantity()}, function(resp) {
                             if (resp.insufficient) {
                                 if (resp.available > 0) {
-                                    _item.remove();
-                                    $('#' + _item.id() + ' .alert-danger').show();
-                                } else {
                                     _item.quantity(resp.available);
                                     $('#' + _item.id() + ' .alert-warning').show();
+                                } else {
+                                    _item.remove();
+                                    $('#' + _item.id() + ' .alert-danger').show();
                                 }
                                 $('#' + _item.id() + ' .item_quantity').text(resp.available);
                                 simpleCart.update();

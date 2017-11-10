@@ -489,19 +489,18 @@ def check_stock_single(request, *args, **kwargs):
     qty = int(request.GET['qty'])
     product = Product.objects.get(pk=product_id)
     service = product.provider
-    db = service.database
-    product_original = product.get_from(db)
     member = service.member
-    if product_original.stock <= qty:
+    if product.stock <= qty:
         try:
             cet = ConsoleEventType.objects.using('umbrella').get(codename=LOW_STOCK_EVENT)
             yesterday = datetime.now() - timedelta(days=1)
             ConsoleEvent.objects.using('umbrella').get(event_type=cet, member=member,
-                                                       object_id=product_original.id, created_on__gte=yesterday)
+                                                       object_id=product.id, created_on__gte=yesterday)
         except ConsoleEvent.DoesNotExist:
-            add_event(service, LOW_STOCK_EVENT, member=member, object_id=product_original.id)
-    if product_original.stock < qty:
-        return HttpResponse(json.dumps({'insufficient': True, 'available': product_original.stock}), 'content-type: text/json')
+            add_event(service, LOW_STOCK_EVENT, member=member, object_id=product.id)
+    if product.stock < qty:
+        product.stock = product.stock if product.stock >= product.min_order else 0
+        return HttpResponse(json.dumps({'insufficient': True, 'available': product.stock}), 'content-type: text/json')
     return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
 
 
