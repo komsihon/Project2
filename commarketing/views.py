@@ -126,7 +126,7 @@ class ChangeSmartObject(BaseView):
         ModelForm = category_admin.get_form(self.request)
         form = ModelForm(request.POST, instance=smart_object)
         if form.is_valid():
-            title = form.cleaned_data['title'].capitalize()
+            title = form.cleaned_data['title']
             slug = slugify(title)
             content_type = form.cleaned_data['content_type']
             description = form.cleaned_data.get('description')
