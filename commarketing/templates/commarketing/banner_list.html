@@ -149,6 +149,11 @@
                                 {% else %}
                                     <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ section.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
                                 {% endif %}
+                                {% if section.is_active %}
+                                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                                {% else %}
+                                    <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
+                                {% endif %}
                                 <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>
