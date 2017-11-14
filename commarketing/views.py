@@ -97,7 +97,8 @@ class ChangeSmartObject(BaseView):
                 try:
                     smart_object.content = [Product.objects.get(pk=pk) for pk in smart_object.items_fk_list]
                 except Product.DoesNotExist:
-                    smart_object.content = [RecurringPaymentService.objects.get(pk=pk) for pk in smart_object.items_fk_list]
+                    # smart_object.content = [RecurringPaymentService.objects.get(pk=pk) for pk in smart_object.items_fk_list]
+                    smart_object.content = []
         object_admin = get_model_admin_instance(model, model_admin)
         ModelForm = modelform_factory(model, fields=fields)
         form = ModelForm(instance=smart_object)
