@@ -319,7 +319,10 @@ class ProductDetail(ShoppingBaseView):
         category_slug = kwargs['category_slug']
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
-        product = Product.objects.filter(category=category, slug=product_slug)[0]
+        try:
+            product = Product.objects.filter(category=category, slug=product_slug)[0]
+        except IndexError:
+            raise Http404('No product matches the given query.')
         category = product.category
         context['product'] = product
         base_queryset = Product.objects.exclude(pk=product.id).filter(visible=True, is_duplicate=False)
