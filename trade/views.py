@@ -271,10 +271,10 @@ class KakocaseDashboardBase(DashboardBase):
         context = super(KakocaseDashboardBase, self).get_context_data(**kwargs)
         operator_profile = get_service_instance().config
         set_counters(operator_profile)
-        earnings_today = context['earnings_report']['today']
-        earnings_yesterday = context['earnings_report']['yesterday']
-        earnings_last_week = context['earnings_report']['last_week']
-        earnings_last_28_days = context['earnings_report']['last_28_days']
+        earnings_today = calculate_watch_info(operator_profile.earnings_history)
+        earnings_yesterday = calculate_watch_info(operator_profile.earnings_history, 1)
+        earnings_last_week = calculate_watch_info(operator_profile.earnings_history, 7)
+        earnings_last_28_days = calculate_watch_info(operator_profile.earnings_history, 28)
 
         orders_count_today = calculate_watch_info(operator_profile.orders_count_history)
         orders_count_yesterday = calculate_watch_info(operator_profile.orders_count_history, 1)
