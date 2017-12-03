@@ -2,7 +2,8 @@
 {% load i18n static user_agents humanize media_from_provider currency cache %}
 
 {% block meta %}
-    <meta property="description" content="{{ product.description }}"/>
+    <meta name="abstract" content="{{ product.name }} - {{ service.project_name }}"/>
+    <meta name="description" content="{{ product.description }}"/>
     <meta property="og:title" content="{{ product.name }} - {{ service.project_name }}"/>
     <meta property="og:description" content="{{ product.description }}"/>
     <meta property="og:image" content="{{ product.image|from_provider:product.provider }}"/>

@@ -3,7 +3,8 @@
 
 {% block meta %}
     {% if obj_group %}
-        <meta property="description" content="{{ obj_group.description }}"/>
+        <meta name="abstract" content="{{ page_title }} - {{ service.project_name }}"/>
+        <meta name="description" content="{{ obj_group.description }}"/>
         <meta property="og:title" content="{{ obj_group.name }} - {{ service.project_name }}"/>
         <meta property="og:description" content="{{ obj_group.description }}"/>
         <meta property="og:image" content="{% get_media_prefix %}{{ obj_group.image.name }}"/>
