@@ -152,7 +152,7 @@
     <ul class="pagination">
         <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
         {% for page in objects_page.paginator.page_range %}
-            <li class="{% if page == objects_page.number %}active{% endif %}" data-val="{{ page }}">
+            <li class="page{% if page == objects_page.number %} active{% endif %}" data-val="{{ page }}">
                 <a href="#">
                     {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
                 </a>
@@ -162,7 +162,7 @@
     </ul>
     {% endif %}
     <div id="page-navigation" class="text-muted">
-        {% if objects_page.paginator.num_pages > 1  %}
+        {% if objects_page.paginator.num_pages > 1 %}
             <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
                 {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
         {% else %}

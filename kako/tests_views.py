@@ -376,12 +376,13 @@ class KakoViewsTestCase(unittest.TestCase):
         call_command('loaddata', 'kc_members.yaml', database=UMBRELLA)
         self.client.login(username='member3', password='admin')
         response = self.client.post(reverse('kako:change_product'),
-                                   {'name': 'New Black Chocolate', 'brand': 'Mambo',
-                                    'category': '569228a9b37b3301e0706b51',
-                                    'wholesale_price': '0',
-                                    'retail_price': '600',
-                                    'summary': 'Some summary',
-                                    'description': 'Some description'})
+                                    {'name': 'New Black Chocolate', 'brand': 'Mambo',
+                                     'category': '569228a9b37b3301e0706b51',
+                                     'wholesale_price': '0',
+                                     'retail_price': '600',
+                                     'min_order': '1',
+                                     'summary': 'Some summary',
+                                     'description': 'Some description'})
         product = Product.objects.get(slug='new-black-chocolate')  # Slug must be correctly set
         self.assertEqual(product.name, 'New Black Chocolate')
         self.assertEqual(product.category, ProductCategory.objects.get(pk='569228a9b37b3301e0706b51'))

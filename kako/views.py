@@ -354,12 +354,7 @@ class ProductList(HybridListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        queryset = self.get_queryset()
         context = super(ProductList, self).get_context_data(**kwargs)
-        paginator = Paginator(queryset, self.page_size)
-        objects_page = paginator.page(1)
-        context['q'] = self.request.GET.get('q')
-        context['objects_page'] = objects_page
         if self.request.GET.get('smart_link'):
             smart_object_id = self.request.GET['smart_object_id']
             try:
