@@ -1,15 +1,10 @@
 {% load i18n staticfiles humanize auth_tokens media_from_provider currency %}
 <div>
     {% if content_type == 'Products' %}
-        <div class="results-toolbar">
-            {% if products_page.paginator.num_pages > 1  %}
-                <p>{% blocktrans with count=products_page.paginator.count start=products_page.start_index end=products_page.end_index %}
-                    {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
-            {% else %}
-                <p>{% blocktrans with count=products_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
-            {% endif %}
-             <p class="showing">{% trans "Sorting by" %}
-                <select class="order-by" name="order_by">
+        <div class="results-toolbar hidden-xs">
+             <p class="showing">
+                 <span>{% trans "Sorting by" %}</span>
+                <select class="order-by form-control" name="order_by">
                     <option value="-updated_on">{% trans "Most recent" %}</option>
                     <option value="name">{% trans "Name" %}</option>
     {#                <option value="rate"> Rate</option>#}
@@ -18,7 +13,14 @@
                     {% endif %}
     {#                <option value=""> Color </option>#}
                 </select>
+
               </p>
+            {% if products_page.paginator.num_pages > 1  %}
+                <p>{% blocktrans with count=products_page.paginator.count start=products_page.start_index end=products_page.end_index %}
+                    {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+            {% else %}
+                <p>{% blocktrans with count=products_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+            {% endif %}
             <div class="clearfix"></div>
         </div>
     {% endif %}
@@ -63,7 +65,7 @@
 {#                            <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>#}
 {#                        </div>#}
                         <div class="product-about">
-                            <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
+                            <h6><a href="{{ product_url }}">{{ product.name }}</a></h6>
                             {% with size_list=product.get_size_list %}
                                 {% if size_list %}
                                     <div class="size-radios hidden">{% include 'shopping/snippets/product_size_radios.html' %}</div>
@@ -71,7 +73,7 @@
                             {% endwith %}
                             {% if config.show_prices %}
                                 <p class="product-price">
-                                    {% if config.auto_manage_sales and product.on_sale %}
+                                    {% if config.auto_manage_sales and product.on_sale and product.previous_price %}
                                         <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
                                     {% endif %}
                                     <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
@@ -86,7 +88,9 @@
                                 <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
                                         {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
                                         data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-min-order="{{ product.min_order }}" data-name="{{ product.name }}"
-                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}</button>
+                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}
+                                    <div class="mask"></div>
+                                </button>
                             {% endif %}
                         </div>
                     </div>

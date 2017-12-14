@@ -35,7 +35,7 @@ __author__ = 'Kom Sihon'
 from django import forms
 
 if getattr(settings, 'LOCAL_DEV', False):
-    CLOUD_HOME = '/home/komsihon/PycharmProjects/CloudTest/'
+    CLOUD_HOME = '/home/roddy/PycharmProjects/CloudTest/'
 else:
     CLOUD_HOME = '/home/ikwen/Cloud/'
 

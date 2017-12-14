@@ -31,6 +31,7 @@ urlpatterns = patterns(
     url(r'^trade/', include('ikwen_kakocase.trade.urls', namespace='trade')),
     url(r'^billing/', include('ikwen.billing.urls', namespace='billing')),
     url(r'^marketing/', include('ikwen_kakocase.commarketing.urls', namespace='marketing')),
+    url(r'^sales/', include('ikwen_kakocase.sales.urls', namespace='sales')),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^currencies/', include('currencies.urls')),
 

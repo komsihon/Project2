@@ -77,15 +77,6 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('shopping:home'))
         self.assertEqual(response.status_code, 200)
 
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
-    def test_ProductListView(self):
-        """
-        Page must return HTTP 200 status.
-        """
-        response = self.client.get(reverse('shopping:product_list', args=('food', )))
-        self.assertEqual(response.status_code, 200)
-        products_page = response.context['products_page']
-        self.assertEqual(products_page.paginator.count, 2)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_ProductListView_with_empty_product_list(self):

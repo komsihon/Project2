@@ -1,0 +1,11 @@
+
+<form class="lang-switcher" method="POST" action="{% url 'set_language' %}">{% csrf_token %}
+    <i class="fa fa-language visible-xs visible-sm"></i>
+    {% get_available_languages as LANGUAGES %}
+    {% get_current_language as LANGUAGE_CODE %}
+    <select name="language" onchange="$(this).parents('form').submit()">
+        {% for lang in LANGUAGES %}
+            <option value="{{ lang.0 }}"{% if LANGUAGE_CODE == lang.0 %} selected="selected"{% endif %}>{{ lang.0|upper }}</option>
+        {% endfor %}
+    </select>
+</form>

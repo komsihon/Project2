@@ -80,13 +80,14 @@
                             {% if settings.IS_PROVIDER and perms.commarketing.ik_manage_marketing %}
                                 <li role="presentation" class="marketing">
                                     <a href="javascript:;" data-toggle="collapse" data-target="#marketing"
-                                       aria-expanded="true">
+                                       aria-expanded="true" style="padding-right: 0;">
                                         {% if settings.IS_PROVIDER %}
                                             {% trans "Com & Marketing" %}
                                         {% elif settings.IS_RETAILER %}
                                             {% trans "Homepage" %}
                                         {% endif %}
                                         <i class="fa fa-fw fa-caret-down"></i>
+                                        <span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span>
                                     </a>
                                     <ul id="marketing" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
                                         style="padding-left: 15px">
@@ -96,11 +97,19 @@
                                         <li class="banners">{% url 'marketing:banner_list' as banner_list_url %}
                                             <a href="{{ banner_list_url }}">{% trans "Banners" %}</a>
                                         </li>
-                                        {#                                {% if settings.IS_PROVIDER %}#}
-                                        {#                                <li class="broken">{% url 'trade:broken_product_list' as broken_product_list_url %}#}
-                                        {#                                    <a href="{{ broken_product_list_url }}">{% trans "Push" %}</a>#}
-                                        {#                                </li>#}
-                                        {#                                {% endif %}#}
+
+                                        <li class="promotion">{% url 'sales:promotion_list' as promotion_list_url %}
+                                            <a href="{{ promotion_list_url }}">{% trans "Promotions" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+
+                                        </li>
+                                        <li class="discount">{% url 'sales:promo_code_list' as Promo_code_list_url %}
+                                            <a href="{{ Promo_code_list_url }}">{% trans "Coupons" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+
+                                        </li>
+                                        <li class="emails">{% url 'sales:email_list' as email_list_url %}
+                                            <a href="{{ email_list_url }}">{% trans "Emails" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+
+                                        </li>
                                     </ul>
                                 </li>
                             {% endif %}

@@ -1,0 +1,17 @@
+- model: sales.promocode
+  pk: 56b37b3379b531e011456d01
+  fields:
+    code: partner5
+    start_on: 2017-01-01T00:00:00.120Z
+    end_on: 2035-01-01T00:00:00.120Z
+    rate: 5
+    is_active: True
+
+- model: sales.promocode
+  pk: 56b37b3379b531e011456651
+  fields:
+    code: partner5
+    start_on: 2017-01-01T00:00:00.120Z
+    end_on: 2022-01-01T00:00:00.120Z
+    rate: 15
+    is_active: True

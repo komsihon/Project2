@@ -15,6 +15,9 @@
                     </div>
                     <div class="col-md-7 new-grid">
                         <h5 class="item_name hidden-xs"></h5>
+                        <div class="product-about">
+                            <p class="product-price"><del>$100.00</del><em class="item_price"> $70.00 </em></p>
+                        </div>
                         <h6 class="hidden-xs">{% trans "Quick Overview" %}</h6>
                         <span class="description hidden-xs"></span>
                         <p class="alert alert-info size-hint hidden-xs">
@@ -39,9 +42,10 @@
                             </div>
                         </div>
                         <div class="product-about">
-                            <p class="product-price"><del>$100.00</del><em class="item_price"> $70.00 </em></p>
                             <div class="add">
-                                <button class="btn btn-danger my-cart-btn my-cart-b item_add">{% trans "Add to Cart" %}</button>
+                                <button class="btn my-cart-btn my-cart-b item_add">{% trans "Add to Cart" %}
+                                <div class="mask"></div>
+                                </button>
                             </div>
                         </div>
                     </div>

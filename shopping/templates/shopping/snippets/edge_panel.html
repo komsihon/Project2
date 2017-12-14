@@ -1,0 +1,90 @@
+ {% load i18n humanize staticfiles cache auth_tokens %}
+<div class="edge-panel-left-container visible-xs">
+    <div id="side-nav" class="edge-panel-left" style="margin-left: -240px">
+        <div class="wrapper">
+            <div class="stage">
+
+{#                    {% if user.cover_image and user.cover_image.name %}#}
+                    <div class="top-edge-panel" style>
+                        {% if config.cover_image and config.cover_image.name %}
+                            <div class="panel-top" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ config.cover_image.name }});">
+                        {% else %}
+                            <div class="panel-top" style="background-image: url({% static 'ikwen/img/default-cover-company.jpg' %});">
+                        {% endif %}
+                            <div class="cover">
+                                <div class="company">
+                                    <div class="logo">
+                                        <h3>
+                                            <a>
+                                                {% if config.logo.name %}
+                                                    <div class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ config.logo.name }})"></div>
+                                                {% else %}
+                                                    <div id="no-logo" class="no-logo subtle-shade">{{ service.project_name |make_list|first }}</div>
+                                                {% endif %}
+                                            {% if config.slogan %}<span>{{ config.slogan }}</span>{% endif %}
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <h4 class="name">{{ service.project_name }}</h4>
+                                </div>
+                                <div class="location">
+                                    {% if config.address %}<div class="adress"><i class="fa fa-address-card"></i>{{ config.address }}</div>{% endif %}
+                                    {% if config.contact_phone %}<div class="phone"><i class="fa fa-phone" aria-hidden="true"></i>{{ config.contact_phone }}</div>{% endif %}
+                                    {% if config.contact_email %}<div class="email"><i class="fa fa-envelope" aria-hidden="true"></i>{{ config.contact_email }}</div>{% endif %}
+                                </div>
+                                <div class="bottom-cntr">
+                                    {% if config.can_manage_currencies %}
+                                        {% include 'shopping/snippets/currency_switcher.html' %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cart box_1">
+                            <a href="{% url 'shopping:cart' %}" style="float: left"><i class="kkc-cart fa fa-opencart fa-4x"></i></a>
+                            <div style="float: left; margin: 10px">
+                                <a href="{% url 'shopping:cart' %}">
+                                    <h5>
+                                        <div class="total">
+                                            <span class="simpleCart_total"></span>
+        {#                                                    (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> {% trans "items" context 'cart items' %})#}
+                                        </div>
+                                    </h5>
+                                </a>
+                                <a href="javascript:;" class="empty-cart" data-toggle="modal"
+                                   data-target="#confirm-empty-cart">
+                                    <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
+                                    <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
+                                </a>
+                            </div>
+                            <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'shopping:home' %}">{% trans "Home" %}</a></li>
+                        <li><a href="{% url 'flatpage' 'agreement' %}">{% trans "Terms and Conditions" %}</a></li>
+                        {% if not user.is_authenticated %}
+                            <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                            <li><a href="{% url 'ikwen:register' %}">{% trans "Create Account" %}</a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="clearfix"></div>
+                    <div class="social-icon">
+                        {% if config.facebook_link %}
+                            <a href="{{ config.facebook_link }}" target="_blank"><i class="facebook"></i></a>
+                        {% endif %}
+                        {% if config.instagram_link %}<a href="{{ config.instagram_link }}" target="_blank"><i
+                                class="instagram"></i></a>{% endif %}
+                        {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i
+                                class="twitter"></i></a>{% endif %}
+                        {% if config.google_plus_link %}
+                            <a href="{{ config.google_plus_link }}" target="_blank"><i
+                                    class="gplus"></i></a>{% endif %}
+                        {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i
+                                class="linkedin"></i></a>{% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

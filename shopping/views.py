@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
+import logging
+from datetime import datetime, timedelta
 from threading import Thread
 
 import requests
@@ -17,7 +19,6 @@ from django.shortcuts import get_object_or_404, render
 from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from datetime import datetime, timedelta
 
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
@@ -48,15 +49,30 @@ from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, NEW_ORDER_EVENT, SOLD_OUT_EVENT, \
     INSUFFICIENT_STOCK_EVENT, LOW_STOCK_EVENT, PRODUCTS_PREVIEWS_PER_ROW, \
     CATEGORIES_PREVIEWS_PER_ROW, DeliveryOption
+from ikwen_kakocase.sales.models import PromoCode
+from ikwen_kakocase.sales.views import apply_promotion_discount
 from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review
 from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmation_email, \
     after_order_confirmation
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
-import logging
+
 logger = logging.getLogger('ikwen')
 
+_OPTIMUM = 'optimum'
 
-class ShoppingBaseView(BaseView):
+
+class TemplateSelector(object):
+
+    def get_template_names(self):
+        config = get_service_instance().config
+        if config.theme.template.slug == _OPTIMUM:
+            return [self.optimum_template_name]
+        else:
+            return [self.template_name]
+
+
+class ShoppingBaseView(TemplateSelector, BaseView):
+
     def get_context_data(self, **kwargs):
         context = super(ShoppingBaseView, self).get_context_data(**kwargs)
         menu_length = 5
@@ -105,6 +121,7 @@ class ShoppingBaseView(BaseView):
 
 class Home(ShoppingBaseView):
     template_name = 'shopping/home.html'
+    optimum_template_name = 'shopping/optimum/home.html'
 
     def get(self, request, *args, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
@@ -118,7 +135,9 @@ class Home(ShoppingBaseView):
                                   .order_by('order_of_appearance', '-updated_on')[:additional])
         to_be_removed = []
         for item in preview_categories:
-            item.as_matrix = as_matrix(item.get_visible_items(), PRODUCTS_PREVIEWS_PER_ROW, strict=True)
+            products = item.get_visible_items()
+            products_list = apply_promotion_discount(list(products))
+            item.as_matrix = as_matrix(products_list, PRODUCTS_PREVIEWS_PER_ROW, strict=True)
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
@@ -128,7 +147,10 @@ class Home(ShoppingBaseView):
             if item.content_type == CATEGORIES:
                 item.as_matrix = as_matrix(item.get_category_queryset(), CATEGORIES_PREVIEWS_PER_ROW, strict=True)
             else:
-                item.as_matrix = as_matrix(item.get_product_queryset(), PRODUCTS_PREVIEWS_PER_ROW, strict=True)
+                products = item.get_product_queryset()
+                products_list = apply_promotion_discount(list(products))
+
+                item.as_matrix = as_matrix(products_list, PRODUCTS_PREVIEWS_PER_ROW, strict=True)
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
@@ -143,11 +165,12 @@ class Home(ShoppingBaseView):
         context['fw_section'] = fw_section_qs[0] if fw_section_qs.count() > 0 else None
         fw_popup_qs = Banner.objects.filter(display=FULL_SCREEN_POPUP, is_active=True).order_by('-id')
         context['fs_popups'] = fw_popup_qs[0] if fw_popup_qs.count() > 0 else None
-        return render(request, self.template_name, context)
+        return render(request, self.get_template_names(), context)
 
 
 class SmartObjectDetail(ShoppingBaseView):
     template_name = 'shopping/product_list.html'
+    optimum_template_name = 'shopping/opptimum/product_list.html'
 
     def get(self, request, *args, **kwargs):
         context = super(SmartObjectDetail, self).get_context_data(**kwargs)
@@ -157,15 +180,18 @@ class SmartObjectDetail(ShoppingBaseView):
         except:
             smart_object = SmartCategory.objects.filter(slug=slug).order_by('-updated_on')[0]
         context['smart_object'] = smart_object
-        return render(request, self.template_name, context)
+        return render(request, self.get_template_names, context)
 
 
-class ProductList(HybridListView):
+class ProductList(TemplateSelector, HybridListView):
     template_name = 'shopping/product_list.html'
+    optimum_template_name = 'shopping/optimum/product_list.html'
+
     search_field = 'tags'
     ordering = ('id', )
     queryset = Product.objects.exclude(Q(retail_price__isnull=True) & Q(retail_price=0))\
         .filter(visible=True, is_duplicate=False)
+
     context_object_name = 'product_list'
 
     def get(self, request, *args, **kwargs):
@@ -207,6 +233,7 @@ class ProductList(HybridListView):
             .exclude(pk__in=exclude_list_pks).order_by('name'))
         top_products = Product.objects.exclude(Q(retail_price__isnull=True) & Q(retail_price=0))\
             .filter(visible=True, is_duplicate=False).order_by('-total_units_sold')
+        top_products = apply_promotion_discount(list(top_products))
 
         page_size = 9 if self.request.user_agent.is_mobile else 15
         q = self.request.GET.get('q')
@@ -255,7 +282,8 @@ class ProductList(HybridListView):
         context['top_products'] = top_products[:5]
 
         if product_queryset:
-            paginator = Paginator(product_queryset, page_size)
+            product_queryset_lst = apply_promotion_discount(list(product_queryset))
+            paginator = Paginator(product_queryset_lst, page_size)
             products_page = paginator.page(1)
             context['products_page'] = products_page
             context['product_list_as_matrix'] = as_matrix(products_page.object_list, 3)
@@ -294,6 +322,7 @@ class ProductList(HybridListView):
             product_queryset = self.get_search_results(product_queryset, max_chars=4)
             product_queryset = product_queryset.order_by(order_by)
 
+            product_queryset = apply_promotion_discount(list(product_queryset))
             paginator = Paginator(product_queryset, page_size)
             page = self.request.GET.get('page')
             try:
@@ -313,6 +342,7 @@ class ProductList(HybridListView):
 
 class ProductDetail(ShoppingBaseView):
     template_name = 'shopping/product_detail.html'
+    optimum_template_name = 'shopping/optimum/product_detail.html'
 
     def get(self, request, *args, **kwargs):
         context = super(ProductDetail, self).get_context_data(**kwargs)
@@ -320,9 +350,10 @@ class ProductDetail(ShoppingBaseView):
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
         try:
-            product = Product.objects.filter(category=category, slug=product_slug)[0]
+            current_product = Product.objects.filter(category=category, slug=product_slug)
         except IndexError:
             raise Http404('No product matches the given query.')
+        product = apply_promotion_discount(list(current_product))[0]
         category = product.category
         context['product'] = product
         base_queryset = Product.objects.exclude(pk=product.id).filter(visible=True, is_duplicate=False)
@@ -333,6 +364,7 @@ class ProductDetail(ShoppingBaseView):
             suggestions = list(suggestions)
             suggestions.extend(list(base_queryset.exclude(pk__in=exclude_list).filter(category=product.category)
                                     .order_by('-updated_on')[:additional]))
+        suggestions = apply_promotion_discount(list(suggestions))
         context['suggestion_list'] = suggestions
         context['review_count'] = Review.objects.filter(product=product).count()
         context['review_list'] = Review.objects.filter(product=product).order_by('-id')[:50]
@@ -360,11 +392,12 @@ class ProductDetail(ShoppingBaseView):
                 Review.objects.get(member=member, product=product)
             except Review.DoesNotExist:
                 context['can_review'] = True
-        return render(request, self.template_name, context)
+        return render(request, self.get_template_names(), context)
 
 
 class Cart(ShoppingBaseView):
     template_name = 'shopping/cart.html'
+    optimum_template_name = 'shopping/optimum/cart.html'
 
     def get(self, request, *args, **kwargs):
         context = super(Cart, self).get_context_data(**kwargs)
@@ -377,11 +410,12 @@ class Cart(ShoppingBaseView):
             if diff.total_seconds() >= 3600:
                 order.is_more_than_one_hour_old = True
             context['order'] = order
-        return render(request, self.template_name, context)
+        return render(request, self.get_template_names(), context)
 
 
 class Checkout(ShoppingBaseView):
     template_name = 'shopping/checkout.html'
+    optimum_template_name = 'shopping/optimum/checkout.html'
 
     def get_context_data(self, **kwargs):
         context = super(Checkout, self).get_context_data(**kwargs)
@@ -417,7 +451,19 @@ def load_checkout_summary(request, *args, **kwargs):
     items_count = request.GET['items_count']
     items_cost = float(request.GET['items_cost'])
     delivery_option_id = request.GET.get('delivery_option_id')
+    items_gross_cost = 0
     delivery_option = None
+    if request.session.get('promo_code'):
+        promo_id = request.session.get('promo_code_id')
+
+        try:
+            coupon = PromoCode.objects.get(pk=promo_id)
+        except PromoCode.DoesNotExist:
+            pass
+        else:
+            items_gross_cost = items_cost
+            items_cost = items_cost - (items_cost * coupon.rate / 100)
+
     total_cost = items_cost
     if delivery_option_id:
         delivery_option = DeliveryOption.objects.get(pk=delivery_option_id)
@@ -438,7 +484,7 @@ def load_checkout_summary(request, *args, **kwargs):
 
     main_payment_mean = PaymentMean.objects.get(is_main=True)
     payment_mean_list = PaymentMean.objects.filter(is_main=False, is_active=True)
-    context = {'items_cost': items_cost, 'items_count': items_count, 'delivery_option': delivery_option,
+    context = {'items_cost': items_cost, 'items_count': items_count, 'items_gross_cost':items_gross_cost, 'delivery_option': delivery_option,
                'total_cost': total_cost, 'config': get_service_instance().config, 'delivery_options': delivery_options,
                'main_payment_mean': main_payment_mean, 'payment_mean_list': payment_mean_list}
     return render(request, 'shopping/snippets/checkout_summary.html', context)
@@ -617,6 +663,20 @@ def confirm_checkout(request, *args, **kwargs):
     send_order_confirmation_email(subject, buyer_name, buyer_email, order)
 
     next_url = reverse('shopping:cart', args=(order.id, ))
+    request.session.modified = True
+    try:
+        del request.session['promo_code_id']
+    except:
+        pass
+    try:
+        del request.session['promo_code']
+    except:
+        pass
+    try:
+        del request.session['promo_rate']
+    except:
+        pass
+
     if request.session.get('is_momo_payment'):
         return {'success': True, 'next_url': next_url}
     else:

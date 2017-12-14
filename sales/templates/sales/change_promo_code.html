@@ -1,0 +1,146 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens media_from_provider %}
+
+{% block page_title %}
+<title> {% if promo_code %}{{ promo_code }}{% else %}{% trans "New promo_code" %}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/jquery.datetimepicker.css' %}"/>
+    <style>
+        .verify {border: 1px solid #e74c3c}
+        #promo_code-sharing .social-media {margin-bottom: 10px}
+        @media (max-width: 767px) {
+            #promo_code-sharing .social-media {text-align: center}
+        }
+    </style>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+{% endblock %}
+
+
+{% block breadcrumb_location %}
+    <li>{% url 'sales:promo_code_list' as promo_code_list_url %}
+        <a href="{{ promo_code_list_url }}">{% trans "Coupons" %}</a>
+    </li>
+    {% if promo_code %}
+        <li style="text-transform: uppercase">{{ promo_code.code }}</li>
+    {% else %}
+        <li>{% trans 'New' %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="change-form">
+        <div class="container-fluid">
+            {% url 'sales:change_promo_code' as change_promo_code_url %}
+            {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
+{#            <form id="submit-promo_code" class="admin-form" method="post" action="{{ change_promo_code_url }}">{% csrf_token %}#}
+            <form id="submit-promo_code" class="admin-form" method="post" action="{{ change_promo_code_url }}">{% csrf_token %}
+                <input type="hidden" name="promo_code_id" value="{{ promo_code.id }}" />
+                {% include 'core/snippets/model_admin_form.html' %}
+                <div class="form-group col-xs-12 col-sm-4 col-md-3" style="clear: both; padding-top: 15px">
+                    <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+{#    {% if promo_code %}<script src="https://apis.google.com/js/platform.js" async defer></script>{% endif %}#}
+    <script src="{% static 'kakocase/js/jquery.datetimepicker.full.js' %}"></script>
+    <script type="text/javascript">
+        (function() {
+
+            $('#id_start_on').datetimepicker({
+                format:	'Y-m-d H:i',
+                formatTime:	'H:i',
+                formatDate:	'Y-m-d',
+                defaultTime:'00:00',
+                timepickerScrollbar:false
+            });
+            $('#id_end_on').datetimepicker({
+                format:	'Y-m-d H:i',
+                formatTime:	'H:i',
+                formatDate:	'Y-m-d',
+                defaultTime:'23:59',
+                timepickerScrollbar:false
+            });
+            $('div#admin-nav .promo_code').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+            {% if settings.IS_PROVIDER %}
+                {% if request.GET.name %}
+                    $('#id_title').val("{{ request.GET.name }}");
+                {% endif %}
+                {% if error %}
+                    ikwen.showFloatingNotice("{{ error }}", '', 6);
+                {% endif %}
+
+                $('form#submit-promo_code').on('change', 'input, textarea', function() {
+                    var promo_code = getLocalpromo_code();
+                    localStorage.setItem('promo_code', JSON.stringify(promo_code));
+                }).submit(function() {
+                    return checkInput();
+                });
+                var pageLoading = true,
+                    promo_code;
+                function getLocalpromo_code() {
+                    promo_code = localStorage.getItem('promo_code') ? JSON.parse(localStorage.getItem('promo_code')):{};
+                    if (pageLoading) {
+                        // Do not override locally saved promo_code with form data upon page loading
+                        pageLoading = false;
+                        return promo_code
+                    }
+                    var photos = [];
+                     //Keep a copy of photos objects
+                    var promo_codeAsArray = $('form#submit-promo_code').serialize().split('&');
+                    for (var i=0; i<promo_codeAsArray.length; i++) {
+                        var elt = promo_codeAsArray[i].split('=');
+                        promo_code[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
+                    }
+                    return promo_code
+                }
+                function checkInput() {
+                    var check = true;
+                    $('input.required').each(function() {
+                        if (!(this).val()) {
+                            ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                            $(this).addClass('verify');
+                            check = false;
+                        }
+                    });
+                    return check;
+                }
+
+                {% if promo_code %}
+                    localStorage.removeItem('promo_code');
+                {% else %}
+                    promo_code = getLocalpromo_code();  // Post from an unterminated submit
+                    if (promo_code) {
+                        $('#id_promo_code').val(promo_code.promo_code_id);
+                        $('#id_code').val(promo_code.title);
+                        $('#id_start_on').val(promo_code.start_on);
+                        $('#id_end_on').val(promo_code.end_on);
+                        $('#id_rate').val(promo_code.rate);
+                        $('#id_is_active').val(promo_code.is_active);
+                    }
+                {% endif %}
+                {% if request.GET.name %}
+                    $('#id_code').val("{{ request.GET.name }}");
+                {% endif %}
+            {% endif %}
+            {% if messages %}
+                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
+            {% endif %}
+        })()
+    </script>
+{% endblock %}

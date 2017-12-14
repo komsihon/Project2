@@ -1,0 +1,88 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% trans "Promotions" %} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'kakocase/css/admin.css' %}" />
+    <style>
+        .ik-li.product .about p {margin-bottom: 0}
+        .ik-li.product .about p strong {padding-left: 10px}
+        .ik-li.product .about .provider {font-size: .9em}
+        .ik-li.product .actions .glyphicon-edit:not(.edit) {color: #ddd}
+        #results .spinner {padding-top: 8%; position: fixed; right: 0; top: 0}
+        @media (min-width: 768px) {
+            #admin-tools + #results {margin-top: 45px}
+            #results .spinner {padding-top: 10%}
+        }
+        @media (min-width: 992px) {
+            #results .spinner {padding-top: 12%}
+        }
+    </style>
+{% endblock %}
+
+{% block selection_actions %}
+    <div class="actions">
+        {% if request.GET.smart_link %}
+            <i class="glyphicon glyphicon-link link" title="{% trans "Link products" %}"></i>
+        {% else %}
+            <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete selected" %}"></i>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Promotions" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            {% include 'sales/snippets/promotion_list_results.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .products').addClass('active');
+            var searchDescriptor = [{
+                endpoint: '{% url 'sales:promotion_list' %}',
+                resultTplSelector: '#results li.ik-li'
+            }];
+            function beforeSearch() {
+                var val = $('form#context-search input').val();
+                $('div#results .search-text').text(val);
+            }
+            function afterSearch() {
+                var val = $('form#context-search input').val(),
+                    endpoint = '{% url 'sales:change_promotion' %}?name=' + val;
+                $('#new-product').attr('href', endpoint);
+
+            }
+            ikwen.setupSearch('#context-search input', '#results', searchDescriptor, beforeSearch, afterSearch);
+            ikwen.deleteEndpoint = '{% url 'sales:delete_promo_object' %}';
+            {% if messages %}
+                {% for msg in messages %}
+                    ikwen.showFloatingNotice('{{ msg }}', '{{ msg.tags }}', 6);
+                    {% if msg.tags == 'success' %}localStorage.removeItem('promotion');{% endif %}
+                {% endfor %}
+            {% endif %}
+            $('#admin-content').on('click', '.product .active.on', function() {
+            var promotionId = $(this).parents('.product').data('id');
+            $(this).toggleClass('on off');
+            $.getJSON('{% url 'sales:toggle_object_attribute' %}', {'object_id': promotionId, 'attr': 'is_active', 'val': true})
+            }).on('click', '.product .active.off', function() {
+                var promotionId = $(this).parents('.product').data('id');
+                $(this).toggleClass('on off');
+                $.getJSON('{% url 'sales:toggle_object_attribute' %}', {'object_id': promotionId, 'attr': 'is_active', 'val': false})
+            })
+
+        })()
+    </script>
+{% endblock %}
