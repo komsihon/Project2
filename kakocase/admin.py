@@ -110,7 +110,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
         fields = ('name', 'description', 'total_items_traded', 'total_orders_count',)
         readonly_fields = ('total_items_traded', 'total_orders_count',)
     else:
-        fields = ('name', 'description', 'badge_text',)
+        fields = ('name', 'description', 'badge_text', 'is_active',)
         if getattr(settings, 'IS_RETAILER', False):
             readonly_fields = ('name', 'description', )
 
