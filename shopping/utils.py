@@ -10,6 +10,8 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
+from ikwen_kakocase.sales.models import PromoCode
+from ikwen_kakocase.sales.views import apply_promotion_discount
 
 from ikwen.accesscontrol.models import SUDO
 from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, NEW_ORDER_EVENT
@@ -106,6 +108,7 @@ def parse_order_info(request):
     for entry in entries:
         tokens = entry.split(':')
         product = Product.objects.get(pk=tokens[0])
+        product = apply_promotion_discount([product])[0]
         product.units_sold_history = []  # Wipe these unnecessary data for this case
         count = int(tokens[1])
 
@@ -114,6 +117,16 @@ def parse_order_info(request):
         order.items_count += count
         order.items_cost += product.retail_price * count
         order.tags += ' ' + product.name
+    if request.session.get('promo_code'):
+        promo_id = request.session['promo_code_id']
+        try:
+            coupon = PromoCode.objets.get(pk=promo_id)
+        except PromoCode.DoesNotExist:
+            pass
+        else:
+            rate = coupon.rate
+            order.items_cost = order.items_cost * (100 - rate) / 100
+            order.coupon = coupon
     order.total_cost = order.items_cost + delivery_option.cost
     order.delivery_address = address
     return order

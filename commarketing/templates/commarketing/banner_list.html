@@ -49,6 +49,7 @@
                                 <p class="about">{{ slide.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
+                                <i class="glyphicon glyphicon-trash share" title="{% trans "Share" %}"  data-toggle="modal" data-target="#share-box"  data-banner-url="{{ service.url }}{{ slide.image.url }}" data-description="{{ product.description }}"></i>
                                 {% if slide.content_type == 'Categories' %}
                                     <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ slide.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
                                 {% else %}
@@ -263,6 +264,7 @@
             </section>
         </div>
     </div>
+    {% include 'commarketing/snippets/modal_share_box.html' %}
 {% endblock %}
 
 {% block js %}
@@ -272,6 +274,10 @@
         (function() {
             $('div#admin-nav .banners').addClass('active');
             ikwen.deleteEndpoint = '{% url 'marketing:delete_smart_object' %}';
+            $('.actions .share').click(function () {
+                var bannerURL = $(this).data('banner-url')
+                $('#share-box .img_link').attr('href', bannerURL).text(bannerURL)
+            })
         })();
     </script>
     {% include 'commarketing/snippets/sort_and_actions.html' %}

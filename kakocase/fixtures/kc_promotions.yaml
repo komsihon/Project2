@@ -1,0 +1,28 @@
+- model: sales.promotion
+  pk: 56b377479b531e011456d01
+  fields:
+    title: promo5
+    start_on: 2017-01-01T00:00:00.120Z
+    end_on: 2035-01-01T00:00:00.120Z
+    rate: 5
+    is_active: No
+    category: 569228a9b37b3301e0706b52
+
+- model: sales.promotion
+  pk: 56b3744479b531e011456651
+  fields:
+    title: promo
+    start_on: 2017-01-01T00:00:00.120Z
+    end_on: 2022-01-01T00:00:00.120Z
+    rate: 10
+    is_active: No
+    item: 55d1fa8feb60008099bd4152
+
+- model: sales.promotion
+  pk: 56b3744479b531e01145bb51
+  fields:
+    title: promo2
+    start_on: 2017-01-01T00:00:00.120Z
+    end_on: 2022-01-01T00:00:00.120Z
+    rate: 20
+    is_active: No

@@ -35,10 +35,10 @@ else:
     if getattr(settings, 'IS_PROVIDER', False):
         if config.is_pro_version:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
-                                          'allow_shopping', 'return_url', 'is_certified',)}
+                                          'allow_shopping', 'return_url', 'is_certified', 'newsletter_title')}
         else:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
-                                          'allow_shopping', 'is_certified',)}
+                                          'allow_shopping', 'is_certified', 'newsletter_title')}
     elif getattr(settings, 'IS_RETAILER', False):
         _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'is_certified',)}
     elif getattr(settings, 'IS_DELIVERY_COMPANY', False):

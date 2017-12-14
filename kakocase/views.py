@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
+from django.db.models.loading import get_model
 from django.http import HttpResponse
 from django.http.response import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render
@@ -227,20 +228,32 @@ class SortableListMixin(object):
 
     def get(self, request, *args, **kwargs):
         sorted_keys = request.GET.get('sorted')
+        model_name = request.GET.get('model_name')
+        if model_name:
+            tokens = model_name.split('.')
+            model = get_model(tokens[0], tokens[1])
+        else:
+            model = self.model
         if sorted_keys:
             for token in sorted_keys.split(','):
                 category_id, order_of_appearance = token.split(':')
                 try:
-                    self.model.objects.filter(pk=category_id).update(order_of_appearance=order_of_appearance)
+                    model.objects.filter(pk=category_id).update(order_of_appearance=order_of_appearance)
                 except:
                     continue
             return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
         return super(SortableListMixin, self).get(request, *args, **kwargs)
 
 
-def run_sudo_cmd(request, *args, **kwargs):
-    import subprocess
-    # subprocess.call(['sudo', 'ln', '-sf', 'home/komsihon/PycharmProjects/KakocaseDelivery/apache.conf',
-    #                  '/etc/apache2/sites-enabled/test.conf'])
-    subprocess.call(['sudo', 'touch', '/home/komsihon/PycharmProjects/sudo_file.txt'])
-    return HttpResponse('Finished')
+class MerchantList(BaseView):
+    template_name = 'kakocase/merchant_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MerchantList, self).get_context_data(**kwargs)
+        app = Application.objects.get(slug='kakocase')
+        # merchant_list = Service.objects.using('umbrella').all()
+        merchant_list = Service.objects.filter(app=app, monthly_cost=25000)
+        context['merchant_list'] = merchant_list
+        context['merchant_list_string'] = ' - '.join([m.project_name for m in merchant_list[:20]])
+        return context
+

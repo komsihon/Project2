@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import EmbeddedModelField, ListField
 from ikwen_kakocase.kako.models import Product
+from ikwen_kakocase.sales.models import PromoCode
 
 from ikwen.partnership.models import ApplicationRetailConfig
 
@@ -66,6 +67,7 @@ class Order(Model):
     ikwen_delivery_earnings = models.FloatField(default=0)  # Amount ikwen is supposed to earn from delivery company
     eshop_partner_earnings = models.FloatField(default=0)  # Amount partner is supposed to earn at the end
     logicom_partner_earnings = models.FloatField(default=0)  # Amount partner for logistics company is supposed to earn
+    coupon = models.ForeignKey(PromoCode, blank=True, null=True) # Coupon used by user
 
     def __unicode__(self):
         return self.rcc

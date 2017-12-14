@@ -8,6 +8,7 @@ from ikwen_kakocase.shopping.views import Home, FlatPageView
 
 from ikwen_kakocase.trade.provider.views import ProviderDashboard
 from ikwen_kakocase.trade.views import RetailerDashboard, LogicomDashboard
+from ikwen_kakocase.kakocase.views import MerchantList
 
 admin.autodiscover()
 
@@ -18,7 +19,9 @@ elif getattr(settings, 'IS_PROVIDER', False):
 else:
     Dashboard = LogicomDashboard
 
-if getattr(settings, 'IS_DELIVERY_COMPANY', False) or getattr(settings, 'IS_BANK', False):
+if getattr(settings, 'IS_IKWEN', False):
+    LandingPage = MerchantList
+elif getattr(settings, 'IS_DELIVERY_COMPANY', False) or getattr(settings, 'IS_BANK', False):
     LandingPage = SignIn
 else:
     LandingPage = Home
@@ -31,6 +34,7 @@ urlpatterns = patterns(
     url(r'^trade/', include('ikwen_kakocase.trade.urls', namespace='trade')),
     url(r'^billing/', include('ikwen.billing.urls', namespace='billing')),
     url(r'^marketing/', include('ikwen_kakocase.commarketing.urls', namespace='marketing')),
+    url(r'^sales/', include('ikwen_kakocase.sales.urls', namespace='sales')),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^currencies/', include('currencies.urls')),
 

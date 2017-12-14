@@ -1,0 +1,41 @@
+{% load i18n staticfiles humanize auth_tokens %}
+<div class="modal fade" id="news-letter" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-info">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                {% if config.newsletter_title %}
+                <h2 class="modal-title"  style="">{{ config.newsletter_title }}</h2>
+                {% else %}
+                <h2 class="modal-title"  style="">{% trans "Get the good stuffs" %}</h2>
+                {% endif %}
+            </div>
+            <div class="modal-body">
+                <div class='input-block' style="margin-top: 15px">
+                   <p class="text-muted" style="padding: 10px 14px">{% trans "Leave us your email" %}</p>
+                    <input id="email" maxlength="100" name="email" type="email" placeholder="you@domain.com" class="form-control input-lg">
+                </div>
+                <div style="margin-top: 30px">
+                    <div class="col-xs-12 col-sm-6 save-block" style="float: none; margin: auto">
+                        <button href="" class="btn btn-warning btn-block btn-lg save" >{% trans "Submit" %}</button>
+                    </div>
+                    <div class="success-panel">
+                        <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="" style="margin: auto;">
+                        <p class="text-muted">{% trans "Thank you !" %}</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px">
+                    <div class="col-xs-12 col-sm-4 pull-right">
+                        <label class="form-check-label" style="font-weight: normal">
+                            <input type="checkbox" class="form-check-input" id="hide-email-modal">
+                            {% trans "Don't show this again" %}
+                        </label>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

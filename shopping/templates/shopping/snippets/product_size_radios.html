@@ -1,12 +1,11 @@
-{% load humanize currency %}
-{% for size in size_list %}
-    <span class="choose-size">
-        <span class="radio">
-            <label>
-                <input type="radio" name="size" value="{{ size.label }}" data-id="{{ size.id }}"
-                       data-retail_price="{{ size.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}"
-                       data-stock="{{ size.stock }}" {% if size_list|length == 1 %}checked{% endif %}/> {{ size.label }}
-            </label>
-        </span>
-    </span>
-{% endfor %}
+{% load i18n static humanize user_agents auth_tokens media_from_provider currency  %}
+<div class="form-group">
+    <select class="form-control" id="item-size-selector">
+    <option class="form-control">----------</option>
+        {% for size in size_list %}
+            <option class="form-control" value="{{ size.label }}" data-id="{{ size.id }}"
+            data-retail_price="{{ size.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}"
+            data-stock="{{ size.stock }}" {% if size_list|length == 1 %}checked{% endif %}> {{ size.label }}</option>
+        {% endfor %}
+    </select>
+</div>

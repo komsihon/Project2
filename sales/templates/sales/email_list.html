@@ -1,0 +1,25 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% if is_drivy %}Drivy{% else %}{% trans "Orders" %}{% endif %} - ikwen</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'kakocase/css/admin.css' %}" />
+{% endblock %}
+
+{% block breadcrumb_location %}
+        <li>{% trans "Newletter emails" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="has-edge-panel-right">
+        <div class="container-fluid">
+            {% include 'core/snippets/spinner.html' %}
+            {% include 'sales/snippets/email_list_results.html' %}
+        </div>
+    </div>
+{% endblock %}
+

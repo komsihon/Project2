@@ -2,7 +2,7 @@
 <div class="size-quantity">
     {% if size_list %}
         <div class="size-list">
-            <h6 style="margin: 0">{% trans "Size" %} :</h6>
+            <h6 style="margin-top: 5px">{% trans "Size" %} </h6>
             <div class="size-radios">{% include 'shopping/snippets/product_size_radios.html' %}</div>
             <span class="hidden item_size">{% if size_list|length == 1 %}{{ size_list.0.label }}{% endif %}</span>
             <div class="clearfix"></div>

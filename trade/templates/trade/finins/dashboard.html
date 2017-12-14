@@ -1,0 +1,126 @@
+{% extends 'core/dashboard_base.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block performances %}
+    <h5 class="section-title perf">
+        <div>
+            <span style="float: left">{% trans "Performances" %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</span>
+            <div class="dropdown" style="cursor: pointer; float: left; margin-left: 15px">
+                <span class="dropdown-toggle" id="period" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="target">{% trans "Today" %}</span>
+                    <span class="caret"></span>
+                </span>
+                <ul id="performances-period" class="dropdown-menu" aria-labelledby="period">
+                    <li data-target="today" style="display: none"><a>{% trans "Today" %}</a></li>
+                    <li data-target="yesterday"><a>{% trans "Yesterday" %}</a></li>
+                    <li data-target="last_week"><a>{% trans "Last week" %}</a></li>
+                    <li data-target="last_28_days"><a>{% trans "Last 28 days" %}</a></li>
+                </ul>
+            </div>
+        </div>
+        <a href="#" class="show-details">{% trans "Details" %}</a>
+    </h5>
+    <div class="row performances" style="clear: both">
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Orders" %}</h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div>
+                    <em class="report today">{{ orders_report.today.count|intcomma }}</em>
+                    <em class="report yesterday tpl">{{ orders_report.yesterday.count|intcomma }}</em>
+                    <em class="report last_week tpl">{{ orders_report.last_week.count|intcomma }}</em>
+                    <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "AEPO" %} <i class="text-muted">(Avg. Earning Per Order)</i></h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div>
+                    <em class="report today">{{ CRNCY.symbol }} {{ orders_report.today.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report yesterday tpl">{{ CRNCY.symbol }} {{ orders_report.yesterday.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report last_week tpl">{{ CRNCY.symbol }} {{ orders_report.last_week.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                    <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row performances" style="clear: both">
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Top partners" %}</h5>
+                    <a href="#" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div class="th">
+                    <span style="float: left">{% trans "Partner" %}</span>
+                    <span title="Estimated earnings" style="float: right">
+                        {% trans "Earnings" %}
+                        <span class="text-muted" style="font-weight: 400">({{ CRNCY.code }})</span>
+                    </span>
+                </div>
+                <ul class="report ranking today">
+                    {% if providers_report.today and providers_report.today.0.total > 0 %}
+                        {% for provider in providers_report.today|slice:"5" %}
+                            {% if provider.total > 0 %}
+                                <li>
+                                    <span>{{ provider.company_name }}</span> <span>{{ provider.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking yesterday tpl">
+                    {% if providers_report.yesterday and providers_report.yesterday.0.total > 0 %}
+                        {% for provider in providers_report.yesterday|slice:"5" %}
+                            {% if provider.total > 0 %}
+                                <li>
+                                    <span>{{ provider.company_name }}</span> <span>{{ provider.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_week tpl">
+                    {% if providers_report.last_week and providers_report.last_week.0.total > 0 %}
+                        {% for provider in providers_report.last_week|slice:"5" %}
+                            {% if provider.total > 0 %}
+                                <li>
+                                    <span>{{ provider.company_name }}</span> <span>{{ provider.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_28_days tpl">
+                    {% if providers_report.last_28_days and providers_report.last_28_days.0.total > 0 %}
+                        {% for provider in providers_report.last_28_days|slice:"5" %}
+                            {% if provider.total > 0 %}
+                                <li>
+                                    <span>{{ provider.company_name }}</span> <span>{{ provider.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

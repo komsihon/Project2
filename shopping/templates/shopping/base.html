@@ -28,7 +28,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300" rel="stylesheet">
             {% endif %}
             <link rel='stylesheet' href="{% static 'kakocase/css/font-awesome.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/jstarbox.css' %}" type="text/css" media="screen" charset="utf-8" />
+{#            <link rel="stylesheet" href="{% static 'kakocase/css/jstarbox.css' %}" type="text/css" media="screen" charset="utf-8" />#}
 		{% endblock %}
         {% block head_js %}
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -367,7 +367,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </script>
         <script src="{% static 'kakocase/js/bootstrap-3.1.1.min.js' %}"></script>
         <script src="{% static 'kakocase/js/simpleCart.min.js' %}"></script>
-        <script src="{% static 'kakocase/js/jstarbox.js' %}"></script>
+{#        <script src="{% static 'kakocase/js/jstarbox.js' %}"></script>#}
         <script type="text/javascript">
             (function () {
                 {% if request.GET.successfulRegistration %}

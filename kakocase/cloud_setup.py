@@ -2,6 +2,7 @@
 import os
 import shutil
 import subprocess
+import time
 from datetime import datetime, timedelta
 from threading import Thread
 
@@ -60,6 +61,11 @@ class DeploymentForm(forms.Form):
     setup_cost = forms.FloatField()
     monthly_cost = forms.FloatField()
     theme_id = forms.CharField()
+
+
+def reload_server():
+    time.sleep(5)
+    subprocess.call(['sudo', 'service', 'apache2', 'reload'])
 
 
 def deploy(app, member, business_type, project_name, billing_plan, theme, monthly_cost,
@@ -278,7 +284,6 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     fh.close()
 
     subprocess.call(['sudo', 'ln', '-sf', website_home_folder + '/apache.conf', '/etc/apache2/sites-enabled/' + domain + '.conf'])
-    subprocess.call(['sudo', 'service', 'apache2', 'reload'])
 
     # Send notification and Invoice to customer
     number = get_next_invoice_number()
@@ -323,4 +328,5 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     msg = EmailMessage(subject, html_content, sender, [member.email])
     msg.content_subtype = "html"
     Thread(target=lambda m: m.send(), args=(msg, )).start()
+    Thread(target=reload_server).start()
     return service
