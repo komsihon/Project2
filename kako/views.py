@@ -634,6 +634,7 @@ class ChangeProduct(BaseView):
             size = request.POST.get('size')
             weight = request.POST.get('weight')
             stock = request.POST.get('stock')
+            unit_of_measurement = request.POST.get('unit_of_measurement')
             min_order = request.POST.get('min_order')
             if not min_order:
                 min_order = 1
@@ -685,6 +686,7 @@ class ChangeProduct(BaseView):
             product.size = size
             product.weight = weight
             product.min_order = min_order
+            product.unit_of_measurement = unit_of_measurement
             product.tags = product.slug.replace('-', ' ')
             try:
                 product.stock = float(stock.strip())
