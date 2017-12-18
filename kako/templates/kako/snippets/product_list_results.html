@@ -39,21 +39,23 @@
         <li class="ik-li img-lg product" id="{{ product.id }}" data-id="{{ product.id }}"
             {% if product.stock %}data-stock="{{ product.stock }}{% endif %}"
             {% if product.retail_price %}data-retail_price="{{ product.retail_price }}{% endif %}">
-            <div class="select subtle-shade">
-                <i class="glyphicon glyphicon-ok"></i>
-            </div>
+            {% if request.GET.smart_link %}
+                <div class="select subtle-shade">
+                    <i class="glyphicon glyphicon-ok"></i>
+                </div>
+            {% endif %}
             {% if settings.IS_BANK %}
                 {% url 'trade:deal_list' product.id as product_url %}
             {% else %}
                 {% url 'kako:change_product' product.id as product_url %}
             {% endif %}
             {% if product.image.name %}
-                <a href="{{ product_url }}" class="image" style="background-image: url({{ product.image.small_url|from_provider:product.provider }})"></a>
+                <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %} class="image" style="background-image: url({{ product.image.small_url|from_provider:product.provider }})"></a>
             {% else %}
-                <a href="{{ product_url }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.jpg' %})"></a>
+                <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %} class="image" style="background-image: url({% static 'ikwen/img/no_photo.jpg' %})"></a>
             {% endif %}
             <div class="info">
-                <a href="{{ product_url }}">
+                <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %}>
                     <span class="name">{{ product.name }}</span>
                     {% if product.size %}<span class="text-muted">({{ product.size }})</span>{% endif %}
                 </a>

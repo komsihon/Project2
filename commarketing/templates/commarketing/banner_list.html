@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block breadcrumb_location %}
-    <li>{% trans "Smart Categories" %}</li>
+    <li>{% trans "Banners" %}</li>
 {% endblock %}
 
 {% block admin_content %}
@@ -40,16 +40,16 @@
                             </div>
                             {% url 'marketing:change_smart_object' 'banner' slide.id as change_slide_url %}
                             {% if slide.image and slide.image.name %}
-                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ slide.image.small_url }})"></a>
+                                <a href="{{ change_slide_url }}" class="image" style="background-image: url({{ slide.image.small_url }})"></a>
                             {% else %}
-                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                <a href="{{ change_slide_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                             {% endif %}
                             <div class="info">
-                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="full_name">{{ slide.name }}</a>
+                                <a href="{{ change_slide_url }}" class="full_name">{{ slide.name }}</a>
                                 <p class="about">{{ slide.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
-                                <i class="glyphicon glyphicon-trash share" title="{% trans "Share" %}"  data-toggle="modal" data-target="#share-box"  data-banner-url="{{ service.url }}{{ slide.image.url }}" data-description="{{ product.description }}"></i>
+                                <i class="glyphicon glyphicon-share share" title="{% trans "Share" %}"  data-toggle="modal" data-target="#share-box"  data-banner-url="{{ service.url }}{{ slide.image.url }}" data-description="{{ product.description }}"></i>
                                 {% if slide.content_type == 'Categories' %}
                                     <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ slide.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
                                 {% else %}
@@ -60,6 +60,7 @@
                                 {% else %}
                                     <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
                                 {% endif %}
+                                <a href="{{ change_slide_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                 <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>
@@ -89,14 +90,14 @@
                             <div class="subtle-shade select">
                                 <i class="glyphicon glyphicon-ok"></i>
                             </div>
-                            {% url 'marketing:change_smart_object' 'banner' tile.id as change_slide_url %}
+                            {% url 'marketing:change_smart_object' 'banner' tile.id as change_tile_url %}
                         {% if tile.image and tile.image.name %}
-                            <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ tile.image.small_url }})"></a>
+                            <a href="{{ change_tile_url }}" class="image" style="background-image: url({{ tile.image.small_url }})"></a>
                         {% else %}
-                            <a href="{{ change_slide_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                            <a href="{{ change_tile_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                         {% endif %}
                             <div class="info">
-                                <a href="{{ change_slide_url|append_auth_tokens:request }}" class="full_name">{{ tile.name }}</a>
+                                <a href="{{ change_tile_url }}" class="full_name">{{ tile.name }}</a>
                                 <p class="about">{{ tile.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
@@ -105,6 +106,7 @@
                                 {% else %}
                                     <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ tile.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
                                 {% endif %}
+                                <a href="{{ change_tile_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                 <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>
@@ -136,12 +138,12 @@
                             </div>
                             {% url 'marketing:change_smart_object' 'banner' section.id as change_section_url %}
                             {% if section.image and section.image.name %}
-                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ section.image.small_url }})"></a>
+                                <a href="{{ change_section_url }}" class="image" style="background-image: url({{ section.image.small_url }})"></a>
                             {% else %}
-                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                <a href="{{ change_section_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                             {% endif %}
                             <div class="info">
-                                <a href="{{ change_section_url|append_auth_tokens:request }}" class="full_name">{{ section.name }}</a>
+                                <a href="{{ change_section_url }}" class="full_name">{{ section.name }}</a>
                                 <p class="about">{{ section.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
@@ -155,6 +157,7 @@
                                 {% else %}
                                     <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
                                 {% endif %}
+                                <a href="{{ change_section_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                 <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>
@@ -185,12 +188,12 @@
                             </div>
                             {% url 'marketing:change_smart_object' 'banner' popup.id as change_popup_url %}
                             {% if popup.image and popup.image.name %}
-                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
+                                <a href="{{ change_popup_url }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
                             {% else %}
-                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                <a href="{{ change_popup_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                             {% endif %}
                             <div class="info">
-                                <a href="{{ change_popup_url|append_auth_tokens:request }}" class="full_name">{{ popup.name }}</a>
+                                <a href="{{ change_popup_url }}" class="full_name">{{ popup.name }}</a>
                                 <p class="about">{{ popup.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
@@ -199,6 +202,7 @@
                                 {% else %}
                                     <a href="{% url 'kako:product_list' %}?smart_link=yes&smart_object_id={{ popup.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Products" %}"></a>
                                 {% endif %}
+                                <a href="{{ change_popup_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                 <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>
@@ -229,12 +233,12 @@
                             </div>
                             {% url 'marketing:change_smart_object' 'banner' popup.id as change_banner_url %}
                             {% if popup.image and popup.image.name %}
-                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
+                                <a href="{{ change_banner_url }}" class="image" style="background-image: url({{ popup.image.small_url }})"></a>
                             {% else %}
-                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                <a href="{{ change_banner_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                             {% endif %}
                             <div class="info">
-                                <a href="{{ change_banner_url|append_auth_tokens:request }}" class="full_name">{{ popup.name }}</a>
+                                <a href="{{ change_banner_url }}" class="full_name">{{ popup.name }}</a>
                                 <p class="about">{{ popup.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">

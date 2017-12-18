@@ -33,12 +33,12 @@
                             </div>
                             {% url 'marketing:change_smart_object' 'smartcategory' category.id as change_category_url %}
                             {% if category.image and category.image.name %}
-                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ category.image.small_url }})"></a>
+                                <a href="{{ change_category_url }}" class="image" style="background-image: url({{ category.image.small_url }})"></a>
                             {% else %}
-                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></a>
+                                <a href="{{ change_category_url }}" class="image" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></a>
                             {% endif %}
                             <div class="info">
-                                <a href="{{ change_category_url|append_auth_tokens:request }}" class="full_name">{{ category.title }}</a>
+                                <a href="{{ change_category_url }}" class="full_name">{{ category.title }}</a>
                                 <p class="about">{{ category.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
@@ -59,6 +59,7 @@
                                 {% else %}
                                     <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to main menu" %}"></i>
                                 {% endif %}
+                                <a href="{{ change_category_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                 <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                             </div>
                             <div class="clearfix"></div>

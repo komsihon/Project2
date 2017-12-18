@@ -41,10 +41,12 @@
                 {% for category in category_list %}
                     <li id="{{ category.id }}" data-id="{{ category.id }}"
                         class="ik-li category{% if category.appear_in_menu %} appear-in-menu{% endif %}">
-                        <div class="content">
+                        {% if request.GET.smart_link %}
                             <div class="subtle-shade select">
                                 <i class="glyphicon glyphicon-ok"></i>
                             </div>
+                        {% endif %}
+                        <div class="content">
                             {% url 'kako:change_category' category.id as change_category_url %}
                             {% if category.image and category.image.name %}
                                 <a href="{{ change_category_url }}" class="image" style="background-image: url({{ category.image.small_url }})"></a>
@@ -67,6 +69,7 @@
                                     {% else %}
                                         <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to main menu" %}"></i>
                                     {% endif %}
+                                    <a href="{{ change_category_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
                                     <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
                                 {% endif %}
                             </div>
