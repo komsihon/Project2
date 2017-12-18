@@ -91,7 +91,7 @@
                                     <div class="col-md-4 latest-grid">
                                         {% if category.items_count > 0 %}
                                             {% url 'shopping:product_list' category.slug as product_list_url %}
-                                            <a href="{{ product_list_url|append_auth_tokens:request }}"
+                                            <a href="{{ product_list_url }}"
                                                class="category-tile">
                                         {% else %}
                                             <a href="#" onclick="return false" class="category-tile empty">
@@ -171,6 +171,19 @@
                                                         <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                                     </p>
                                                 {% endif %}
+                                                <div class="availability">
+                                                    {% if product.unit_of_measurement %}
+                                                        <span>{% trans "Avail." %}: </span>
+                                                        <span class="text-muted">{{ product.stock }} {{ product.unit_of_measurement }}</span>
+                                                    {% else %}
+                                                        <span>&nbsp;</span>
+                                                    {% endif %}
+                                                </div>
+                                                {% if product.min_order > 1 %}
+                                                    <p class="min-order">{% trans "Min. order" %}: {{ product.min_order }}</p>
+                                                {% else %}
+                                                    <p class="min-order">&nbsp;</p>
+                                                {% endif %}
                                                 {% if config.allow_shopping and config.show_prices %}
                                                     <button class="button my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
                                                             {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
@@ -194,7 +207,7 @@
             <section class="fw-section" style="background-image: url({% get_media_prefix %}{{ fw_section.image.name }})">
                 <div class="container">
                     <div class="button">{% url 'shopping:smart_object_detail' fw_section.slug as smart_object_detail_url %}
-                        <a href="{{ smart_object_detail_url|append_auth_tokens:request }}" class="button1 cta">
+                        <a href="{{ smart_object_detail_url }}" class="button1 cta">
                             {{ fw_section.cta }}
                         </a>
                     </div>
@@ -212,7 +225,7 @@
                                     <div class="col-md-4 latest-grid">
                                         {% if category.items_count > 0 %}
                                             {% url 'shopping:product_list' category.slug as product_list_url %}
-                                            <a href="{{ product_list_url|append_auth_tokens:request }}"
+                                            <a href="{{ product_list_url }}"
                                                class="category-tile">
                                         {% else %}
                                             <a href="#" onclick="return false" class="category-tile empty">
@@ -243,7 +256,7 @@
                                         <div class="product-tile">
                                             <div  class="product-img">
                                                 <figure>
-                                                    <a href="{{ product_url|append_auth_tokens:request }}">
+                                                    <a href="{{ product_url }}">
                                                         {% for photo in product.photos|slice:"1:2" %}
                                                             <div class="grid-img">
                                                                 <img src="{{ photo.image|from_provider:product.provider }}"
@@ -277,7 +290,7 @@
                                                 <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
                                             </div>
                                             <div class="product-about">
-                                                <h6><a href="{{ product_url|append_auth_tokens:request }}" class="item_name">{{ product.name }}</a></h6>
+                                                <h6><a href="{{ product_url }}" class="item_name">{{ product.name }}</a></h6>
                                                 {% with size_list=product.get_size_list %}
                                                     {% if size_list %}
                                                         <span class="size">({{ product.get_size_list_label }})</span>
@@ -326,7 +339,7 @@
                                     <div class="product-tile">
                                         <div  class="product-img">
                                             <figure>
-                                                <a href="{{ product_url|append_auth_tokens:request }}">
+                                                <a href="{{ product_url }}">
                                                     {% for photo in product.photos|slice:"1:2" %}
                                                         <div class="grid-img">
                                                             <img src="{{ photo.image|from_provider:product.provider }}"
@@ -360,7 +373,7 @@
                                             <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
                                         </div>
                                         <div class="product-about">
-                                            <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
+                                            <h6><a href="{{ product_url }}">{{ product.name }}</a></h6>
                                             {% with size_list=product.get_size_list %}
                                                 {% if size_list %}
                                                     <span class="size">({{ product.get_size_list_label }})</span>
@@ -376,6 +389,11 @@
                                                     {% endif %}
                                                     <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                                 </p>
+                                            {% endif %}
+                                            {% if product.min_order > 1 %}
+                                                <p class="min-order">{% trans "Min. order" %}: {{ product.min_order }}</p>
+                                            {% else %}
+                                                <p class="min-order">&nbsp;</p>
                                             {% endif %}
                                             {% if config.allow_shopping and config.show_prices %}
                                                 <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
