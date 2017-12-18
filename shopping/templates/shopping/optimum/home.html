@@ -122,7 +122,7 @@
                                         <div class="product-tile">
                                             <div class="product-img">
                                                 <figure>
-                                                    <a href="{{ product_url|append_auth_tokens:request }}">
+                                                    <a href="{{ product_url }}">
                                                         {% for photo in product.photos|slice:"1:2" %}
                                                             <div class="grid-img">
                                                                 <img src="{{ photo.image|from_provider:product.provider }}" class="img-responsive" alt="">
@@ -154,7 +154,7 @@
                                                 <div class="starbox small ghosting"{% if product.get_rating %} data-average="{{ product.get_rating }}"{% endif %}> </div>
                                             </div>
                                             <div class="product-about">
-                                                <h6><a href="{{ product_url|append_auth_tokens:request }}">{{ product.name }}</a></h6>
+                                                <h6><a href="{{ product_url }}">{{ product.name }}</a></h6>
                                                 {% with size_list=product.get_size_list %}
                                                     {% if size_list %}
                                                         <span class="size">({{ product.get_size_list_label }})</span>
