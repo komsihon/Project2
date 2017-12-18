@@ -2,7 +2,7 @@ import os
 
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
@@ -260,8 +260,20 @@ class BatchUpload(models.Model):
 
 def update_category_items_count(sender, **kwargs):
     """
-    Receiver of the post_save and post_delete signals of
-    Product. It resets the ProductCategory.items_count accordingly
+    Receiver of the post_save signals of Product.
+    It resets the ProductCategory.items_count accordingly
+    """
+    if sender != Product:  # Avoid unending recursive call
+        return
+    for obj in ProductCategory.objects.all():
+        obj.items_count = obj.product_set.filter(in_trash=False).count()
+        obj.save()
+
+
+def update_product_containers_items_count(sender, **kwargs):
+    """
+    Receiver of the post_delete signals of Product. It resets the 
+    ProductCategory.items_count and SmartCategory.items_fk_list accordingly
     """
     if sender != Product:  # Avoid unending recursive call
         return
@@ -269,7 +281,12 @@ def update_category_items_count(sender, **kwargs):
         obj.items_count = obj.product_set.filter(in_trash=False).count()
         obj.save()
     instance = kwargs['instance']
-    from ikwen_kakocase.commarketing.models import SmartCategory
+    from ikwen_kakocase.commarketing.models import Banner, SmartCategory
+    for obj in Banner.objects.all():
+        if instance.id in obj.items_fk_list:
+            obj.items_fk_list.remove(instance.id)
+        obj.items_count = len(obj.items_fk_list)
+        obj.save()
     for obj in SmartCategory.objects.all():
         if instance.id in obj.items_fk_list:
             obj.items_fk_list.remove(instance.id)
@@ -277,3 +294,4 @@ def update_category_items_count(sender, **kwargs):
         obj.save()
 
 post_save.connect(update_category_items_count, dispatch_uid="product_post_save_id")
+post_delete.connect(update_product_containers_items_count, dispatch_uid="product_post_delete_id")
