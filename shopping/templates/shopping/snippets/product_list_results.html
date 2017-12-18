@@ -33,7 +33,7 @@
                     <div class="product-tile">
                         <div  class="product-img">
                             <figure>
-                                <a href="{{ product_url|append_auth_tokens:request }}">
+                                <a href="{{ product_url }}">
                                     {% for photo in product.photos|slice:"1:2" %}
                                         <div class="grid-img">
                                             <img  src="{{ photo.image|from_provider:product.provider }}" class="img-responsive" alt="">
@@ -79,6 +79,14 @@
                                     <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                 </p>
                             {% endif %}
+                            <div class="availability">
+                                {% if product.unit_of_measurement %}
+                                    <span>{% trans "Avail." %}: </span>
+                                    <span class="text-muted">{{ product.stock }} {{ product.unit_of_measurement }}</span>
+                                {% else %}
+                                    <span>&nbsp;</span>
+                                {% endif %}
+                            </div>
                             {% if product.min_order > 1 %}
                                 <p class="min-order">{% trans "Min. order" %}: {{ product.min_order }}</p>
                             {% else %}
