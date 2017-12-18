@@ -20,7 +20,6 @@ from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
 
-from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
@@ -65,7 +64,7 @@ class TemplateSelector(object):
 
     def get_template_names(self):
         config = get_service_instance().config
-        if config.theme.template.slug == _OPTIMUM:
+        if config.theme and config.theme.template.slug == _OPTIMUM:
             return [self.optimum_template_name]
         else:
             return [self.template_name]
