@@ -161,8 +161,8 @@ class Product(AbstractProduct):
                              help_text=_("Color of product as hexadecimal code."))
     weight = models.CharField(max_length=30, blank=True, null=True,
                               help_text=_("Weight in grams."))
-    stock = models.FloatField(blank=True, null=True,
-                              help_text=_("Stock of the product."))
+    stock = models.IntegerField(blank=True, null=True,
+                                help_text=_("Stock of the product."))
     unit_of_measurement = models.CharField(max_length=60, blank=True, null=True,
                                            help_text=_("Unit of measurement for this product."))
     min_order = models.IntegerField(default=1,

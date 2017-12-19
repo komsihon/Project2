@@ -595,9 +595,9 @@ class KakoViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('kako:set_stock', args=('api-signature2', '55d1fa8feb60008099bd4152', 12.5)))
         response = json.loads(response.content)
         self.assertTrue(response['success'])
-        self.assertDictEqual(response['details'], {'kcid': '55d1fa8feb60008099bd4152', 'stock': 12.5})
+        self.assertDictEqual(response['details'], {'kcid': '55d1fa8feb60008099bd4152', 'stock': 12})
         product = Product.objects.using(service.database).get(pk='55d1fa8feb60008099bd4152')
-        self.assertEqual(product.stock, 12.5)
+        self.assertEqual(product.stock, 12)
         config = get_service_instance(UMBRELLA).config
         self.assertEqual(config.last_stock_update_method, OperatorProfile.AUTO_UPDATE)
 
