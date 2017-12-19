@@ -170,11 +170,11 @@
                     <p class="col-xs-12" style="margin-bottom: 1em">{% trans "Please sign in to continue" %}</p>
                     <div class="actions">
                         <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
-                            <a href="{% url 'ikwen:sign_in' %}next={{ request.META.REQUEST_URI }}"
+                            <a href="{% url 'ikwen:sign_in' %}?next={{ request.META.REQUEST_URI }}"
                                class="btn btn-sm btn-success btn-block do-empty-cart">{% trans "Sign in" %}</a>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
-                            <a href="{% url 'ikwen:register' %}next={{ request.META.REQUEST_URI }}"
+                            <a href="{% url 'ikwen:register' %}?next={{ request.META.REQUEST_URI }}"
                                class="btn btn-sm btn-warning btn-block">{% trans "Register" %}</a>
                         </div>
                     </div>
