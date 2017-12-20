@@ -65,7 +65,7 @@ class SetExpressCheckout(ShoppingBaseView):
         if getattr(settings, 'UNIT_TESTING', False):
             signature = 'dumb_signature'
         else:
-            signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(16)])
+            signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for n in range(16)])
         request.session['signature'] = signature
 
         if getattr(settings, 'UNIT_TESTING', False):
