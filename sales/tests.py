@@ -30,10 +30,10 @@ from ikwen_kakocase.trade.models import Order, Package
 class ShoppingViewsTestCase(unittest.TestCase):
     """
     This test derives django.utils.unittest.TestCate rather than the default django.test.TestCase.
-    Thus, self.client is not automatically created and fixtures not automatically loaded. This
+    This, self.client is not automatically created and fixtures not automatically loaded. This
     will be achieved manually by a custom implementation of setUp()
     """
-    fixtures = ['categories.yaml', 'products.yaml', 'kc_promotions', 'kc_promocode']
+    fixtures = ['categories.yaml', 'kc_products.yaml', 'kc_promotions', 'kc_promo_codes', 'kc_setup_data', 'order', 'delivery_option', 'kc_operators_configs']
 
     def setUp(self):
         self.client = Client()
@@ -44,6 +44,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         wipe_test_data()
         # wipe_test_data(UMBRELLA)
 
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101')
     def test_ProductDetail_with_active_promotion(self):
         """
         ProductDetail view must load the correct product in the page
@@ -57,6 +58,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(product.previous_price, 450)
         self.assertEqual(product.retail_price, 405)
 
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_apply_promotion_discount_full(self):
         """
             here we test the complete operation of the promotion management function;
@@ -97,6 +99,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(item_in_site.previous_price, 480000)
         self.assertEqual(item_in_site.retail_price, 384000)
 
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_apply_promotion_discount_on_category_only(self):
         """
             here we test the complete operation of the promotion management function;
@@ -134,6 +137,17 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(item_in_site.name, 'Samsung Galaxy S7')
         self.assertEqual(item_in_site.on_sale, False)
         self.assertEqual(item_in_site.retail_price, 480000)
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
+    def test_load_checkout_summary_with_promocode(self):
+        response = self.client.get(reverse('sales:find_promo_code'), data={'code': 'partner15'})
+
+        response = self.client.get(reverse('shopping:load_checkout_summary'),
+                                    data={'items_count':2, 'items_cost':482700, 'delivery_option_id': '55d1feb9b37b301e070604d3'})
+
+
+        self.assertEqual(response.context['items_cost'],410295)
+        self.assertEqual(response.context['items_gross_cost'],482700)
 
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',

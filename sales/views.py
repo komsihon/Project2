@@ -3,6 +3,7 @@ from copy import copy
 
 from datetime import datetime
 import time
+from string import lowercase
 
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
@@ -109,13 +110,13 @@ class ChangePromoCode(BaseView):
         rate = request.POST.get('rate')
         is_active = request.POST.get('is_active')
         if code:
-            promo_code.code = code
+            promo_code.code = code.lower()
             promo_code.start_on = start_on
             promo_code.end_on = end_on
             promo_code.rate = rate
             promo_code.is_active = is_active
             promo_code.save()
-            next_url = reverse('sales:change_promo_code')
+            next_url = reverse('sales:promo_code_list')
             if promo_code_id:
                 messages.success(request, _("promo code %s successfully updated." % promo_code.code))
             else:
@@ -184,7 +185,7 @@ class ChangePromotion(BaseView):
             if item_id:
                 promotion.item = get_object_or_404(Product, pk=item_id)
             promotion.save()
-            next_url = reverse('sales:change_promotion')
+            next_url = reverse('sales:promotion_list')
             if promotion_id:
                 messages.success(request, _("Promotion %s successfully updated." % promotion.title))
             else:
@@ -258,7 +259,7 @@ def apply_promotion_discount(product_list):
 def find_promo_code(request, *args, **kwargs):
     code = request.GET.get('code')
     try:
-        promo_code = PromoCode.objects.get(code=code)
+        promo_code = PromoCode.objects.get(code=code.lower())
     except PromoCode.DoesNotExist:
         response = HttpResponse(json.dumps(
             {'error': 'Invalid promo code',

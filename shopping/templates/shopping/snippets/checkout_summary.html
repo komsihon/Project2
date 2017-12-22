@@ -17,6 +17,7 @@
                         <button class="btn btn-secondary apply-promo-code" type="button">{% trans 'Apply' %}</button>
                     </span>
                 </div>
+                <div class="invalid-code">{% trans "Invalid promotion code" %}</div>
             </div>
             <a class="promo-code" href="javascript:;" {% if delivery_options|length == 1 %} style="margin-bottom: 10px" {% endif %}>{% trans 'Promo code' %} ?</a>
         </div>

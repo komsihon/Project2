@@ -183,15 +183,20 @@
                     var code = $('.promo').find('input[type=text]').val();
                        $.getJSON("{% url 'sales:find_promo_code' %}", {code: code}, function(resp) {
                         if (resp.error) {
-
+                            $(".invalid-code").fadeIn().show();
+                            $('.promo').find('input[type=text]').focus()
                         }else {
 {#                            promoRate = parseInt(resp.promo_code.rate);#}
                             loadCheckoutSummary();
 {#                            $('#promo-code').remove()#}
                         }
                     });
+                }).on('keypress', '.promo input[type=text]',function () {
+                    $(".invalid-code").fadeOut().hide()
                 });
+
                 populateCartPanel();
+
 
                 function populateCartPanel() {
                     simpleCart.load();

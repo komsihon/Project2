@@ -17,18 +17,18 @@
                                         <h3>
                                             <a>
                                                 {% if config.logo.name %}
-                                                    <div class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ config.logo.name }})"></div>
+                                                    <div class="mob-logo-img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ config.logo.name }})"></div>
                                                 {% else %}
                                                     <div id="no-logo" class="no-logo subtle-shade">{{ service.project_name |make_list|first }}</div>
                                                 {% endif %}
-                                            {% if config.slogan %}<span>{{ config.slogan }}</span>{% endif %}
+                                            {% if config.slogan %}<span class="slogan">{{ config.slogan }}</span>{% endif %}
                                             </a>
                                         </h3>
                                     </div>
                                     <h4 class="name">{{ service.project_name }}</h4>
                                 </div>
                                 <div class="location">
-                                    {% if config.address %}<div class="adress"><i class="fa fa-address-card"></i>{{ config.address }}</div>{% endif %}
+                                    {% if config.address %}<div class="adress"><i class="fa fa-map-marker"></i>{{ config.address }}</div>{% endif %}
                                     {% if config.contact_phone %}<div class="phone"><i class="fa fa-phone" aria-hidden="true"></i>{{ config.contact_phone }}</div>{% endif %}
                                     {% if config.contact_email %}<div class="email"><i class="fa fa-envelope" aria-hidden="true"></i>{{ config.contact_email }}</div>{% endif %}
                                 </div>
@@ -72,18 +72,15 @@
                     <div class="clearfix"></div>
                     <div class="social-icon">
                         {% if config.facebook_link %}
-                            <a href="{{ config.facebook_link }}" target="_blank"><i class="facebook"></i></a>
+                            <a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook-official"></i></a>
                         {% endif %}
-                        {% if config.instagram_link %}<a href="{{ config.instagram_link }}" target="_blank"><i
-                                class="instagram"></i></a>{% endif %}
-                        {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i
-                                class="twitter"></i></a>{% endif %}
+                        {% if config.instagram_link %}<a href="{{ config.instagram_link }}" target="_blank"><i class="fa fa-instagram"></i></a>{% endif %}
+                        {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i class="fa fa-twitter-square"></i></a>{% endif %}
                         {% if config.google_plus_link %}
-                            <a href="{{ config.google_plus_link }}" target="_blank"><i
-                                    class="gplus"></i></a>{% endif %}
-                        {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i
-                                class="linkedin"></i></a>{% endif %}
+                            <a href="{{ config.google_plus_link }}" target="_blank"><i class="fa fa-google-plus-square"></i></a>{% endif %}
+                        {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i class="fa fa-linkedin-square"></i></a>{% endif %}
                     </div>
+                </div>
             </div>
         </div>
     </div>

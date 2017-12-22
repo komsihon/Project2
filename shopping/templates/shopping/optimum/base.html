@@ -48,7 +48,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="container">
                         <div class="top-left">
                             {% if config.contact_phone %}
-                            <a href="#"> {% trans "Help" %} <i class="fa fa-mobile" aria-hidden="true"></i>{{ config.contact_phone }}</a>
+                                <strong>{% trans "Help" %}</strong>
+                                <i class="fa fa-mobile" aria-hidden="true" style="font-size: 23px; margin-top: 2px"></i>
+                                <a href="tel://{{ config.contact_phone }}">{{ config.contact_phone }}</a>
                             {% endif %}
                         </div>
                         <div id="auth" class="top-right">
@@ -105,7 +107,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <a href="{{ home_url }}" class="hidden-xs">
                                         {% if config.theme.logo.name %}
                                             <div class="company-logo-container">
-                                                <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}" style="width: 90%;"/>
+                                                <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"/>
                                             </div>
                                         {% else %}
                                            <span>{{ service.project_name }}</span>
@@ -364,7 +366,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 {% for category in quick_access_categories %}
                                     <li>
                                         {% url 'shopping:product_list' category.slug as product_list_url %}
-                                        <a href="{{ product_list_url|append_auth_tokens:request }}">{{ category.name }}</a>
+                                        <a href="{{ product_list_url }}">{{ category.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -374,17 +376,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <p>{{ config.description|truncatewords:25 }}</p>
                             <div class="social-icon">
                                 {% if config.facebook_link %}
-                                    <a href="{{ config.facebook_link }}" target="_blank"><i class="facebook"></i></a>
+                                    <a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook-official"></i></a>
                                 {% endif %}
                                 {% if config.instagram_link %}<a href="{{ config.instagram_link }}" target="_blank"><i
-                                        class="instagram"></i></a>{% endif %}
+                                        class="fa fa-instagram"></i></a>{% endif %}
                                 {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i
-                                        class="twitter"></i></a>{% endif %}
+                                        class="fa fa-twitter-square"></i></a>{% endif %}
                                 {% if config.google_plus_link %}
                                     <a href="{{ config.google_plus_link }}" target="_blank"><i
-                                            class="gplus"></i></a>{% endif %}
+                                            class="fa fa-google-plus-square"></i></a>{% endif %}
                                 {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i
-                                        class="linkedin"></i></a>{% endif %}
+                                        class="fa fa-linkedin-square"></i></a>{% endif %}
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-3 footer-grid foot">
@@ -722,8 +724,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     var color = '#'; // hexadecimal starting symbol
                     var letters = ['004800','780015','752201','011899','8F0193','3F0008','00193D','0E1900','21003D']; //Set your colors here
                     color += letters[Math.floor(Math.random() * letters.length)];
-
-                    document.getElementById('no-logo').style.background = color; // Setting the random color on your div element.
+                    $('#no-logo').css('background', color)
                 }
                 ran_col()
 

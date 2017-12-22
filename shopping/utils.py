@@ -105,12 +105,24 @@ def parse_order_info(request):
             address = anonymous_buyer.delivery_addresses[int(previous_address_index)]
         order.anonymous_buyer = anonymous_buyer
 
+    coupon = None
+    if request.session.get('promo_code'):
+        promo_id = request.session['promo_code_id']
+        try:
+            coupon = PromoCode.objets.get(pk=promo_id)
+        except PromoCode.DoesNotExist:
+            pass
+
     for entry in entries:
         tokens = entry.split(':')
         product = Product.objects.get(pk=tokens[0])
         product = apply_promotion_discount([product])[0]
         product.units_sold_history = []  # Wipe these unnecessary data for this case
         count = int(tokens[1])
+
+        if coupon:
+            rate = coupon.rate
+            product.retail_price = product.retail_price * (100 - rate) / 100
 
         order_entry = OrderEntry(product=product,  count=count)
         order.entries.append(order_entry)

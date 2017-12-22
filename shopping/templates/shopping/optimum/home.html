@@ -20,11 +20,8 @@
         .core-slider_item .slide {
             background: center no-repeat;
             background-size: cover;
-            height: 250px;
             width: 100%
         }
-        .swiper-container {width: 100%}
-        .core-slider_item .cta {font-weight: 700; letter-spacing: 1px; margin-top: -90px; position: absolute; text-transform: uppercase}
 
         @media (max-width: 400px) {
             .core-slider_item .cta {
@@ -52,7 +49,7 @@
                                     <div class="slide" style="background-image: url({% get_media_prefix %}{{ slide.image.name }})">
                                         {% if slide.cta %}
                                             <div class="cta">
-                                                <a href="{% url 'shopping:smart_object_detail' slide.slug %}" class="button1">{{ slide.cta }}</a>
+                                                <a href="{% url 'shopping:smart_object_detail' slide.slug %}" class="button1 has-shade">{{ slide.cta }}</a>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -421,27 +418,37 @@
 {% block js %}
     {{ block.super }}
     <script>
-        var mySwiper = new Swiper ('.swiper-container', {
-            // Optional parameters
-            direction: 'horizontal',
-            loop: false,
+        (function() {
+            var mySwiper = new Swiper ('.swiper-container', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: false,
 
-            // If we need pagination
-            pagination: {
-            el: '.swiper-pagination',
-            },
+                // If we need pagination
+                pagination: {
+                el: '.swiper-pagination',
+                },
 
-            // Navigation arrows
-            navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-            }
-        })
+                // Navigation arrows
+                navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+                },
+                autoplay: 5000
+            })
+
+            $('.swiper-container').on('mouseenter', function(e){
+                console.log('stop autoplay');
+                mySwiper.stopAutoplay();
+            })
+             $('.swiper-container').on('mouseleave', function(e){
+                console.log('start autoplay');
+                mySwiper.startAutoplay();
+            })
+        })()
     </script>
     <script>
         (function() {
-
-
 
             $('section.product-agile:first').css('background', '#f9f8f8');
             $('section.product-agile:not(:first)').each(function(i) {

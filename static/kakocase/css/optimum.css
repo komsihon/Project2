@@ -22,14 +22,48 @@ a:hover, a:focus {color: inherit; text-decoration: none}
 p{padding:0 0;margin:0 0;  }
 ul{padding:0 0;margin: -5px 0 -6px;}
 li {list-style-type: none;color: #2a2424;}
-.header-top {background: #ececec;padding: .7em 0;}
+.header-top {background: #ececec;padding: 8px 0 9px;height: 40px;}
 .header-top .fa {cursor: pointer}
 
-.top-left {float: left}
-.top-left i {font-size: 1em;margin-left: 0.5em;margin-right: .5em;}
-.top-left  a{color: #222;font-size: 1em;text-transform: capitalize;text-decoration: none;font-weight: 700;}
+.hvr-sweep-to-top:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f6002c;
+  border-radius: 50%;
+  -webkit-border-radius: 60%;
+  -moz-border-radius: 60%;
+  -o-border-radius: 60%;
+  -ms-border-radius: 60%;
+  -webkit-transform: scaleY(0);
+  transform: scaleY(0);
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-sweep-to-top:hover, .hvr-sweep-to-top:focus, .hvr-sweep-to-top:active {
+  color: white;
+}
+.hvr-sweep-to-top:hover:before, .hvr-sweep-to-top:focus:before, .hvr-sweep-to-top:active:before,.services-grid:hover .hvr-sweep-to-top:before{
+  -webkit-transform: scaleY(1);
+  transform: scaleY(1);
+}
+.top-left {float: left;margin-top: -1px;}
+.top-left strong {float: left;margin-top: 4px;}
+.top-left i {float: left; font-size: 23px;margin: 2px .5em}
+.top-left  a{color: #222;font-size: 1em;text-transform: capitalize;text-decoration: none;font-weight: 700;float: left;margin-top: 4px;}
+
 .top-right ul li {display: inline-block;padding: 0 1em;}
-.top-right ul li a {font-size: 1em;text-transform: capitalize;color: #222;text-decoration: none;font-weight: 700;}
+.top-right ul li a {font-size: 1em;text-transform: capitalize;color: #222;text-decoration: none;font-weight: 700;line-height: 25px;}
 .top-right .dropdown-menu li a {background: #fff; color:#777; font-weight: 400}
 
 .top-right .dropdown-menu li a:hover {color:#333}
@@ -66,6 +100,10 @@ li {list-style-type: none;color: #2a2424;}
 .company-logo-container {float: left;max-height: 45px;max-width: 200px;overflow: hidden;}
 
 
+.swiper-container {width: 100%}
+.core-slider_item .cta {font-weight: 700; letter-spacing: 1px; margin-top: -90px; position: absolute; text-transform: uppercase;  width: 100%;}
+.core-slider_item .cta a.button1 {background: #e38f2b; color: #fff;  display: block; font-weight: 700; margin: auto; padding: 15px 0; text-align: center; width: 225px}
+
 .header-right2 {float: right}
 .logo-nav-left {float: left}
 .simpleCart_quantity {font-size: 86%;margin-left: -65px;margin-top: -9px;position: absolute;z-index: 10;}
@@ -81,6 +119,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .fw-section span {color: #fff; display: block; font-size: 5em; line-height: 2em; margin-bottom: .5em}
 .fw-section .cta {display: block;color: #fff;border: solid 2px;padding: 12px 0;margin: 27em auto 0;width: 225px;}
 .empty-cart {margin: 6px 0;; float: left}
+.swiper-slide .cta {}
 
 .logo-nav-right {float:right; margin-right: 3%; margin-top: 15px; width: 30%}
 .header-xs {background: #080000;color: #fff;height: 45px;padding-top: 2px;position: fixed;transition-property: all;transition-duration: .2s;top: 0;transition-timing-function: cubic-bezier(0, 1, 0.5, 1);width: 100%;z-index: 2;}
@@ -157,6 +196,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .footer-grid i {border-radius: 48px;border: 1px solid transparent;color: #1f1137;font-size: 1em;height: 30px;margin-right: 11px;line-height: 2em;text-align: center;vertical-align: middle;width: 30px;}
 .foot ul li:nth-child(2) {margin: 1em 0}
 
+.invalid-code {color: #e51c23;float: left;margin-top: -15px;font-size:  13px;display: none;}
 .navbar {position: relative; margin-bottom: 0}
 .navbar-nav > li > a {font-size: 1em; font-weight: 700; text-transform: uppercase}
 .navbar-nav > li > a:hover {color:#1B242F}
@@ -436,6 +476,26 @@ h2.typoh2{ margin: 0 0 10px;}
 #suggestions h3 {float: left;margin-top: 20px;font-size: 1.6em;}
 
 
+
+.latest-text2 {
+   position: absolute;
+   top: 3%;
+   left: 80%;
+   background: #1f1137;
+   padding: 1.5em 0em;
+   border-radius: 60px;
+   text-align: center;
+   width: 17%;
+}
+.latest-text2 h4 {
+    font-size: 1.2em;
+    color: #fff;
+}
+.latest-text2 {
+		left: 73%;
+		width: 21%;
+	}
+
 /*--codes--*/
 /*--single--*/
 .single-wl3 {padding: 5em 0;}
@@ -606,6 +666,8 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 }
 
 @media (max-width: 767px){
+     .banner-w3 {margin-top: 45px;}
+    .core-slider_item .cta a.button1 {width: 125px; padding: 5px 0}
      .slogan {clear: both; font-size: 14px; font-style: italic}
     .product-agile .container {padding: 0}
     .single-right .price.item_price {margin: 0px 0 5px;}

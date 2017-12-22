@@ -88,7 +88,7 @@
 
 {% block breadcrumb_location %}
     <li>{% url 'kako:product_list' as product_url %}
-        <a href="{{ product_url|append_auth_tokens:request }}">{% trans "Products" %}</a>
+        <a href="{{ product_url }}">{% trans "Products" %}</a>
     </li>
     {% if product %}
         <li>{{ product.name }}</li>
@@ -123,7 +123,7 @@
                     </div>
                 </div>
             </div>
-            <form id="submit-product" class="tab-content admin-form" method="post" action="{{ request.META.path|append_auth_tokens:request }}">{% csrf_token %}
+            <form id="submit-product" class="tab-content admin-form" method="post" action="{{ request.META.path }}">{% csrf_token %}
                 {% url 'kako:submit_product' as submit_product_url %}
                 {% if error %}<p class="alert alert-danger">{{ error }}</p>{% endif %}
                 <input type="hidden" id="product-id" name="product_id" value="{{ product.id }}" />

@@ -71,6 +71,8 @@ label sup {color: #ff0000}
 @media (max-width: 991px) {
     .single-grid {padding: 0}
     .single-wl3 .container {padding: 0}
+    .single-grid {padding-left: 15px }
+    .content {margin-top: 50px}
 }
 
 @media (max-width: 767px) {
@@ -78,4 +80,6 @@ label sup {color: #ff0000}
     .bank-notice {width: 100%}
     .single-wl3 .container {padding: 0 10px}
     .open-bank-account a {float: left; margin-top: 10px; width: 100%}
+    .single-grid {padding-left: 0}
+    .content {margin-top: 0}
 }
