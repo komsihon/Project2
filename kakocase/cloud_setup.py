@@ -216,12 +216,16 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     member.save(using=database)
 
     from ikwen.billing.mtnmomo.views import MTN_MOMO
+    from ikwen.billing.orangemoney.views import ORANGE_MONEY
     # Copy payment means to local database
     for mean in PaymentMean.objects.using(UMBRELLA).all():
         if mean.slug == 'paypal':
             mean.action_url_name = 'shopping:paypal_set_checkout'
         if mean.slug == MTN_MOMO:
             mean.is_main = True
+            mean.is_active = True
+        elif mean.slug == ORANGE_MONEY:
+            mean.is_main = False
             mean.is_active = True
         else:
             mean.is_main = False
