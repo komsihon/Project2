@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext as _
 from ikwen_kakocase.sales.models import Promotion, PromoCode, CustomerEmail
@@ -33,6 +34,6 @@ class PromoCodeAdmin(admin.ModelAdmin):
     save_on_top = True
 
 
-admin.site.register(Promotion, PromotionAdmin)
-admin.site.register(PromoCode, PromoCodeAdmin)
-
+if not getattr(settings, 'IS_IKWEN', False):
+    admin.site.register(Promotion, PromotionAdmin)
+    admin.site.register(PromoCode, PromoCodeAdmin)
