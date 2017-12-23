@@ -209,8 +209,6 @@ class ChangeCategory(BaseView):
         context['model_admin_form'] = category_form
         return context
 
-    @method_decorator(sensitive_post_parameters())
-    @method_decorator(csrf_protect)
     def post(self, request, *args, **kwargs):
         smart_category_id = self.request.POST.get('smart_category_id')
         if not smart_category_id:
