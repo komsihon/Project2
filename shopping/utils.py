@@ -109,7 +109,7 @@ def parse_order_info(request):
     if request.session.get('promo_code'):
         promo_id = request.session['promo_code_id']
         try:
-            coupon = PromoCode.objets.get(pk=promo_id)
+            coupon = PromoCode.objects.get(pk=promo_id)
         except PromoCode.DoesNotExist:
             pass
 
@@ -129,16 +129,8 @@ def parse_order_info(request):
         order.items_count += count
         order.items_cost += product.retail_price * count
         order.tags += ' ' + product.name
-    if request.session.get('promo_code'):
-        promo_id = request.session['promo_code_id']
-        try:
-            coupon = PromoCode.objects.get(pk=promo_id)
-        except PromoCode.DoesNotExist:
-            pass
-        else:
-            rate = coupon.rate
-            order.items_cost = order.items_cost * (100 - rate) / 100
-            order.coupon = coupon
+
+    order.coupon = coupon
     order.total_cost = order.items_cost + delivery_option.cost
     order.delivery_address = address
     return order
