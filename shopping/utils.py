@@ -132,7 +132,7 @@ def parse_order_info(request):
     if request.session.get('promo_code'):
         promo_id = request.session['promo_code_id']
         try:
-            coupon = PromoCode.objets.get(pk=promo_id)
+            coupon = PromoCode.objects.get(pk=promo_id)
         except PromoCode.DoesNotExist:
             pass
         else:
