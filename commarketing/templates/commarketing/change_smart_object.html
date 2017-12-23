@@ -19,11 +19,11 @@
 {% block breadcrumb_location %}
     {% if object_type == 'banner' %}
         <li style="text-transform: capitalize">{% url 'marketing:banner_list' as banner_list_list_url %}
-            <a href="{{ banner_list_list_url|append_auth_tokens:request }}">{{ object_type }}</a>
+            <a href="{{ banner_list_list_url }}">{{ object_type }}</a>
         </li>
     {% else %}
         <li style="text-transform: capitalize">{% url 'marketing:smart_category_list' as smart_category_list_url %}
-            <a href="{{ smart_category_list_url|append_auth_tokens:request }}">{{ object_type }}</a>
+            <a href="{{ smart_category_list_url }}">{{ object_type }}</a>
         </li>
     {% endif %}
     {% if smart_object %}
@@ -37,7 +37,7 @@
     <div id="admin-content" class="change-form">
         {% url 'marketing:change_smart_object' object_type as change_smart_object_url %}
         {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
-        <form id="submit-category" class="admin-form" method="post" action="{{ change_smart_object_url|append_auth_tokens:request }}">{% csrf_token %}
+        <form id="submit-category" class="admin-form" method="post" action="{{ change_smart_object_url }}">{% csrf_token %}
             <input type="hidden" name="smart_object_id" value="{{ smart_object.id }}" />
             <input type="hidden" name="image_url" id="image_url" />
             <input type="hidden" name="items_fk_list" id="items_fk_list" value="{{ smart_object.items_fk_list }}" />
@@ -74,12 +74,12 @@
                                     {% url 'kako:change_product' item.id as change_item_url %}
                                 {% endif %}
                                 {% if item.image and item.image.name %}
-                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="image" style="background-image: url({{ item.image.small_url }})"></a>
+                                    <a href="{{ change_item_url }}" class="image" style="background-image: url({{ item.image.small_url }})"></a>
                                 {% else %}
-                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                    <a href="{{ change_item_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
                                 {% endif %}
                                 <div class="info">
-                                    <a href="{{ change_item_url|append_auth_tokens:request }}" class="full_name">{{ item.name }}</a>
+                                    <a href="{{ change_item_url }}" class="full_name">{{ item.name }}</a>
                                 </div>
                                 <div class="actions">
                                     <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
