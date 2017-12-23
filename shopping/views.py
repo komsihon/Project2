@@ -65,7 +65,10 @@ class TemplateSelector(object):
     def get_template_names(self):
         config = get_service_instance().config
         if config.theme and config.theme.template.slug == _OPTIMUM:
-            return [self.optimum_template_name]
+            try:
+                return [self.optimum_template_name]
+            except:
+                return [self.template_name]
         else:
             return [self.template_name]
 
