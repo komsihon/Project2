@@ -2,10 +2,11 @@
 {% load i18n static humanize user_agents auth_tokens media_from_provider currency cache %}
 
 {% block meta %}
-    <meta property="description" content="{{ config.short_description }}" />
+    <meta name="abstract" content="{{ service.project_name }} - {{ config.slogan }}" />
+    <meta name="description" content="{{ config.description }}" />
     <meta property="og:title" content="{{ service.project_name }}" />
     <meta property="og:image" content="{% get_media_prefix %}{{ config.logo.name }}" />
-    <meta property="og:description" content="{{ config.short_description }}" />
+    <meta property="og:description" content="{{ config.description }}" />
     <meta property="og:url" content="{{ service.url }}" />
     <meta property="og:site_name" content="{{ service.domain|upper }}" />
 {% endblock %}
