@@ -140,11 +140,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                         <span class="simpleCart_total"></span>
     {#                                                    (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> {% trans "items" context 'cart items' %})#}
                                                     </div>
+
+                                                    <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
                                                 </h5>
                                             </a>
                                             <a href="javascript:;" class="empty-cart" data-toggle="modal"
                                                data-target="#confirm-empty-cart">
-                                                <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
                                                 <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
                                             </a>
                                         </div>
@@ -327,11 +328,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              </li>
                      {% endfor %}
                      {% for category in menu_categories %}
-                             <li class="swiper-slide">
-                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
-                             </li>
+                         <li class="swiper-slide">
+                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                         </li>
                      {% endfor %}
-                </ul>
+                     {% for category in quick_access_categories %}
+                         <li class="swiper-slide">
+                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                         </li>
+                     {% endfor %}
+                    </ul>
                 {% if config.can_manage_currencies %}
                     {% include 'shopping/snippets/currency_switcher.html' %}
                 {% endif %}
@@ -392,9 +398,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="col-sm-6 col-md-3 footer-grid foot">
                             <h4>{% trans "Contacts" %}</h4>
                             <ul>
-                                <li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="#">{{ config.address }}</a></li>
+                                <li><i class="fa fa-map-marker" aria-hidden="true" style="font-size: 20px"></i><a href="#">{{ config.address }}</a></li>
                                 {% if config.contact_phone %}
-                                <li><i class="fa fa-phone" aria-hidden="true"></i><a href="#">{{ config.contact_phone }}</a></li>
+                                <li><i class="fa fa-phone" aria-hidden="true" style="font-size: 20px"></i><a href="#">{{ config.contact_phone }}</a></li>
                                 {% endif %}
                                 <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:{{ config.contact_email }}">{{ config.contact_email }}</a></li>
                             </ul>
