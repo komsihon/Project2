@@ -21,11 +21,13 @@
                                                 {% else %}
                                                     <div id="no-logo" class="no-logo subtle-shade">{{ service.project_name |make_list|first }}</div>
                                                 {% endif %}
-                                            {% if config.slogan %}<span class="slogan">{{ config.slogan }}</span>{% endif %}
                                             </a>
                                         </h3>
                                     </div>
-                                    <h4 class="name">{{ service.project_name }}</h4>
+                                    <div class="mob-company">
+                                        <h4 class="name">{{ service.project_name }}</h4>
+                                        {% if config.slogan %}<div class="mob-slogan-ctnr"><span class="slogan">{{ config.slogan }}</span></div>{% endif %}
+                                    </div>
                                 </div>
                                 <div class="location">
                                     {% if config.address %}<div class="adress"><i class="fa fa-map-marker"></i>{{ config.address }}</div>{% endif %}

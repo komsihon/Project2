@@ -1,0 +1,43 @@
+/**
+	Document   : admin.css
+	Created on : Nov 28, 2017, 13:58
+	Author     : Roddy Mbogning
+	Description:
+		Additional rules for kakocase cart page
+*/
+
+h1, h2, h3, h4, h5, h6 {color: #381f06;}
+.header-xs {background: #261504;}
+.nav-xs .swiper-slide {background: #1d0303;}
+.header-bottom, .header-bottom.fixed {color: #c94747;}
+.header-bottom.fixed #auth.top-right .fa {color: #381f06;}
+.header-bottom.fixed #auth.top-right a:not(.dropdown-menu a) {color: #FFF}
+.header-bottom a, .header-bottom>h1, .header-bottom h5 {color: #381f06;}
+.footer-w3l {}
+.copy-section {background: #160c02;}
+.footer-grid i {border: 1px solid #f0eded;}
+.latest-text {background: rgba(48, 2, 2, 0.65);}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {background: #46280a;border-color: #2b1906;}
+em.item_price {color: #381f06;}
+.price h3, .top-rates h3, .brand-w3l h3 {background: #381f06;}
+p.price {color: #5a320a;}
+.product-about h6 a {color: #663400;}
+span.price-in1 {color: #5a320a;}
+.navbar-nav > li > a:hover {color: #ebf0e9;}
+.left-tab > li > a {background: #371313;}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {background-color: #702c2c;}
+#reviews input[type="submit"] {background: #291705; font-weight: 700}
+.footer-grid i {color: #381f06;border: 1px solid #381f06;}
+.navbar-nav > li > a:hover {color: #9b430a;}
+ul.dropdown-menu.user-menu  li{color:  #381f06}
+.footer-grid ul li a {color: #371111;}
+@media (min-width: 768px){
+    .modal .product-about .product-price em {color: #291705;}
+    .toggle-cd-search .fa {color: #381f06;}
+    .price h3, .top-rates h3, .brand-w3l h3 {background: transparent; color: #381f06}
+}
+@media (min-width: 992px){
+    .modal .product-about .product-price em {color: #291705;}
+    .toggle-cd-search .fa {color: #381f06;}
+    .price h3, .top-rates h3, .brand-w3l h3 {background: #381f06; color: #fff}
+}

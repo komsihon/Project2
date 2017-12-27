@@ -17,8 +17,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		{% block page_title %}{% endblock %}
 		{% block head_style %}
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/swiper.min.css' %}">
+            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
+            <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
@@ -429,31 +429,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_successful_registration.html' %}
         {% include 'shopping/snippets/modal_news_letter.html' %}
         <div class="edge-swipe-overlay"></div>
-{#        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>#}
-        <script src="{% static 'kakocase/js/ikwen-util.js' %}"></script>
 
         <script src="{% static 'kakocase/js/bootstrap-3.1.1.min.js' %}"></script>
         <script src="{% static 'kakocase/js/simpleCart.min.js' %}"></script>
-{#        <script src="{% static 'kakocase/js/jstarbox.js' %}"></script>#}
-        <script src="{% static 'kakocase/js/swiper.min.js' %}"></script>
-        <script src="{% static 'kakocase/hammerjs/hammer.min.js' %}"></script>
-        <script src="{% static 'kakocase/hammerjs/jquery.hammer.js' %}"></script>
-        <script src="{% static 'kakocase/js/ikwen-util.js' %}"></script>
+        <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
         <script type="text/javascript">
             (function () {
                 {% if request.GET.successfulRegistration %}
                     $('#modal-successful-registration').modal('show');
                 {% endif %}
-{#                $('.starbox').each(function () {#}
-{#                    var starbox = jQuery(this);#}
-{#                    starbox.starbox({#}
-{#                        average: starbox.hasClass('changeable') ? 0.01 : starbox.data('average') ? starbox.data('average'): Math.random(),#}
-{#                        changeable: starbox.hasClass('changeable') ? true : starbox.hasClass('clickonce') ? 'once' : false,#}
-{#                        ghosting: starbox.hasClass('ghosting'),#}
-{#                        autoUpdateAverage: starbox.hasClass('autoupdate'),#}
-{#                        buttons: 10#}
-{#                    })#}
-{#                });#}
 
                 /* CART STUFFS */
                 simpleCart.currency({

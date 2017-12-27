@@ -1,0 +1,35 @@
+/**
+	Document   : admin.css
+	Created on : Nov 28, 2017, 13:58
+	Author     : Roddy Mbogning
+	Description:
+		Additional rules for kakocase cart page
+*/
+
+.header-top {background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);}
+.header-xs {background: #6e550d}
+.nav-xs .swiper-slide {background: #6e550d}
+.header-bottom, .header-bottom.fixed {background: #272727; color: #FFF}
+.header-bottom.fixed #auth.top-right .fa {color: #FFF}
+.header-bottom.fixed #auth.top-right a:not(.dropdown-menu a) {color: #FFF}
+.header-bottom a, .header-bottom h5 {color: #FFF}
+.header-bottom h1 a {color: #d9a50b}
+.footer-w3l {background: #272727}
+.copy-section {background: #6e550d;}
+.footer-grid i {border: 1px solid #f0eded;}
+/*.my-cart-b {border-color: #008648;}*/
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {background: #d9a50b; border-color: #6e550d;}
+em.item_price {color: #6e550d}
+.price h3, .top-rates h3, .brand-w3l h3 {background: #6e550d}
+.ui-widget-header {background: #6e550d;}
+p.price {color:#6e550d}
+span.price-in1 {color:#6e550d}
+.navbar-nav > li > a:hover {color: #ebf0e9;}
+.left-tab > li > a {background: #FDB931}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {background-color: #9f7928}
+#reviews input[type="submit"] {background: #9f7928; font-weight: 700}
+.fw-section .cta {background: #a08a3e; border: #816c3c solid 2px;padding: 8px 0;}
+@media (min-width: 768px){
+    .modal .product-about .product-price em {color:#6e550d}
+}
