@@ -57,7 +57,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             {% if user.is_authenticated %}
                                 <ul>
                                     <li>
-                                        <a href="{{ settings.IKWEN_CONSOLE_URL|append_auth_tokens:request }}">
+                                        <a href="{{ settings.IKWEN_CONSOLE_URL }}">
                                             {% if user.get_notice_count > 0 %}
                                                 <span class="label label-danger"
                                                       style="">{{ user.get_notice_count }}</span>
@@ -112,7 +112,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         {% else %}
                                            <span>{{ service.project_name }}</span>
                                         {% endif %}
-                                    {% if config.slogan %}<span class="slogan">{{ config.slogan }}</span>{% endif %}
+                                    {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
                                     </a>
                                     <a class="visible-xs">
                                         {% if config.theme.logo.name %}
@@ -120,7 +120,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         {% else %}
                                             <span>{{ service.project_name }}</span>
                                         {% endif %}
-                                    {% if config.slogan %}<span class="slogan">{{ config.slogan }}</span>{% endif %}
+                                    {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
                                     </a>
                                 </h1>
                             </div>
@@ -315,28 +315,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <!-- Additional required wrapper -->
                 <div class="xs-swiper-container">
                     <ul class="nav swiper-wrapper">
-                     {% for smart_category in smart_categories_level2 %}
-
+                         {% for smart_category in smart_categories_level2 %}
                              <li class="swiper-slide level2"><a
                                     href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
                              </li>
-
-                     {% endfor %}
-                     {% for smart_category in smart_categories_level1 %}
+                         {% endfor %}
+                         {% for smart_category in smart_categories_level1 %}
                              <li class="swiper-slide level1"><a
                                     href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
                              </li>
-                     {% endfor %}
-                     {% for category in menu_categories %}
-                         <li class="swiper-slide">
-                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
-                         </li>
-                     {% endfor %}
-                     {% for category in quick_access_categories %}
-                         <li class="swiper-slide">
-                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
-                         </li>
-                     {% endfor %}
+                         {% endfor %}
+                         {% for category in menu_categories %}
+                             <li class="swiper-slide">
+                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                             </li>
+                         {% endfor %}
+                         {% for category in quick_access_categories %}
+                             <li class="swiper-slide">
+                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                             </li>
+                         {% endfor %}
                     </ul>
                 {% if config.can_manage_currencies %}
                     {% include 'shopping/snippets/currency_switcher.html' %}
@@ -412,9 +410,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="copy-section">
                 <div class="container">
                     <div class="copy-left">
-                        <p>&copy; {{ year }} <a href="{{ service.url|append_auth_tokens:request }}" style="text-decoration: none"><strong>{{ config.company_name }}</strong></a>.
+                        <p>&copy; {{ year }} <a href="{{ service.url}}" style="text-decoration: none"><strong>{{ config.company_name }}</strong></a>.
                             <span>{% trans "All rights reserved" %}</span>
-                            - <a href="{{ settings.LEGAL_MENTIONS_URL|append_auth_tokens:request }}" style="text-decoration: none">{% trans "Legal mentions" %}</a>
+                            - <a href="{{ settings.LEGAL_MENTIONS_URL }}" style="text-decoration: none">{% trans "Legal mentions" %}</a>
                         </p>
                     </div>
 {#                    <div class="copy-right">#}
