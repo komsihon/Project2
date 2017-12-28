@@ -198,7 +198,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .invalid-code {color: #e51c23;float: left;margin-top: -15px;font-size:  13px;display: none;}
 .navbar {position: relative; margin-bottom: 0}
-.navbar-nav > li > a {font-size: 1em; font-weight: 700; text-transform: uppercase}
+.navbar-nav > li > a {font-size: 1em; font-weight: 700}
 .navbar-nav > li > a:hover {color:#1B242F}
 
 #side-nav {background: #fff;left: 0;max-width: 300px;overflow: auto;position: fixed;height: 100%;width: 90%;top: 0;z-index: 10;display: none;}
@@ -212,7 +212,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 #side-nav .panel-top .cover .location > div:first-child {margin-top: 0}
 #side-nav .cart {clear: both;padding: 15px 15px 8px;border-bottom: 1px solid #dbdbdb;}
 #side-nav .nav-stacked {clear: both;float: left;padding-top: 15px;width: 100%;margin-top: 280px;}
-#side-nav .nav-stacked li a {text-transform: uppercase; font-weight: 700; color: #676767; font-size: 14px}
+#side-nav .nav-stacked li a {font-weight: 700; color: #676767; font-size: 14px}
 #side-nav .divider {border-top: solid 1px #dcdcdc; width: 100%}
 .top-edge-panel {max-width: 300px; position: fixed; width: 90%}
 .nav-xs ul.nav {float: left;margin-top: 9px;margin-left: -60px;}
@@ -552,7 +552,7 @@ ul.dropdown-menu.user-menu li {font-weight:  700}
 /*--single--*/
 .logo-nav-left span {float: left}
 .logo-nav-left .slogan {clear: both;font-size: 14px;font-style: italic;overflow: hidden;width: 175px;}
-.mob-logo-img {background-size: contain;background-repeat: no-repeat;max-height: 50px;max-width: 150px;width: 90%;float:  left;height: 45px;}
+.mob-logo-img {background-size: contain;background-repeat: no-repeat;max-height: 50px;max-width: 150px;width: 60px;float:  left;height: 60px;}
 
 
 .availability {float: left; text-align: center; width: 100%}
