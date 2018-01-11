@@ -201,6 +201,13 @@
                                     <a href="{% url 'billing:payment_mean_list' %}">{% trans "Payment means" %}</a>
                                 </li>
                             {% endif %}
+                            {% if modules %}
+                            <li role="presentation" class="modules">
+                                <a href="{% url 'ikwen:module_list' %}">
+                                    {% trans "Modules" %}
+                                </a>
+                            </li>
+                            {% endif %}
                             <li role="presentation" class="configuration">
                                 {% url 'ikwen:configuration' as configuration_url %}
                                 <a href="{{ configuration_url }}">{% trans "Configuration" %}</a>
