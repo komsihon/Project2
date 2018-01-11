@@ -3,10 +3,11 @@ import os
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_save
 from djangotoolbox.fields import ListField
 from ikwen.core.fields import MultiImageField
 
-from ikwen.core.models import Model
+from ikwen.core.models import Model, Module
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService
 from django.utils.translation import gettext_lazy as _
 
@@ -15,11 +16,11 @@ from ikwen_kakocase.kakocase.models import ProductCategory, CATEGORIES_PREVIEWS_
 CATEGORIES = "Categories"
 PRODUCTS = "Products"
 SERVICES = "Services"
+MODULE = "Module"
 
 CONTENT_TYPE_CHOICES = (
     (CATEGORIES, _("Categories")),
     (PRODUCTS, _("Products")),
-    (SERVICES, _("Services"))
 )
 
 SLIDE = 'Slide'
@@ -133,17 +134,36 @@ class SmartCategory(SmartObject):
     appear_in_menu = models.BooleanField(default=False,
                                          help_text=_("Smart Category will appear in main menu if checked."))
 
+    def _get_module(self):
+        try:
+            return Module.objects.get(slug=self.slug)
+        except:
+            pass
+    module = property(_get_module)
 
-# ########   BELOW APPLY TO PROVIDER    ######### #
 
-class Push(Model):
+def sync_module_menu(sender, **kwargs):
     """
-    A push made by a Provider to spotlight a product so that Retailers promote
-    it on their websites. Any newly made Push results in a notification that appear
-    on ikwen console of all Retailers of the actual Provider
+    Creates or delete the corresponding menu
+    whenever you activate/deactivate the module
     """
-    product = models.ForeignKey(Product)
-    about = models.TextField()
+    if sender != Module:  # Avoid unending recursive call
+        return
+    module = kwargs['instance']
+    if module.is_active:
+        try:
+            menu = SmartCategory.objects.get(slug=module.slug)
+            menu.title = module.title
+            menu.image = module.image
+            menu.save()
+        except SmartCategory.DoesNotExist:
+            order_of_appearance = SmartCategory.objects.filter(is_active=True).count()
+            if module.url_name:  # Only Modules with URL generate a menu
+                SmartCategory.objects.create(title=module.title, slug=module.slug, content_type=MODULE,
+                                             order_of_appearance=order_of_appearance, image=module.image,
+                                             appear_in_menu=True)
+    else:
+        SmartCategory.objects.filter(slug=module.slug).delete()
+        # HomepageSection.objects.filter(description=module.slug).delete()
 
-    class Meta:
-        ordering = ('-id', )
+post_save.connect(sync_module_menu, dispatch_uid="module_post_save_id")
