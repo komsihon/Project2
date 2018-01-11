@@ -21,8 +21,8 @@ class MarketingViewsTestCase(unittest.TestCase):
 
     def setUp(self):
         self.client = Client()
-        # call_command('loaddata', 'kc_setup_data.yaml', database=UMBRELLA)
-        # call_command('loaddata', 'kc_operators_configs.yaml', database=UMBRELLA)
+        call_command('loaddata', 'kc_setup_data.yaml', database='umbrella')
+        call_command('loaddata', 'kc_operators_configs.yaml', database='umbrella')
         for fixture in self.fixtures:
             call_command('loaddata', fixture)
 
@@ -65,7 +65,7 @@ class MarketingViewsTestCase(unittest.TestCase):
                           'is_active': 'yes'}
                          )
         slide = Banner.objects.get(slug='store-opening', display=SLIDE)  # Slug must be correctly set
-        self.assertEqual(slide.title, 'Store opening')
+        self.assertEqual(slide.title, u'Store Opening')
         self.assertEqual(slide.content_type, CATEGORIES)
         response = self.client.get(reverse('marketing:banner_list'))
         self.assertEqual(response.status_code, 200)
@@ -112,7 +112,7 @@ class MarketingViewsTestCase(unittest.TestCase):
                           'is_active': 'yes'}
                          )
         smart_category = SmartCategory.objects.get(slug='best-sellers')  # Slug must be correctly set
-        self.assertEqual(smart_category.title, 'Best sellers')
+        self.assertEqual(smart_category.title, u'Best Sellers')
         response = self.client.get(reverse('marketing:smart_category_list'))
         self.assertEqual(response.status_code, 200)
         smart_categories = response.context['smart_category_list']

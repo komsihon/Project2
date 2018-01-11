@@ -16,39 +16,25 @@ from django.utils.translation import gettext as _
 from django.utils.text import slugify
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import TemplateView
 
 from ikwen_kakocase.commarketing.admin import SmartCategoryAdmin, BannerAdmin
 from ikwen_kakocase.kakocase.views import SortableListMixin
 
 from ikwen.accesscontrol.templatetags.auth_tokens import append_auth_tokens
 
-from ikwen_kakocase.commarketing.models import Banner, Push, SmartCategory, CATEGORIES, SLIDE, POPUP, FULL_WIDTH_SECTION, \
+from ikwen_kakocase.commarketing.models import Banner, SmartCategory, CATEGORIES, SLIDE, POPUP, FULL_WIDTH_SECTION, \
     FULL_SCREEN_POPUP, TILES
-from ikwen.core.utils import add_event, get_model_admin_instance
-from ikwen.core.views import BaseView, HybridListView
-from ikwen_kakocase.kako.models import Product, RecurringPaymentService
-from ikwen_kakocase.kakocase.models import OperatorProfile, PROVIDER_PUSHED_PRODUCT_EVENT, ProductCategory
+from ikwen.core.utils import get_model_admin_instance
+from ikwen.core.views import HybridListView
+from ikwen_kakocase.kako.models import Product
+from ikwen_kakocase.kakocase.models import ProductCategory
 
 BANNER = 'banner'
 SMART_CATEGORY = 'smartcategory'
 
 
-@permission_required('commarketing.ik_manage_marketing')
-def submit_push(request, product_type, product_id, *args, **kwargs):
-    about = request.GET['about']
-    if product_type == 'service':
-        product = get_object_or_404(RecurringPaymentService, pk=product_id)
-    else:
-        product = get_object_or_404(Product, pk=product_id)
-    Push.objects.create(product=product, about=about)
-    for retailer_profile in OperatorProfile.objects.filter(business_type=OperatorProfile.RETAILER):
-        member = retailer_profile.service.member
-        add_event(retailer_profile.service, PROVIDER_PUSHED_PRODUCT_EVENT, member=member, object_id=product_id)
-    response = {'success': True}
-    return HttpResponse(json.dumps(response), 'content-type: text/json')
-
-
-class BannerList(SortableListMixin, BaseView):
+class BannerList(SortableListMixin, TemplateView):
     template_name = 'commarketing/banner_list.html'
     model = Banner
     search_field = 'title'
@@ -72,7 +58,7 @@ class SmartCategoryList(SortableListMixin, HybridListView):
     context_object_name = 'smart_category_list'
 
 
-class ChangeSmartObject(BaseView):
+class ChangeSmartObject(TemplateView):
     template_name = 'commarketing/change_smart_object.html'
 
     def get_context_data(self, **kwargs):
