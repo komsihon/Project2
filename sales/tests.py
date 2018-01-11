@@ -7,42 +7,33 @@ from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.test.utils import override_settings
-from django.utils import unittest, timezone
+from django.utils import unittest
 from ikwen_kakocase.sales.models import Promotion, PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
 
-from ikwen.accesscontrol.models import Member
-
-from ikwen.partnership.models import PartnerProfile
-
-from ikwen.core.models import Service, OperatorWallet
-
-from ikwen.conf.settings import WALLETS_DB_ALIAS
-from ikwen.accesscontrol.backends import UMBRELLA
-from ikwen.core.utils import get_service_instance, add_database_to_settings
-from ikwen_kakocase.kako.models import Product, ProductCategory
+from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.tests_views import wipe_test_data
-from ikwen_kakocase.kakocase.models import OperatorProfile
-from ikwen_kakocase.shopping.models import Review, AnonymousBuyer
-from ikwen_kakocase.trade.models import Order, Package
+from ikwen_kakocase.trade.models import Order
 
 
-class ShoppingViewsTestCase(unittest.TestCase):
+class SalesViewsTestCase(unittest.TestCase):
     """
     This test derives django.utils.unittest.TestCate rather than the default django.test.TestCase.
     This, self.client is not automatically created and fixtures not automatically loaded. This
     will be achieved manually by a custom implementation of setUp()
     """
-    fixtures = ['categories.yaml', 'kc_products.yaml', 'kc_promotions', 'kc_promo_codes', 'kc_setup_data', 'order', 'delivery_option', 'kc_operators_configs']
+    fixtures = ['categories.yaml', 'kc_products.yaml', 'kc_promotions.yaml', 'kc_promo_codes.yaml',
+                'kc_setup_data.yaml', 'order', 'delivery_option.yaml', 'kc_operators_configs.yaml']
 
     def setUp(self):
         self.client = Client()
         for fixture in self.fixtures:
             call_command('loaddata', fixture)
+            call_command('loaddata', 'umbrella')
 
     def tearDown(self):
         wipe_test_data()
-        # wipe_test_data(UMBRELLA)
+        wipe_test_data('umbrella')
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101')
     def test_ProductDetail_with_active_promotion(self):

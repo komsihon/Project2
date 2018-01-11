@@ -2,8 +2,6 @@ import json
 from copy import copy
 
 from datetime import datetime
-import time
-from string import lowercase
 
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator
@@ -13,17 +11,16 @@ from django.forms.models import modelform_factory
 from django.http.response import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-
-# Create your views here.
-from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.admin import helpers
+from django.views.generic import TemplateView
+
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.models import ProductCategory
 from import_export.formats.base_formats import XLS
 
-from ikwen.core.views import BaseView, HybridListView
-from django.contrib.admin import helpers
+from ikwen.core.views import HybridListView
 
 from ikwen_kakocase.sales.models import Promotion, PromoCode, CustomerEmail
 from ikwen.core.utils import get_model_admin_instance
@@ -66,7 +63,7 @@ class PromoCodeList(HybridListView):
         return context
 
 
-class ChangePromoCode(BaseView):
+class ChangePromoCode(TemplateView):
     template_name = 'sales/change_promo_code.html'
 
     def get_context_data(self, **kwargs):
@@ -128,7 +125,7 @@ class ChangePromoCode(BaseView):
             return render(request, self.template_name, context)
 
 
-class ChangePromotion(BaseView):
+class ChangePromotion(TemplateView):
     template_name = 'sales/change_promotion.html'
 
     def get_context_data(self, **kwargs):
