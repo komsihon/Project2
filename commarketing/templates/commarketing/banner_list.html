@@ -1,5 +1,5 @@
 {% extends 'core/app_base_admin.html' %}
-{% load i18n humanize staticfiles auth_tokens %}
+{% load i18n humanize static auth_tokens %}
 
 {% block page_title %}
 <title> {% trans "Banners" %} - {{ service.project_name }} </title>
@@ -49,7 +49,7 @@
                                 <p class="about">{{ slide.items_count }} {% trans "items" %}</p>
                             </div>
                             <div class="actions">
-                                <i class="glyphicon glyphicon-share share" title="{% trans "Share" %}"  data-toggle="modal" data-target="#share-box"  data-banner-url="{{ service.url }}{{ slide.image.url }}" data-description="{{ product.description }}"></i>
+                                <i class="glyphicon glyphicon-share share" title="{% trans "Share" %}"  data-toggle="modal" data-target="#share-box"  data-banner-url="{% get_media_prefix %}{{ slide.image.name }}" data-description="{{ product.description }}"></i>
                                 {% if slide.content_type == 'Categories' %}
                                     <a href="{% url 'kako:category_list' %}?smart_link=yes&smart_object_id={{ slide.id }}" class="glyphicon glyphicon-link" title="{% trans "Link Categories" %}"></a>
                                 {% else %}
@@ -273,7 +273,6 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static 'kakocase/js/jquery-ui.js' %}"></script>
     <script type="text/javascript">
         (function() {
             $('div#admin-nav .banners').addClass('active');
