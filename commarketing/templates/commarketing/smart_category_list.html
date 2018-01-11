@@ -60,7 +60,9 @@
                                     <i class="action glyphicon glyphicon-th-list toggle main-menu on" title="{% trans "Add to main menu" %}"></i>
                                 {% endif %}
                                 <a href="{{ change_category_url }}" class="glyphicon glyphicon-edit" title="{% trans "Edit item" %}"></a>
-                                <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                {% if menu.content_type != 'Module' %}
+                                    <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                {% endif %}
                             </div>
                             <div class="clearfix"></div>
                         </div>
