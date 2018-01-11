@@ -1,7 +1,6 @@
 import json
 import os
 from threading import Thread
-from urlparse import urlparse
 
 from ajaxuploader.views import AjaxFileUploader
 from django.conf import settings
@@ -11,7 +10,6 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.core import mail
 from django.core.files.base import File
 from django.core.mail import EmailMessage
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db.models import F
 from django.forms.models import modelform_factory
@@ -25,8 +23,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
-from ikwen.accesscontrol.models import Member
+from django.views.generic import TemplateView
 from ikwen_kakocase.kakocase.templatetags.media_from_provider import from_provider
 
 from ikwen.core.models import Service
@@ -38,8 +35,8 @@ from ikwen.accesscontrol.templatetags.auth_tokens import append_auth_tokens
 
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import add_database_to_settings, DefaultUploadBackend, get_service_instance, add_event, \
-    get_mail_content, get_model_admin_instance, add_database
-from ikwen.core.views import BaseView, HybridListView
+    get_mail_content, get_model_admin_instance
+from ikwen.core.views import HybridListView
 from ikwen_kakocase.kako.admin import ProductAdmin, RecurringPaymentServiceAdmin
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService, Photo
 from ikwen_kakocase.kako.utils import create_category, mark_duplicates, get_product_from_url
@@ -86,7 +83,7 @@ class ProviderList(HybridListView):
             return super(ProviderList, self).render_to_response(context, **response_kwargs)
 
 
-class ProviderProductList(BaseView):
+class ProviderProductList(TemplateView):
     template_name = 'kako/retailer/provider_product_list.html'
 
     def get_context_data(self, **kwargs):
@@ -141,7 +138,7 @@ class ProviderProductList(BaseView):
         return queryset
 
 
-class ProviderProductDetail(BaseView):
+class ProviderProductDetail(TemplateView):
     template_name = 'kako/product_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -186,7 +183,7 @@ class CategoryList(HybridListView):
         return super(CategoryList, self).get(request, *args, **kwargs)
 
 
-class ChangeCategory(BaseView):
+class ChangeCategory(TemplateView):
     template_name = 'kako/change_category.html'
 
     def get_context_data(self, **kwargs):
@@ -568,7 +565,7 @@ class ProductPhotoUploadBackend(DefaultUploadBackend):
 product_photo_uploader = AjaxFileUploader(ProductPhotoUploadBackend)
 
 
-class ChangeProduct(BaseView):
+class ChangeProduct(TemplateView):
     template_name = 'kako/change_product.html'
 
     def get_product_admin(self):
@@ -631,7 +628,7 @@ class ChangeProduct(BaseView):
             badge_text = request.POST.get('badge_text')
             size = request.POST.get('size')
             weight = request.POST.get('weight')
-            stock = request.POST.get('stock')
+            stock = int(request.POST.get('stock'))
             unit_of_measurement = request.POST.get('unit_of_measurement')
             min_order = request.POST.get('min_order')
             if not min_order:
@@ -742,7 +739,7 @@ class ChangeProduct(BaseView):
             return render(request, self.template_name, context)
 
 
-class ChangeRecurringPaymentServiceView(BaseView):
+class ChangeRecurringPaymentServiceView(TemplateView):
     template_name = 'kako/change_product.html'
 
     def get_recurring_payment_service_admin(self):

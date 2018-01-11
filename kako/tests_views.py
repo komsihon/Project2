@@ -27,6 +27,8 @@ def wipe_test_data(db='default'):
     import ikwen_kakocase.kakocase.models
     import ikwen_kakocase.commarketing.models
     import ikwen.core.models
+    if db != 'default':
+        add_database_to_settings(db)
     for name in ('Customer', 'AnonymousBuyer', ):
         model = getattr(ikwen_kakocase.shopping.models, name)
         model.objects.using(db).all().delete()
@@ -592,7 +594,7 @@ class KakoViewsTestCase(unittest.TestCase):
         add_database_to_settings(service.database)
         Product.objects.using(service.database).all().delete()
         call_command('loaddata', 'products.yaml', database=service.database)
-        response = self.client.get(reverse('kako:set_stock', args=('api-signature2', '55d1fa8feb60008099bd4152', 12.5)))
+        response = self.client.get(reverse('kako:set_stock', args=('api-signature2', '55d1fa8feb60008099bd4152', 12)))
         response = json.loads(response.content)
         self.assertTrue(response['success'])
         self.assertDictEqual(response['details'], {'kcid': '55d1fa8feb60008099bd4152', 'stock': 12})
