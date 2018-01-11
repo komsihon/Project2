@@ -57,7 +57,8 @@ class KakoViewsTestCase(unittest.TestCase):
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_list_delivery_companies(self):
-        response = self.client.get(reverse('kakocase:list_delivery_companies'), {'query': 'CAM'})
+        response = self.client.get(reverse('kakocase:list_available_companies'),
+                                   {'business_type': OperatorProfile.LOGISTICS, 'query': 'CAM'})
         self.assertEqual(response.status_code, 200)
         # print response.content
         resp = json.loads(response.content)

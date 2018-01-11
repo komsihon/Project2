@@ -1,7 +1,6 @@
 import json
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models.loading import get_model
 from django.http import HttpResponse
@@ -12,6 +11,7 @@ from django.utils.http import urlquote
 from django.utils.text import slugify
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import TemplateView
 
 from ikwen.partnership.models import ApplicationRetailConfig
 
@@ -23,7 +23,6 @@ from ikwen.billing.models import IkwenInvoiceItem, InvoiceEntry, CloudBillingPla
 
 from ikwen.core.models import Service, Application
 
-from ikwen.core.views import BaseView
 from django.utils.translation import gettext as _
 
 from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
@@ -33,7 +32,7 @@ from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 
 
-class DeliveryOptionList(BaseView):
+class DeliveryOptionList(TemplateView):
     template_name = 'core/iframe_admin.html'
 
     def get_context_data(self, **kwargs):
@@ -100,7 +99,7 @@ def set_session_data(request, *args, **kwargs):
     request.session['manage_drivy'] = manage_drivy
 
 
-class DeployCloud(BaseView):
+class DeployCloud(TemplateView):
     template_name = 'kakocase/cloud_setup/deploy.html'
 
     def get_context_data(self, **kwargs):
@@ -186,6 +185,10 @@ class DeployCloud(BaseView):
             short_description = "%d products" % billing_plan.max_objects
             website_setup_entry = InvoiceEntry(item=website_setup, short_description=short_description, total=setup_cost)
             invoice_entries.append(website_setup_entry)
+            if theme.cost > 0:
+                theme_item = IkwenInvoiceItem(label='Website theme', price=theme.cost, amount=theme.cost)
+                theme_entry = InvoiceEntry(item=theme_item, short_description=theme.name, total=theme.cost)
+                invoice_entries.append(theme_entry)
             i = 0
             while True:
                 try:
@@ -245,7 +248,7 @@ class SortableListMixin(object):
         return super(SortableListMixin, self).get(request, *args, **kwargs)
 
 
-class MerchantList(BaseView):
+class MerchantList(TemplateView):
     template_name = 'kakocase/merchant_list.html'
 
     def get_context_data(self, **kwargs):
