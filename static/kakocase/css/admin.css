@@ -9,13 +9,12 @@
 #admin-content .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%; width: 100%; z-index: 100}
 #admin-content > .spinner {margin-left: -250px; padding-top: 20%; position: absolute}
 #object-detail .content .col-xs-6 {padding: 0 5px}
-#object-detail .spinner {margin-left: -10px; position: fixed; width: 290px}
+#object-detail .spinner {left: auto; position: fixed; right: 0; top: 0; width: 270px}
 .show-results-filter {background: none; color: #545454}
 .btn.show-results-filter:hover, .btn.show-results-filter:active, .btn.show-results-filter.active {background: none; color: #545454}
 .order-summary {border: 1px solid #eee;clear: both;margin-top: .5em;padding: 10px;}
 .order-summary h4 {font-size: 1em; font-weight: 700; margin-bottom: .2em}
 .delivery-report {background: #f8f9f9; margin-top: .5em; padding: 10px}
-#context-search div {float: left; margin-right: 10px}
 .order .about p {margin-bottom: 0}
 .order.pending .name, .order.pending .items, .order.pendingforapproval .name, .order.pendingforapproval .items {font-weight: 700}
 .order.pending .items {color: #4d4d4d}
@@ -24,8 +23,12 @@
 .order .glyphicon.status {font-weight: 400;float: right;clear: right;margin-top: 2px;}
 .category.appear-in-menu .content {border-color: #ff8d00}
 
+.item-preview .about .currency {float: left}
+.item-preview .about .value {color: #444; float: left; margin-left: 5px}
+
 @media (max-width: 767px) {
     .btn.show-results-filter:hover, .btn.show-results-filter:active, .btn.show-results-filter.active {box-shadow: none}
 }
-.item-preview .about .currency {float: left}
-.item-preview .about .value {color: #444; float: left; margin-left: 5px}
+@media (min-width: 768px) {
+    #object-detail .spinner {top: 110px}
+}
