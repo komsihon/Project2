@@ -17,17 +17,18 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import TemplateView
 
 from ikwen.billing.models import PaymentMean
 
 from ikwen.core.utils import get_service_instance, parse_paypal_response, EC_ENDPOINT
 from ikwen_kakocase.shopping.utils import parse_order_info
-from ikwen_kakocase.shopping.views import ShoppingBaseView, confirm_checkout
+from ikwen_kakocase.shopping.views import confirm_checkout
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.trade.utils import generate_tx_code
 
 
-class SetExpressCheckout(ShoppingBaseView):
+class SetExpressCheckout(TemplateView):
     template_name = 'shopping/paypal/cancel.html'
 
     @method_decorator(sensitive_post_parameters())
@@ -129,7 +130,7 @@ class SetExpressCheckout(ShoppingBaseView):
             return render(request, 'shopping/paypal/cancel.html', context)
 
 
-class GetExpressCheckoutDetails(ShoppingBaseView):
+class GetExpressCheckoutDetails(TemplateView):
     template_name = 'shopping/paypal/confirmation.html'
 
     def get(self, request, *args, **kwargs):
@@ -172,7 +173,7 @@ class GetExpressCheckoutDetails(ShoppingBaseView):
             return render(request, 'shopping/paypal/cancel.html', context)
 
 
-class DoExpressCheckout(ShoppingBaseView):
+class DoExpressCheckout(TemplateView):
     template_name = 'shopping/paypal/cancel.html'
 
     @method_decorator(sensitive_post_parameters())
@@ -258,5 +259,5 @@ class DoExpressCheckout(ShoppingBaseView):
                 return render(request, 'shopping/paypal/cancel.html', context)
 
 
-class PayPalCancel(ShoppingBaseView):
+class PayPalCancel(TemplateView):
     template_name = 'shopping/paypal/cancel.html'

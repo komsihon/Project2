@@ -24,6 +24,7 @@ from django.utils.translation import gettext as _
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 from permission_backend_nonrel.models import UserPermissionList
 
 from ikwen.billing.orangemoney.views import ORANGE_MONEY
@@ -42,10 +43,10 @@ from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUC
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
-from ikwen.core.views import HybridListView, BaseView
+from ikwen.core.views import HybridListView
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
-from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, NEW_ORDER_EVENT, SOLD_OUT_EVENT, \
+from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, \
     INSUFFICIENT_STOCK_EVENT, LOW_STOCK_EVENT, PRODUCTS_PREVIEWS_PER_ROW, \
     CATEGORIES_PREVIEWS_PER_ROW, DeliveryOption
 from ikwen_kakocase.sales.models import PromoCode
@@ -73,55 +74,7 @@ class TemplateSelector(object):
             return [self.template_name]
 
 
-class ShoppingBaseView(TemplateSelector, BaseView):
-
-    def get_context_data(self, **kwargs):
-        context = super(ShoppingBaseView, self).get_context_data(**kwargs)
-        menu_length = 5
-        smart_categories_level2 = cache.get('smart_categories_level2')  # SmartCategory containing a list of sample_categories
-        if not smart_categories_level2:
-            cache.delete('smart_categories_level1')
-            cache.delete('menu_categories')
-            smart_categories_level2 = list(SmartCategory.objects
-                                           .filter(content_type=CATEGORIES, is_active=True, appear_in_menu=True)
-                                           .order_by('order_of_appearance', '-updated_on')[:menu_length])
-            if not getattr(settings, 'DEBUG', False):
-                cache.set('smart_categories_level2', smart_categories_level2)
-        smart_categories_level1 = cache.get('smart_categories_level1')  # SmartCategory containing a list of products
-        if not smart_categories_level1:
-            menu_length -= len(smart_categories_level2)
-            smart_categories_level1 = list(SmartCategory.objects
-                                           .filter(content_type=PRODUCTS, is_active=True, appear_in_menu=True)
-                                           .order_by('order_of_appearance', '-updated_on')[:menu_length])
-            if not getattr(settings, 'DEBUG', False):
-                cache.set('smart_categories_level1', smart_categories_level1)
-        menu_categories = cache.get('menu_categories')  # Some sample_categories for the main menu
-        if not menu_categories:
-            menu_length -= len(smart_categories_level1)
-            menu_categories = list(ProductCategory.objects.filter(is_active=True, appear_in_menu=True)
-                                   .order_by('order_of_appearance', '-updated_on')[:menu_length])
-            if not getattr(settings, 'DEBUG', False):
-                cache.set('menu_categories', menu_categories)
-
-        quick_access_categories = cache.get('quick_access_categories')
-        if not quick_access_categories:
-            quick_access_categories = list(ProductCategory.objects
-                                           .filter(items_count__gt=0, is_active=True, appear_in_menu=False)
-                                           .order_by('order_of_appearance', '-updated_on'))
-            if len(quick_access_categories) >= 5:
-                quick_access_categories = quick_access_categories[-5:]
-            if not getattr(settings, 'DEBUG', False):
-                cache.set('quick_access_categories', quick_access_categories)
-
-        context['smart_categories_level2'] = smart_categories_level2
-        context['smart_categories_level1'] = smart_categories_level1
-        context['menu_categories'] = menu_categories
-        context['quick_access_categories'] = quick_access_categories
-
-        return context
-
-
-class Home(ShoppingBaseView):
+class Home(TemplateSelector, TemplateView):
     template_name = 'shopping/home.html'
     optimum_template_name = 'shopping/optimum/home.html'
 
@@ -170,9 +123,9 @@ class Home(ShoppingBaseView):
         return render(request, self.get_template_names(), context)
 
 
-class SmartObjectDetail(ShoppingBaseView):
+class SmartObjectDetail(TemplateSelector, TemplateView):
     template_name = 'shopping/product_list.html'
-    optimum_template_name = 'shopping/opptimum/product_list.html'
+    optimum_template_name = 'shopping/optimum/product_list.html'
 
     def get(self, request, *args, **kwargs):
         context = super(SmartObjectDetail, self).get_context_data(**kwargs)
@@ -209,7 +162,6 @@ class ProductList(TemplateSelector, HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
-        context.update(ShoppingBaseView().get_context_data(**kwargs))
         all_smart_categories_level2 = SmartCategory.objects.filter(content_type=CATEGORIES, appear_in_menu=False,
                                                                    is_active=True,
                                                                    items_count__gt=0).order_by('order_of_appearance')
@@ -342,7 +294,7 @@ class ProductList(TemplateSelector, HybridListView):
             return super(ProductList, self).render_to_response(context, **response_kwargs)
 
 
-class ProductDetail(ShoppingBaseView):
+class ProductDetail(TemplateSelector, TemplateView):
     template_name = 'shopping/product_detail.html'
     optimum_template_name = 'shopping/optimum/product_detail.html'
 
@@ -397,7 +349,7 @@ class ProductDetail(ShoppingBaseView):
         return render(request, self.get_template_names(), context)
 
 
-class Cart(ShoppingBaseView):
+class Cart(TemplateSelector, TemplateView):
     template_name = 'shopping/cart.html'
     optimum_template_name = 'shopping/optimum/cart.html'
 
@@ -415,7 +367,7 @@ class Cart(ShoppingBaseView):
         return render(request, self.get_template_names(), context)
 
 
-class Checkout(ShoppingBaseView):
+class Checkout(TemplateSelector, TemplateView):
     template_name = 'shopping/checkout.html'
     optimum_template_name = 'shopping/optimum/checkout.html'
 
@@ -492,11 +444,11 @@ def load_checkout_summary(request, *args, **kwargs):
     return render(request, 'shopping/snippets/checkout_summary.html', context)
 
 
-class Contact(ShoppingBaseView):
+class Contact(TemplateSelector, TemplateView):
     template_name = 'shopping/contact.html'
 
 
-class FlatPageView(ShoppingBaseView):
+class FlatPageView(TemplateSelector, TemplateView):
 
     def get(self, request, *args, **kwargs):
         url = kwargs['url']
@@ -723,7 +675,7 @@ def render_order_event(event, request):
     return html_template.render(c)
 
 
-class ChooseDeal(ShoppingBaseView):
+class ChooseDeal(TemplateSelector, TemplateView):
     template_name = 'shopping/choose_deal.html'
 
     def get_context_data(self, **kwargs):
@@ -846,7 +798,7 @@ def submit_order_for_bank_approval(request, order, bank_id, account_number, deal
     # requests.get(api_url, {'deal_id': deal_id, 'count': entry.count, 'api_key': bank.api_key})
 
 
-class Cancel(ShoppingBaseView):
+class Cancel(TemplateSelector, TemplateView):
     template_name = 'shopping/cancel.html'
 
     def get(self, request, *args, **kwargs):

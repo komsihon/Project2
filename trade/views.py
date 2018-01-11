@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template.defaultfilters import slugify
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.translation import gettext as _
+from django.views.generic import TemplateView
 from ikwen.core.constants import CONFIRMED
 from ikwen_kakocase.trade.admin import OrderResource
 from import_export.formats.base_formats import XLS
@@ -33,7 +34,7 @@ from ikwen.core.utils import calculate_watch_info, add_database, get_mail_conten
 
 from ikwen.accesscontrol.models import Member
 from ikwen.core.utils import get_service_instance, rank_watch_objects, set_counters
-from ikwen.core.views import HybridListView, DashboardBase, BaseView
+from ikwen.core.views import HybridListView, DashboardBase
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.models import TIME_LEFT_TO_COMMIT_TO_SELF_DELIVERY, ProductCategory, OperatorProfile, DeliveryOption
 from ikwen_kakocase.shopping.models import Customer
@@ -479,7 +480,7 @@ class PartnerList(HybridListView):
         return super(PartnerList, self).get(request, *args, **kwargs)
 
 
-class DealList(BaseView):
+class DealList(TemplateView):
     template_name = 'trade/bank/deal_list.html'
 
     def get_context_data(self, **kwargs):

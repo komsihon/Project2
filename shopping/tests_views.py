@@ -52,6 +52,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
             call_command('loaddata', fixture, database='test_kc_tecnomobile')
             call_command('loaddata', fixture, database='test_kc_sabc')
             call_command('loaddata', fixture, database='test_kc_ems')
+            call_command('loaddata', fixture, database='test_kc_afic')
             call_command('loaddata', fixture, database=UMBRELLA)
 
     def tearDown(self):
@@ -69,7 +70,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         OperatorWallet.objects.using(WALLETS_DB_ALIAS).all().update(balance=0)
         cache.clear()
 
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103', IS_IKWEN=False)
     def test_Home(self):
         """
         Page must return HTTP 200 status, products with largest items_sold must come first.
@@ -514,7 +515,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')}, follow=True)
         self.assertTrue(response.status_code, 200)
-        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id})
+        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id, 'account_number': '000111'})
 
         order = Order.objects.filter(status=Order.PENDING_FOR_APPROVAL)[0]  # Order was saved as PendingForApproval
         self.assertEqual(order.deal.bank, bank)
@@ -530,6 +531,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         Terms payment indicates that user choose a deal offered by the bank.
         Terms payment is avaible for one single item at a time in an order
         """
+        # call_command('loaddata', 'kc_setup_data.yaml', database='test_kc_afic')
         call_command('loaddata', 'kc_deals.yaml', database='test_kc_afic')
         bank_id = '56eb6d04b37b3379b531b107'
         deal_id = '59a456d04b379b531a0016d1'
@@ -542,7 +544,8 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')}, follow=True)
         self.assertTrue(response.status_code, 200)
-        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id, 'deal_id': deal_id})
+        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id, 'deal_id': deal_id,
+                                                                     'account_number': '000111'})
 
         order = Order.objects.filter(status=Order.PENDING_FOR_APPROVAL)[0]  # Order was saved as PendingForApproval
         self.assertEqual(order.deal.id, deal_id)
