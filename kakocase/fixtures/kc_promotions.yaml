@@ -1,5 +1,5 @@
 - model: sales.promotion
-  pk: 56b377479b531e011456d01
+  pk: 56b377479b531e011456d001
   fields:
     title: promo5
     start_on: 2017-01-01T00:00:00.120Z
