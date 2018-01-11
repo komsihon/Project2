@@ -400,9 +400,6 @@
                     }
                 });
             {% endif %}
-            {% if messages %}
-                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
-            {% endif %}
         })()
     </script>
 {% endblock %}

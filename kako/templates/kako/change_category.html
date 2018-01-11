@@ -158,9 +158,6 @@
                     $('div#upload-container .image').css('background-image', "url('" + category.image_url +"')");
                 }
             {% endif %}
-            {% if messages %}
-                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
-            {% endif %}
         })()
     </script>
 {% endblock %}
