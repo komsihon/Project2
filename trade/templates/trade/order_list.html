@@ -21,8 +21,57 @@
 {% block admin_content %}
     <div id="admin-content" class="has-edge-panel-right">
         <div class="container-fluid">
-            {% include 'core/snippets/spinner.html' %}
-            {% include 'trade/snippets/order_list_results.html' %}
+            <div id="admin-tools" class="ceil bottom-shade-xs">
+                <form id="admin-tools-form">
+                    <div>
+                        <i class="glyphicon glyphicon-search"></i>
+                        <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+                        <input id="context-search" type="text" class="input-sm tool search"
+                               placeholder="{% trans "Search" %}" data-min-search-chars="2" />
+                    </div>
+                    <div class="filter-trigger">
+                        <i class="glyphicon glyphicon-filter"></i>
+                        <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                        <div class="tool filter">
+                            <label for="order-status" class="sr-only"></label>
+                            <select id="order-status" style="float: left; width: 120px" class="form-control input-sm status widget" name="status">
+                                <option value="{% if settings.IS_BANK %}PendingForApproval{% else %}Pending{% endif %}">{% trans "Pending" %}</option>
+                                {% if settings.IS_BANK %}
+                                    <option value="Confirmed">{% trans "Confirmed" %}</option>
+                                    <option value="Rejected">{% trans "Rejected" %}</option>
+                                {% endif %}
+                                {% if settings.IS_DELIVERY_COMPANY %}<option value="Delivered">{% trans "Delivered" %}</option>{% endif %}
+                                <option value="">{% trans "All" %}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" id="filter-action" name="action" />
+                </form>
+                <button class="btn btn-sm btn-success cta pull-right action export" style="border-color: #18bc9c"
+                        data-toggle="modal" data-target="#load-product" title="{% trans "Export as Spreadsheet" %}">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    <span class="hidden-xs">{% trans "Export" %}</span>
+                </button>
+                <div class="clearfix"></div>
+            </div>
+            <div id="results" style="clear: both">
+                {% include 'core/snippets/spinner.html' %}
+                {% include 'trade/snippets/order_list_results.html' %}
+            </div>
+            <div class="edge-panel-right-container">
+                <div id="object-detail" class="edge-panel edge-panel-right">
+                    <div class="empty">
+                        {% trans "Click on an order in the list to view details." %}
+                    </div>
+                    <div>
+                        <div class="info">
+                            {% include 'core/snippets/spinner.html' %}
+                            <div class="content"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
@@ -140,13 +189,13 @@
             });
 
             $('#admin-content').on('change', '.status', function() {
-                $('form#context-search input').val('');
+                $('#context-search').val('');
                 loadResults();
             }).on('click', '.pagination li', function() {
                 $('.pagination li').removeClass('active');
                 $(this).addClass('active');
                 loadResults();
-            }).on('submit', '#context-search', function() {
+            }).on('submit', '#admin-tools-form', function() {
                 loadResults();
                 return false
             }).on('click', '.action.export', function() {
@@ -155,7 +204,7 @@
             });
 
             function loadResults() {
-                var search = $('form#context-search input').val();
+                var search = $('#context-search').val();
                 if (search) {
                     var params = 'q=' + search;
                 } else {
@@ -171,9 +220,8 @@
                 else query = params;
 
                 $('div#admin-content > .spinner').fadeIn();
-                $('div#admin-content .container-fluid').load('{{ request.path }}', query, function() {
+                $('#results').load('{{ request.path }}', query, function() {
                     $('div#admin-content > .spinner').fadeOut();
-                    if (status) $('#order-status').val(status);
                 })
             }
 

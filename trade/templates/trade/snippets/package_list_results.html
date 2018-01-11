@@ -1,187 +1,83 @@
-{% load i18n staticfiles humanize auth_tokens media_from_provider %}
-<div id="admin-tools" class="ceil bottom-shade-xs">
-    <form id="context-search">
-        <div>
-            <i class="glyphicon glyphicon-search"></i>
-            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-            <input type="text" class="form-input input-sm tool search" placeholder="{% trans "Search PPC" %}" value="{% if q %}{{ q }}{% endif %}"/>
-        </div>
-        <div class="filter-trigger">
-            <i class="glyphicon glyphicon-filter"></i>
-            <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
-            <div class="show-results-filter tool filter btn btn-default btn-sm{% if filter_results %} active{% endif %}">
-                <div>
-                    <span class="pull-left">{% trans "Filters" %}</span>
-                    <span class="caret pull-right" style="margin: 7px 0 0 5px"></span>
-                </div>
-            </div>
-        </div>
-{#                <div>#}
-{#                    <button class="btn btn-primary btn-sm" style="width: 100px">{% trans "Export" %}</button>#}
-{#                </div>#}
-    </form>
-    <div class="clearfix"></div>
-</div>
-<div class="results-filter{% if filter_results %} active{% endif %}">
-    <div class="row">
-        <div class="col-sm-4">
-            <h4>{% trans "Status" %}</h4>
-            <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="status{% if not status %} active{% endif %}" data-value="">
-                    <a href="#"> {% trans "All" %} </a>
-                </li>
-                <li role="presentation" class="status{% if status == 'Pending' %} active{% endif %}" data-value="Pending">
-                    <a href="#"> {% trans "Pending" %} </a>
-                </li>
-                <li role="presentation" class="status{% if status == 'Shipped' %} active{% endif %}" data-value="Shipped">
-                    <a href="#"> {% trans "Shipped" %} </a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-sm-4">
-            <h4>{% trans "Expected delivery" %}</h4>
-            <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="days-left{% if not days_left and days_left != 0 %} active{% endif %}" data-value="">
-                    <a href="#"> {% trans "All" %} </a>
-                </li>
-                <li role="presentation" class="days-left{% if days_left == 0 %} active{% endif %}" data-value="0">
-                    <a href="#"> {% trans "Today" %} </a>
-                </li>
-                <li role="presentation" class="days-left{% if days_left == 1 %} active{% endif %}" data-value="1">
-                    <a href="#"> {% trans "Tomorrow" %} </a>
-                </li>
-                <li role="presentation" class="days-left{% if days_left == 3 %} active{% endif %}" data-value="3">
-                    <a href="#"> {% trans "Within 3 days" %} </a>
-                </li>
-                <li role="presentation" class="days-left{% if days_left == 7 %} active{% endif %}" data-value="7">
-                    <a href="#"> {% trans "Within 7 days" %} </a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-sm-4">
-            {% if settings.IS_PROVIDER %}
-                <h4>{% trans "Handled by" %}</h4>
+{% load i18n static humanize auth_tokens media_from_provider %}
+<ul class="object-list">
+{% for package in orders_page.object_list %}
+    {% with order=package.order member=package.order.member provider=package.provider delivery_company=package.delivery_company %}
+        <li class="ik-li order {{ package.status|lower }}" id="{{ package.id }}" data-id="{{ package.id }}" data-order-id="{{ order.id }}">
+            {% if member %}
+                {% url 'ikwen:profile' member.id as member_url %}
+                <a href="{{ member_url|ikwenize }}" class="image rounded"
+                   style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
             {% else %}
-                <h4>{% trans "From" %}</h4>
+                <a class="image rounded" style="background-image: url({% static settings.MEMBER_AVATAR %})"></a>
             {% endif %}
-            <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="partner{% if not partner %} active{% endif %}" data-value="">
-                    <a href="#"> {% trans "All" %} </a>
-                </li>
-                {% if partners|length <= 4 %}
-                    {% for p in partners %}
-                        <li role="presentation" class="partner{% if partner == p.service %} active{% endif %}" data-value="{{ p.service.id }}">
-                            <a href="#">
-                                {{ p.company_name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                {% else %}
-                    <input id="search-partner-name" type="text" class="form-control input-sm" autocomplete="off" style="height: 27px; margin-top: 6px; padding: 2px 9px"
-                           placeholder="{% trans "Search partner" %}" value="{{ partner.config.company_name }}"/>
-                    <input id="partner-id" type="hidden" value="{{ partner.id }}" />
-                    <div id="partner-suggestions" class="autocomplete-suggestions"></div>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-</div>
-<div id="results" style="clear: both">
-    <ul class="object-list">
-    {% for package in orders_page.object_list %}
-        {% with order=package.order member=package.order.member provider=package.provider delivery_company=package.delivery_company %}
-            <li class="ik-li order {{ package.status|lower }}" id="{{ package.id }}" data-id="{{ package.id }}" data-order-id="{{ order.id }}">
-                {% if member %}
-                    {% url 'ikwen:profile' member.id as member_url %}
-                    <a href="{{ member_url|ikwenize|append_auth_tokens:request }}" class="image rounded"
-                       style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
-                {% else %}
-                    <a class="image rounded" style="background-image: url({% static settings.MEMBER_AVATAR %})"></a>
-                {% endif %}
-                <div class="info">
-                    {% if member %}
-                        <a class="name" href="{{ member_url|ikwenize|append_auth_tokens:request }}">{{ member.full_name }}</a>
-                    {% else %}
-                        <span class="name">{{ package.anonymous_buyer.name }}</span>
-                    {% endif %}
-                    <div class="about">
-                        <p class="items">
-                            {{ order.get_products_as_string|truncatechars:90 }} &nbsp;&nbsp;&nbsp;<a href="{% url 'shopping:cart' order.id %}" target="_blank">{% trans "Details" %}</a>
-                        </p>
-                        <p>
-                            {% if settings.IS_PROVIDER %}
-                                <span class="meta">
-                                    <strong>{% trans "Cost" %}</strong>: {{ config.currency_symbol }} {{ package.provider_revenue|intcomma }}
-                                </span>
-                                <span class="meta">
-                                    <strong>{% trans "PPC" %}</strong>: {{ package.ppc|upper }}
-                                </span>
-                                <span class="meta">
-                                    <strong>{% trans "Del" %}</strong>:
-                                    {% url 'ikwen:company_profile' delivery_company.project_name_slug as delcom_url %}
-                                    <a href="{{ delcom_url|ikwenize }}" target="_blank">{{ delivery_company.config.company_name }}</a>
-                                </span>
-                            {% endif %}
-                            {% if settings.IS_DELIVERY_COMPANY %}
-                                <span class="meta">
-                                    <strong>{% trans "PPC" %}</strong>: {{ package.ppc|upper }}
-                                </span>
-                                <span class="meta">
-                                    <strong>{% trans "Delivery fees" %}</strong>: {{ provider.config.currency_symbol }} {{ order.delivery_option.cost|intcomma }}
-                                </span>
-                                <span class="meta">
-                                    <strong>{% trans "From" %}</strong>:
-                                    {% url 'ikwen:company_profile' provider.project_name_slug as provider_url %}
-                                    <a href="{{ provider_url|ikwenize }}" target="_blank">{{ provider.config.company_name }}</a>
-                                </span>
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-            </li>
-        {% endwith %}
-    {% endfor %}
-    </ul>
-    {% if orders_page.paginator.num_pages > 1 %}
-    <ul class="pagination" style="float: left">
-        {% if orders_page.paginator.num_pages > 10 %}
-            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-        {% endif %}
-        {% for page in orders_page.paginator.page_range %}
-            {% if page <= 10 %}
-                <li class="{% if page == orders_page.number %}active{% endif %}" data-val="{{ page }}">
-                    <a href="#">
-                        {{ page }} {% if page == orders_page.number %}<span class="sr-only">(current)</span>{% endif %}
-                    </a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% if orders_page.paginator.num_pages > 10 %}
-            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-        {% endif %}
-    </ul>
-    {% endif %}
-    <div id="page-navigation" class="text-muted">
-        {% if orders_page.paginator.num_pages > 1  %}
-            <p>{% blocktrans with count=orders_page.paginator.count start=orders_page.start_index end=orders_page.end_index %}
-                {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
-        {% else %}
-            <p>{% blocktrans with count=orders_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
-        {% endif %}
-    </div>
-</div>
-<div class="edge-panel-right-container">
-    <div id="object-detail" class="edge-panel-right">
-        <div class="empty">
-            {% trans "Click on an package in the list to view details." %}
-        </div>
-        <div>
             <div class="info">
-                {% include 'core/snippets/spinner.html' %}
-                <div class="content"></div>
+                {% if member %}
+                    <a class="name" href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                {% else %}
+                    <span class="name">{{ package.anonymous_buyer.name }}</span>
+                {% endif %}
+                <div class="about">
+                    <p class="items">
+                        {{ order.get_products_as_string|truncatechars:90 }} &nbsp;&nbsp;&nbsp;<a href="{% url 'shopping:cart' order.id %}" target="_blank">{% trans "Details" %}</a>
+                    </p>
+                    <p>
+                        {% if settings.IS_PROVIDER %}
+                            <span class="meta">
+                                <strong>{% trans "Cost" %}</strong>: {{ config.currency_symbol }} {{ package.provider_revenue|intcomma }}
+                            </span>
+                            <span class="meta">
+                                <strong>{% trans "PPC" %}</strong>: {{ package.ppc|upper }}
+                            </span>
+                            <span class="meta">
+                                <strong>{% trans "Del" %}</strong>:
+                                {% url 'ikwen:company_profile' delivery_company.project_name_slug as delcom_url %}
+                                <a href="{{ delcom_url|ikwenize }}" target="_blank">{{ delivery_company.config.company_name }}</a>
+                            </span>
+                        {% endif %}
+                        {% if settings.IS_DELIVERY_COMPANY %}
+                            <span class="meta">
+                                <strong>{% trans "PPC" %}</strong>: {{ package.ppc|upper }}
+                            </span>
+                            <span class="meta">
+                                <strong>{% trans "Delivery fees" %}</strong>: {{ provider.config.currency_symbol }} {{ order.delivery_option.cost|intcomma }}
+                            </span>
+                            <span class="meta">
+                                <strong>{% trans "From" %}</strong>:
+                                {% url 'ikwen:company_profile' provider.project_name_slug as provider_url %}
+                                <a href="{{ provider_url|ikwenize }}" target="_blank">{{ provider.config.company_name }}</a>
+                            </span>
+                        {% endif %}
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="clear"></div>
-    </div>
+        </li>
+    {% endwith %}
+{% endfor %}
+</ul>
+{% if orders_page.paginator.num_pages > 1 %}
+<ul class="pagination" style="float: left">
+    {% if orders_page.paginator.num_pages > 10 %}
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+    {% endif %}
+    {% for page in orders_page.paginator.page_range %}
+        {% if page <= 10 %}
+            <li class="{% if page == orders_page.number %}active{% endif %}" data-val="{{ page }}">
+                <a href="#">
+                    {{ page }} {% if page == orders_page.number %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    {% if orders_page.paginator.num_pages > 10 %}
+        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    {% endif %}
+</ul>
+{% endif %}
+<div id="page-navigation" class="text-muted">
+    {% if orders_page.paginator.num_pages > 1  %}
+        <p>{% blocktrans with count=orders_page.paginator.count start=orders_page.start_index end=orders_page.end_index %}
+            {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+    {% else %}
+        <p>{% blocktrans with count=orders_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% endif %}
 </div>
