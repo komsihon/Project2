@@ -1,94 +1,79 @@
-{% load i18n staticfiles humanize auth_tokens media_from_provider %}
-<div id="admin-tools" class="ceil bottom-shade-xs">
-    <form id="context-search" onsubmit="return false">
-        <div>
-            <i class="glyphicon glyphicon-search"></i>
-            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-            <input type="text" class="form-input input-sm" placeholder="{% trans "Search coupon" %}"/>
+{% load i18n staticfiles humanize %}
+<ul class="object-list">
+    {% for product in objects_page.object_list %}
+    <li class="ik-li img-lg product" id="{{ product.id }}" data-id="{{ product.id }}">
+        <div class="select subtle-shade">
+            <i class="glyphicon glyphicon-ok"></i>
         </div>
-    </form>
-</div>
-<div id="results">
-    {% include 'core/snippets/spinner.html' %}
-    <ul class="object-list">
-        {% for product in objects_page.object_list %}
-        <li class="ik-li img-lg product" id="{{ product.id }}" data-id="{{ product.id }}">
-            <div class="select subtle-shade">
-                <i class="glyphicon glyphicon-ok"></i>
+        {% url 'sales:change_promo_code' product.id as product_url %}
+        <div class="info">
+            <a href="{{ product_url }}">
+                <span class="name" style="text-transform: uppercase">{{ product.code }}</span>
+            </a>
+            <div class="about">
+                <p>
+                    <strong>{% trans "Rate" %}</strong>:
+                    <span class="text-muted">{{ product.rate }}%</span>
+                </p>
+                <p><strong></strong>
+                    <span class="stock">{{ product.start_on | date }} - <span class="stock">{{ product.end_on | date }}</span></span>
+                </p>
             </div>
-            {% url 'sales:change_promo_code' product.id as product_url %}
-            <div class="info">
-                <a href="{{ product_url }}">
-                    <span class="name" style="text-transform: uppercase">{{ product.code }}</span>
-                </a>
-                <div class="about">
-                    <p>
-                        <strong>{% trans "Rate" %}</strong>:
-                        <span class="text-muted">{{ product.rate }}%</span>
-                    </p>
-                    <p><strong></strong>
-                        <span class="stock">{{ product.start_on | date }} - <span class="stock">{{ product.end_on | date }}</span></span>
-                    </p>
-                </div>
-            </div>
-            <div class="actions">
+        </div>
+        <div class="actions">
 
-                {% if product.is_active %}
-                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
-                {% else %}
-                    <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
-                {% endif %}
-                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
-            </div>
-        </li>
-        {% endfor %}
-
-
-
-        <li class="ik-li img-lg product tpl" style="display: none">
-            <div class="select subtle-shade">
-                <i class="glyphicon glyphicon-ok"></i>
-            </div>
-            <div class="info">
-                <a href="#">
-                    <span class="code"></span><span class="rate"></span>
-                </a>
-            </div>
-
-            <div class="actions">
-                <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
-            </div>
-        </li>
-    </ul>
-    <div class="empty" style="display: none; padding: 10px 15px 5px">
-        <p class="text-muted">{% trans "Not found" %}</p>
-        <p>
-            <span class="search-text"></span>
-            {% if settings.IS_PROVIDER %}
-                <a href="{% url 'sales:change_promo_code' %}" id="new-promo_code"
-                   class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+            {% if product.is_active %}
+                <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+            {% else %}
+                <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
             {% endif %}
-        </p>
-    </div>
-    {% if objects_page.paginator.num_pages > 1 %}
-    <ul class="pagination">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-        {% for page in objects_page.paginator.page_range %}
-            <li class="{% if page == objects_page.number %}active{% endif %}" data-val="{{ page }}">
-                <a href="#">
-                    {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
-                </a>
-            </li>
-        {% endfor %}
-        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-    </ul>
-    {% endif %}
-    <div id="page-navigation" class="text-muted">
-        {% if objects_page.paginator.num_pages > 1  %}
-            <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
-                {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
-        {% else %}
-            <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+            <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+        </div>
+    </li>
+    {% endfor %}
+    <li class="ik-li img-lg product tpl" style="display: none">
+        <div class="select subtle-shade">
+            <i class="glyphicon glyphicon-ok"></i>
+        </div>
+        <div class="info">
+            <a href="#">
+                <span class="code"></span><span class="rate"></span>
+            </a>
+        </div>
+
+        <div class="actions">
+            <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+        </div>
+    </li>
+</ul>
+<div class="empty" style="display: none; padding: 10px 15px 5px">
+    <p class="text-muted">{% trans "Not found" %}</p>
+    <p>
+        <span class="search-text"></span>
+        {% if settings.IS_PROVIDER %}
+            <a href="{% url 'sales:change_promo_code' %}" id="new-promo_code"
+               class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
         {% endif %}
-    </div>
+    </p>
+</div>
+{% if objects_page.paginator.num_pages > 1 %}
+<ul class="pagination">
+    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+    {% for page in objects_page.paginator.page_range %}
+        <li class="{% if page == objects_page.number %}active{% endif %}" data-val="{{ page }}">
+            <a href="#">
+                {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
+            </a>
+        </li>
+    {% endfor %}
+    <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+</ul>
+{% endif %}
+<div id="page-navigation" class="text-muted">
+    {% if objects_page.paginator.num_pages > 1  %}
+        <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
+            {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+    {% else %}
+        <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% endif %}
 </div>

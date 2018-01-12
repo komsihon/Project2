@@ -2,7 +2,7 @@
 {% load i18n humanize staticfiles auth_tokens %}
 
 {% block page_title %}
-<title>{% if is_drivy %}Drivy{% else %}{% trans "Orders" %}{% endif %} - ikwen</title>
+<title>{% trans "Saved emails" %} - {{ service.project_name }}</title>
 {% endblock %}
 
 {% block head_style %}
@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block breadcrumb_location %}
-        <li>{% trans "Newletter emails" %}</li>
+    <li>{% trans "Saved emails" %}</li>
 {% endblock %}
 
 {% block admin_content %}
