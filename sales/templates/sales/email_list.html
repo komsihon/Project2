@@ -15,10 +15,20 @@
 {% endblock %}
 
 {% block admin_content %}
-    <div id="admin-content" class="has-edge-panel-right">
+    <div id="admin-content">
         <div class="container-fluid">
-            {% include 'core/snippets/spinner.html' %}
-            {% include 'sales/snippets/email_list_results.html' %}
+            <div id="admin-tools" class="ceil bottom-shade-xs">
+                <button class="btn btn-sm btn-success cta pull-right action export" style="border-color: #18bc9c"
+                        data-toggle="modal" data-target="#load-product" title="{% trans "Export as Spreadsheet" %}">
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    <span class="hidden-xs">{% trans "Export" %}</span>
+                </button>
+                <div class="clearfix"></div>
+            </div>
+            <div id="results" style="clear: both">
+                {% include 'core/snippets/spinner.html' %}
+                {% include 'sales/snippets/email_list_results.html' %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,48 +1,38 @@
 {% load i18n staticfiles humanize %}
-<div id="admin-tools" class="ceil bottom-shade-xs">
-    <button class="btn btn-sm btn-success cta pull-right action export" style="border-color: #18bc9c"
-            data-toggle="modal" data-target="#load-product" title="{% trans "Export as Spreadsheet" %}">
-        <i class="glyphicon glyphicon-list-alt"></i>
-        <span class="hidden-xs">{% trans "Export" %}</span>
-    </button>
-    <div class="clearfix"></div>
-</div>
-<div id="results" style="clear: both">
-    <ul class="object-list">
-    {% for email_object in emails_page.object_list %}
-        <li class="ik-li order" id="{{ email_object.id }}" data-id="{{ email_object.id }}">
-            <div class="info">
-                <span class="name">{{ email_object.email}}</span>
+<ul class="object-list">
+{% for email_object in emails_page.object_list %}
+    <li class="ik-li order" id="{{ email_object.id }}" data-id="{{ email_object.id }}">
+        <div class="info">
+            <span class="name">{{ email_object.email}}</span>
 
-            </div>
-        </li>
-    {% endfor %}
-    </ul>
-    {% if emails_page.paginator.num_pages > 1 %}
-    <ul class="pagination" style="float: left">
-        {% if emails_page.paginator.num_pages > 10 %}
-            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-        {% endif %}
-        {% for page in emails_page.paginator.page_range %}
-            {% if page <= 10 %}
-                <li class="{% if page == emails_page.number %}active{% endif %}" data-val="{{ page }}">
-                    <a href="#">
-                        {{ page }} {% if page == emails_page.number %}<span class="sr-only">(current)</span>{% endif %}
-                    </a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% if emails_page.paginator.num_pages > 10 %}
-            <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-        {% endif %}
-    </ul>
+        </div>
+    </li>
+{% endfor %}
+</ul>
+{% if emails_page.paginator.num_pages > 1 %}
+<ul class="pagination" style="float: left">
+    {% if emails_page.paginator.num_pages > 10 %}
+        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
     {% endif %}
-    <div id="page-navigation" class="text-muted">
-        {% if emails_page.paginator.num_pages > 1  %}
-            <p>{% blocktrans with count=emails_page.paginator.count start=emails_page.start_index end=emails_page.end_index %}
-                {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
-        {% else %}
-            <p>{% blocktrans with count=emails_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% for page in emails_page.paginator.page_range %}
+        {% if page <= 10 %}
+            <li class="{% if page == emails_page.number %}active{% endif %}" data-val="{{ page }}">
+                <a href="#">
+                    {{ page }} {% if page == emails_page.number %}<span class="sr-only">(current)</span>{% endif %}
+                </a>
+            </li>
         {% endif %}
-    </div>
+    {% endfor %}
+    {% if emails_page.paginator.num_pages > 10 %}
+        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    {% endif %}
+</ul>
+{% endif %}
+<div id="page-navigation" class="text-muted">
+    {% if emails_page.paginator.num_pages > 1  %}
+        <p>{% blocktrans with count=emails_page.paginator.count start=emails_page.start_index end=emails_page.end_index %}
+            {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+    {% else %}
+        <p>{% blocktrans with count=emails_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% endif %}
 </div>
