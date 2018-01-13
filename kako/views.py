@@ -628,7 +628,7 @@ class ChangeProduct(TemplateView):
             badge_text = request.POST.get('badge_text')
             size = request.POST.get('size')
             weight = request.POST.get('weight')
-            stock = int(request.POST.get('stock'))
+            stock = request.POST.get('stock')
             unit_of_measurement = request.POST.get('unit_of_measurement')
             min_order = request.POST.get('min_order')
             if not min_order:
@@ -684,7 +684,7 @@ class ChangeProduct(TemplateView):
             product.unit_of_measurement = unit_of_measurement
             product.tags = product.slug.replace('-', ' ')
             try:
-                product.stock = float(stock.strip())
+                product.stock = int(stock.strip())
             except:
                 product.stock = 0
             if getattr(settings, 'IS_PROVIDER', False):
