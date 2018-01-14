@@ -1,0 +1,39 @@
+- model: kakocase.productcategory
+  pk: 569228a9b37b3301e0706b51
+  fields:
+    name: Phones and Tablets
+    slug: phones-and-tablets
+    items_traded_history: [18, 9, 57, 23, 46]
+    turnover_history: [33800, 22700, 204150, 40890, 70235]
+    earnings_history: [4150, 1900, 36608, 3040, 9175]
+    orders_count_history: [11, 4, 41, 15, 27]
+
+- model: kakocase.productcategory
+  pk: 569228a9b37b3301e0706b52
+  fields:
+    name: Food
+    slug: food
+    items_traded_history: [30, 16, 52, 78, 31]
+    turnover_history: [33800, 40890, 70235, 22700, 204150]
+    earnings_history: [4150, 3040, 9175, 1900, 36608]
+    orders_count_history: [11, 4, 27, 41, 15]
+
+- model: kakocase.productcategory
+  pk: 569228a9b37b3301e0706b53
+  fields:
+    name: Fashion
+    slug: fashion
+    items_traded_history: [18, 9, 57, 23, 46]
+    turnover_history: [33800, 22700, 204150, 40890, 70235]
+    earnings_history: [4150, 1900, 36608, 3040, 9175]
+    orders_count_history: [11, 4, 41, 15, 27]
+
+- model: kakocase.productcategory
+  pk: 569228a9b37b3301e0706b54
+  fields:
+    name: Physical goods
+    slug: physical-goods
+    items_traded_history: [18, 9, 57, 23, 46]
+    turnover_history: [33800, 22700, 204150, 40890, 70235]
+    earnings_history: [4150, 1900, 36608, 3040, 9175]
+    orders_count_history: [11, 4, 41, 15, 27]

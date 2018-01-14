@@ -40,20 +40,11 @@
 
 {% block admin_content %}
     <div id="admin-content">
+        <div class="add-new-tile">
+            <a href="{% url 'sales:change_promotion' %}" class="btn btn-sm btn-success" style="margin-left: 6px; min-width: 90px">{% trans "Add" %}</a>
+        </div>
         <div class="container-fluid">
-            <div id="admin-tools" class="ceil bottom-shade-xs">
-                <form id="admin-tools-form" onsubmit="return false">
-                    <div>
-                        <i class="glyphicon glyphicon-search"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-                        <input id="context-search" type="text" class="form-input input-sm" placeholder="{% trans "Search promotion" %}"/>
-                    </div>
-                </form>
-            </div>
-            <div id="results">
-                {% include 'core/snippets/spinner.html' %}
-                {% include 'sales/snippets/promotion_list_results.html' %}
-            </div>
+            {% include 'sales/snippets/promotion_list_results.html' %}
         </div>
     </div>
 {% endblock %}

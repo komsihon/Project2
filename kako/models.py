@@ -193,9 +193,13 @@ class Product(AbstractProduct):
                                                                 slug=self.slug, stock__gt=0).order_by('id')
                          if p.size])
         size_list_obj = []
+
+        from ikwen_kakocase.sales.views import apply_promotion_discount
         for size in size_list:
             try:
                 obj = Product.objects.filter(category=self.category, brand=self.brand, slug=self.slug, size=size)[0]
+                obj = apply_promotion_discount([obj])[0]
+
                 size_list_obj.append({'label': obj.size, 'stock': obj.stock, 'retail_price': obj.retail_price,
                                       'id': obj.pk, 'wholesale_price': obj.wholesale_price, 'max_price': obj.max_price})
             except:

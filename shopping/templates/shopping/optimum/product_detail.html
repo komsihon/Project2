@@ -194,12 +194,12 @@
                                     <div role="tabpanel" class="tab-pane fade" id="reviews" aria-labelledby="reviews-tab">
                                         <div>
                                             <div class="reviews-bottom" style="overflow: hidden">
-                                                <div id="stars-rating" style="float: left">
-                                                    <span style="float: left">{% trans "Your Rating" %}:</span>
-                                                    <div class="block" style="float: left; padding-left: .5em">
-                                                        <div class="starbox autoupdate changeable ghosting"><div class="positioner"><div class="stars"><div class="ghost" style="width: 42.5px; display: none;"></div><div class="colorbar" style="width: 42.5px;"></div><div class="star_holder"><div class="star star-0"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div></div></div></div></div>
-                                                    </div>
-                                                </div>
+{#                                                <div id="stars-rating" style="float: left">#}
+{#                                                    <span style="float: left">{% trans "Your Rating" %}:</span>#}
+{#                                                    <div class="block" style="float: left; padding-left: .5em">#}
+{#                                                        <div class="starbox autoupdate changeable ghosting"><div class="positioner"><div class="stars"><div class="ghost" style="width: 42.5px; display: none;"></div><div class="colorbar" style="width: 42.5px;"></div><div class="star_holder"><div class="star star-0"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div></div></div></div></div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
                                                 <form id="submit-review" onsubmit="return false">
                                                     <div class="form-group comment">
                                                         <textarea placeholder="{% trans "Add a public review" %} ..." class="comment"></textarea>
@@ -285,9 +285,6 @@
                                                     {{ product.name }}
                                                     </a>
                                                 </h6>
-                                                <div class="block">
-                                                    <div class="starbox small ghosting"> </div>
-                                                </div>
                                                 {% if config.show_prices %}
                                                     <span class=" price-in1">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</span>
                                                 {% endif %}
@@ -410,21 +407,15 @@
             if (item) $('.simpleCart_shelfItem .item_quantity').text(item.quantity());
 
             $('#submit-review').submit(function () {
-                var rating = $('div#stars-rating .starbox').starbox("getValue"),
-                    comment = $('textarea.comment').val(),
+                var comment = $('textarea.comment').val(),
                     name = $('form#submit-review .name').val(),
                     email = $('form#submit-review .email').val();
-                if (rating <= 0.01) {  {# 0.01 is the default average given to indicate that no value was input by user #}
-                    $('#stars-rating').addClass('failure');
-                    ikwen.showFloatingNotice("{% trans "Please rate using the stars." %}", '', 3);
-                    return false
-                }
+
                 if (!comment) {
                     $('.form-group.comment').addClass('has-error');
                     ikwen.showFloatingNotice("{% trans "Please write a small comment." %}", '', 3);
                     return false
                 }
-                $('#stars-rating, .form-group.comment').removeClass('has-error');
                 {% if user.is_anonymous %}
                     var check = true,
                         memberPhoto = '{% static 'ikwen/img/member-avatar.jpg' %}';
@@ -451,7 +442,7 @@
                         var memberPhoto = '{% static 'ikwen/img/member-avatar.jpg' %}';
                     {% endif %}
                 {% endif %}
-                $.getJSON("{% url 'shopping:review_product' product.id %}", {rating: rating, comment: comment, name: name, email: email});
+                $.getJSON("{% url 'shopping:review_product' product.id %}", {comment: comment, name: name, email: email});
                 $('.reviews-bottom').animate({height: 0}, 'normal', 'linear', function() {
                     $(this).remove()
                 });
