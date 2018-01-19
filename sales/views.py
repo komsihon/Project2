@@ -148,7 +148,7 @@ class ChangePromotion(TemplateView):
 
     @method_decorator(csrf_protect)
     def post(self, request, *args, **kwargs):
-        promotion_id = self.request.POST.get('promotion_id')
+        promotion_id = request.POST.get('promotion_id')
         if promotion_id:
             promotion = get_object_or_404(Promotion, pk=promotion_id)
         else:
@@ -156,8 +156,8 @@ class ChangePromotion(TemplateView):
         promotion_admin = get_model_admin_instance(Promotion, PromotionAdmin)
         ModelForm = promotion_admin.get_form(self.request)
         form = ModelForm(request.POST, instance=promotion)
-        start_date = self.request.POST.get('start_on')
-        end_date = self.request.POST.get('end_on')
+        start_date = request.POST.get('start_on')
+        end_date = request.POST.get('end_on')
         if len(start_date) > 16:
             start_date = start_date[:-3].strip()
         if len(end_date) > 16:
@@ -171,16 +171,19 @@ class ChangePromotion(TemplateView):
         category_id = request.POST.get('category')
         item_id = request.POST.get('item')
         if title:
-            promotion.code = title
+            promotion.title = title
             promotion.start_on = start_on
             promotion.end_on = end_on
             promotion.rate = rate
             promotion.is_active = is_active
             if category_id:
                 promotion.category = get_object_or_404(ProductCategory, pk=category_id)
-
+            else:
+                promotion.category = None
             if item_id:
                 promotion.item = get_object_or_404(Product, pk=item_id)
+            else:
+                promotion.item = None
             promotion.save()
             next_url = reverse('sales:promotion_list')
             if promotion_id:

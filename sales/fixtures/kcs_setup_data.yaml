@@ -1,0 +1,314 @@
+- model: auth.group
+  fields:
+    name: Sudo
+
+- model: core.country
+  pk: 56ec6d04b37b3379b7446c01
+  fields:
+    name: Cameroon
+    iso2: CM
+    iso3: CMR
+
+- model: core.country
+  pk: 56ec6d04b37b3379b7446c02
+  fields:
+    name: Nigeria
+    iso2: NG
+    iso3: NGR
+
+- model: currencies.currency
+  fields:
+    name: Central African Franc
+    code: XAF
+    symbol: XAF
+    precision: 0
+    is_base: Yes
+    is_active: Yes
+    is_default: Yes
+
+- model: core.application
+  pk: 56eb6d04b37b3379b531a001
+  fields:
+    name: Kakocase
+    slug: kakocase
+    logo: app_logos/kakocase_logo.png
+    url: ''
+    base_monthly_cost: 5000
+
+- model: core.application
+  pk: 56eb6d04b37b3379b531a002
+  fields:
+    name: Kakocase Logistics
+    slug: kakocase-logistics
+    logo: app_logos/kakocase_logo.png
+    url: ''
+    base_monthly_cost: 5000
+
+- model: core.service
+  pk: 56eb6d04b37b3379b531b101
+  fields:
+    member: 56eb6d04b37b3379b531e011
+    app: 56eb6d04b37b3379b531a001
+    project_name: tecnomobile
+    project_name_slug: tecnomobile
+    domain: tecnomobile.ikwen.com
+    url: http://tecnomobile.ikwen.com
+    database: test_kc_tecnomobile
+    api_signature: api-signature1
+    monthly_cost: 6000
+    version: Full
+    status: Active
+    expiry: 2035-01-01T00:00:00.120Z
+
+- model: core.service
+  pk: 56eb6d04b37b3379b531b102
+  fields:
+    member: 56eb6d04b37b3379b531e012
+    app: 56eb6d04b37b3379b531a001
+    project_name: sabc
+    project_name_slug: sabc
+    domain: sabc.ikwen.com
+    url: http://sabc.ikwen.com
+    database: test_kc_sabc
+    api_signature: api-signature2
+    monthly_cost: 6000
+    version: Full
+    status: Active
+    expiry: 2035-01-01T00:00:00.120Z
+
+- model: core.service
+  pk: 56eb6d04b37b3379b531b103
+  fields:
+    member: 56eb6d04b37b3379b531e013
+    app: 56eb6d04b37b3379b531a001
+    project_name: foka
+    project_name_slug: foka
+    domain: foka.ikwen.com
+    url: http://foka.ikwen.com
+    database: test_kc_foka
+    api_signature: api-signature3
+    monthly_cost: 6000
+    version: Full
+    status: Active
+    expiry: 2035-01-01T00:00:00.120Z
+
+- model: core.service
+  pk: 56eb6d04b37b3379b531b105
+  fields:
+    member: 56eb6d04b37b3379b531e015
+    app: 56eb6d04b37b3379b531a002
+    project_name: ems
+    project_name_slug: ems
+    domain: ems.ikwen.com
+    url: http://ems.ikwen.com
+    database: test_kc_ems
+    api_signature: api-signature5
+    monthly_cost: 6000
+    version: Full
+    status: Active
+    expiry: 2035-01-01T00:00:00.120Z
+
+- model: core.service
+  pk: 56eb6d04b37b3379b531b107
+  fields:
+    member: 56eb6d04b37b3379b531e017
+    app: 56eb6d04b37b3379b531a001
+    project_name: AFIC CASHFLEX
+    project_name_slug: aficcashflex
+    domain: aficcashflex.ikwen.com
+    url: http://aficcashflex.ikwen.com
+    database: test_kc_afic
+    api_signature: api-signature7
+    monthly_cost: 6000
+    version: Full
+    status: Active
+    expiry: 2035-01-01T00:00:00.120Z
+
+- model: kakocase.deliveryoption
+  pk: 55d1feb9b37b301e070604d1
+  fields:
+    company: 56eb6d04b37b3379b531b105
+    type: HomeDelivery
+    name: Classic
+    slug: classic
+    cost: 1000
+    max_delay: 2
+
+- model: kakocase.deliveryoption
+  pk: 55d1feb9b37b301e070604d2
+  fields:
+    company: 56eb6d04b37b3379b531b105
+    type: HomeDelivery
+    name: Express
+    slug: express
+    cost: 2000
+    max_delay: 2
+
+- model: kakocase.deliveryoption
+  pk: 55d1feb9b37b301e070604d3
+  fields:
+    company: 56eb6d04b37b3379b531b105
+    type: HomeDelivery
+    name: Eyeblink
+    slug: eyeblink
+    cost: 3000
+    max_delay: 2
+
+- model: kakocase.deliveryoption
+  pk: 55d1feb9b37b301e070604a0
+  fields:
+    company: 56eb6d04b37b3379b531b105
+    type: HomeDelivery
+    name: Eyeblink
+    slug: eyeblink
+    cost: 0
+    max_delay: 2
+
+- model: kakocase.deliveryoption
+  pk: 55d1feb9b37b301e070604d4
+  fields:
+    company: 56eb6d04b37b3379b531b101
+    type: HomeDelivery
+    name: Eyeblink
+    slug: eyeblink
+    cost: 3000
+    max_delay: 6
+
+- model: core.consoleeventtype
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: CashOutRequestEvent
+    title: Cash-out requested
+    renderer: path.to.renderer
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b371
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: ProviderAddedProductsEvent
+    title: Those people would like to collaborate with you
+    target_url_name: ikwen:provider_product_list
+    renderer: ikwen.foundation.accesscontrol.views.render_collaboration_request_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b372
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: ProviderRemovedProductEvent
+    title: Provider removed product
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b373
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: ProviderPushedProductEvent
+    title: Provider pushed product
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b374
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: NewOrderEvent
+    title: Customer ordered
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b375
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: OrderDeliveredEvent
+    title: Package received
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b376
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: OrderShippedEvent
+    title: Order shipped
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b377
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: OrderPackagedEvent
+    title: Order shipped
+    target_url_name: ikwen:pa
+    renderer: ikwen.foundation.accesscontrol.views.render_access_granted_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b378
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: NewInvoiceEvent
+    title: New invoice
+    renderer: ikwen.billing.views.render_invoice_reminder_event
+
+- model: core.consoleeventtype
+  pk: 56eb6db3379b531a0104b379
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    codename: ServiceDeployed
+    title: You are online
+    renderer: ikwen.core.views.render_service_deployed_event
+
+- model: billing.paymentmean
+  pk: 5880870e4fc0c229da8da3d1
+  fields:
+    name: PayPal
+    slug: paypal
+    credentials: '{"username":"pp_user","password":"pp_pwd","signature":"pp_sgn","merchant_id":"pp_mid"}'
+    action_url_name: shopping:paypal_set_checkout
+    logo: logo.png
+    watermark: watermark.png
+
+- model: billing.paymentmean
+  pk: 5880870e4fc0c229da8da3d2
+  fields:
+    name: MTN Mobile Money
+    slug: mtn-momo
+    credentials: '{"merchant_email":"merchant@ikwen.com"}'
+    action_url_name: billing:momo_set_checkout
+    logo: logo.png
+    watermark: watermark.png
+
+- model: billing.paymentmean
+  pk: 5880870e4fc0c229da8da3d3
+  fields:
+    name: CashFlex
+    slug: cashflex
+    action_url_name: shopping:choose_deal
+    logo: logo.png
+    watermark: watermark.png
+    is_cashflex: Yes
+
+- model: billing.paymentmean
+  pk: 5880870e4fc0c229da8da3d4
+  fields:
+    name: AFIC
+    slug: aficcashflex
+    action_url_name: shopping:choose_deal
+    logo: logo.png
+    watermark: watermark.png
+    is_cashflex: Yes
+
+- model: billing.cloudbillingplan
+  pk: 55e7b9b531a003371b6d0cb1
+  fields:
+    app: 56eb6d04b37b3379b531a001
+    partner: 56eb6d04b9b531b10537b331
+    name: cbp1
+    max_objects: 100
+    tx_share_fixed: 100
+    tx_share_rate: 2
+    setup_cost: 39000
+    setup_months_count: 3
+    monthly_cost: 6000

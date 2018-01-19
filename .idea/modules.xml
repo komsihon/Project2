@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/KakacaseGithub.iml" filepath="$PROJECT_DIR$/.idea/KakacaseGithub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/KakocaseGithub.iml" filepath="$PROJECT_DIR$/.idea/KakocaseGithub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../WebNode/.idea/WebNode.iml" filepath="$PROJECT_DIR$/../WebNode/.idea/WebNode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" filepath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" />
     </modules>
   </component>
 </project>

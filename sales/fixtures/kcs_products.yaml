@@ -1,0 +1,109 @@
+- model: kako.product
+  pk: 55d1fa8feb60008099bd4151
+  fields:
+    provider: 56eb6d04b37b3379b531b101
+    category: 569228a9b37b3301e0706b51
+    name: Samsung Galaxy S7
+    slug: samsung-galaxy-s7
+    tags: samsung galaxy s7
+    photos:
+      - id: 56eb6d04b3779b33b531e091
+        image: kako/photos/samsung-galaxy-s7.jpg
+    wholesale_price: 430000
+    retail_price: 480000
+    max_price: 520000
+    retail_price_is_modifiable: Yes
+    total_units_sold: 137
+    units_sold_history: [30, 14, 48, 45]
+    stock: 45
+#    sale_price: 430000
+#    min_quantity: 10  483300
+
+- model: kako.product
+  pk: 55d1fa8feb60008099bd4152
+  fields:
+    provider: 56eb6d04b37b3379b531b102
+    category: 569228a9b37b3301e0706b52
+    name: Coca-Cola
+    slug: coca-cola
+    tags: coca cola
+    photos:
+      - id: 56eb6d04b3779b33b531e092
+        image: kako/photos/coca-cola.jpg
+    wholesale_price: 375
+    retail_price: 450
+    max_price: 500
+    retail_price_is_modifiable: Yes
+    total_units_sold: 177
+    units_sold_history: [48, 51, 16, 62]
+    stock: 72
+#    sale_price: 375
+#    measurement: Crate
+#    min_quantity: 50
+
+- model: kako.product
+  pk: 55d1fa8feb60008099bd4153
+  fields:
+    provider: 56eb6d04b37b3379b531b102
+    category: 569228a9b37b3301e0706b52
+    name: Mutzig
+    slug: mutzig
+    tags: mutzig
+    photos:
+      - id: 56eb6d04b3779b33b531e093
+        image: kako/photos/mutzig.jpg
+    wholesale_price: 460
+    retail_price: 550
+    max_price: 800
+    retail_price_is_modifiable: No
+    total_units_sold: 249
+    units_sold_history: [74, 51, 35, 89]
+    stock: 65
+
+- model: kako.recurringpaymentservice
+  pk: 55d1fa8feb60008099bd4154
+  fields:
+    provider: 56eb6d04b37b3379b531b101
+    category: 569228a9b37b3301e0706b52
+    name: Theft insurance
+    slug: theft-insurance
+    tags: theft insurance
+    photos:
+      - id: 56eb6d04b3779b33b531e094
+        image: kako/photos/theft-insurance.jpg
+    wholesale_price: 4500
+    retail_price: 5500
+    max_price: 7000
+    duration: 91
+    duration_text: 3 Mois
+    retail_price_is_modifiable: Yes
+    total_units_sold: 101
+    units_sold_history: [30, 14, 48, 9]
+#    sale_price: 480
+#    measurement: Crate
+#    min_quantity: 10
+
+- model: kako.photo
+  pk: 56eb6d04b3779b33b531e091
+  fields:
+    image: kako/photos/samsung-galaxy-s7.jpg
+
+- model: kako.photo
+  pk: 56eb6d04b3779b33b531e092
+  fields:
+    image: kako/photos/coca-cola.jpg
+
+- model: kako.photo
+  pk: 56eb6d04b3779b33b531e093
+  fields:
+    image: kako/photos/mutzig.jpg
+
+- model: kako.photo
+  pk: 56eb6d04b3779b33b531e094
+  fields:
+    image: kako/photos/theft-insurance.jpg
+
+- model: kako.batchupload
+  pk: 56eb6d779b33b531e09104b1
+  fields:
+    spreadsheet: kako/fixtures/products.xls

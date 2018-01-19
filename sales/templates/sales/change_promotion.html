@@ -77,10 +77,8 @@
             $('.form-row').addClass('form-group');
             $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
             $('.form-row textarea').addClass('form-control input-sm');
-            {% if settings.IS_PROVIDER %}
-                {% if request.GET.name %}
-                    $('#id_title').val("{{ request.GET.name }}");
-                {% endif %}
+{#            {% if settings.IS_PROVIDER %}#}
+
                 {% if error %}
                     ikwen.showFloatingNotice("{{ error }}", '', 6);
                 {% endif %}
@@ -139,7 +137,7 @@
                 {% if request.GET.name %}
                     $('#id_title').val("{{ request.GET.name }}");
                 {% endif %}
-            {% endif %}
+{#            {% endif %}#}
             {% if messages %}
                 {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
             {% endif %}

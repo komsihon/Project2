@@ -82,7 +82,7 @@ class DeliveryAddress(Model):
 class Review(Model):
     product = models.ForeignKey(Product)
     member = models.ForeignKey(Member, blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(blank=True)
-    rating = models.FloatField()  # Value comprised between 0 .. 1 (Because we use jstarbox client side for display)
-    comment = models.TextField(blank=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    rating = models.FloatField( blank=True, null=True)  # Value comprised between 0 .. 1 (Because we use jstarbox client side for display)
+    comment = models.TextField(blank=True, null=True)

@@ -822,3 +822,13 @@ def test_return_url(request, *args, **kwargs):
         f.write('%s: %s\n' % (key, value))
     f.close()
     return HttpResponse('OK')
+
+
+def load_countries(*args, **kwargs):
+    countries = Country.objects.using(UMBRELLA).all()
+    for country in countries:
+        country.save(using='default')
+    return HttpResponse(
+    json.dumps({'Success': True}),
+    'content-type: text/json'
+    )

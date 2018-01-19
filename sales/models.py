@@ -22,7 +22,7 @@ class Promotion(Model):
                              help_text=_("Product where the discount is going to be apply to"))
     category = models.ForeignKey(ProductCategory, blank=True, null=True,
                                  help_text=_("Category where the discount is going to be apply to"))
-    is_active = models.BooleanField(default=True,
+    is_active = models.NullBooleanField(default=True, blank=True, null=True,
                                  help_text=_("Allow to activate or no the promotion"))
 
 
@@ -32,7 +32,7 @@ class PromoCode(Model):
     start_on = models.DateTimeField(help_text=_("First day of the discount coupon"))
     end_on = models.DateTimeField(help_text=_("Last day of the discount coupon"))
     rate = models.SmallIntegerField(help_text=_("Discount coupon percentage"))
-    is_active = models.BooleanField(default=True,
+    is_active = models.NullBooleanField(default=True,
                                  help_text=_("Allow to activate or no the promo code"))
 
     def to_dict(self):
