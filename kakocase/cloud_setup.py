@@ -175,7 +175,8 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         if os.path.exists(theme_db_folder):
             db_folder = theme_db_folder
 
-    subprocess.call(['mongorestore', '-d', database, db_folder])
+    host = getattr(settings, 'DATABASES')['default'].get('HOST', '127.0.0.1')
+    subprocess.call(['mongorestore', '--host', host, '-d', database, db_folder])
     add_database_to_settings(database)
     for group in Group.objects.using(database).all():
         try:
