@@ -230,8 +230,6 @@ class ChangeCategory(TemplateView):
                 category.items_count = category.product_set.all().count()
             category.description = description
             category.badge_text = badge_text
-            category.appear_in_menu = True if request.POST.get('appear_in_menu') else False
-            category.is_active = True if request.POST.get('is_active') else False
             if image_url:
                 if not category.image.name or image_url != category.image.url:
                     filename = image_url.split('/')[-1]
