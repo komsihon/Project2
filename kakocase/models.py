@@ -108,20 +108,6 @@ class ProductCategory(AbstractWatchModel):
         increment_history_field(umbrella_obj, 'orders_count_history')
         umbrella_obj.save(using=UMBRELLA)
 
-    def save(self, **kwargs):
-        if getattr(settings, 'IS_IKWEN', False):
-            for operator in OperatorProfile.objects.all():
-                try:
-                    db = operator.service.database
-                    add_database_to_settings(db)
-                    obj_mirror = ProductCategory.objects.using(db).get(pk=self.id)
-                    obj_mirror.name = self.name
-                    obj_mirror.slug = self.slug
-                    super(ProductCategory, obj_mirror).save()
-                except:
-                    pass
-        super(ProductCategory, self).save(**kwargs)
-
     def delete(self, *args, **kwargs):
         try:
             os.unlink(self.image.path)
