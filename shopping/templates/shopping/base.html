@@ -286,9 +286,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <li><a href="{% url 'shopping:cart' %}">{% trans "Checkout" %}</a></li>
                                 {% endif %}
 {#                                <li><a href="{% url 'shopping:contact' %}">{% trans "Contact" %}</a></li>#}
-                                <li><a href="{% url 'flatpage' 'agreement' %}">{% trans "Terms and Conditions" %}</a></li>
+                                {% if agreement_page %}
+                                    <li><a href="{% url 'flatpage' agreement_page.url %}">{{ agreement_page.title }}</a></li>
+                                {% endif %}
+                                {% if about_page %}
+                                    <li><a href="{% url 'flatpage' about_page.url %}">{{ about_page.title }}</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
-                                <li><a href="{% url 'ikwen:register' %}">{% trans "Create Account" %}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-6 col-md-3 footer-grid">
