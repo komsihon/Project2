@@ -65,10 +65,14 @@
                 <div class="divider"></div>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="{% url 'shopping:home' %}">{% trans "Home" %}</a></li>
-                        <li><a href="{% url 'flatpage' 'agreement' %}">{% trans "Terms and Conditions" %}</a></li>
+                        {% if agreement_page %}
+                            <li><a href="{% url 'flatpage' agreement_page.url %}">{{ agreement_page.title }}</a></li>
+                        {% endif %}
+                        {% if about_page %}
+                            <li><a href="{% url 'flatpage' about_page.url %}">{{ about_page.title }}</a></li>
+                        {% endif %}
                         {% if not user.is_authenticated %}
                             <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
-                            <li><a href="{% url 'ikwen:register' %}">{% trans "Create Account" %}</a></li>
                         {% endif %}
                     </ul>
                     <div class="clearfix"></div>
