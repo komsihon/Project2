@@ -31,6 +31,7 @@
                     'searchreplace visualblocks code fullscreen',
                     'insertdatetime media table contextmenu paste code'
                 ],
+                paste_data_images: true,
                 content_css: [
                     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
                     '//www.tinymce.com/css/codepen.min.css'
@@ -227,9 +228,6 @@
             {% if settings.IS_PROVIDER %}
                 {% if request.GET.name %}
                     $('#id_name').val("{{ request.GET.name }}");
-                {% endif %}
-                {% if error %}
-                    ikwen.showFloatingNotice("{{ error }}", '', 6);
                 {% endif %}
                 $('div#upload-container').on('click', '.image .delete', function() {
                     var productId = $('#product-id').val(),
