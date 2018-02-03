@@ -36,12 +36,10 @@ class KakoUtilsTestCase(unittest.TestCase):
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_create_category(self):
         """
-        Creating a category creates it in the UMBRELLA database first and in local database also.
+        Creating a category creates it in local database.
         """
-        for fixture in self.fixtures:
-            call_command('loaddata', fixture, database=UMBRELLA)
-        create_category(name='new category')
-        category = ProductCategory.objects.using(UMBRELLA).get(slug='new-category')
+        create_category(name='New category')
+        category = ProductCategory.objects.get(slug='new-category')
         self.assertEqual(category.name, 'New category')  # Upon creation, name is capitalized
 
 
@@ -99,6 +97,7 @@ class KakoUtilsTestCase(unittest.TestCase):
         """
         Retrieves product an merchant based on URL of product
         """
+        call_command('loaddata', 'kc_setup_data.yaml', database='umbrella')
         call_command('loaddata', 'categories.yaml', database='test_kc_tecnomobile')
         call_command('loaddata', 'products.yaml', database='test_kc_tecnomobile')
         url = 'http://tecnomobile.ikwen.com/phones-and-tablets/samsung-galaxy-s7'
