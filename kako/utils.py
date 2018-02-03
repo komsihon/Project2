@@ -29,34 +29,12 @@ def import_products(filename):
 
 
 def create_category(name):
-    """
-    Adds a new :class:`ikwen_kakocase.models.ProductCategory` in the actual
-    :class:`ikwen_kakocase.models.OperatorProfile` database.
-    We start by searching the category with the given name in UMBRELLA database.
-    If not found there, it is created and appended in the list of product_categories
-    for the actual Operator business_category so that subsequently created platforms
-    of the same business_category are cloud_setup with those categories from the beginning.
-    """
-    name = name.capitalize()
     slug = slugify(name)
     try:
-        ProductCategory.objects.using(UMBRELLA).get(slug=slug)
+        category = ProductCategory.objects.get(slug=slug)
     except ProductCategory.DoesNotExist:
-        category = ProductCategory.objects.using(UMBRELLA)\
-            .create(name=name, slug=slug, earnings_history=[0],
-                    orders_count_history=[0], items_traded_history=[0], turnover_history=[0])
-        business_category = get_service_instance(UMBRELLA).config.business_category
-        if business_category:
-            business_category.product_categories.append(category)
-            business_category.save()
-        category.save(using='default')
-    else:
-        try:
-            category = ProductCategory.objects.using('default').get(slug=slug)
-        except ProductCategory.DoesNotExist:
-            category = ProductCategory.objects.using(UMBRELLA).get(slug=slug)
-            category.items_count = 0
-            category.save(using='default')
+        category = ProductCategory.objects.create(name=name, slug=slug, earnings_history=[0],
+                                                  orders_count_history=[0], items_traded_history=[0], turnover_history=[0])
     return category
 
 
