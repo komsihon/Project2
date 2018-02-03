@@ -330,7 +330,7 @@ class ProductList(HybridListView):
     html_results_template_name = 'kako/snippets/product_list_results.html'
     queryset = Product.objects.filter(in_trash=False)
     ordering = ('-updated_on', '-total_units_sold')
-    search_field = 'tags'
+    search_field = 'name'
     context_object_name = 'product_list'
     list_filter = (MerchantListFilter, ) if getattr(settings, 'IS_BANK', False) else (CategoryListFilter, )
 
@@ -356,6 +356,14 @@ class ProductList(HybridListView):
                 smart_object = get_object_or_404(SmartCategory, pk=smart_object_id)
             context['smart_object'] = smart_object
         return context
+
+    def get_search_results(self, queryset, max_chars=None):
+        search_term = self.request.GET.get('q')
+        if search_term and len(search_term) >= 2:
+            search_term = search_term.lower()
+            kwargs = {self.search_field + '__icontains': search_term}
+            queryset = queryset.filter(**kwargs)
+        return queryset
 
 
 @permission_required('kako.ik_manage_product')
@@ -734,6 +742,7 @@ class ChangeProduct(TemplateView):
                                            product_admin.get_prepopulated_fields(self.request),
                                            product_admin.get_readonly_fields(self.request))
             context['model_admin_form'] = admin_form
+            messages.error(request, _("Product was not created. One ore more fields were invalid."))
             return render(request, self.template_name, context)
 
 
