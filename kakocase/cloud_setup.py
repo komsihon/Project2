@@ -130,25 +130,26 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     shutil.copytree(app_folder, website_home_folder)
     logger.debug("Service folder '%s' successfully created" % website_home_folder)
 
+    can_manage_delivery_options = False
+    if business_type == OperatorProfile.PROVIDER:
+        settings_template = 'kakocase/cloud_setup/settings.provider.html'
+        can_manage_delivery_options = True
+    elif business_type == OperatorProfile.RETAILER:
+        settings_template = 'kakocase/cloud_setup/settings.retailer.html'
+    elif business_type == OperatorProfile.LOGISTICS:
+        settings_template = 'kakocase/cloud_setup/settings.delivery.html'
+        auth_code = ikwen_name[:4] + now.strftime('%S')
+    elif business_type == OperatorProfile.BANK:
+        settings_template = 'kakocase/cloud_setup/settings.bank.html'
+
     service = Service(member=member, app=app, project_name=project_name, project_name_slug=ikwen_name, domain=domain,
                       database=database, url='http://' + domain, domain_type=domain_type, expiry=expiry,
                       admin_url='http://' + admin_url, billing_plan=billing_plan, billing_cycle=billing_cycle,
                       monthly_cost=monthly_cost, version=Service.TRIAL, retailer=partner_retailer,
-                      api_signature=api_signature, home_folder=website_home_folder)
+                      api_signature=api_signature, home_folder=website_home_folder,
+                      settings_template=settings_template)
     service.save(using=UMBRELLA)
     logger.debug("Service %s successfully created" % pname)
-
-    can_manage_delivery_options = False
-    if business_type == OperatorProfile.PROVIDER:
-        business_setting = 'IS_PROVIDER'
-        can_manage_delivery_options = True
-    elif business_type == OperatorProfile.RETAILER:
-        business_setting = 'IS_RETAILER'
-    elif business_type == OperatorProfile.LOGISTICS:
-        business_setting = 'IS_DELIVERY_COMPANY'
-        auth_code = ikwen_name[:4] + now.strftime('%S')
-    elif business_type == OperatorProfile.BANK:
-        business_setting = 'IS_BANK'
 
     if business_type == OperatorProfile.RETAILER:
         # Copy Categories image to local media folder as the Retailer is allowed to change them
@@ -157,9 +158,9 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     # Re-create settings.py file as well as apache.conf file for the newly created project
     secret_key = generate_django_secret_key()
     allowed_hosts = '"%s", "www.%s"' % (domain, domain)
-    settings_tpl = get_template('kakocase/cloud_setup/settings.html')
-    settings_context = Context({'secret_key': secret_key, 'ikwen_name': ikwen_name, 'business_setting': business_setting,
-                                'service': service, 'static_root': STATIC_ROOT, 'static_url': STATIC_URL,
+    settings_tpl = get_template(settings_template)
+    settings_context = Context({'secret_key': secret_key, 'ikwen_name': ikwen_name, 'service': service,
+                                'static_root': STATIC_ROOT, 'static_url': STATIC_URL,
                                 'media_root': media_root, 'media_url': media_url,
                                 'allowed_hosts': allowed_hosts, 'debug': getattr(settings, 'DEBUG', False)})
     settings_file = website_home_folder + '/conf/settings.py'
@@ -341,12 +342,11 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     html_content = get_mail_content(subject, '', template_name='core/mails/service_deployed.html',
                                     extra_context={'service_activated': service, 'invoice': invoice,
                                                    'member': member, 'invoice_url': invoice_url})
-    # msg = EmailMessage(subject, html_content, sender, ['rsihon@gmail.com'])
     msg = EmailMessage(subject, html_content, sender, [member.email])
     bcc = ['contact@ikwen.com']
     if vendor.config.contact_email:
         bcc.append(vendor.config.contact_email)
-        msg.bcc = list(set(bcc))
+    msg.bcc = list(set(bcc))
     msg.content_subtype = "html"
     Thread(target=lambda m: m.send(), args=(msg, )).start()
     logger.debug("Notice email submitted to %s" % member.email)
