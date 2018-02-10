@@ -105,8 +105,7 @@ class DeployCloud(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DeployCloud, self).get_context_data(**kwargs)
         context['billing_cycles'] = Service.BILLING_CYCLES_CHOICES
-        app_slug = kwargs['app_slug']
-        app = Application.objects.using(UMBRELLA).get(slug=app_slug)
+        app = Application.objects.using(UMBRELLA).get(slug='kakocase')
         context['app'] = app
         template_list = list(Template.objects.using(UMBRELLA).filter(app=app))
         context['theme_list'] = Theme.objects.using(UMBRELLA).filter(template__in=template_list)
