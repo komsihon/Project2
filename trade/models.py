@@ -306,7 +306,7 @@ class Subscription(AbstractSubscription):
     """
     A subscription to a :class:`kako.models.RecurringPaymentService` sold to
     end user by a  :class:`people.models.Retailer`. Those subscriptions are handled
-    by ikwen billing app that will issue invoices and reminders.
+    by ikwen billing apps that will issue invoices and reminders.
     It will further collect payments. Upon payment, the share between provider
     and retailer will be applied just like it would be with a :class:`kako.models.Product`
     """

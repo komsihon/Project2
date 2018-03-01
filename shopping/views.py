@@ -47,8 +47,7 @@ from ikwen.core.views import HybridListView
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, \
-    INSUFFICIENT_STOCK_EVENT, LOW_STOCK_EVENT, PRODUCTS_PREVIEWS_PER_ROW, \
-    CATEGORIES_PREVIEWS_PER_ROW, DeliveryOption
+    INSUFFICIENT_STOCK_EVENT, LOW_STOCK_EVENT, CATEGORIES_PREVIEWS_PER_ROW, DeliveryOption
 from ikwen_kakocase.sales.models import PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
 from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review
@@ -59,6 +58,15 @@ from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 logger = logging.getLogger('ikwen')
 
 _OPTIMUM = 'optimum'
+
+service_id = getattr(settings, 'IKWEN_SERVICE_ID')
+config = Service.objects.get(pk=service_id).config
+if config.theme.display == "Comfortable":
+    PRODUCTS_PREVIEWS_PER_ROW = 2
+elif config.theme.display == "Cozy":
+    PRODUCTS_PREVIEWS_PER_ROW = 3
+else:
+    PRODUCTS_PREVIEWS_PER_ROW = getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
 
 
 class TemplateSelector(object):
@@ -80,6 +88,7 @@ class Home(TemplateSelector, TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
+
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)
         preview_smart_categories = list(SmartCategory.objects
                                         .filter(items_count__gt=0, is_active=True, appear_in_menu=False)

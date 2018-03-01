@@ -34,6 +34,12 @@ class PromoCodeAdmin(admin.ModelAdmin):
     save_on_top = True
 
 
+class GrouponAdmin(admin.ModelAdmin):
+    list_display = ('code','item', 'cost', 'objective', 'actual_count', 'start_on', 'end_on', 'is_active')
+    search_fields = ('code',)
+    save_on_top = True
+
+
 if not getattr(settings, 'IS_IKWEN', False):
     admin.site.register(Promotion, PromotionAdmin)
     admin.site.register(PromoCode, PromoCodeAdmin)

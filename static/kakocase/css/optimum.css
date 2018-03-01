@@ -79,7 +79,7 @@ li {list-style-type: none;color: #2a2424;}
 .header-bottom.fixed .cd-header-buttons {top: 45px }
 .header-bottom.fixed .box_1 {margin-top: 22px}
 .header-bottom.fixed .logo-nav-left a {font-size: 23px;left: 10px; position: absolute; top: 10px;}
-.header-bottom.fixed .logo-nav-left img {left: 10px;position: absolute;top: 0px;width: 200px;}
+.header-bottom.fixed .logo-nav-left img {max-height: 60px; left: 10px;position: absolute;top: 0px;max-width: 200px;}
 .header-bottom.fixed #auth.top-right ul {margin: -10px 0 -6px;position: absolute;right: 12px;top: 0;}
 .header-bottom.fixed #auth.top-right .fa {color: #1B242F; font-size: 17px}
 .header-bottom.fixed #auth.top-right a {color: #1B242F}
@@ -97,7 +97,8 @@ li {list-style-type: none;color: #2a2424;}
 .xs-nav-container {float: left;/* margin-left: 15px; */}
 .button-hover-handler {float: left;margin-left: 5px;height: 35px;width: 35px;border-radius: 20px;margin-top: 3px;}
 .button-hover-handler.active {background: #ffffff52}
-.company-logo-container {float: left;max-height: 45px;max-width: 200px;overflow: hidden;}
+.company-logo-container {float: left;max-height: 110px;max-width: 200px;overflow: hidden;}
+.company-logo-container img {max-height: 113px;}
 
 
 .swiper-container {width: 100%}
@@ -128,7 +129,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .header-xs .icon-bar {background: #fff}
 .header-xs h3 {color: #fff;float: left;font-size: 21px;margin-top: 6px;width: 54%;overflow: hidden;}
 .header-xs .fa {font-size: 20px;margin-left: 8px;margin-top: 9px;}
-.header-xs .action .badge {font-size: 10px;margin: 24px 0 0 11px; position: absolute; z-index: 3}
+.header-xs .action .badge {font-size: 10px;/* margin: 24px 0 0 11px; */position: absolute;z-index: 3;}
 .header-xs .cd-search-trigger {float: left;margin-top: 0;margin-right: 2px;}
 .header-xs a {color: #fff;}
 .cd-search input {background: rgba(0, 0, 0, 0.75);border-radius: 0;border: none;color: #fff;font-size: 2em; box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05); -webkit-box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05);
@@ -183,7 +184,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .left-content {overflow: hidden; width: 45%;}
 /*-- search-ends --*/
 
-.header-xs .action .badge {margin: 24px 0 0 18px;position: absolute;z-index: 3;font-size: 10px;}
+.header-xs .action .badge {/* margin: 24px 0 0 48px; */position: absolute;z-index: 3;font-size: 10px;}
 .nav-xs {background: #ffffff8c;height: 55px;width: 100%;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);position: fixed;visibility: hidden;z-index: 0;top: 45px;}
 .nav-xs.appear {visibility: visible;z-index: 3;}
 /*.nav-xs.diappear {visibility: hidden;}*/

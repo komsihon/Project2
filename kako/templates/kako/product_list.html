@@ -175,11 +175,11 @@
                 resultTplSelector: '#results li.ik-li'
             }];
             function beforeSearch() {
-                var val = $('form#context-search input').val();
+                var val = $('input#context-search').val();
                 $('div#results .search-text').text(val);
             }
             function afterSearch() {
-                var val = $('form#context-search input').val(),
+                var val = $('input#context-search').val(),
                     endpoint = '{% url 'kako:change_product' %}?name=' + val;
                 {% if request.GET.collection_id %}
                     endpoint += '&collection_id={{ request.GET.collection_id }}';

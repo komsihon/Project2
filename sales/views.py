@@ -47,7 +47,7 @@ class PromotionList(HybridListView):
 
 class PromoCodeList(HybridListView):
     template_name = 'sales/promo_code_list.html'
-    html_results_template_name = 'sales/snippets/promo_code_list_results.html'
+    html_results_template_name = 'sales/snippets/comment_list_results.html'
     queryset = PromoCode.objects.all()
     ordering = ('-updated_on', )
     search_field = 'code'

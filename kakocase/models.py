@@ -286,6 +286,8 @@ class OperatorProfile(AbstractConfig):
                                                         "right before the current <em>retail price</em> and a "
                                                         "<em>'SALE'</em> badge on the product image whenever a product "
                                                         "retail price is updated by a smaller value."))
+    newsletter_title = models.CharField(max_length=150, blank=True,
+                                 help_text="")
 
     # Managed by ikwen staff
     is_certified = models.BooleanField(_("certified"), default=False)

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/KakacaseGithub.iml" filepath="$PROJECT_DIR$/.idea/KakacaseGithub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CreolinkLocalizer/.idea/CreolinkLocalizer.iml" filepath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/CreolinkLocalizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DoCash/.idea/DoCash.iml" filepath="$PROJECT_DIR$/../DoCash/.idea/DoCash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../IkwenBlog/.idea/IkwenBlog.iml" filepath="$PROJECT_DIR$/../IkwenBlog/.idea/IkwenBlog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../IkwenTuto/.idea/IkwenTuto.iml" filepath="$PROJECT_DIR$/../IkwenTuto/.idea/IkwenTuto.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/KakocaseGithub.iml" filepath="$PROJECT_DIR$/.idea/KakocaseGithub.iml" />
       <module fileurl="file://$PROJECT_DIR$/../WebNode/.idea/WebNode.iml" filepath="$PROJECT_DIR$/../WebNode/.idea/WebNode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Website/.idea/Website.iml" filepath="$PROJECT_DIR$/../Website/.idea/Website.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" filepath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" />
     </modules>
   </component>
