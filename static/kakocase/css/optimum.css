@@ -231,7 +231,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .copy-section a:hover {color: #fff}
 .copy-section a {margin: 0 0.3em}
 
-.product-tile {border: 5px solid #fff;-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);padding: 0em;text-align: center;}
+.product-tile {border: 5px solid #fff;-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);padding: 0em;text-align: center;margin-left: 50px;}
 .product-tile .product-img figure {display: block;margin: 0 0 20px 0; position: relative; overflow: hidden; width: 100%;}
 .product-tile .product-img figure:hover .grid-img + .grid-img{right: 100%;}
 .product-tile .product-img figure > a {display: block;float: left; width: 100%; z-index: 1;}

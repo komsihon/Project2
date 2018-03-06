@@ -29,12 +29,10 @@
         <div class="product-row">
             {% for product in row %}
                 {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
-                    {% if config.theme.display == 'Compact' %}
-                        <div class="col-md-3 arrival-grid simpleCart_shelfItem">
-                    {% elif config.theme.display == 'Cozy'  %}
-                        <div class="col-md-4 arrival-grid simpleCart_shelfItem">
-                    {% else %}
+                    {% if config.theme.display == 'Comfortable' or config.theme.display == 'Cozy' %}
                         <div class="col-md-6 arrival-grid simpleCart_shelfItem">
+                    {% else %}
+                        <div class="col-md-4 arrival-grid simpleCart_shelfItem">
                     {% endif %}
                     <div class="product-tile">
                         <div  class="product-img">

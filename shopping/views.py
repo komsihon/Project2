@@ -58,15 +58,9 @@ from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 logger = logging.getLogger('ikwen')
 
 _OPTIMUM = 'optimum'
-
-service_id = getattr(settings, 'IKWEN_SERVICE_ID')
-config = Service.objects.get(pk=service_id).config
-if config.theme.display == "Comfortable":
-    PRODUCTS_PREVIEWS_PER_ROW = 2
-elif config.theme.display == "Cozy":
-    PRODUCTS_PREVIEWS_PER_ROW = 3
-else:
-    PRODUCTS_PREVIEWS_PER_ROW = getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
+COZY = "Cozy"
+COMPACT = "Compact"
+COMFORTABLE = "Comfortable"
 
 
 class TemplateSelector(object):
@@ -86,6 +80,15 @@ class Home(TemplateSelector, TemplateView):
     template_name = 'shopping/home.html'
     optimum_template_name = 'shopping/optimum/home.html'
 
+    def _get_row_len(self):
+        config = get_service_instance().config
+        if config.theme and config.theme.display == COMFORTABLE:
+            return 2
+        elif config.theme and config.theme.display == COZY:
+            return 3
+        else:
+            return getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
+
     def get(self, request, *args, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
 
@@ -101,7 +104,7 @@ class Home(TemplateSelector, TemplateView):
         for item in preview_categories:
             products = item.get_visible_items()
             products_list = apply_promotion_discount(list(products))
-            item.as_matrix = as_matrix(products_list, PRODUCTS_PREVIEWS_PER_ROW, strict=True)
+            item.as_matrix = as_matrix(products_list, self._get_row_len(), strict=True)
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
@@ -114,7 +117,7 @@ class Home(TemplateSelector, TemplateView):
                 products = item.get_product_queryset()
                 products_list = apply_promotion_discount(list(products))
 
-                item.as_matrix = as_matrix(products_list, PRODUCTS_PREVIEWS_PER_ROW, strict=True)
+                item.as_matrix = as_matrix(products_list, self._get_row_len(), strict=True)
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
@@ -157,6 +160,12 @@ class ProductList(TemplateSelector, HybridListView):
         .filter(visible=True, is_duplicate=False)
 
     context_object_name = 'product_list'
+
+    def _get_row_len(self):
+        config = get_service_instance().config
+        if config.theme and config.theme.display == COMPACT:
+            return 3
+        return 2
 
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q')
@@ -249,7 +258,7 @@ class ProductList(TemplateSelector, HybridListView):
             paginator = Paginator(product_queryset_lst, page_size)
             products_page = paginator.page(1)
             context['products_page'] = products_page
-            context['product_list_as_matrix'] = as_matrix(products_page.object_list, 3)
+            context['product_list_as_matrix'] = as_matrix(products_page.object_list, self._get_row_len())
             try:
                 sorted_by_price = list(base_queryset.order_by('retail_price'))
                 context['min_price'] = sorted_by_price[0].retail_price
@@ -290,13 +299,13 @@ class ProductList(TemplateSelector, HybridListView):
             page = self.request.GET.get('page')
             try:
                 products_page = paginator.page(page)
-                context['product_list_as_matrix'] = as_matrix(products_page.object_list, 3)
+                context['product_list_as_matrix'] = as_matrix(products_page.object_list, self._get_row_len())
             except PageNotAnInteger:
                 products_page = paginator.page(1)
-                context['product_list_as_matrix'] = as_matrix(products_page.object_list, 3)
+                context['product_list_as_matrix'] = as_matrix(products_page.object_list, self._get_row_len())
             except EmptyPage:
                 products_page = paginator.page(paginator.num_pages)
-                context['product_list_as_matrix'] = as_matrix(products_page.object_list, 3)
+                context['product_list_as_matrix'] = as_matrix(products_page.object_list, self._get_row_len())
             context['products_page'] = products_page
             return render(self.request, 'shopping/snippets/product_list_results.html', context)
         else:
