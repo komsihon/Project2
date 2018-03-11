@@ -147,7 +147,8 @@ class ShoppingViewsTestCase(unittest.TestCase):
         """
         Checkout view must return HTTP 200
         """
-        response = self.client.get(reverse('shopping:checkout'), {'pay_with': 'paypal'})
+        response = self.client.get(reverse('shopping:checkout'), {'delivery_option_id': '55d1feb9b37b301e070604d3',
+                                                                  'pay_with': 'paypal'})
         self.assertEqual(response.status_code, 200)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103', IS_RETAILER=True,

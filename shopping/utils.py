@@ -51,9 +51,12 @@ def parse_order_info(request):
 
     previous_address_index = request.POST.get('previous_address_index')
     if not previous_address_index:
-        name = request.POST['name']
-        country = Country.objects.get(iso2=request.POST['country_iso2'])
-        city = request.POST['city']
+        try:
+            country = Country.objects.get(iso2=request.POST.get('country_iso2'))
+        except Country.DoesNotExist:
+            country = None
+        city = request.POST.get('city')
+        name = request.POST.get('name')
         details = request.POST.get('details', '<empty>')
         postal_code = request.POST.get('postal_code', 'N/A')
         email = request.POST['email']

@@ -19,31 +19,22 @@ from django.shortcuts import get_object_or_404, render
 from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-
 from django.utils.translation import gettext as _
-from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from permission_backend_nonrel.models import UserPermissionList
-
-from ikwen.billing.orangemoney.views import ORANGE_MONEY
-
-from ikwen.billing.mtnmomo.views import MTN_MOMO
-
-from ikwen.accesscontrol.models import SUDO, Member, COMMUNITY
-from ikwen_kakocase.trade.utils import generate_tx_code
-
-from ikwen.billing.models import PaymentMean, BankAccount
-
-from ikwen.flatpages.models import FlatPage
-
-from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUCTS, Banner, SLIDE, TILES, POPUP, FULL_WIDTH_SECTION, \
-    FULL_SCREEN_POPUP
 from ikwen.accesscontrol.backends import UMBRELLA
+from ikwen.accesscontrol.models import SUDO, Member, COMMUNITY
+from ikwen.billing.models import PaymentMean, BankAccount
+from ikwen.billing.mtnmomo.views import MTN_MOMO
+from ikwen.billing.orangemoney.views import ORANGE_MONEY
 from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
 from ikwen.core.views import HybridListView
+from ikwen.flatpages.models import FlatPage
+from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUCTS, Banner, SLIDE, TILES, POPUP, \
+    FULL_WIDTH_SECTION, \
+    FULL_SCREEN_POPUP
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, \
@@ -54,6 +45,8 @@ from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review
 from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmation_email, \
     after_order_confirmation
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
+from ikwen_kakocase.trade.utils import generate_tx_code
+from permission_backend_nonrel.models import UserPermissionList
 
 logger = logging.getLogger('ikwen')
 
@@ -392,30 +385,28 @@ class Checkout(TemplateSelector, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Checkout, self).get_context_data(**kwargs)
         context['countries'] = Country.objects.all()
-        pay_with = self.request.GET.get('pay_with')
-        if pay_with:
-            payment_mean = get_object_or_404(PaymentMean, slug=pay_with)
+        delivery_option_id = self.request.GET.get('delivery_option_id')
+        delivery_option = get_object_or_404(DeliveryOption, pk=delivery_option_id)
+        if delivery_option.type == DeliveryOption.PICK_UP_IN_STORE:
+            context['delivery_option'] = delivery_option
+            context['pick_up_in_store'] = True
         else:
-            payment_mean = get_object_or_404(PaymentMean, is_main=True)
-        payment_action_url = reverse(payment_mean.action_url_name)
-        member = self.request.user
-        previous_addresses = []
-        if member.is_authenticated():
-            try:
-                previous_addresses = member.customer.delivery_addresses
-            except Customer.DoesNotExist:
-                pass
-        else:
-            anonymous_buyer_id = self.request.GET.get('anonymous_buyer_id')
-            if anonymous_buyer_id:
+            member = self.request.user
+            previous_addresses = []
+            if member.is_authenticated():
                 try:
-                    anonymous_buyer = AnonymousBuyer.objects.get(pk=anonymous_buyer_id)
-                    previous_addresses = anonymous_buyer.delivery_addresses
-                except AnonymousBuyer.DoesNotExist:
+                    previous_addresses = member.customer.delivery_addresses
+                except Customer.DoesNotExist:
                     pass
-        context['previous_addresses'] = list(reversed(previous_addresses))
-        context['payment_mean'] = payment_mean
-        context['payment_action_url'] = payment_action_url
+            else:
+                anonymous_buyer_id = self.request.GET.get('anonymous_buyer_id')
+                if anonymous_buyer_id:
+                    try:
+                        anonymous_buyer = AnonymousBuyer.objects.get(pk=anonymous_buyer_id)
+                        previous_addresses = anonymous_buyer.delivery_addresses
+                    except AnonymousBuyer.DoesNotExist:
+                        pass
+            context['previous_addresses'] = list(reversed(previous_addresses))
         return context
 
 
