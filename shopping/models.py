@@ -71,9 +71,9 @@ class Customer(AbstractWatchModel):
 
 class DeliveryAddress(Model):
     name = models.CharField(max_length=100)
-    country = models.ForeignKey(Country)
-    city = models.CharField(max_length=100)
-    details = models.CharField(max_length=255)
+    country = models.ForeignKey(Country, blank=True, null=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    details = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=30)
     postal_code = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField()
