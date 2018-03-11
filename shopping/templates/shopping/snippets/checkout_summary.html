@@ -139,24 +139,4 @@
             </div>
         {% endif %}
     {% endif %}
-{#    {% if items_cost >= config.checkout_min %}#}
-{#        {% if payment_mean_list %}#}
-{#            <p class="text-center" style="margin-bottom: .5em">{% trans "OR" %}</p>#}
-{#            <div>#}
-{#                {% for mean in payment_mean_list %}#}
-{#                    {% if user.is_authenticated %}#}
-{#                        <a class="payment-mean start-checkout subtle-shade" href="{{ checkout_url }}"#}
-{#                           data-slug="{{ mean.slug }}" title="{% trans 'Pay with' %} {{ mean.name }}">#}
-{#                    {% else %}#}
-{#                        <a class="payment-mean start-checkout subtle-shade" href="javascript:;"#}
-{#                           data-toggle="modal" data-target="#suggest-login" data-slug="{{ mean.slug }}"#}
-{#                           {% if mean.is_cashflex %}data-is_cashflex="true"{% endif %} title="{% trans 'Pay with' %} {{ mean.name }}">#}
-{#                    {% endif %}#}
-{#                            <span class="pay-with">{% trans "Pay with" %}</span>#}
-{#                            <span class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ mean.watermark.name }})"></span>#}
-{#                        </a>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        {% endif %}#}
-{#    {% endif %}#}
 </div>
