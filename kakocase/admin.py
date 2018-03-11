@@ -79,10 +79,6 @@ class DeliveryOptionAdmin(CustomBaseAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            if obj.type == DeliveryOption.PICK_UP_IN_STORE:
-                if DeliveryOption.objects.filter(type=DeliveryOption.PICK_UP_IN_STORE).count() >= 1:
-                    self.message_user(request, _("Only one option of type <strong>Pick up in store</strong> is allowed."))
-                    return
             company_id = request.POST.get('company')
             delcom = Service.objects.using(UMBRELLA).get(pk=company_id)
             delcom_config = delcom.config
