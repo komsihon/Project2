@@ -273,6 +273,16 @@
 - model: billing.paymentmean
   pk: 5880870e4fc0c229da8da3d3
   fields:
+    name: Orange Money
+    slug: orange-money
+    credentials: '{"access_token":"token"}'
+    action_url_name: billing:momo_set_checkout
+    logo: logo.png
+    watermark: watermark.png
+
+- model: billing.paymentmean
+  pk: 5880870e4fc0c229da8da3d4
+  fields:
     name: CashFlex
     slug: cashflex
     action_url_name: shopping:choose_deal
@@ -281,7 +291,7 @@
     is_cashflex: Yes
 
 - model: billing.paymentmean
-  pk: 5880870e4fc0c229da8da3d4
+  pk: 5880870e4fc0c229da8da3d5
   fields:
     name: AFIC
     slug: aficcashflex
