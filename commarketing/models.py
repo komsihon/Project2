@@ -8,6 +8,7 @@ from djangotoolbox.fields import ListField
 from ikwen.core.fields import MultiImageField
 
 from ikwen.core.models import Model, Module
+from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService
 from django.utils.translation import gettext_lazy as _
 
@@ -149,6 +150,8 @@ def sync_module_menu(sender, **kwargs):
     """
     if sender != Module:  # Avoid unending recursive call
         return
+    if get_service_instance().app.slug == 'webnode':  # This is already managed in WebNode apps
+        return
     module = kwargs['instance']
     if module.is_active:
         try:
@@ -164,6 +167,5 @@ def sync_module_menu(sender, **kwargs):
                                              appear_in_menu=True)
     else:
         SmartCategory.objects.filter(slug=module.slug).delete()
-        # HomepageSection.objects.filter(description=module.slug).delete()
 
 post_save.connect(sync_module_menu, dispatch_uid="module_post_save_id")
