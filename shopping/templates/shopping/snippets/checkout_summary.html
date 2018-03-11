@@ -74,12 +74,12 @@
         {% if delivery_options|length > 1 %}
             <div class="actions">
                 <div id="delivery" class="co subtle-shade">
-                    <h4>{% trans "Shipping" %}</h4>
+                    <h4>{% trans "Delivery" %}</h4>
                     <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Choose a shipping option below" %}</p>
                     <ul style="padding: 1em 0 0 0">
                         {% for option in delivery_options %}
                             <li class="delivery-option{% if option == delivery_option %} active{% endif %}"
-                                data-id="{{ option.id }}" data-cost="{{ option.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision }}">
+                                data-id="{{ option.id }}" data-type="{{ option.type }}" data-cost="{{ option.cost|currency:CURRENCY.code|floatformat:CURRENCY.precision }}">
                                 <div class="img">
                                     {% if option.icon.name %}
                                         <img src="{{ option.icon.url }}" class="img-responsive"/>
@@ -133,30 +133,30 @@
                             {% trans "Checkout" %}
                         </a>
                         {% endif %}
-                        <img src="{{ settings.IKWEN_MEDIA_URL }}{{ main_payment_mean.watermark.name }}" class="processor img-responsive"/>
+{#                        <img src="{{ settings.IKWEN_MEDIA_URL }}{{ main_payment_mean.watermark.name }}" class="processor img-responsive"/>#}
                     {% endif %}
                 </div>
             </div>
         {% endif %}
     {% endif %}
-    {% if items_cost >= config.checkout_min %}
-        {% if payment_mean_list %}
-            <p class="text-center" style="margin-bottom: .5em">{% trans "OR" %}</p>
-            <div>
-                {% for mean in payment_mean_list %}
-                    {% if user.is_authenticated %}
-                        <a class="payment-mean start-checkout subtle-shade" href="{{ checkout_url }}"
-                           data-slug="{{ mean.slug }}" title="{% trans 'Pay with' %} {{ mean.name }}">
-                    {% else %}
-                        <a class="payment-mean start-checkout subtle-shade" href="javascript:;"
-                           data-toggle="modal" data-target="#suggest-login" data-slug="{{ mean.slug }}"
-                           {% if mean.is_cashflex %}data-is_cashflex="true"{% endif %} title="{% trans 'Pay with' %} {{ mean.name }}">
-                    {% endif %}
-                            <span class="pay-with">{% trans "Pay with" %}</span>
-                            <span class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ mean.watermark.name }})"></span>
-                        </a>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endif %}
+{#    {% if items_cost >= config.checkout_min %}#}
+{#        {% if payment_mean_list %}#}
+{#            <p class="text-center" style="margin-bottom: .5em">{% trans "OR" %}</p>#}
+{#            <div>#}
+{#                {% for mean in payment_mean_list %}#}
+{#                    {% if user.is_authenticated %}#}
+{#                        <a class="payment-mean start-checkout subtle-shade" href="{{ checkout_url }}"#}
+{#                           data-slug="{{ mean.slug }}" title="{% trans 'Pay with' %} {{ mean.name }}">#}
+{#                    {% else %}#}
+{#                        <a class="payment-mean start-checkout subtle-shade" href="javascript:;"#}
+{#                           data-toggle="modal" data-target="#suggest-login" data-slug="{{ mean.slug }}"#}
+{#                           {% if mean.is_cashflex %}data-is_cashflex="true"{% endif %} title="{% trans 'Pay with' %} {{ mean.name }}">#}
+{#                    {% endif %}#}
+{#                            <span class="pay-with">{% trans "Pay with" %}</span>#}
+{#                            <span class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ mean.watermark.name }})"></span>#}
+{#                        </a>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        {% endif %}#}
+{#    {% endif %}#}
 </div>
