@@ -27,7 +27,7 @@
     </ul>
 {% endif %}
 
-{% with delivery_company=order.delivery_option.company %}
+{% with da=order.delivery_address do=order.delivery_option delivery_company=order.delivery_option.company %}
     <div class="container-fluid" style="clear: both">
         {% if not settings.IS_BANK %}
         <div class="order-summary">
@@ -35,15 +35,22 @@
                 {{ items_count }} items{% endblocktrans %}</p>
             <div>
                 {% if delivery_company == service %}
-                    <h4>{% trans "Deliver to" %}:</h4>
-                    {{ order.delivery_address.name }}
-                    <p style="font-size: .8em; line-height: 1.4em">
-                        {{ order.delivery_address.details }}<br>
-                        {% if order.delivery_address.postal_code %}
-                            {% trans "Postal code" %}: {{ order.delivery_address.postal_code }}, <br>
+                    {% if do.type == 'PickUpInStore' %}
+                        <h4>{% trans "Remit to" %}:</h4>
+                    {% else %}
+                        <h4>{% trans "Deliver to" %}:</h4>
+                    {% endif %}
+                    {{ da.name }}
+                    <p style="font-size: .9em; line-height: 1.4em">
+                        {% if do.type == 'PickUpInStore' %}
+                            <em>{{ da.phone }}</em><br><br>
+                            <strong>{{ do.name }}</strong>
+                        {% else %}
+                            {{ da.details }}<br>
+                            {% if da.postal_code %}{% trans "Postal code" %}: {{ da.postal_code }}, <br>{% endif %}
+                            <strong style="color: #666">{{ da.city }}, {{ da.country.name }}.</strong><br>
+                            <em>{{ da.phone }}</em>
                         {% endif %}
-                        <strong style="color: #666">{{ order.delivery_address.city }}, {{ order.delivery_address.country.name }}.</strong><br>
-                        <em>{{ order.delivery_address.phone }}</em>
                     </p>
                 {% else %}
                     <h4>{% trans "Company in charge" %}:</h4>
