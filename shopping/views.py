@@ -678,7 +678,7 @@ def render_order_event(event, request):
     entries_count = len(order.entries)
     more_entries = entries_count - 3  # Number to show on the "View more" button
     from ikwen.conf import settings as ikwen_settings
-    c = Context({'event': event, 'order': order, 'currency_symbol': currency_symbol,
+    c = Context({'event': event, 'service': event.service, 'order': order, 'currency_symbol': currency_symbol,
                  'entries_count': entries_count,'more_entries': more_entries,
                  'MEMBER_AVATAR': ikwen_settings.MEMBER_AVATAR, 'IKWEN_MEDIA_URL': ikwen_settings.MEDIA_URL})
     return html_template.render(c)
