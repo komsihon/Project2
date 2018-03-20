@@ -25,6 +25,10 @@ li {list-style-type: none;color: #2a2424;}
 .header-top {background: #ececec;padding: 8px 0 9px;height: 40px;}
 .header-top .fa {cursor: pointer}
 
+.payment-method {display: block;cursor: pointer;margin-bottom: 1em;}
+.payment-method .logo {display: block; text-align: center}
+.om-instructions {display: none; margin-top: 10px;}
+
 .hvr-sweep-to-top:before {
   content: "";
   position: absolute;
