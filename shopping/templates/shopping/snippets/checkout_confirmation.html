@@ -4,6 +4,7 @@
         <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="">
     </div>
     <div style="float: left; width: 84%">
+        {% with da=order.delivery_address do=order.delivery_option %}
         {% if order.is_more_than_one_hour_old %}
             <h3>Your order No <strong>{{ order.rcc|upper }}</strong></h3>
             <div class="col-sm-5">
@@ -13,13 +14,22 @@
                     <ins class="text-muted">{% trans order.status %}</ins>
                 </p>
                 <div>
-                    <h4>{% trans "Deliver to" %}:</h4>
-                    {{ order.delivery_address.name }}
+                    {% if do.type == 'PickUpInStore' %}
+                        <h4>{% trans "Remit to" %}:</h4>
+                    {% else %}
+                        <h4>{% trans "Deliver to" %}:</h4>
+                    {% endif %}
+                    {{ da.name }}
                     <p style="font-size: .9em; line-height: 1.4em">
-                        {{ order.delivery_address.details }}<br>
-                        {% trans "Postal code" %}: {{ order.delivery_address.postal_code }}, <br>
-                        <strong style="color: #666">{{ order.delivery_address.city }}, {{ order.delivery_address.country.name }}.</strong><br>
-                        <em>{{ order.delivery_address.phone }}</em>
+                        {% if do.type == 'PickUpInStore' %}
+                            <em>{{ da.phone }}</em><br><br>
+                            <strong>{{ do.name }}</strong>
+                        {% else %}
+                            {{ da.details }}<br>
+                            {% if da.postal_code %}{% trans "Postal code" %}: {{ da.postal_code }}, <br>{% endif %}
+                            <strong style="color: #666">{{ da.city }}, {{ da.country.name }}.</strong><br>
+                            <em>{{ da.phone }}</em>
+                        {% endif %}
                     </p>
                 </div>
                 <p style="margin-top: 1em">{% trans "Thank you for shopping with us." %}</p>
@@ -54,6 +64,7 @@
                 {% endif %}
             </div>
         {% endif %}
+        {% endwith %}
     </div>
     <div class="clearfix"></div>
 </div>
