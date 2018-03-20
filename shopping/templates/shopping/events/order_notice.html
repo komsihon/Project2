@@ -4,7 +4,7 @@
     <a href="{{ service.url }}{% url 'shopping:cart' order.id %}" target="_blank" style="float: right; font-size: .8em">{% trans "Details" %}</a>
 </h4>
 <div style="padding: 0 15px">
-    {% with service=event.service member=order.member anonymous_buyer=order.anonymous_buyer provider=order.entries.0.product.provider crcy=order.currency %}
+    {% with member=order.member anonymous_buyer=order.anonymous_buyer provider=order.entries.0.product.provider crcy=order.currency %}
         <div>
             <a class="event-media" href="{{ service.url }}{% url 'shopping:cart' order.id %}" target="_blank">
                 {% if entries_count == 1 %}
