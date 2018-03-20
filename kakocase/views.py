@@ -90,11 +90,8 @@ def set_session_data(request, *args, **kwargs):
         service = get_service_instance()
         if DeliveryOption.objects.exclude(company=service).count() > 0:
             manage_packages = True
-        try:
-            DeliveryOption.objects.get(type=DeliveryOption.PICK_UP_IN_STORE, is_active=True)
+        if DeliveryOption.objects.filter(type=DeliveryOption.PICK_UP_IN_STORE, is_active=True).count() > 0:
             manage_drivy = True
-        except DeliveryOption.DoesNotExist:
-            pass
     request.session['manage_packages'] = manage_packages
     request.session['manage_drivy'] = manage_drivy
 
