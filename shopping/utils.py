@@ -146,7 +146,8 @@ def send_order_confirmation_email(subject, buyer_name, buyer_email, order, messa
                                                    'IS_BANK': getattr(settings, 'IS_BANK', False)})
     sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
     msg = EmailMessage(subject, html_content, sender, [buyer_email])
-    msg.bcc = [service.config.contact_email]
+    bcc = [service.member.email, service.config.contact_email]
+    msg.bcc = list(set(bcc))
     msg.content_subtype = "html"
     Thread(target=lambda m: m.send(), args=(msg, )).start()
 
