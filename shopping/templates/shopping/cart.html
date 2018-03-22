@@ -285,7 +285,7 @@
                 {% url 'shopping:checkout' as checkout_url %}
                 {% url 'ikwen:sign_in' as sign_in_url %}
                 $('div#suggest-login .register').click(function() {
-                    var actionUrl = '{% url 'ikwen:register' %}',
+                    var actionUrl = '{% url 'ikwen:sign_in' %}',
                         deliveryOptionId = $('.delivery-option.active').data('id');
                     $('#next').val('{{ checkout_url }}');
                     $('#delivery-option-id').val(deliveryOptionId);
