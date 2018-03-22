@@ -127,8 +127,7 @@
                         {% else %}
                         <a href="javascript:;" id="checkout" class="start-checkout"
                            data-toggle="modal" data-target="#suggest-login"
-                           data-slug="{{ main_payment_mean.slug }}"{% if main_payment_mean.is_cashflex %} data-is_cashflex="true"{% endif %}
-                           title="{% trans "Pay with" %} {{ main_payment_mean.name }}">
+                           data-slug="{{ main_payment_mean.slug }}"{% if main_payment_mean.is_cashflex %} data-is_cashflex="true"{% endif %}>
                             <i class="glyphicon glyphicon-lock" aria-hidden="true" style="border: none; color: #fff"></i>
                             {% trans "Checkout" %}
                         </a>
