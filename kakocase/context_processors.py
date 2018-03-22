@@ -5,6 +5,7 @@ from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUC
 
 from ikwen_kakocase.kakocase.models import DeliveryOption, ProductCategory
 from ikwen_kakocase.trade.models import Order
+from ikwen_kakocase.sales.models import CustomerEmail
 
 
 def project_settings(request):
@@ -75,4 +76,22 @@ def constants(request):
             'PENDING': Order.PENDING,
             'SHIPPED': Order.SHIPPED
         }
+    }
+
+
+def newsletter_settings(request):
+    """
+    Adds utility project constants to the context.
+    """
+    member = request.user
+    is_in_newsletter = False
+    if member.is_authenticated():
+        try:
+            CustomerEmail.objects.get(email=member.email)
+        except CustomerEmail.DoesNotExist:
+            is_in_newsletter = False
+        else:
+            is_in_newsletter = True
+    return {
+        'is_in_newsletter': is_in_newsletter,
     }

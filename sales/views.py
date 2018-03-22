@@ -317,12 +317,10 @@ def save_customer_email(request, *args, **kwargs):
         customer_email = CustomerEmail(email=email)
         customer_email.save()
         response = HttpResponse(json.dumps(
-            {'success': True,
-             }), 'content-type: text/json')
+            {'success': True,}), 'content-type: text/json')
     else:
         response = HttpResponse(json.dumps(
-            {'error': 'Existing email',
-             }), 'content-type: text/json')
+            {'error': 'Existing email',}), 'content-type: text/json')
     return response
 
 
