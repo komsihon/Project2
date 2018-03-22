@@ -188,9 +188,11 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .left-content {overflow: hidden; width: 45%;}
 /*-- search-ends --*/
 
-.header-xs .action .badge {/* margin: 24px 0 0 48px; */position: absolute;z-index: 3;font-size: 10px;}
+.header-xs .action .badge {position: absolute;z-index: 3;font-size: 10px;}
 .nav-xs {background: #ffffff8c;height: 55px;width: 100%;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);position: fixed;visibility: hidden;z-index: 0;top: 45px;}
 .nav-xs.appear {visibility: visible;z-index: 3;}
+
+.top-edge-panel span.label.label-danger.simpleCart_quantity { margin: 11px -137px;position: absolute;}
 /*.nav-xs.diappear {visibility: hidden;}*/
 .badge-danger {background-color: #e51c23;}
 .footer-w3l {background: #e8e8e8;padding: 2em 0;}
@@ -235,7 +237,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .copy-section a:hover {color: #fff}
 .copy-section a {margin: 0 0.3em}
 
-.product-tile {border: 5px solid #fff;-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);padding: 0em;text-align: center;margin-left: 50px;}
+.product-tile {border: 5px solid #fff;-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);padding: 0em;text-align: center;/* margin-left: 50px; */}
 .product-tile .product-img figure {display: block;margin: 0 0 20px 0; position: relative; overflow: hidden; width: 100%;}
 .product-tile .product-img figure:hover .grid-img + .grid-img{right: 100%;}
 .product-tile .product-img figure > a {display: block;float: left; width: 100%; z-index: 1;}
@@ -570,7 +572,7 @@ ul.dropdown-menu.user-menu li {font-weight:  700}
 
 .suggestion {padding-top: 30px;padding-bottom: 30px;}
 /*--checkout--*/
-.checkout-header{font-weight: 700;padding: 1em 0;text-align: center;}
+.checkout-header{font-weight: 700;padding: 75px 0;text-align: center;}
 .checkout-content {background: #f9f8f8;}
 /*--checkout--*/
 .cart h2{font-size:1.5em;margin-bottom:1em;}
