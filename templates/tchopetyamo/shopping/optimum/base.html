@@ -1,0 +1,757 @@
+{% load i18n static staticfiles auth_tokens media_from_provider cache %}
+<!--
+Au<!--
+Author: Roddy Mbogning
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html lang="{{ lang }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        {% block meta %}{% endblock %}
+        {% include 'core/snippets/favicon.html' %}
+		{% block page_title %}{% endblock %}
+		{% block head_style %}
+            <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
+            <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=18.03.20" type="text/css" media="all" />
+            {% if config.theme %}
+                {% with theme=config.theme %}
+                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
+                {% endwith %}
+            {% else %}
+                <link href="https://fonts.googleapis.com/css?family=Cagliostro" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300" rel="stylesheet">
+            {% endif %}
+		{% endblock %}
+            <link href="{% static 'webnode/css/tchopety/yamo.css' %}" rel="stylesheet">
+        {% block head_js %}
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+              <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+        {% endblock %}
+        <script src="{% static 'kakocase/js/jquery.min.js' %}"></script>
+        <script src="{% static 'kakocase/js/main.js' %}"></script>
+    </head>
+    <body>
+        {% block header %}
+            {% cache 300 header user.username %}
+            <div class="header hidden-xs hidden-sm">
+                <div class="header-top">
+                    <div class="container">
+                        <div class="top-left">
+                            {% if config.contact_phone %}
+                                <strong>{% trans "Help" %}</strong>
+                                <i class="fa fa-mobile" aria-hidden="true" style="font-size: 23px; margin-top: 2px"></i>
+                                <a href="tel://{{ config.contact_phone }}">{{ config.contact_phone }}</a>
+                            {% endif %}
+                        </div>
+                        <div id="auth" class="top-right">
+                            {% if user.is_authenticated %}
+                                <ul>
+                                    <li>
+                                        <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                            {% if user.get_notice_count > 0 %}
+                                                <span class="label label-danger"
+                                                      style="">{{ user.get_notice_count }}</span>
+                                            {% endif %}
+                                            <i class="fa fa-bell" aria-hidden="true"
+                                               style="line-height: .4em; margin-top: 10px"></i>
+                                        </a>
+                                    </li>
+                                    <li id="user-menu" class="dropdown">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{ user.first_name }} <i class="fa fa-user" aria-hidden="true"></i>
+                                        </a>
+                                        <ul class="user-menu dropdown-menu" aria-labelledby="user-menu">
+                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                            {% if user.is_staff %}
+                                                <li>
+                                                    <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                                </li>
+                                            {% endif %}
+                                            <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                            </li>
+                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <ul class="anonymous">
+                                    <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+{#                                    <li><a href="{% url 'ikwen:register' %}">{% trans "Create Account" %}</a></li>#}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        {% if config.can_manage_currencies %}
+                            {% include 'shopping/snippets/currency_switcher.html' %}
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="header-bottom">
+                    <div class="container">
+                        <div class="logo-nav">
+                            <div class="logo-nav-left">
+                                {% url 'webnode:home' as home_url %}
+                                <h1>
+                                    <a href="{{ home_url }}" class="hidden-xs">
+                                        {% if config.theme.logo.name %}
+                                            <div class="company-logo-container">
+                                                <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"/>
+                                            </div>
+                                        {% else %}
+                                           <span>{{ service.project_name }}</span>
+                                        {% endif %}
+                                    {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
+                                    </a>
+                                    <a class="visible-xs">
+                                        {% if config.theme.logo.name %}
+                                            <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"/>
+                                        {% else %}
+                                            <span>{{ service.project_name }}</span>
+                                        {% endif %}
+                                    {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
+                                    </a>
+                                </h1>
+                            </div>
+
+                            {% if config.allow_shopping and config.show_prices %}
+                                <div class="header-right2">
+                                    <div class="cart box_1">
+                                        <div class="toggle-cd-search">
+                                            <div class="open" style="float: left" title="{% trans 'Open search box' %}"><i class="fa fa-search"></i></div>
+                                            <div class="close2" style="float: left" title="{% trans 'Close search box' %}"><i class="fa fa-times"></i></div>
+                                        </div>
+                                        <a href="{% url 'shopping:cart' %}"><i class="kkc-cart fa fa-opencart fa-4x"></i></a>
+                                        <div class="cart-details">
+                                            <a href="{% url 'shopping:cart' %}">
+                                                <h5>
+                                                    <div class="total">
+                                                        <span class="simpleCart_total"></span>
+    {#                                                    (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> {% trans "items" context 'cart items' %})#}
+                                                    </div>
+
+                                                    <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
+                                                </h5>
+                                            </a>
+                                            <a href="javascript:;" class="empty-cart" data-toggle="modal"
+                                               data-target="#confirm-empty-cart">
+                                                <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
+                                            </a>
+                                        </div>
+
+                                        <div class="clearfix"> </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="logo-nav-right search-input-container">
+                                <div class="input-group">
+                                    {% url 'shopping:search' as search_url %}
+                                    <form action="{{ search_url}}">
+                                    <input name="q" type="text" class="form-control" placeholder="{% trans 'Search ...' %}" style="border-radius: 3px;" />
+                                    </form>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="container" style="">
+                        <nav class="navbar">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header nav_2 visible-xs visible-sm">
+                                <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="nav-container">
+                                <ul class="nav navbar-nav">
+
+
+			   {% for menu in menu_list %}
+                                {% if menu.appear_in_menu %}
+                                <li class="{{ menu.slug }}">
+                                    {% if menu.content_type == 'FlatPage'  %}
+                                        {% if menu.description %}
+                                            <a href="{% url 'flatpage' menu.description %}">{% trans menu.title %}</a>
+                                        {% endif %}
+                                    {% elif menu.content_type == 'ItemList' %}
+                                        <a href="{% url 'webnode:item_list' menu.slug %}">{% trans menu.title %}</a>
+                                    {% elif menu.content_type == 'Module' %}
+                                        <a href="{% url menu.module.url_name %}">{% trans menu.title %}</a>
+                                    {% endif %}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+
+
+
+                                    <!-- Mega Menu -->
+                                    {% for smart_category in smart_categories_level2 %}
+                                        <li class="dropdown level2 horizontal">
+                                            <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
+                                        </li>
+
+                                    {% endfor %}
+                                    {% for smart_category in smart_categories_level1 %}
+                                        <li class="dropdown horizontal">
+                                            <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    {% for category in menu_categories %}
+                                        <li class="dropdown horizontal">
+                                            <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
+                                        </li>
+
+                                    {% endfor %}
+
+                                    <li class="dropdown categories-menu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'See more ...' %} <span class="fa fa-sort-down pull-right"></span></a>
+                                        <ul class="dropdown-menu categories-menu">
+                                            {% for smart_category in smart_categories_level2 %}
+                                            <li class="dropdown vertical">
+                                                <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            {% endfor %}
+                                            {% for smart_category in smart_categories_level1 %}
+                                                <li class="dropdown vertical">
+                                                    <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                            {% endfor %}
+                                            {% for category in menu_categories %}
+                                                <li class="dropdown vertical">
+                                                    <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
+                                                </li>
+                                                <li class="divider"></li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+                <div id="cd-search" class="cd-search">
+                    {% url 'shopping:search' as search_url %}
+                    <form action="{{ search_url }}">
+                        <input name="q" type="search" placeholder="{% trans "Search" %} ...">
+                    </form>
+                </div>
+            </div>
+            <div class="header-xs visible-xs visible-sm">
+                <div class="container-fluid">
+                    <div class="pull-left left-content">
+                        <button type="button" class="navbar-toggle menu-button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <h3 class="app-name">
+                            <a>{{ service.project_name }}</a>
+                        </h3>
+                    </div>
+                    <div class="pull-right" style="margin-right: 6px;">
+
+                        <a class="cd-search-trigger" href="#cd-search"> <span></span></a>
+                        <div class="xs-nav-container">
+                            <div class="button-hover-handler">
+                                <a class="toggle-menu-appearance action" id="toggle-menu-xs-appearance" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-th-large"></i>
+                                </a>
+                            </div>
+
+
+                            {% if user.is_authenticated %}
+                                <div class="button-hover-handler">
+                                    <a class="action" href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                        {% if user.get_notice_count > 0 %}
+                                            <span class="badge badge-danger hidden-xs">{{ user.get_notice_count }}</span>
+                                        {% endif %}
+                                        <i class="fa fa-bell"></i>
+                                    </a>
+                                </div>
+                                <div class="action dropdown" style="float: right; width: 20px">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="true">
+                                            <div class="button-hover-handler"><i class="fa fa-user" style=" margin-left: 11px;"></i></div>
+                                        </a>
+
+
+                                    <ul class="user-menu dropdown-menu" aria-labelledby="user-menu" style="left: -120px">
+                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                        <li role="separator" class="divider"></li>
+                                        {% if user.is_staff %}
+                                            <li>
+                                                <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                            </li>
+                                        {% endif %}
+                                        <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                            <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                        </li>
+                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <div class="button-hover-handler">
+                                    <a class="action" href="{% url 'ikwen:sign_in' %}">
+                                        <i class="fa fa-user-circle" style="margin-right: 0"></i>
+                                    </a>
+                                </div>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="cd-search1" class="cd-search">
+                        {% url 'shopping:search' as search_url %}
+                        <form action="{{ search_url}}">
+                            <input name="q" type="search" placeholder="{% trans "Search" %} ...">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="visible-xs nav-xs">
+                <!-- Additional required wrapper -->
+                <div class="xs-swiper-container">
+                    <ul class="nav swiper-wrapper">
+                         {% for smart_category in smart_categories_level2 %}
+                             <li class="swiper-slide level2"><a
+                                    href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+                             </li>
+                         {% endfor %}
+                         {% for smart_category in smart_categories_level1 %}
+                             <li class="swiper-slide level1"><a
+                                    href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+                             </li>
+                         {% endfor %}
+                         {% for category in menu_categories %}
+                             <li class="swiper-slide">
+                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                             </li>
+                         {% endfor %}
+                         {% for category in quick_access_categories %}
+                             <li class="swiper-slide">
+                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                             </li>
+                         {% endfor %}
+                    </ul>
+                {% if config.can_manage_currencies %}
+                    {% include 'shopping/snippets/currency_switcher.html' %}
+                {% endif %}
+                </div>
+
+            </div>
+            {% endcache %}
+        {% endblock %}
+        {% block banner %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block footer %}
+            {% cache 300 footer %}
+            <div class="footer-w3l hidden-xs">
+                <div class="container">
+                    <div class="footer-grids">
+                        <div class="col-sm-6 col-md-4 footer-grid">
+				<h4>{% trans "About" %}</h4>
+                     		<ul>
+				<li><a href="{% url 'webnode:home' %}">{% trans "Home" %}</a></li>
+                            	<li><a href="{% url 'blog:home' %}">Blog</a></li>
+                                {% if config.allow_shopping and config.show_prices %}
+                                    <li><a href="{% url 'shopping:cart' %}">{% trans "Checkout" %}</a></li>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+		                    {% if user.is_staff %}
+		                            <li><a href="{% url "items:item_list" %}">{% trans "Admin Panel" %}</a></li>
+		                    {% endif %}
+		                {% else %}
+		                    <li><a href="{% url 'ikwen:sign_in' %}">{% trans 'Login' %}</a></li>
+		                {% endif %}
+                            </ul>
+                        </div>
+                        
+                        <div class="col-sm-6 col-md-4 footer-grid hidden-sm">
+                            <h4>{% trans "About" %}</h4>
+                            <p>{{ config.description|truncatewords:25 }}</p>
+                            <div class="social-icon">
+                                {% if config.facebook_link %}
+                                    <a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                                {% endif %}
+                                {% if config.instagram_link %}<a href="{{ config.instagram_link }}" target="_blank"><i
+                                        class="fa fa-instagram"></i></a>{% endif %}
+                                {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i
+                                        class="fa fa-twitter-square"></i></a>{% endif %}
+                                {% if config.google_plus_link %}
+                                    <a href="{{ config.google_plus_link }}" target="_blank"><i
+                                            class="fa fa-google-plus-square"></i></a>{% endif %}
+                                {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i
+                                        class="fa fa-linkedin-square"></i></a>{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 footer-grid foot">
+                            <h4>{% trans "Contacts" %}</h4>
+                            <ul>
+                                <li><i class="fa fa-map-marker" aria-hidden="true" style="font-size: 20px"></i><a href="#">{{ config.address }}</a></li>
+                                {% if config.contact_phone %}
+                                <li><i class="fa fa-phone" aria-hidden="true" style="font-size: 20px"></i><a href="#">{{ config.contact_phone }}</a></li>
+                                {% endif %}
+                                <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:{{ config.contact_email }}">{{ config.contact_email }}</a></li>
+                            </ul>
+                        </div>
+                    <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copy-section">
+                <div class="container">
+                    <div class="copy-left">
+                        <p>&copy; {{ year }} <a href="{{ service.url}}" style="text-decoration: none"><strong>{{ config.company_name }}</strong></a>.
+                            <span>{% trans "All rights reserved" %}</span>
+                            - <a href="{{ settings.LEGAL_MENTIONS_URL }}" style="text-decoration: none">{% trans "Legal mentions" %}</a>
+                        </p>
+                    </div>
+{#                    <div class="copy-right">#}
+{#                        <img src="{% static 'kakocase/img/card.png' %}" alt=""/>#}
+{#                    </div>#}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            {% endcache %}
+        {% endblock %}
+        {% include 'shopping/snippets/edge_panel.html' %}
+        {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
+        {% include 'shopping/snippets/modal_added_to_cart.html' %}
+        {% include 'shopping/snippets/modal_successful_registration.html' %}
+        {% include 'shopping/snippets/modal_news_letter.html' %}
+        <div class="edge-swipe-overlay"></div>
+
+        <script src="{% static 'kakocase/js/bootstrap-3.1.1.min.js' %}"></script>
+        <script src="{% static 'kakocase/js/simpleCart.min.js' %}"></script>
+        <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        <script type="text/javascript">
+            (function () {
+                {% if request.GET.successfulRegistration %}
+                    $('#modal-successful-registration').modal('show');
+                {% endif %}
+
+                /* CART STUFFS */
+                simpleCart.currency({
+                    code: "{{ CURRENCY.code }}",
+                    symbol: "{{ CURRENCY.symbol }} ",
+                    accuracy: {{ CURRENCY.precision }}
+                });
+                simpleCart.bind('beforeAdd', function (item) {
+                    if (!item.get('size')) {
+                        $('.size-list').addClass('alert-danger');
+                        ikwen.showFloatingNotice("<strong>{% trans "Please select a size." %}</strong>", "", 3);
+                        return false
+                    } else {
+                        $('.size-list').removeClass('alert-danger');
+                    }
+                });
+                simpleCart.bind('afterAdd', function (item) {
+                    $('div#added-to-cart .name').text(item.get('name'));
+                    var size = item.get('size');
+                    if (size != '-------')
+                        $('div#added-to-cart .size').text('(' + size + ')');
+                    else
+                        $('div#added-to-cart .size').text('');
+                    $('#added-to-cart').modal('show');
+                });
+
+                $('body').on('click', '.value-plus1', function () {
+                    var max = $(this).data('max');
+                    var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) + 1;
+                    if (newVal > max) {
+                        ikwen.showFloatingNotice("{% trans "Available stock limit reached." %}", "", 3);
+                        return;
+                    }
+                    divUpd.text(newVal);
+                }).on('click', '.value-minus1', function () {
+                    var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) - 1;
+                    if (newVal >= 1) divUpd.text(newVal);
+                }).on('change', '.size-list #item-size-selector', function () {
+                    var id =$('option:selected',this).data('id'),
+                            price =$('option:selected',this).data('retail_price'),
+                            stock =$('option:selected',this).data('stock'),
+                            size = $(this).val(),
+                            max = stock,
+                            item = simpleCart.find({'id': id})[0],
+                            currency = simpleCart.currency().symbol;
+                    $(this).parents('.size-list').find('.item_size').text(size);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_id').text(id);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_price').html(currency + ' ' + price);
+                    if (item) max = stock - item.quantity();
+                    if (max == 0) $('.simpleCart_shelfItem .value1').text(0);
+                    else $('.simpleCart_shelfItem .value1').text(1);
+                    $(this).parents('.simpleCart_shelfItem').find('.value-plus1').data('max', max)
+                }).on('change', '.currency-switcher select', function() {
+                    simpleCart.empty();
+                    $(this).parents('.currency-switcher').submit()
+                });
+                $('#content').on('click', '.product-tile button.my-cart-b:not(.sold-out)', function () {
+                    var id = $(this).data('id'),
+                            image = $(this).data('image'),
+                            name = $(this).data('name'),
+                            description = $(this).data('description'),
+                            stock = $(this).data('stock'),
+                            max = stock,
+                            url = $(this).parents('.product-about').find('h6 a').attr('href'),
+                            $sizeRadios = $(this).parents('.product-about').find('.size-radios'),
+                            $price = $(this).parents('.product-about').find('.product-price'),
+                            item = simpleCart.find({'id': id})[0];
+                    $('div#product-modal-preview .item_id').text(id);
+                    $('div#product-modal-preview .item_image').text(image);
+                    $('div#product-modal-preview .item_name').text(name);
+                    $('div#product-modal-preview .item_url').text(url);
+                    $('div#product-modal-preview .target').attr('href', url);
+                    $('div#product-modal-preview .description').html(description);
+                    $('div#product-modal-preview .product-about .product-price').html($price.html());
+                    $('div#product-modal-preview img').attr('src', image);
+                    $('div#product-modal-preview .size-radios').html($sizeRadios.html());
+                    if ($sizeRadios.length == 0) {
+                        $('div#product-modal-preview .size-list').hide();
+                        $('div#product-modal-preview .item_size').text('-------');
+                        $('div#product-modal-preview .size-hint').hide();
+                    } else {
+                        $('div#product-modal-preview .size-list').show();
+                        if ($sizeRadios.find('.choose-size').length == 1) {
+{#                            var onlySize = $sizeRadios.find('input[type=radio]').val();#}
+                            var onlySize = $sizeRadios.find('#item-size-selector').val();
+                            $('div#product-modal-preview .item_size').text(onlySize);
+                            $('div#product-modal-preview .size-hint').hide();
+                        } else {
+                            $('div#product-modal-preview .item_size').text('');
+                            $('div#product-modal-preview .size-hint').show();
+                        }
+                    }
+                    if (item) max = stock - item.quantity();
+                    if (max == 0) $('div#product-modal-preview .value1').text(0);
+                    else $('div#product-modal-preview .value1').text(1);
+                    $('div#product-modal-preview .value-plus1').data('max', max);
+                });
+                $('div#product-modal-preview').on('click', '.my-cart-b', function () {
+                    if ($('div#product-modal-preview #item-size-selector').children('option').length > 1) {
+                        if ($('div#product-modal-preview #item-size-selector').val() == '') {
+                            $('.size-list').addClass('alert-danger');
+                            ikwen.showFloatingNotice("<strong>{% trans "Please select a size." %}</strong>", "", 3);
+                            return false
+                        }
+                    }
+                    $('div#product-modal-preview').modal('hide')
+                });
+
+                var headerTopH = $('.header-top').height(),
+                        headerBottomH = $('.header-bottom').height(),
+                        lastScrollTop = 0;
+                $(window).scroll(function (e) {
+                    var winWidth = $(window).width();
+                    var scrollTop = $(this).scrollTop();
+                    $('.toggle-cd-search .open').css('display', 'block');
+                    $('.toggle-cd-search .close2').css('display', 'none');
+                    $('.cd-search').removeClass('is-visible').removeClass('reveal');
+                    if (winWidth < 1000)  $('.cd-search').removeClass('.reveal');
+
+                    if (scrollTop > headerTopH + headerBottomH) {
+                        $('.header-bottom:not(.fixed)').addClass('fixed').animate({top: 0});
+                        $('.toggle-cd-search').addClass('is_active');
+                        $('#auth').remove().prependTo('.header-right2')
+                    } else {
+                        $('.header-bottom.fixed').removeClass('fixed');
+                        $('.toggle-cd-search').removeClass('is_active');
+                        $('.cd-search input').val('');
+                        $('.cd-search').removeClass('is-visible').removeClass('reveal');
+                        $('#auth').remove().insertAfter('.top-left')
+                    }
+
+                    if (winWidth < 768) {
+                        var st = window.pageYOffset +1 || document.documentElement.scrollTop;
+                        if (st  > lastScrollTop ){
+                            if(!($(".header-xs").hasClass('is-up'))){
+                                $(".header-xs").addClass('is-up');
+                                $('.nav-xs').removeClass('appear');
+                                $('.cd-search-trigger').removeClass('search-is-visible');
+                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                            }
+                        } else {
+                            if($(".header-xs").hasClass('is-up')){
+                                $(".header-xs").removeClass('is-up');
+                                $('.nav-xs').removeClass('appear');
+                                $('.cd-search-trigger').removeClass('search-is-visible');
+                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                            }
+                        }
+                           lastScrollTop = st;
+                    }
+                });
+
+                $("#hide-email-modal").click(function(){
+                    reInitTopComponent();
+                    var showEmailModal = $(this).val();
+                    localStorage.removeItem('showEmailModal');
+                    if (showEmailModal == 'on'){
+                        localStorage.setItem('showEmailModal', true)
+                    }if ($(window).width() < 992) {
+                    $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
+                }
+                $( window ).resize(ikwen.debouncer(function (e) {
+                    var winWidth = $(window).width();
+                    if (winWidth < 768) {
+                        if (!$('#navbar-search').is(':visible')) {
+                            $('#navbar-search').prependTo('body');
+                            $('#navbar-search input').focus();
+
+                        }
+                        $('.edge-panel-right').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                    } else if (winWidth >= 768) {
+                        $('#navbar-search').insertBefore('#site-menu');
+                        $('.edge-panel-right').removeClass('has-shade').appendTo('.edge-panel-right-container').show();
+                    }
+                    if (winWidth >= 992) {
+                        $('.edge-panel-left').removeClass('has-shade').appendTo('.edge-panel-left-container').show();
+                    } else {
+                        $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                    }
+                }));
+                });
+                if(!localStorage.getItem('showEmailModal')){
+                    setTimeout(function() {
+                    $('#news-letter').modal();
+                }, 4000);
+                }
+                if ($(window).width() < 992) {
+                    $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
+                }
+                $( window ).resize(ikwen.debouncer(function (e) {
+                    var winWidth = $(window).width();
+                    if (winWidth < 768) {
+                        if (!$('#navbar-search').is(':visible')) {
+                            $('#navbar-search').prependTo('body');
+                            $('#navbar-search input').focus();
+                        }
+                        $('.edge-panel-right').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                    } else if (winWidth >= 768) {
+                        $('#navbar-search').insertBefore('#site-menu');
+                        $('.edge-panel-right').removeClass('has-shade').appendTo('.edge-panel-right-container').show();
+                    }
+                    if (winWidth >= 992) {
+                        $('.edge-panel-left').removeClass('has-shade').appendTo('.edge-panel-left-container').show();
+                    } else {
+                        $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                    }
+                }));
+                var menuCount = $(".nav.navbar-nav li.horizontal").length,
+                    subMenuCount = $(".categories-menu li.vertical").length;
+                if (subMenuCount >= menuCount) $(".dropdown.categories-menu").hide();
+                var ulWidth = $(".navbar-nav").width() + 20;
+                $(".nav-container .navbar-nav").css({float: 'none', margin: 'auto', width: ulWidth});
+                $('body').on('click', '.toggle-cd-search .open', function () {
+                    $(this).hide();
+                    $('.toggle-cd-search .close2').show();
+                    $('.cd-search').addClass('reveal').show();
+                    $('.cd-search input').focus()
+                }).on('click', '.toggle-cd-search .close2', function () {
+                    $(this).hide();
+                    $('.toggle-cd-search .open').show();
+                    $('.cd-search').removeClass('reveal').show();
+                    $('.cd-search input').focus()
+                }).on('click', '#toggle-menu-xs-appearance', function () {
+                    reInitTopComponent();
+                    $('.nav-xs').toggleClass('appear')
+                });
+
+
+                function reInitTopComponent() {
+                    $('.header-xs .nav-xs').removeClass('appear');
+                    $('.header-xs .cd-search-trigger').removeClass('search-is-visible');
+                    $('.header-xs .cd-search').removeClass('is-visible');
+                    $('.header-xs .action.dropdown').removeClass('open')
+                }
+                $('body').on('click', '.cd-search-trigger', function () {
+                    if ($('.nav-xs').hasClass('appear')){
+                        $('.nav-xs').removeClass('appear')
+                    }
+                    $('.cd-search input').focus();
+                    $(".button-hover-handler").removeClass('active');
+
+                }).on('click', '#user-menu', function () {
+                    if ($('.nav-xs').hasClass('appear')){
+                        $('.nav-xs').removeClass('appear')
+                    }
+                    if ($('.cd-search-trigger').hasClass('search-is-visible')){
+                        $('.cd-search-trigger').removeClass('search-is-visible')
+                    }
+                    if ($('.cd-search').hasClass('is-visible')){
+                        $('.cd-search').removeClass('is-visible')
+                    }
+
+                });
+                var winWidth = $(window).width();
+                if (winWidth < 768) {
+
+                }
+                $("a.action").click(function () {
+                    if($(this).parent('.button-hover-handler').hasClass('active')){
+                         $(this).parent('.button-hover-handler').removeClass('active');
+                    }else{
+                        $(".button-hover-handler").removeClass('active');
+                        $(this).parent('.button-hover-handler').addClass('active');
+                    }
+                });
+                $("i.fa-user").click(function () {
+                    $(".button-hover-handler").removeClass('active');
+                    $(this).parent('.button-hover-handler').addClass('active');
+                })
+
+                function ran_col() { //function name
+                    var color = '#'; // hexadecimal starting symbol
+                    var letters = ['004800','780015','752201','011899','8F0193','3F0008','00193D','0E1900','21003D']; //Set your colors here
+                    color += letters[Math.floor(Math.random() * letters.length)];
+                    $('#no-logo').css('background', color)
+                }
+                ran_col()
+
+
+            })()
+		</script>
+        <script>
+            var mySwiper = new Swiper ('.xs-swiper-container', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: false,
+                spaceBetween: 10,
+                slidePosition: 0,
+                freeMode: true,
+                centeredSlides: true,
+    {#            cssWidthAndHeight: false,#}
+                slidesPerView: 'auto',
+            })
+
+    </script>
+        {% block js %}{% endblock %}
+    </body>
+</html>
