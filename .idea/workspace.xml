@@ -17,13 +17,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/maps.css" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/maps.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/templates/login.html" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/templates/login.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/templates/statistics.html" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/templates/statistics.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopping/templates/shopping/base.html" afterPath="$PROJECT_DIR$/shopping/templates/shopping/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html" afterPath="$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/kakocase/css/optimum.css" afterPath="$PROJECT_DIR$/static/kakocase/css/optimum.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/base.html" afterPath="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/cart.html" afterPath="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/cart.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" afterPath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/base.css" afterPath="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/base.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/static/webnode/css/tchopety/yamo.css" afterPath="$PROJECT_DIR$/../WebNode/static/webnode/css/tchopety/yamo.css" />
@@ -614,7 +608,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521726060045</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Update on template selector, Blog views">
+      <created>1521814863769</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1521814863769</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
