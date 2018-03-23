@@ -1,0 +1,23 @@
+{% extends 'shopping/optimum/base.html' %}
+{% load i18n staticfiles humanize %}
+
+{% block page_title %}
+    <title>{% trans "Payment canceled" %} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="checkout-content">
+        <h2 class="checkout-header">{% trans "Checkout Error" %}</h2>
+        <div class="container" style="height: 450px">
+            {% for msg in messages %}
+                <p class="msg-tag {{ msg.tags }}">{{ msg }}</p>
+            {% endfor %}
+            <p style="margin-top: 2em">
+                {% url 'shopping:cart' as raw_cart_url %}
+                {% blocktrans with cart_url=raw_cart_url %}
+                You can <a href="{{ cart_url }}"><ins>go back to cart</ins></a> and retry or try again later.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+{% endblock %}
