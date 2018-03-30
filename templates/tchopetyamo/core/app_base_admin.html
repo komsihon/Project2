@@ -17,7 +17,7 @@
         <div class="wrapper">
             <div class="stage">
                 <div class="menu">
-                    {% if not settings.IS_BANK and perms.trade.ik_view_dashboard %}
+                    {% if perms.trade.ik_view_dashboard %}
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="dashboard">
                                 <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
@@ -25,44 +25,42 @@
                         </ul>
                         <div class="divider"></div>
                     {% endif %}
-                        <div class="divider"></div>
-
-                    <ul class="nav nav-pills nav-stacked">
-			<li role="presentation" class="homepage">
-			    {% url 'web:banner_list' as banner_list_url %}
-			    <a href="{{ banner_list_url }}">{% trans "Homepage" %}</a>
-       		 	</li>
-			<li role="presentation" class="menus">{% url 'web:smart_category_list' as smart_category_list_url %}
-			    <a href="{{ smart_category_list_url }}">{% trans "Menus" %}</a>
-			</li>
-			<li role="presentation" class="items">{% url 'items:item_list' as item_url %}
-			    <a href="{{ item_url }} ">{% trans "Items" %}</a>
-			</li>
-                        {% if module_blog.is_active %}
-                            <li role="presentation" class="marketing">
-                                <a href="javascript:;" data-toggle="collapse" data-target="#blog"
-                                   aria-expanded="true" style="padding-right: 0;"> {% trans "Blog" %}
-                                    <i class="fa fa-fw fa-caret-down"></i>
-                                </a>
-                                <ul id="blog" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
-                                    style="padding-left: 15px">
-                                    <li class="blog-categories">{% url 'blog:list_category' as category_list_url %}
-                                        <a href="{{ category_list_url }}">{% trans "Blog categories" %}</a>
-                                    </li>
-                                    <li class="posts">
-                                        <a href="{% url 'blog:list_post' %}">{% trans "Posts" %}</a>
-                                    </li>
-
-                                    <li class="comments">
-                                        <a href="{% url 'blog:list_comment' %}">{% trans "Comments" %}</a>
-
-                                    </li>
-
-                                </ul>
+                    {% if perms.accesscontrol.sudo %}
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" class="homepage">
+                                {% url 'web:banner_list' as banner_list_url %}
+                                <a href="{{ banner_list_url }}">{% trans "Homepage" %}</a>
+                                </li>
+                            <li role="presentation" class="menus">{% url 'web:smart_category_list' as smart_category_list_url %}
+                                <a href="{{ smart_category_list_url }}">{% trans "Menus" %}</a>
                             </li>
-                        {% endif %}
-                    </ul>
-                    <div class="divider"></div>
+                            <li role="presentation" class="items">{% url 'items:item_list' as item_url %}
+                                <a href="{{ item_url }} ">{% trans "Items" %}</a>
+                            </li>
+                            {% if module_blog.is_active %}
+                                <li role="presentation" class="marketing">
+                                    <a href="javascript:;" data-toggle="collapse" data-target="#blog"
+                                       aria-expanded="true" style="padding-right: 0;"> {% trans "Blog" %}
+                                        <i class="fa fa-fw fa-caret-down"></i>
+                                    </a>
+                                    <ul id="blog" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
+                                        style="padding-left: 15px">
+                                        <li class="blog-categories">{% url 'blog:list_category' as category_list_url %}
+                                            <a href="{{ category_list_url }}">{% trans "Blog categories" %}</a>
+                                        </li>
+                                        <li class="posts">
+                                            <a href="{% url 'blog:list_post' %}">{% trans "Posts" %}</a>
+                                        </li>
+                                        <li class="comments">
+                                            <a href="{% url 'blog:list_comment' %}">{% trans "Comments" %}</a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <div class="divider"></div>
+                    {% endif %}
 
                     {% if perms.trade.ik_manage_order or perms.trade.ik_manage_drivy or perms.trade.ik_manage_package %}
                         <ul class="nav nav-pills nav-stacked">
