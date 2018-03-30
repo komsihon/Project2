@@ -92,6 +92,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </ul>
                             {% endif %}
                         </div>
+                        {% include 'shopping/snippets/language_switcher.html' %}
                         {% if config.can_manage_currencies %}
                             {% include 'shopping/snippets/currency_switcher.html' %}
                         {% endif %}
@@ -154,6 +155,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     </div>
                                 </div>
                             {% endif %}
+                            <div class="lang-switch hidden-xs" style="float: right">
+                                {% include 'shopping/snippets/language_switcher.html' %}
+                            </div>
                             <div class="logo-nav-right search-input-container">
                                 <div class="input-group">
                                     {% url 'shopping:search' as search_url %}

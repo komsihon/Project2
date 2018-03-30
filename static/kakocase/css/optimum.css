@@ -470,7 +470,7 @@ h2.typoh2{ margin: 0 0 10px;}
 .glyphicon-lock {border: none; color: #fff}
 .checkout-content {background: #f9f8f8}
 .payment-btn-img {border-radius: 3px}
-.currency-switcher, .lang-switcher {float:right;margin-top: -4px}
+.currency-switcher, .lang-switcher {float:right;margin-top: -4px;}
 .currency-switcher select, .lang-switcher select {background: none;border: none;color: #2d2d2d;margin: 10px 50px 0;}
 .currency-switcher select:active {color: #888;}
 #megadropdown-tabs-xs .currency-switcher {margin: 5px}

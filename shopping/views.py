@@ -458,14 +458,16 @@ class Contact(TemplateSelector, TemplateView):
 
 
 class FlatPageView(TemplateSelector, TemplateView):
+    template_name = 'flatpages/flatpage_view.html'
+    optimum_template_name = 'flatpages/optimum/flatpage_view.html'
 
     def get(self, request, *args, **kwargs):
         url = kwargs['url']
         flatpage = get_object_or_404(FlatPage, url=url)
         context = self.get_context_data(**kwargs)
         context['page'] = flatpage
-        template_name = flatpage.template_name if flatpage.template_name else 'flatpages/flatpage_view.html'
-        return render(request, template_name, context)
+        template_names = flatpage.template_name if flatpage.template_name else self.get_template_names()
+        return render(request, template_names, context)
 
 
 @cache_page(60 * 10)
@@ -809,6 +811,7 @@ def submit_order_for_bank_approval(request, order, bank_id, account_number, deal
 
 class Cancel(TemplateSelector, TemplateView):
     template_name = 'shopping/cancel.html'
+    optimum_template_name = 'shopping/optimum/cancel.html'
 
     def get(self, request, *args, **kwargs):
         try:
