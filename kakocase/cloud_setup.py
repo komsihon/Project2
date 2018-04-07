@@ -256,6 +256,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     obj_list.save(using=database)
     logger.debug("Member %s successfully added to sudo group for service: %s" % (member.username, pname))
 
+    # Create wallets
     wallet = OperatorWallet.objects.using('wallets').create(nonrel_id=service.id, provider=MTN_MOMO)
     OperatorWallet.objects.using('wallets').create(nonrel_id=service.id, provider=ORANGE_MONEY)
     mail_signature = "%s<br>" \
