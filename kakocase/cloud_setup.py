@@ -236,10 +236,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
             mean.is_active = True
         else:
             mean.is_main = False
-            if is_pro_version:
-                mean.is_active = True
-            else:
-                mean.is_active = False
+            mean.is_active = False
         mean.save(using=database)
         logger.debug("PaymentMean %s created in database: %s" % (mean.slug, database))
 
@@ -260,6 +257,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     logger.debug("Member %s successfully added to sudo group for service: %s" % (member.username, pname))
 
     wallet = OperatorWallet.objects.using('wallets').create(nonrel_id=service.id, provider=MTN_MOMO)
+    OperatorWallet.objects.using('wallets').create(nonrel_id=service.id, provider=ORANGE_MONEY)
     mail_signature = "%s<br>" \
                      "<a href='%s'>%s</a>" % (project_name, 'http://' + domain, domain)
     config = OperatorProfile(service=service, rel_id=wallet.id, media_url=media_url,
