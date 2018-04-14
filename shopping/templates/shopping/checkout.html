@@ -21,6 +21,7 @@
         #new-address h3 {margin-bottom: 1em}
         #new-address .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
             position: absolute; width: 100%; z-index: 100}
+        .errorlist {color: #e74c3c; list-style-type: disc; padding-left: 18px}
     </style>
 {% endblock %}
 
@@ -46,13 +47,15 @@
                             <h3 class="alert alert-info" style="font-size: 1.3em">{% trans "Click on a previous address below to use it." %}</h3>
                             <ul class="collapse in" style="padding: 1em 0 0 0">
                                 {% for address in previous_addresses %}
-                                    <li class="previous-address{% if previous_addresses|length == 1 %} selected{% endif %}" data-index="{{ forloop.counter0 }}">
+                                    <li class="previous-address{% if previous_addresses|length == 1 %} selected{% endif %}" data-index="{{ address.index }}">
                                         <div>
                                             <div class="col-sm-8">
                                                 <p>{{ address.details }}</p>
-                                                <p class="country-city">
-                                                    {{ address.city }}, {{ address.country }}
-                                                </p>
+                                                {% if address.country and address.city %}
+                                                    <p class="country-city">
+                                                        {{ address.city }}, {{ address.country }}
+                                                    </p>
+                                                {% endif %}
                                                 <p class="details">
                                                     {{ address.email }}
                                                 </p>
@@ -62,7 +65,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                             {% if payment_mean_list|length == 1 %}
-                                                <button class="submit-checkout" type="button" style="border: none; background: none; border-radius: 3px"
+                                                <button class="submit-checkout prev-addr" type="button" style="border: none; background: none; border-radius: 3px"
                                                     data-action-url="{% url payment_mean_list.0.action_url_name %}?mean={{ payment_mean_list.0.slug }}">
                                                     <img src="{{ payment_mean_list.0.button_img_url }}" alt="{{ payment_mean_list.0.name }} Checkout" class="payment-btn-img">
                                                 </button>
@@ -209,7 +212,28 @@
                 $('div#previous-addresses h3').text("{% trans "Click on a previous address below to use it." %}");
                 if ($('.previous-address').length == 1) $('.previous-address').addClass('selected');
                 else $('.previous-address').removeClass('selected');
+            }).on('keydown', '#do-checkout input, #do-checkout select', function(e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    {% if payment_mean_list|length > 1 %}
+                        if (!checkFormData()) return;
+                        $('#payment-methods').modal('show');
+                    {% else %}
+                        if (checkFormData()) $('.submit-checkout:first').click();
+                    {% endif %}
+                }
+            }).on('click', '.submit-checkout', function() {
+                if ($(this).hasClass('prev-addr')) $(this).parents('.previous-address').addClass('selected');
+                if (!checkFormData()) return false;
+                var actionURL = $(this).data('action-url');
+                $('form#do-checkout').prop('action', actionURL).submit();
+                return false
+            }).on('click', '.payment-method', function() {
+                var actionURL = $(this).data('action-url');
+                $('form#do-checkout').prop('action', actionURL).submit()
             });
+            $('#email').blur(testEmail);
+            $('#phone').blur(testPhone);
 
             var entries = [];
             simpleCart.load();
@@ -229,26 +253,49 @@
                 $('#city').val(resp.city)
             });
 
-            $('#do-checkout').submit(function () {
+            function checkFormData() {
                 var previousAddressIndex = $('.previous-address.selected').data('index');
                 if (previousAddressIndex >= 0) {
                     $('#previous-address-index').val(previousAddressIndex);
                     return true;
                 }
                 var check = true;
+                if (!testPhone()) check = false;
+                if (!testEmail()) check = false;
                 $('form#do-checkout .required').each(function() {
                     if (!$(this).val()) {
                         $(this).parents('.form-group').addClass('has-error');
                         check = false;
                     }
                 });
-                if (!check) ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
+                if (!check) ikwen.showFloatingNotice("{% trans "Missing or invalid information. Please check." %}", '', 6);
                 return check;
-            });
-            $('.submit-checkout, .payment-method').click(function() {
-                var actionURL = $(this).data('action-url');
-                $('form#do-checkout').prop('action', actionURL).submit()
-            });
+            }
+            function testEmail() {
+                $('.errorlist.email').remove();
+                var $email = $('#email'),
+                    email = $email.val().replace(/ /g, '').toLowerCase();
+                $email.val(email);
+                if (email.isValidEmail()) return true;
+                $('<ul class="errorlist email"><li>' + "{% trans "Please, enter valid email" %}" + '</li></ul>')
+                        .insertAfter('#email');
+                $email.focus();
+                return false;
+            }
+            function testPhone() {
+                $('.errorlist.phone').remove();
+                var $phone = $('#phone'),
+                    phone = $phone.val().replace(/ /g, '');
+                $phone.val(phone);
+                if (phone && phone.substr(0, 2) !== '00' && /\d{9,}/.test(phone)) return true;
+                $('<ul class="errorlist phone">' +
+                    '<li>' + "{% trans "Please use digits only." %}" + '</li>' +
+                    '<li>' + "{% trans "Prepend country code if you are not in Cameroon." %}" + '</li>' +
+                    '<li>' + "{% trans "DO NOT prepend 00." %}" + '</li>' +
+                    '</ul>').insertAfter('#phone');
+                $phone.focus();
+                return false;
+            }
         })()
     </script>
 {% endblock %}
