@@ -43,7 +43,7 @@ from ikwen_kakocase.sales.models import PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
 from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review
 from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmation_email, \
-    after_order_confirmation
+    after_order_confirmation, send_order_confirmation_sms
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 from ikwen_kakocase.trade.utils import generate_tx_code
 from permission_backend_nonrel.models import UserPermissionList
@@ -387,26 +387,37 @@ class Checkout(TemplateSelector, TemplateView):
         context['countries'] = Country.objects.all()
         delivery_option_id = self.request.GET.get('delivery_option_id')
         delivery_option = get_object_or_404(DeliveryOption, pk=delivery_option_id)
+        member = self.request.user
+        previous_addresses = []
+        if member.is_authenticated():
+            try:
+                previous_addresses = member.customer.delivery_addresses
+            except Customer.DoesNotExist:
+                pass
+        else:
+            anonymous_buyer_id = self.request.GET.get('anonymous_buyer_id')
+            if anonymous_buyer_id:
+                try:
+                    anonymous_buyer = AnonymousBuyer.objects.get(pk=anonymous_buyer_id)
+                    previous_addresses = anonymous_buyer.delivery_addresses
+                except AnonymousBuyer.DoesNotExist:
+                    pass
+        address_choices = []
         if delivery_option.type == DeliveryOption.PICK_UP_IN_STORE:
             context['delivery_option'] = delivery_option
             context['pick_up_in_store'] = True
+            for i in range(len(previous_addresses)):
+                obj = previous_addresses[i]
+                if not obj.country:
+                    obj.index = i
+                    address_choices.append(obj)
         else:
-            member = self.request.user
-            previous_addresses = []
-            if member.is_authenticated():
-                try:
-                    previous_addresses = member.customer.delivery_addresses
-                except Customer.DoesNotExist:
-                    pass
-            else:
-                anonymous_buyer_id = self.request.GET.get('anonymous_buyer_id')
-                if anonymous_buyer_id:
-                    try:
-                        anonymous_buyer = AnonymousBuyer.objects.get(pk=anonymous_buyer_id)
-                        previous_addresses = anonymous_buyer.delivery_addresses
-                    except AnonymousBuyer.DoesNotExist:
-                        pass
-            context['previous_addresses'] = list(reversed(previous_addresses))
+            for i in range(len(previous_addresses)):
+                obj = previous_addresses[i]
+                if obj.country:
+                    obj.index = i
+                    address_choices.append(obj)
+        context['previous_addresses'] = list(reversed(address_choices))
         return context
 
 
@@ -619,13 +630,22 @@ def confirm_checkout(request, *args, **kwargs):
 
     if member.is_authenticated():
         buyer_name = member.full_name
-        buyer_email = member.email
+        buyer_email = order.delivery_address.email
+        buyer_phone = order.delivery_address.phone
     else:
         buyer_name = order.anonymous_buyer.name
         buyer_email = order.anonymous_buyer.email
+        buyer_phone = order.anonymous_buyer.phone
 
     subject = _("Order successful")
     send_order_confirmation_email(subject, buyer_name, buyer_email, order)
+    config = get_service_instance().config
+    script_url = getattr(settings, 'SMS_API_SCRIPT_URL', config.sms_api_script_url)
+    if script_url:
+        if getattr(settings, 'UNIT_TESTING', False):
+            send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url)
+        else:
+            Thread(target=send_order_confirmation_sms, args=(buyer_name, buyer_phone, order, script_url)).start()
 
     next_url = reverse('shopping:cart', args=(order.id, ))
     request.session.modified = True

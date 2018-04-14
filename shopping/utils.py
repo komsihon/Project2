@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.sales.models import PromoCode
@@ -19,7 +20,7 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOL
 from ikwen.accesscontrol.backends import UMBRELLA
 
 from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event
+    add_database, add_event, send_sms
 
 from ikwen.core.models import Country, Service
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
@@ -57,10 +58,13 @@ def parse_order_info(request):
             country = None
         city = request.POST.get('city')
         name = request.POST.get('name')
-        details = request.POST.get('details', '<empty>')
-        postal_code = request.POST.get('postal_code', 'N/A')
         email = request.POST['email']
         phone = request.POST['phone']
+        postal_code = request.POST.get('postal_code', 'N/A')
+        if pick_up_in_store:
+            details = delivery_option.name
+        else:
+            details = request.POST.get('details', '<empty>')
         address = DeliveryAddress(name=name, country=country, city=city,
                                   details=details, postal_code=postal_code, email=email, phone=phone)
 
@@ -72,12 +76,11 @@ def parse_order_info(request):
             customer.delivery_addresses.append(address)
         else:
             if not previous_address_index:
-                try:
-                    last_address = customer.delivery_addresses[-1]
-                    if last_address.country != country or last_address.city != city or \
-                       last_address.details != details or last_address.phone != phone or last_address.email != email:
-                        customer.delivery_addresses.append(address)
-                except IndexError:
+                for obj in customer.delivery_addresses:
+                    if obj.country == country and obj.city == city and \
+                       obj.details == details and obj.phone == phone and obj.email == email:
+                        break
+                else:
                     customer.delivery_addresses.append(address)
             else:
                 address = customer.delivery_addresses[int(previous_address_index)]
@@ -146,10 +149,40 @@ def send_order_confirmation_email(subject, buyer_name, buyer_email, order, messa
                                                    'IS_BANK': getattr(settings, 'IS_BANK', False)})
     sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
     msg = EmailMessage(subject, html_content, sender, [buyer_email])
-    bcc = [service.member.email, service.config.contact_email]
+    bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
+    bcc.append(service.member.email)
     msg.bcc = list(set(bcc))
     msg.content_subtype = "html"
     Thread(target=lambda m: m.send(), args=(msg, )).start()
+
+
+def send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url=None):
+    details_max_length = 90
+    details = order.get_products_as_string()
+    if len(details) > details_max_length:
+        tokens = details.split(',')
+        while len(details) > details_max_length:
+            tokens = tokens[:-1]
+            details = ','.join(tokens)
+        details += ' ...'
+    client_text = _("Order successful:\n"
+                    "%(details)s\n"
+                    "Your RCC is %(rcc)s\n"
+                    "Thank you." % {'details': details, 'rcc': order.rcc.upper()})
+    iao_text = "Order from %(buyer_name)s:\n" \
+               "%(details)s\n" \
+               "RCC: %(rcc)s" % {'buyer_name': buyer_name[:20], 'details': details, 'rcc': order.rcc.upper()}
+
+    config = get_service_instance().config
+    iao_phones = [phone.strip() for phone in config.notification_phone.split(',') if phone.strip()]
+    buyer_phone = buyer_phone.strip()
+    if buyer_phone and len(buyer_phone) == 9:
+        buyer_phone = '237' + buyer_phone  # This works only for Cameroon
+    send_sms(buyer_phone, client_text, script_url=script_url)
+    for phone in iao_phones:
+        if len(phone) == 9:
+            phone = '237' + phone
+        send_sms(phone, iao_text, script_url=script_url)
 
 
 def set_ikwen_earnings_and_stats(order):
