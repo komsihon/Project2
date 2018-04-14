@@ -79,7 +79,7 @@ class Order(Model):
         )
 
     def get_products_as_string(self):
-        return ', '.join([entry.product.name for entry in self.entries])
+        return ', '.join(['%d %s' % (entry.count, entry.product.name) for entry in self.entries])
 
     def get_providers(self):
         """
