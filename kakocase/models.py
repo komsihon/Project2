@@ -339,6 +339,12 @@ class OperatorProfile(AbstractConfig):
                                            "product.")
     max_products = models.IntegerField(default=100,
                                        help_text="Max number of products this provider may have.")
+    notification_email = models.EmailField(_("Notification email(s)"), blank=True, null=True, default='',
+                                           help_text="Emails to which order notifications are sent. "
+                                                     "Separate with coma if many. Eg: boss@email.com, account@email.com")
+    notification_phone = models.EmailField(_("Notification phone(s)"), blank=True, null=True, default='',
+                                           help_text="Phone numbers to which order notifications are sent. "
+                                                     "Separate with coma if many. Eg: 677010203, 699010203")
     return_url = models.URLField(blank=True,
                                  help_text="Order details are routed to this URL upon checkout confirmation. See "
                                            "<a href='http://support.ikwen.com/kakocase/configuration-return-url'>"
@@ -399,6 +405,7 @@ class OperatorProfile(AbstractConfig):
                 obj_mirror.can_manage_currencies = self.can_manage_currencies
                 obj_mirror.is_pro_version = self.is_pro_version
                 obj_mirror.max_products = self.max_products
+                obj_mirror.sms_api_script_url = self.sms_api_script_url
                 super(OperatorProfile, obj_mirror).save(using=db)
             except OperatorProfile.DoesNotExist:
                 pass

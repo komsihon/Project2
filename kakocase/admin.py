@@ -23,7 +23,7 @@ if getattr(settings, 'IS_IKWEN', False):
         (_('Business'), {'fields': ('ikwen_share_fixed', 'ikwen_share_rate',
                                     'payment_delay', 'cash_out_min', 'is_certified', )}),
         (_('Platform'), {'fields': ('can_manage_delivery_options', 'is_pro_version', 'can_manage_currencies')}),
-        (_('SMS'), {'fields': ('sms_api_script_url', 'sms_api_username', 'sms_api_password', )}),
+        (_('SMS'), {'fields': ('sms_api_script_url', )}),
         (_('Mailing'), {'fields': ('welcome_message', 'signature',)})
     ]
     _readonly_fields = ()
@@ -34,17 +34,18 @@ else:
     _website_fields = {'fields': ()}
     if getattr(settings, 'IS_PROVIDER', False):
         if config.is_pro_version:
-            _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
-                                          'allow_shopping', 'return_url', 'is_certified', 'newsletter_title')}
+            _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices', 'allow_shopping',
+                                          'notification_email', 'notification_phone', 'return_url', 'is_certified')}
         else:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
-                                          'allow_shopping', 'is_certified', 'newsletter_title')}
+                                          'allow_shopping', 'notification_email', 'notification_phone', 'is_certified')}
     elif getattr(settings, 'IS_RETAILER', False):
         _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'is_certified',)}
     elif getattr(settings, 'IS_DELIVERY_COMPANY', False):
-        _website_fields = {'fields': ('auth_code', 'return_url', 'is_certified',)}
+        _website_fields = {'fields': ('auth_code', 'notification_email', 'return_url', 'is_certified',)}
     elif getattr(settings, 'IS_BANK', False):
-        _website_fields = {'fields': ('website_url', 'create_account_url', 'cashflex_eula_url', 'return_url', )}
+        _website_fields = {'fields': ('website_url', 'create_account_url', 'cashflex_eula_url',
+                                      'notification_email', 'notification_phone', 'return_url', )}
     _fieldsets = [
         (_('Company'), {'fields': ('company_name', 'short_description', 'slogan', 'description')}),
         (_('Website'), _website_fields),
