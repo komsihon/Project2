@@ -339,10 +339,10 @@ class OperatorProfile(AbstractConfig):
                                            "product.")
     max_products = models.IntegerField(default=100,
                                        help_text="Max number of products this provider may have.")
-    notification_email = models.EmailField(_("Notification email(s)"), blank=True, null=True, default='',
+    notification_email = models.CharField(_("Notification email(s)"), max_length=150, blank=True, null=True, default='',
                                            help_text="Emails to which order notifications are sent. "
                                                      "Separate with coma if many. Eg: boss@email.com, account@email.com")
-    notification_phone = models.EmailField(_("Notification phone(s)"), blank=True, null=True, default='',
+    notification_phone = models.CharField(_("Notification phone(s)"), max_length=150, blank=True, null=True, default='',
                                            help_text="Phone numbers to which order notifications are sent. "
                                                      "Separate with coma if many. Eg: 677010203, 699010203")
     return_url = models.URLField(blank=True,
