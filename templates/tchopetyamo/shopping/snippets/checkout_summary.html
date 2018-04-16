@@ -3,25 +3,7 @@
 <div{% if delivery_options|length > 1 %} class="multiple-delivery-options"{% endif %}>
     <div id="items-summary" class="co subtle-shade" data-total="{{ items_cost }}">
         <h4><span class="count">{{ items_count }}</span> {% trans "item(s), totaling" %}:</h4>
-        {% if not request.session.promo_code %}
-        <p class="price">
-            <span>{{ CURRENCY.symbol }}</span>
-            <span class="total">{{ items_cost|floatformat:CURRENCY.precision|intcomma }}</span>
-        </p>
-
-        <div id="promo-code">
-            <div class="">
-                <div class="input-group promo">
-                    <input type="text" class="form-control" placeholder="{% trans 'Promo code' %}">
-                    <span class="input-group-btn">
-                        <button class="btn btn-secondary apply-promo-code" type="button">{% trans 'Apply' %}</button>
-                    </span>
-                </div>
-                <div class="invalid-code">{% trans "Invalid promotion code" %}</div>
-            </div>
-            <a class="promo-code" href="javascript:;" {% if delivery_options|length == 1 %} style="margin-bottom: 10px" {% endif %}>{% trans 'Promo code' %} ?</a>
-        </div>
-        {% else %}
+        {% if coupon %}
             <del>
             <p class="price" style="color: #979797">
                 <span>{{ CURRENCY.symbol }}</span>
@@ -32,6 +14,23 @@
                 <span>{{ CURRENCY.symbol }}</span>
                 <span class="total">{{ items_cost|floatformat:CURRENCY.precision|intcomma }}</span>
             </p>
+        {% else %}
+            <p class="price">
+                <span>{{ CURRENCY.symbol }}</span>
+                <span class="total">{{ items_cost|floatformat:CURRENCY.precision|intcomma }}</span>
+            </p>
+            <div id="promo-code">
+                <div class="">
+                    <div class="input-group promo">
+                        <input type="text" class="form-control" placeholder="{% trans 'Promo code' %}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary apply-promo-code" type="button">{% trans 'Apply' %}</button>
+                        </span>
+                    </div>
+                    <div class="invalid-code">{% trans "Invalid promotion code" %}</div>
+                </div>
+                <a class="promo-code" href="javascript:;" {% if delivery_options|length == 1 %} style="margin-bottom: 10px" {% endif %}>{% trans 'Promo code' %} ?</a>
+            </div>
         {% endif %}
         {% if items_cost >= config.checkout_min %}
             {% if delivery_options|length == 1 %}
