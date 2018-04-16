@@ -57,11 +57,14 @@ def categories(request):
             quick_access_categories = quick_access_categories[-5:]
         if not getattr(settings, 'DEBUG', False):
             cache.set('quick_access_categories', quick_access_categories)
+    member = request.user
+    template_cache_duration = 0 if member.is_authenticated() and member.is_staff else 300
     return {
         'smart_categories_level2': smart_categories_level2,
         'smart_categories_level1': smart_categories_level1,
         'menu_categories': menu_categories,
-        'quick_access_categories': quick_access_categories
+        'quick_access_categories': quick_access_categories,
+        'template_cache_duration': template_cache_duration
     }
 
 
