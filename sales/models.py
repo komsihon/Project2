@@ -1,7 +1,6 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from djangotoolbox.fields import ListField, EmbeddedModelField
 from ikwen.core.utils import to_dict
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.models import ProductCategory

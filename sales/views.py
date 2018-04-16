@@ -115,9 +115,9 @@ class ChangePromoCode(TemplateView):
             promo_code.save()
             next_url = reverse('sales:promo_code_list')
             if promo_code_id:
-                messages.success(request, _("promo code %s successfully updated." % promo_code.code))
+                messages.success(request, _("Coupon %s successfully updated." % promo_code.code))
             else:
-                messages.success(request, _("promo code %s successfully created." %  promo_code.code))
+                messages.success(request, _("Coupon %s successfully created." %  promo_code.code))
             return HttpResponseRedirect(next_url)
         else:
             context = self.get_context_data(**kwargs)
@@ -205,7 +205,8 @@ def apply_promotion_discount(product_list):
     for product in copy_product_list:
         # Promotion on specific items
         try:
-            promo = Promotion.objects.filter(item=product, rate__gt=0, start_on__lte=now, end_on__gt=now, is_active=True).order_by('-id')[0]
+            promo = Promotion.objects.filter(item=product, rate__gt=0, start_on__lte=now,
+                                             end_on__gt=now, is_active=True).order_by('-id')[0]
         except IndexError:
             continue
         else:
@@ -222,7 +223,8 @@ def apply_promotion_discount(product_list):
         # Promotion on specific category
         category = product.category
         try:
-            promo = Promotion.objects.filter(category=category, rate__gt=0, start_on__lte=now, end_on__gt=now, is_active=True).order_by('-id')[0]
+            promo = Promotion.objects.filter(category=category, rate__gt=0, start_on__lte=now,
+                                             end_on__gt=now, is_active=True).order_by('-id')[0]
         except IndexError:
             continue
         else:
@@ -239,7 +241,8 @@ def apply_promotion_discount(product_list):
     for product in copy_product_list:
         # promotion on the hold website
         try:
-            promo = Promotion.objects.filter(item=None, rate__gt=0, category=None, start_on__lte=now, end_on__gt=now, is_active=True).order_by('-id')[0]
+            promo = Promotion.objects.filter(item=None, rate__gt=0, category=None, start_on__lte=now,
+                                             end_on__gt=now, is_active=True).order_by('-id')[0]
         except IndexError:
             continue
         else:
