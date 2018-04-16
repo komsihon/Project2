@@ -42,7 +42,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </head>
     <body>
         {% block header %}
-            {% cache 300 header user.username %}
+            {% cache template_cache_duration header user.username %}
             <div class="header hidden-xs hidden-sm">
                 <div class="header-top">
                     <div class="container">
@@ -351,7 +351,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% block banner %}{% endblock %}
         {% block content %}{% endblock %}
         {% block footer %}
-            {% cache 300 footer %}
+            {% cache template_cache_duration footer %}
             <div class="footer-w3l hidden-xs">
                 <div class="container">
                     <div class="footer-grids">

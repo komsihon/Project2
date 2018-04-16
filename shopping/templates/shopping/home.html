@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block content %}
-    {% cache 300 home_content %}
+    {% cache template_cache_duration home_content %}
     <div class="banner-w3">
         <div class="demo-1">
             <div id="slideshow" class="core-slider core-slider__carousel example_1">
