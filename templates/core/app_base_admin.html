@@ -23,47 +23,9 @@
                                 <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
                             </li>
                         </ul>
-                        <div class="divider"></div>
                     {% endif %}
-
-                    <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation" class="homepage">
-                            {% url 'commarketing:banner_list' as banner_list_url %}
-                            <a href="{{ banner_list_url }}">{% trans "Homepage" %}</a>
-                        </li>
-                        <li role="presentation" class="menus">{% url 'commarketing:smart_category_list' as menus_list_url %}
-                            <a href="{{ menus_list_url }}">{% trans "Menus" %}</a>
-                        </li>
-                        <li role="presentation" class="items">{% url 'items:product_list' as product_url %}
-                            <a href="{{ product_url }} ">{% trans "Items" %}</a>
-                        </li>
-                        {% if module_blog.is_active %}
-                            <li role="presentation" class="marketing">
-                                <a href="javascript:;" data-toggle="collapse" data-target="#blog"
-                                   aria-expanded="true" style="padding-right: 0;"> {% trans "Blog" %}
-                                    <i class="fa fa-fw fa-caret-down"></i>
-                                </a>
-                                <ul id="blog" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
-                                    style="padding-left: 15px">
-                                    <li class="blog-categories">{% url 'blog:list_category' as category_list_url %}
-                                        <a href="{{ category_list_url }}">{% trans "Blog categories" %}</a>
-                                    </li>
-                                    <li class="posts">
-                                        <a href="{% url 'blog:list_post' %}">{% trans "Posts" %}</a>
-                                    </li>
-
-                                    <li class="comments">
-                                        <a href="{% url 'blog:list_comment' %}">{% trans "Comments" %}</a>
-
-                                    </li>
-
-                                </ul>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    <div class="divider"></div>
-
                     {% if perms.trade.ik_manage_order or perms.trade.ik_manage_drivy or perms.trade.ik_manage_package %}
+                        <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">
                             {% if not settings.IS_DELIVERY_COMPANY and perms.trade.ik_manage_order %}
                                 <li role="presentation" class="orders">
@@ -132,9 +94,9 @@
                                         <li class="smart-categories">{% url 'marketing:smart_category_list' as smart_category_list_url %}
                                             <a href="{{ smart_category_list_url }}">{% trans "Smart categories" %}</a>
                                         </li>
-{#                                        <li class="banners">{% url 'marketing:banner_list' as banner_list_url %}#}
-{#                                            <a href="{{ banner_list_url }}">{% trans "Banners" %}</a>#}
-{#                                        </li>#}
+                                        <li class="banners">{% url 'marketing:banner_list' as banner_list_url %}
+                                            <a href="{{ banner_list_url }}">{% trans "Banners" %}</a>
+                                        </li>
 
                                         <li class="promotion">{% url 'sales:promotion_list' as promotion_list_url %}
                                             <a href="{{ promotion_list_url }}">{% trans "Promotions" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
@@ -151,45 +113,6 @@
                                     </ul>
                                 </li>
                             {% endif %}
-                            {#        {% if perms.trade.ik_manage_after_sales %}#}
-                            {#            <li role="presentation" class="after-sales">#}
-                            {#                <a href="javascript:;" data-toggle="collapse" data-target="#after-sales" aria-expanded="true">#}
-                            {#                    {% trans "After sales" %} <i class="fa fa-fw fa-caret-down"></i>#}
-                            {#                </a>#}
-                            {#                <ul id="after-sales" class="nav nav-pills nav-stacked collapse" aria-expanded="true" style="padding-left: 15px">#}
-                            {#                    <li class="broken">{% url 'trade:broken_product_list' as broken_product_list_url %}#}
-                            {#                        <a href="{{ broken_product_list_url }}">{% trans "Broken products" %}</a>#}
-                            {#                    </li>#}
-                            {#                    <li class="late">{% url 'trade:late_delivery_list' as late_delivery_list_url %}#}
-                            {#                        <a href="{{ late_delivery_list_url }}">{% trans "Late deliveries" %}</a>#}
-                            {#                    </li>#}
-                            {#                </ul>#}
-                            {#            </li>#}
-                            {#        {% endif %}#}
-                            {#        {% if perms.kako.ik_manage_billing %}#}
-                            {#            <li role="presentation" class="subscriptions">#}
-                            {#                <a href="javascript:;" data-toggle="collapse" data-target="#demo" aria-expanded="true">#}
-                            {#                    {% trans "Billing" %} <i class="fa fa-fw fa-caret-down"></i>#}
-                            {#                </a>#}
-                            {#                <ul id="demo" class="nav nav-pills nav-stacked collapse" aria-expanded="true" style="padding-left: 15px">#}
-                            {#                    <li class="plans">{% url 'billing:iframe_admin' 'kako' 'recurringpaymentservice' as product_url %}#}
-                            {#                        <a href="{{ product_url }}">{% trans "Services" context 'Billing plans'%}</a>#}
-                            {#                    </li>#}
-                            {#                    <li class="subscriptions">{% url 'billing:iframe_admin' 'subscription' as subscription_url %}#}
-                            {#                        <a href="{{ subscription_url }}">{% trans "Subscriptions" %}</a>#}
-                            {#                    </li>#}
-                            {#                    <li class="invoices">{% url 'billing:iframe_admin' 'invoice' as invoice_url %}#}
-                            {#                        <a href="{{ invoice_url }}">{% trans "Invoices" %}</a>#}
-                            {#                    </li>#}
-                            {#                    <li class="payments">{% url 'billing:iframe_admin' 'payment' as payment_url%}#}
-                            {#                        <a href="{{ payment_url }}">{% trans "Payments" %}</a>#}
-                            {#                    </li>#}
-                            {#                    <li class="billing-config">{% url 'billing:iframe_admin' 'invoicingconfig' as invoicing_config_url %}#}
-                            {#                        <a href="{{ invoicing_config_url }}">{% trans "Billing configuration" %}</a>#}
-                            {#                    </li>#}
-                            {#                </ul>#}
-                            {#            </li>#}
-                            {#        {% endif %}#}
                             {% if perms.accesscontrol.sudo %}
                                 {% url 'trade:partner_list' as partner_list_url %}
                                 {% if settings.IS_PROVIDER %}

@@ -23,9 +23,9 @@
                                 <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
                             </li>
                         </ul>
-                        <div class="divider"></div>
                     {% endif %}
                     {% if perms.accesscontrol.sudo %}
+                        <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="homepage">
                                 {% url 'web:banner_list' as banner_list_url %}
@@ -59,10 +59,10 @@
                                 </li>
                             {% endif %}
                         </ul>
-                        <div class="divider"></div>
                     {% endif %}
 
                     {% if perms.trade.ik_manage_order or perms.trade.ik_manage_drivy or perms.trade.ik_manage_package %}
+                        <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">
                             {% if not settings.IS_DELIVERY_COMPANY and perms.trade.ik_manage_order %}
                                 <li role="presentation" class="orders">
