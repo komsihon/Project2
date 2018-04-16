@@ -43,7 +43,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </head>
     <body>
         {% block header %}
-            {% cache 300 header user.username %}
+            {% cache template_cache_duration header user.username %}
             <div class="header hidden-xs hidden-sm">
 
                 <div class="header-top">
@@ -186,69 +186,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="nav-container">
                                 <ul class="nav navbar-nav">
-
-
-			   {% for menu in menu_list %}
-                                {% if menu.appear_in_menu %}
-                                <li class="{{ menu.slug }}">
-                                    {% if menu.content_type == 'FlatPage'  %}
-                                        {% if menu.description %}
-                                            <a href="{% url 'flatpage' menu.description %}">{% trans menu.title %}</a>
-                                        {% endif %}
-                                    {% elif menu.content_type == 'ItemList' %}
-                                        <a href="{% url 'webnode:item_list' menu.slug %}">{% trans menu.title %}</a>
-                                    {% elif menu.content_type == 'Module' %}
-                                        <a href="{% url menu.module.url_name %}">{% trans menu.title %}</a>
+                                {% for menu in menu_list %}
+                                    {% if menu.appear_in_menu %}
+                                        <li class="{{ menu.slug }}">
+                                            {% if menu.content_type == 'FlatPage'  %}
+                                                {% if menu.description %}
+                                                    <a href="{% url 'flatpage' menu.description %}">{% trans menu.title %}</a>
+                                                {% endif %}
+                                            {% elif menu.content_type == 'ItemList' %}
+                                                <a href="{% url 'webnode:item_list' menu.slug %}">{% trans menu.title %}</a>
+                                            {% elif menu.content_type == 'Module' %}
+                                                <a href="{% url menu.module.url_name %}">{% trans menu.title %}</a>
+                                            {% endif %}
+                                        </li>
                                     {% endif %}
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-
-
-
-                                    <!-- Mega Menu -->
-                                    {% for smart_category in smart_categories_level2 %}
-                                        <li class="dropdown level2 horizontal">
-                                            <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
-                                        </li>
-
-                                    {% endfor %}
-                                    {% for smart_category in smart_categories_level1 %}
-                                        <li class="dropdown horizontal">
-                                            <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
-                                        </li>
-                                    {% endfor %}
-                                    {% for category in menu_categories %}
-                                        <li class="dropdown horizontal">
-                                            <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
-                                        </li>
-
-                                    {% endfor %}
-
-                                    <li class="dropdown categories-menu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'See more ...' %} <span class="fa fa-sort-down pull-right"></span></a>
-                                        <ul class="dropdown-menu categories-menu">
-                                            {% for smart_category in smart_categories_level2 %}
-                                            <li class="dropdown vertical">
-                                                <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            {% endfor %}
-                                            {% for smart_category in smart_categories_level1 %}
-                                                <li class="dropdown vertical">
-                                                    <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
-                                                </li>
-                                                <li class="divider"></li>
-                                            {% endfor %}
-                                            {% for category in menu_categories %}
-                                                <li class="dropdown vertical">
-                                                    <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
-                                                </li>
-                                                <li class="divider"></li>
-
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
+                                {% endfor %}
                                 </ul>
                             </div>
                         </nav>
@@ -370,7 +322,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% block banner %}{% endblock %}
         {% block content %}{% endblock %}
         {% block footer %}
-            {% cache 300 footer %}
+            {% cache template_cache_duration footer %}
             <div class="footer-w3l hidden-xs">
                 <div class="container">
                     <div class="footer-grids">
