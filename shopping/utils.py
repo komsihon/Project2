@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 from threading import Thread
 
 import requests
@@ -115,7 +115,8 @@ def parse_order_info(request):
     if request.session.get('promo_code'):
         promo_id = request.session['promo_code_id']
         try:
-            coupon = PromoCode.objects.get(pk=promo_id)
+            now = datetime.now()
+            coupon = PromoCode.objects.get(pk=promo_id, start_on__lte=now, end_on__gt=now, is_active=True)
         except PromoCode.DoesNotExist:
             pass
 

@@ -427,11 +427,12 @@ def load_checkout_summary(request, *args, **kwargs):
     delivery_option_id = request.GET.get('delivery_option_id')
     items_gross_cost = 0
     delivery_option = None
+    coupon = None
     if request.session.get('promo_code'):
         promo_id = request.session.get('promo_code_id')
-
         try:
-            coupon = PromoCode.objects.get(pk=promo_id)
+            now = datetime.now()
+            coupon = PromoCode.objects.get(pk=promo_id, start_on__lte=now, end_on__gt=now, is_active=True)
         except PromoCode.DoesNotExist:
             pass
         else:
@@ -460,7 +461,7 @@ def load_checkout_summary(request, *args, **kwargs):
     payment_mean_list = PaymentMean.objects.filter(is_main=False, is_active=True)
     context = {'items_cost': items_cost, 'items_count': items_count, 'items_gross_cost':items_gross_cost, 'delivery_option': delivery_option,
                'total_cost': total_cost, 'config': get_service_instance().config, 'delivery_options': delivery_options,
-               'main_payment_mean': main_payment_mean, 'payment_mean_list': payment_mean_list}
+               'main_payment_mean': main_payment_mean, 'payment_mean_list': payment_mean_list, 'coupon': coupon}
     return render(request, 'shopping/snippets/checkout_summary.html', context)
 
 
