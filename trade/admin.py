@@ -74,7 +74,8 @@ class OrderResource(resources.ModelResource):
         address = 'Name: %s\n%s' % (a.name, a.details)
         if a.postal_code:
             address += ' - %s' % a.postal_code
-        address += '\n%s - %s' % (a.city, a.country.iso3.upper())
+        if a.country:
+            address += '\n%s - %s' % (a.city, a.country.iso3.upper())
         address += '\n%s' % a.phone
         if a.email:
             address += '\n%s' % a.email
