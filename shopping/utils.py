@@ -7,6 +7,7 @@ from currencies.models import Currency
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
+from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from ikwen_kakocase.kako.models import Product
@@ -177,10 +178,12 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url=None)
     config = get_service_instance().config
     iao_phones = [phone.strip() for phone in config.notification_phone.split(',') if phone.strip()]
     buyer_phone = buyer_phone.strip()
+    buyer_phone = slugify(buyer_phone).replace('-', '')
     if buyer_phone and len(buyer_phone) == 9:
         buyer_phone = '237' + buyer_phone  # This works only for Cameroon
     send_sms(buyer_phone, client_text, script_url=script_url)
     for phone in iao_phones:
+        phone = slugify(phone).replace('-', '')
         if len(phone) == 9:
             phone = '237' + phone
         send_sms(phone, iao_text, script_url=script_url)
