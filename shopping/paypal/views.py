@@ -68,6 +68,7 @@ class SetExpressCheckout(TemplateView):
         else:
             signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for n in range(16)])
         request.session['signature'] = signature
+        request.session['return_url'] = service.url + reverse('shopping:cart', args=(order.id,))
 
         if getattr(settings, 'UNIT_TESTING', False):
             return HttpResponse(json.dumps({"order_id": order.id}))
