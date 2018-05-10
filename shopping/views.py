@@ -590,14 +590,9 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
     request.session['model_name'] = 'trade.Order'
     request.session['object_id'] = order.id
 
-    mean = request.GET.get('mean', MTN_MOMO)
-    if mean == MTN_MOMO:
-        request.session['is_momo_payment'] = True
-    elif mean == ORANGE_MONEY:
-        request.session['notif_url'] = service.url + reverse('shopping:home')
-        request.session['return_url'] = service.url + reverse('shopping:cart', args=(order.id, ))
-        request.session['cancel_url'] = service.url + reverse('shopping:cancel')
-        request.session['is_momo_payment'] = False
+    request.session['notif_url'] = service.url + reverse('shopping:home')  # Orange Money only
+    request.session['cancel_url'] = service.url + reverse('shopping:cancel')  # Orange Money only
+    request.session['return_url'] = service.url + reverse('shopping:cart', args=(order.id, ))
 
 
 def confirm_checkout(request, *args, **kwargs):
@@ -648,7 +643,6 @@ def confirm_checkout(request, *args, **kwargs):
         else:
             Thread(target=send_order_confirmation_sms, args=(buyer_name, buyer_phone, order, script_url)).start()
 
-    next_url = reverse('shopping:cart', args=(order.id, ))
     request.session.modified = True
     try:
         del request.session['promo_code_id']
@@ -663,10 +657,7 @@ def confirm_checkout(request, *args, **kwargs):
     except:
         pass
 
-    if request.session.get('is_momo_payment'):
-        return {'success': True, 'next_url': next_url}
-    else:
-        return HttpResponseRedirect(next_url)
+    return HttpResponseRedirect(request.session['return_url'])
 
 
 def review_product(request, product_id, *args, **kwargs):
