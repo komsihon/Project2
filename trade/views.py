@@ -30,7 +30,7 @@ from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Service
 from ikwen_kakocase.shopping.utils import send_order_confirmation_email
 
-from ikwen.core.utils import calculate_watch_info, add_database, get_mail_content
+from ikwen.core.utils import calculate_watch_info, add_database, get_mail_content, slice_watch_objects
 
 from ikwen.accesscontrol.models import Member
 from ikwen.core.utils import get_service_instance, rank_watch_objects, set_counters
@@ -356,16 +356,15 @@ class RetailerDashboard(KakocaseDashboardBase):
             'last_28_days': rank_watch_objects(providers, 'earnings_history', 28)
         }
 
-        start = datetime.now() - timedelta(days=28)
-        # customers list is limited to a maximum of 100 most recently active
-        customers = list(Customer.objects.filter(updated_on__gte=start).order_by('-updated_on')[:100])
-        for customer in customers:
-            set_counters(customer)
+        customers_today = slice_watch_objects(Customer)
+        customers_yesterday = slice_watch_objects(Customer, 1)
+        customers_last_week = slice_watch_objects(Customer, 7)
+        customers_last_28_days = slice_watch_objects(Customer, 28)
         customers_report = {
-            'today': rank_watch_objects(customers, 'earnings_history'),
-            'yesterday': rank_watch_objects(customers, 'earnings_history', 1),
-            'last_week': rank_watch_objects(customers, 'earnings_history', 7),
-            'last_28_days': rank_watch_objects(customers, 'earnings_history', 28)
+            'today': rank_watch_objects(customers_today, 'earnings_history'),
+            'yesterday': rank_watch_objects(customers_yesterday, 'earnings_history', 1),
+            'last_week': rank_watch_objects(customers_last_week, 'earnings_history', 7),
+            'last_28_days': rank_watch_objects(customers_last_28_days, 'earnings_history', 28)
         }
         context['providers_report'] = providers_report
         context['customers_report'] = customers_report
