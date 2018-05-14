@@ -57,6 +57,7 @@ class Customer(AbstractWatchModel):
     """
     member = models.OneToOneField(Member)
     delivery_addresses = ListField(EmbeddedModelField('shopping.DeliveryAddress'))
+    last_payment_on = models.DateTimeField(blank=True, null=True)
 
     orders_count_history = ListField()
     items_purchased_history = ListField()
