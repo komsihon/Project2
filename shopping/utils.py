@@ -341,6 +341,7 @@ def after_order_confirmation(order, update_stock=True):
     if member:
         customer = member.customer
         set_counters(customer)
+        customer.last_payment_on = datetime.now()
         increment_history_field(customer, 'orders_count_history')
         increment_history_field(customer, 'items_purchased_history', order.items_count)
         increment_history_field(customer, 'turnover_history', order.items_cost)
