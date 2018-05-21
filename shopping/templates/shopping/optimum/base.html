@@ -155,9 +155,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     </div>
                                 </div>
                             {% endif %}
-                            <div class="lang-switch hidden-xs" style="float: right">
-                                {% include 'shopping/snippets/language_switcher.html' %}
-                            </div>
                             <div class="logo-nav-right search-input-container">
                                 <div class="input-group">
                                     {% url 'shopping:search' as search_url %}
@@ -192,7 +189,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <li class="dropdown level2 horizontal">
                                             <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title }}</a>
                                         </li>
-
                                     {% endfor %}
                                     {% for smart_category in smart_categories_level1 %}
                                         <li class="dropdown horizontal">
@@ -203,9 +199,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <li class="dropdown horizontal">
                                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
                                         </li>
-
                                     {% endfor %}
-
                                     <li class="dropdown categories-menu">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'See more ...' %} <span class="fa fa-sort-down pull-right"></span></a>
                                         <ul class="dropdown-menu categories-menu">
@@ -226,7 +220,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                     <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name }}</a>
                                                 </li>
                                                 <li class="divider"></li>
-
                                             {% endfor %}
                                         </ul>
                                     </li>
@@ -266,8 +259,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <i class="fa fa-th-large"></i>
                                 </a>
                             </div>
-
-
                             {% if user.is_authenticated %}
                                 <div class="button-hover-handler">
                                     <a class="action" href="{{ settings.IKWEN_CONSOLE_URL }}">
@@ -303,7 +294,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <i class="fa fa-user-circle" style="margin-right: 0"></i>
                                     </a>
                                 </div>
-
                             {% endif %}
                         </div>
                     </div>
@@ -450,6 +440,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 {% endif %}
 
                 /* CART STUFFS */
+                {% if settings.DECIMAL_SEPARATOR != '.' or settings.THOUSAND_SEPARATOR != ',' %}
+                    $('#checkout-min, .item_price').each(function() {
+                        var val = $(this).text().replace('{{ CURRENCY.symbol }}', '');
+                        val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                            .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                            .replace('#', ',');
+                        $(this).text(val)
+                    });
+                {% endif %}
                 simpleCart.currency({
                     code: "{{ CURRENCY.code }}",
                     symbol: "{{ CURRENCY.symbol }} ",

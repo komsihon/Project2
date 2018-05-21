@@ -80,7 +80,8 @@
                                     {% if config.auto_manage_sales and product.on_sale and product.previous_price %}
                                         <del>{{ CURRENCY.symbol }} {{ product.previous_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</del>
                                     {% endif %}
-                                    <em class="item_price">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                    <em class="item-price-verbose">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
+                                    <span class="hidden item_price">{{ product.retail_price|currency:CURRENCY.code }}</span>
                                 </p>
                             {% endif %}
                             <div class="availability">
