@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		{% block head_style %}
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}?v=18.5.21" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
@@ -358,7 +358,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
         {% include 'shopping/snippets/modal_successful_registration.html' %}
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=18.5.21"></script>
         <script>
             $(function() {
                 $("#slider").responsiveSlides({
@@ -378,16 +378,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 {% if request.GET.successfulRegistration %}
                     $('#modal-successful-registration').modal('show');
                 {% endif %}
-                $('.starbox').each(function () {
-                    var starbox = jQuery(this);
-                    starbox.starbox({
-                        average: starbox.hasClass('changeable') ? 0.01 : starbox.data('average') ? starbox.data('average'): Math.random(),
-                        changeable: starbox.hasClass('changeable') ? true : starbox.hasClass('clickonce') ? 'once' : false,
-                        ghosting: starbox.hasClass('ghosting'),
-                        autoUpdateAverage: starbox.hasClass('autoupdate'),
-                        buttons: 10
-                    })
-                });
+                {#$('.starbox').each(function () {#}
+                {#    var starbox = jQuery(this);#}
+                {#    starbox.starbox({#}
+                {#        average: starbox.hasClass('changeable') ? 0.01 : starbox.data('average') ? starbox.data('average'): Math.random(),#}
+                {#        changeable: starbox.hasClass('changeable') ? true : starbox.hasClass('clickonce') ? 'once' : false,#}
+                {#        ghosting: starbox.hasClass('ghosting'),#}
+                {#        autoUpdateAverage: starbox.hasClass('autoupdate'),#}
+                {#        buttons: 10#}
+                {#    })#}
+                {#});#}
                 $('form#lang a').click(function() {
                     var lang = $(this).data('val');
                     $('form#lang input[name=language]').val(lang);
@@ -396,6 +396,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 });
 
                 /* CART STUFFS */
+                {% if settings.DECIMAL_SEPARATOR != '.' or settings.THOUSAND_SEPARATOR != ',' %}
+                    $('#checkout-min, .item_price').each(function() {
+                        var val = $(this).text().replace('{{ CURRENCY.symbol }}', '');
+                        val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                            .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                            .replace('#', ',');
+                        $(this).text(val)
+                    });
+                {% endif %}
                 simpleCart.currency({
                     code: "{{ CURRENCY.code }}",
                     symbol: "{{ CURRENCY.symbol }} ",
