@@ -760,7 +760,7 @@ h2.tittle {
     font-size: 1em;
     margin: .6em 0 .1em;
 }
-em.item_price {
+em.item-price-verbose {
     font-style: normal;
     color: #000;
     font-weight: 600;

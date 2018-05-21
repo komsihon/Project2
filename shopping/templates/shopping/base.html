@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		{% block head_style %}
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
-            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}?v=18.5.21" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/style.css' %}" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
@@ -358,7 +358,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
         {% include 'shopping/snippets/modal_successful_registration.html' %}
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=18.5.21"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
         <script>
             $(function() {
                 $("#slider").responsiveSlides({

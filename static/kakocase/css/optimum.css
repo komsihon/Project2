@@ -255,7 +255,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .product-about.groupon p strong {float: left; margin-left: 40px;}
 .product-about.groupon p span {float: left; margin-left: 12px}
 .progress {margin: auto; width: 80%}
-em.item_price {font-style: normal; color: #000; font-weight: 600;}
+em.item-price-verbose {font-style: normal; color: #000; font-weight: 600;}
 span.size {color: #000000;font-weight: 600;}
 
 a.my-cart-b {text-decoration: none;}
@@ -682,7 +682,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .core-slider_item .cta a.button1 {width: 125px; padding: 5px 0}
      .slogan {clear: both; font-size: 14px; font-style: italic}
     .product-agile .container {padding: 0}
-    .single-right .price.item_price {margin: 0px 0 5px;}
+    .single-right .price.item-price-verbose {margin: 0px 0 5px;}
     .single-right h4 {font-size: 1.8em;margin-top: 10px;margin-bottom: 5px}
     .new-arrivals-w3agile, .product-agile, .latest-w3, .footer-w3l, .products-agileinfo, .typo-w3, .mail-w3ls, .single-wl3 {padding: 0em 0;}
     .caption, .arrivals-grids, .latest-grids, .product-w3agile, .product-agileinfo-grids, .mail-grids, .product-grids {margin-top: 1em}
@@ -695,7 +695,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .bottom-cntr > form {float: left;margin-left: 40px;}
     .bottom-cntr i {color: #FFF; font-size: 15px}
     #price-range {margin: 1em auto 1em;}
-    .single-right .price.item_price {font-size: 1.5em}
+    .single-right .price.item-price-verbose {font-size: 1.5em}
     .fw-section .cta {margin: 122px auto 0;color: #fff;border: solid 2px;padding: 8px 0;}
     .latest-grid {float: left; padding: 0 6px; width: 100%;}
     #cd-search1 .cd-search input {padding: .1em .5em;}
@@ -728,7 +728,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .product-about .product-price {font-size: 1.2em}
     .modal .product-about .product-price em {color: #ff0000}
     .single-right h4 {margin-bottom: .2em}
-    .price.item_price {font-size: 1.5em; margin-top: 0}
+    .price.item-price-verbose {font-size: 1.5em; margin-top: 0}
     .tab-wl3 {padding: 0 15px}
     #suggestions .row {clear: both;}
     .single-right .item_add{padding: .6em 2em;margin-top: -62px;clear:  both;float:  right;}
@@ -747,7 +747,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .latest-grid {float: left;width: 33.3%;}
     .ribben2 {width: 45%}
     .single-right h4 {margin-bottom: .2em}
-    .price.item_price {font-size: 1.5em; margin-top: 0}
+    .price.item-price-verbose {font-size: 1.5em; margin-top: 0}
     .tab-wl3 {padding: 0 15px}
     .ribben2:after {right: 85%;top: 88%;}
     .top-rates {margin-top: 3.5em; }
