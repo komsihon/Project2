@@ -25,6 +25,8 @@ li {list-style-type: none;color: #2a2424;}
 .header-top {background: #ececec;padding: 8px 0 9px;height: 40px;}
 .header-top .fa {cursor: pointer}
 
+#top-notice-ctnr {left: 0;position: fixed;text-align: center;top: 66px;width: 100%;z-index: 10000;}
+.floating-notice {background: #F6FF8C; border: 1px solid #CDD570; border-radius: 2px; color: #484B2B; padding: 9px 24px; position: absolute}
 .payment-method {display: block;cursor: pointer;margin-bottom: 1em;}
 .payment-method .logo {display: block; text-align: center}
 .om-instructions {display: none; margin-top: 10px;}
@@ -559,7 +561,7 @@ ul.dropdown-menu.user-menu li {font-weight:  700}
 #reviews form {margin-top: 1em;}
 #reviews input[type="submit"] {outline: none; padding: 10px 0; background: #c10023; border: none; width: 20%; font-size: 1em; color: #fff; transition: .5s all; -webkit-transition: .5s all; -moz-transition: .5s all; -o-transition: .5s all; -ms-transition: .5s all;}
 #reviews input[type="submit"]:hover {background: #F19E1F;}
-#item-size-selector {/* background: #e8e7e7; */height: 40px;border: solid 1px #c9c9c9;border-radius: 3px;/* width: 80%; */}
+.item-size-selector {height: 40px;border: solid 1px #c9c9c9;border-radius: 3px}
 /*--single--*/
 .logo-nav-left span {float: left}
 .logo-nav-left .slogan {clear: both;font-size: 14px;font-style: italic;overflow: hidden;width: 175px;}
