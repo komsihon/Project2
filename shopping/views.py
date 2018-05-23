@@ -314,10 +314,10 @@ class ProductDetail(TemplateSelector, TemplateView):
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
         try:
-            current_product = Product.objects.filter(category=category, slug=product_slug)
+            current_product = Product.objects.filter(category=category, slug=product_slug)[0]
         except IndexError:
             raise Http404('No product matches the given query.')
-        product = apply_promotion_discount(list(current_product))[0]
+        product = apply_promotion_discount([current_product])[0]
         category = product.category
         context['product'] = product
         base_queryset = Product.objects.exclude(pk=product.id).filter(visible=True, is_duplicate=False)
