@@ -19,7 +19,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=18.5.23" type="text/css" media="all" />
             {% if config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
@@ -41,6 +41,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="{% static 'kakocase/js/main.js' %}"></script>
     </head>
     <body>
+        <div id="top-notice-ctnr" style="display: none">
+            <span class="floating-notice has-shade" style="float: none; position: static"> </span>
+        </div>
         {% block header %}
             {% cache template_cache_duration header user.username %}
             <div class="header hidden-xs hidden-sm">
@@ -432,7 +435,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=18.5.21"></script>
         <script type="text/javascript">
             (function () {
                 {% if request.GET.successfulRegistration %}
@@ -447,6 +450,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
                             .replace('#', ',');
                         $(this).text(val)
+                    });
+                    $('.item-size-selector option').each(function() {
+                        var val = $(this).data('retail_price_verbose');
+                        if (val) {
+                            val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                                .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                                .replace('#', ',');
+                            $(this).attr('data-retail_price', val);
+                        }
                     });
                 {% endif %}
                 simpleCart.currency({
@@ -484,17 +496,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 }).on('click', '.value-minus1', function () {
                     var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) - 1;
                     if (newVal >= 1) divUpd.text(newVal);
-                }).on('change', '.size-list #item-size-selector', function () {
+                }).on('change', '.size-list .item-size-selector', function () {
                     var id =$('option:selected',this).data('id'),
-                            price =$('option:selected',this).data('retail_price'),
-                            stock =$('option:selected',this).data('stock'),
-                            size = $(this).val(),
-                            max = stock,
-                            item = simpleCart.find({'id': id})[0],
-                            currency = simpleCart.currency().symbol;
+                        price =$('option:selected',this).data('retail_price'),
+                        priceVerbose =$('option:selected',this).data('retail_price_verbose'),
+                        stock =$('option:selected',this).data('stock'),
+                        size = $(this).val(),
+                        max = stock,
+                        item = simpleCart.find({'id': id})[0],
+                        currency = simpleCart.currency().symbol;
                     $(this).parents('.size-list').find('.item_size').text(size);
                     $(this).parents('.simpleCart_shelfItem').find('.item_id').text(id);
-                    $(this).parents('.simpleCart_shelfItem').find('.item_price').html(currency + ' ' + price);
+                    $(this).parents('.simpleCart_shelfItem').find('.item-price-verbose').html(currency + ' ' + priceVerbose);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_price').text(price);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_stock').text(stock);
                     if (item) max = stock - item.quantity();
                     if (max == 0) $('.simpleCart_shelfItem .value1').text(0);
                     else $('.simpleCart_shelfItem .value1').text(1);
@@ -505,19 +520,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 });
                 $('#content').on('click', '.product-tile button.my-cart-b:not(.sold-out)', function () {
                     var id = $(this).data('id'),
-                            image = $(this).data('image'),
-                            name = $(this).data('name'),
-                            description = $(this).data('description'),
-                            stock = $(this).data('stock'),
-                            max = stock,
-                            url = $(this).parents('.product-about').find('h6 a').attr('href'),
-                            $sizeRadios = $(this).parents('.product-about').find('.size-radios'),
-                            $price = $(this).parents('.product-about').find('.product-price'),
-                            item = simpleCart.find({'id': id})[0];
+                        image = $(this).data('image'),
+                        name = $(this).data('name'),
+                        description = $(this).data('description'),
+                        stock = $(this).data('stock'),
+                        max = stock,
+                        url = $(this).parents('.product-about').find('h6 a').attr('href'),
+                        $sizeRadios = $(this).parents('.product-about').find('.size-radios'),
+                        $price = $(this).parents('.product-about').find('.product-price'),
+                        item = simpleCart.find({'id': id})[0];
                     $('div#product-modal-preview .item_id').text(id);
                     $('div#product-modal-preview .item_image').text(image);
                     $('div#product-modal-preview .item_name').text(name);
                     $('div#product-modal-preview .item_url').text(url);
+                    $('div#product-modal-preview .item_stock').text(stock);
                     $('div#product-modal-preview .target').attr('href', url);
                     $('div#product-modal-preview .description').html(description);
                     $('div#product-modal-preview .product-about .product-price').html($price.html());
@@ -530,8 +546,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     } else {
                         $('div#product-modal-preview .size-list').show();
                         if ($sizeRadios.find('.choose-size').length == 1) {
-{#                            var onlySize = $sizeRadios.find('input[type=radio]').val();#}
-                            var onlySize = $sizeRadios.find('#item-size-selector').val();
+                            var onlySize = $sizeRadios.find('.item-size-selector').val();
                             $('div#product-modal-preview .item_size').text(onlySize);
                             $('div#product-modal-preview .size-hint').hide();
                         } else {
@@ -545,8 +560,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $('div#product-modal-preview .value-plus1').data('max', max);
                 });
                 $('div#product-modal-preview').on('click', '.my-cart-b', function () {
-                    if ($('div#product-modal-preview #item-size-selector').children('option').length > 1) {
-                        if ($('div#product-modal-preview #item-size-selector').val() == '') {
+                    if ($('div#product-modal-preview .item-size-selector').children('option').length > 1) {
+                        if ($('div#product-modal-preview .item-size-selector').val() == '') {
                             $('.size-list').addClass('alert-danger');
                             ikwen.showFloatingNotice("<strong>{% trans "Please select a size." %}</strong>", "", 3);
                             return false
@@ -725,9 +740,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     color += letters[Math.floor(Math.random() * letters.length)];
                     $('#no-logo').css('background', color)
                 }
-                ran_col()
-
-
+                ran_col();
             })()
 		</script>
         <script>
@@ -742,8 +755,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     {#            cssWidthAndHeight: false,#}
                 slidesPerView: 'auto',
             })
-
-    </script>
+        </script>
         {% block js %}{% endblock %}
     </body>
 </html>

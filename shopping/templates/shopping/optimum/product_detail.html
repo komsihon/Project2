@@ -132,6 +132,7 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if product.stock > 0 %}
+                                    <span class="hidden item_stock">{{ product.stock }}</span>
                                     {% if product.unit_of_measurement %}
                                         <div>
                                             <span>{% trans "Avail." %}: </span>
@@ -147,10 +148,10 @@
                                         {% endif %}
                                         {% if config.allow_shopping and config.show_prices %}
                                             {% include 'shopping/snippets/product_size_qty.html' %}
-                                                <button data-text="Add To Cart"
-                                                        class="my-cart-b item_add">{% trans "Add To Cart" %}
-                                                    <div class="mask"></div>
-                                                </button>
+                                            <button data-text="Add To Cart"
+                                                    class="my-cart-b item_add">{% trans "Add To Cart" %}
+                                                <div class="mask"></div>
+                                            </button>
                                         {% endif %}
                                     {% endwith %}
                                 {% else %}

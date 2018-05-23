@@ -1,6 +1,6 @@
 {% load i18n staticfiles humanize auth_tokens %}
 <div class="size-quantity">
-    {% if size_list %}
+    {% if size_list|length > 1 %}
         <div class="size-list">
             <h6 style="margin-top: 5px">{% trans "Size" %} </h6>
             <div class="size-radios">{% include 'shopping/snippets/product_size_radios.html' %}</div>

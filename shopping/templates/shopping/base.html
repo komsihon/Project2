@@ -358,7 +358,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
         {% include 'shopping/snippets/modal_successful_registration.html' %}
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=18.5.21"></script>
         <script>
             $(function() {
                 $("#slider").responsiveSlides({
@@ -403,6 +403,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
                             .replace('#', ',');
                         $(this).text(val)
+                    });
+                    $('.item-size-selector').each(function() {
+                        var val = $(this).data('retail_price_verbose');
+                        if (val) {
+                            val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                                .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                                .replace('#', ',');
+                            $(this).attr('data-retail_price', val);
+                        }
                     });
                 {% endif %}
                 simpleCart.currency({

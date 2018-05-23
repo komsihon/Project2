@@ -1,10 +1,10 @@
 {% load i18n static humanize user_agents auth_tokens media_from_provider currency  %}
 <div class="form-group">
-    <select class="form-control" id="item-size-selector">
-    <option class="form-control">----------</option>
+    <select class="form-control item-size-selector">
+        <option>----------</option>
         {% for size in size_list %}
-            <option class="form-control" value="{{ size.label }}" data-id="{{ size.id }}"
-            data-retail_price="{{ size.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}"
+            <option value="{{ size.label }}" data-id="{{ size.id }}"
+            data-retail_price_verbose="{{ size.retail_price|currency:CURRENCY.code }}"
             data-stock="{{ size.stock }}" {% if size_list|length == 1 %}checked{% endif %}> {{ size.label }}</option>
         {% endfor %}
     </select>
