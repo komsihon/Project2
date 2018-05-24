@@ -2,31 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2297b2c-f03a-4b49-8563-a6b7692c34c4" name="Default" comment="Update on template selector, Blog views">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/banner_mob.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/banner_top.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_ipad.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_ipad_lc.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_lg.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/watercolor-3130650.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/css/owl.transitions.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/CreolinkLocalizer.iml" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/CreolinkLocalizer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/misc.xml" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/modules.xml" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/conf/settings.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/conf/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/conf/urls.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/conf/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/admin.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/models.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/models.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/website/css/apps.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/tsunami/css/tsunami.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/apps.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/fixtures/bundles.yaml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/address_section.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/com.css" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/ikwen/css/com.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/db.sqlite3" afterPath="$PROJECT_DIR$/../ikwenWebsite/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/views.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/static/admin/js/admin/DateTimeShortcuts.js" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/static/admin/js/admin/DateTimeShortcuts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/bootstrap.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/maps.css" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/static/css/maps.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/templates/login.html" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/templates/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/templates/statistics.html" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/templates/statistics.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html" afterPath="$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" afterPath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/base.css" afterPath="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/base.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/static/webnode/css/tchopety/yamo.css" afterPath="$PROJECT_DIR$/../WebNode/static/webnode/css/tchopety/yamo.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/improve/home.html" afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/improve/home.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/items/templates/items/change_item.html" afterPath="$PROJECT_DIR$/../WebNode/items/templates/items/change_item.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" afterPath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/apache.conf" afterPath="$PROJECT_DIR$/../ikwen/apache.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/conf/settings.py" afterPath="$PROJECT_DIR$/../ikwen/conf/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/conf/urls.py" afterPath="$PROJECT_DIR$/../ikwen/conf/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/partnership/urls.py" afterPath="$PROJECT_DIR$/../ikwen/partnership/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/apps_base.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/apps_base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/kakocase.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/kakocase.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/shavida.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/shavida.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/webnode.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/webnode.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/mails/order_notice.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/mails/order_notice.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/tests.py" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/tests.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/views.py" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,7 +64,88 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="bundles.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="website.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1458">
+              <caret line="81" column="30" lean-forward="false" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/templates/home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="104">
+              <caret line="108" column="23" lean-forward="false" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="edge_panel.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="edge_panel.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="language_switcher.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="50" lean-forward="false" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1728">
+              <caret line="96" column="30" lean-forward="false" selection-start-line="96" selection-start-column="30" selection-end-line="97" selection-end-column="80" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -103,10 +199,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/improve/search.html" />
-        <option value="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/blog.css" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/templates/blog/home.html" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/admin.py" />
         <option value="$PROJECT_DIR$/../IkwenBlog/blog/views.py" />
         <option value="$PROJECT_DIR$/../IkwenBlog/blog/templates/blog/search.html" />
         <option value="$PROJECT_DIR$/../IkwenTuto/support/templates/support/home.html" />
@@ -154,6 +246,10 @@
         <option value="$PROJECT_DIR$/../CloudTest/Kakocase/adidas/templates/shopping/optimum/base.html" />
         <option value="$PROJECT_DIR$/static/kakocase/css/style.css" />
         <option value="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/cart.html" />
+        <option value="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html" />
+        <option value="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" />
+        <option value="$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css" />
+        <option value="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" />
       </list>
     </option>
   </component>
@@ -193,6 +289,110 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="snippets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tsunami" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ikwenWebsite" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="adidas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -203,35 +403,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shopping" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shopping" />
+              <option name="myItemId" value="adidas" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -239,7 +411,31 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="shopping" />
+              <option name="myItemId" value="webnode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adidas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -253,41 +449,47 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="shopping" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="shopping" />
+              <option name="myItemId" value="tchopetyamo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KakocaseGithub" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="snippets" />
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CloudTest/Kakocase/adidas" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ikwenWebsite" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/tchopetyamo/webnode" />
+      <recent name="$PROJECT_DIR$/templates/tchopetyamo/webnode/improve" />
+      <recent name="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets" />
       <recent name="$PROJECT_DIR$/../Website/templates/apps" />
       <recent name="$PROJECT_DIR$/../Website/templates/app" />
-      <recent name="$PROJECT_DIR$/../Website/static/ikwen/js" />
-      <recent name="$PROJECT_DIR$/../Website/static/ikwen/css" />
-      <recent name="$PROJECT_DIR$/../Website/static/ikwen" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -662,17 +864,17 @@
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17291667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17291667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37634408" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2451613" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37634408" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -723,37 +925,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../Website/conf/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../IkwenTuto/support/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="29" column="53" lean-forward="false" selection-start-line="29" selection-start-column="53" selection-end-line="29" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwen/core/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../WebNode/commarketing/templates/commarketing/change_smart_object.html" />
-    <entry file="file://$PROJECT_DIR$/../WebNode/commarketing/templates/commarketing/banner_list.html" />
-    <entry file="file://$PROJECT_DIR$/../WebNode/commarketing/models.py" />
-    <entry file="file://$PROJECT_DIR$/../WebNode/commarketing/views.py" />
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-about.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-achievement.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -779,13 +950,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/font-awesome/css/font-awesome.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/font-awesome/css/font-awesome.css" />
     <entry file="file://$PROJECT_DIR$/../ikwen/static/ikwen/css/owl.transitions.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="639">
@@ -794,60 +959,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/scrollTo.js" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/scrollTo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/animate.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/scrollTo.js" />
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/animate.min.css" />
     <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/owl.transitions.css" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/conf/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="65" lean-forward="false" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#51#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2686">
-          <caret line="158" column="60" lean-forward="false" selection-start-line="158" selection-start-column="60" selection-end-line="158" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.js" />
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/bootstrap.css" />
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.min.js" />
+    <entry file="file://$PROJECT_DIR$/../Website/conf/urls.py" />
+    <entry file="file://$PROJECT_DIR$/../Website/templates/home.html" />
     <entry file="file://$PROJECT_DIR$/../ikwen/accesscontrol/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="706">
@@ -862,51 +981,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/website/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/shavida.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="84" column="18" lean-forward="false" selection-start-line="84" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/webnode.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="79" lean-forward="false" selection-start-line="16" selection-start-column="79" selection-end-line="17" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/apps.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="39" lean-forward="false" selection-start-line="13" selection-start-column="39" selection-end-line="24" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/kakocase.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="129" lean-forward="false" selection-start-line="28" selection-start-column="129" selection-end-line="28" selection-end-column="129" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/templates/about.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="193" column="5" lean-forward="true" selection-start-line="193" selection-start-column="5" selection-end-line="193" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Website/website/views.py" />
+    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/shavida.html" />
+    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/webnode.html" />
+    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/apps.css" />
+    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/kakocase.html" />
+    <entry file="file://$PROJECT_DIR$/../Website/templates/about.html" />
     <entry file="file://$PROJECT_DIR$/static/kakocase/css/optimum.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="428">
@@ -918,7 +998,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -926,7 +1005,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="30" column="29" lean-forward="false" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -951,21 +1029,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/tsunami/templates/tsunami/bundles.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="84" column="56" lean-forward="true" selection-start-line="84" selection-start-column="56" selection-end-line="84" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/website/css/com.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="189" column="27" lean-forward="false" selection-start-line="189" selection-start-column="27" selection-end-line="189" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../Website/tsunami/templates/tsunami/bundles.html" />
+    <entry file="file://$PROJECT_DIR$/../Website/static/website/css/com.css" />
     <entry file="file://$PROJECT_DIR$/../WebNode/blog/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-306">
@@ -977,7 +1042,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="1" lean-forward="false" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -985,7 +1049,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -993,7 +1056,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="80" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1001,7 +1063,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1009,7 +1070,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1017,15 +1077,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="17" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="334" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="24" column="68" lean-forward="false" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="68" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1033,7 +1084,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="370">
           <caret line="309" column="28" lean-forward="false" selection-start-line="309" selection-start-column="28" selection-end-line="309" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1041,7 +1091,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="7" lean-forward="false" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1049,6 +1098,78 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="601">
           <caret line="163" column="30" lean-forward="false" selection-start-line="163" selection-start-column="30" selection-end-line="163" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1728">
+          <caret line="96" column="30" lean-forward="false" selection-start-line="96" selection-start-column="30" selection-end-line="97" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="50" lean-forward="false" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1458">
+          <caret line="81" column="30" lean-forward="false" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="108" column="23" lean-forward="false" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
