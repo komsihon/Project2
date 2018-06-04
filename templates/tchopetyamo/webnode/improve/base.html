@@ -9,11 +9,12 @@
         {% block page_title %}{% endblock %}
         {% block head_style %}
             <link href="{% static 'webnode/css/bootstrap.min.css' %}" rel="stylesheet">
-            <link href="{% static 'webnode/css/font-awesome.min.css' %}" rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link href="{% static 'webnode/css/prettyPhoto.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/animate.min.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/improve/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/responsive.css' %}" rel="stylesheet">
+            <link href="{% static 'kakocase/css/edge-pannel.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/improve/base.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/tchopety/yamo.css' %}" rel="stylesheet">
 {#            {% if config.theme %}#}
@@ -28,10 +29,44 @@
             <script src="{% static 'webnode/js/respond.min.js' %}"></script>
             <![endif]-->
         {% endblock %}
+    <style>
+        .header-xs {background: #5f0000;    color: #fff;height: 45px; padding-top: 2px;position: fixed; transition-property: all; transition-duration: .2s; top: 0; transition-timing-function: cubic-bezier(0, 1, 0.5, 1); width: 100%; z-index: 20}
+
+        .left-content {overflow: hidden; width: 45%}
+        .header-xs button {float: left; margin: 4px 0 0 -1px;}
+        .header-xs h3 {color: #fff; float: left; font-size: 25px;margin-top: 8px;width: 54%; overflow: hidden;}
+        .xs-nav-container {float: left;}
+        .button-hover-handler {float: left;margin-left: 5px;height: 35px; width: 35px; border-radius: 20px; margin-top: 3px;}
+        .header-xs a {color: #fff;}
+        .header-xs .icon-bar {background: #fff;}
+        .header-xs .fa {font-size: 20px; margin-left: 8px; margin-top: 9px;}
+        #side-nav {background: #fff; left: 0; max-width: 300px; overflow: auto; position: fixed; height: 100%; width: 90%; top: 0; z-index: 10; display: none;}
+        .top-edge-panel {max-width: 300px; position: fixed; width: 90%;}
+        #side-nav .panel-top {background-size: cover; float: left; height: 200px; width: 100%;}
+        #side-nav .panel-top .cover {background: rgba(0, 0, 0, 0.52); height: 200px; padding: 10px; width: 100%;}
+        #side-nav .panel-top .cover .company .logo a {color: #FFF; float: left;}
+        .mob-company {color: #fff;float: right;overflow: hidden; width: 70%;}
+        .mob-logo-img {background-size: contain; background-repeat: no-repeat; max-height: 50px; max-width: 150px; width: 60px; float: left; height: 60px;}
+        #side-nav .panel-top .cover .company .name {color: #FFF; float: left; margin: 17px 15px 0 20px;}
+        #side-nav .panel-top .cover .location {color: #FFF; clear: both; float: left; margin-top: 15px;}
+        #side-nav .panel-top .cover .location > div {margin-top: 7px;}
+        .location div i {margin-right: 10px;}
+        #side-nav .nav-stacked {clear: both; float: left; padding-top: 15px; width: 100%; margin-top: 199px;}
+        #side-nav .nav-stacked li a {font-weight: 700; color: #5f0000; font-size: 14px;}
+        .social-icon i {color: #5f0000; font-size: 30px;}
+        @media (max-width: 767px){
+            #side-nav .panel-top .cover .company .name {float: right;}
+            .bottom-cntr {position: absolute; margin-top: 160px; right: 10px;}
+            .social-icon {margin-top: 1.8em; padding-left: 15px;}
+            .header-xs h3.app-name a {width: 300%; float: left;}
+        }
+
+    </style>
     </head><!--/head-->
 
+
     <body>
-        <header id="header">
+        <header id="header" class="hidden-xs">
             <div class="top-bar">
                 <div class="container">
                     <div class="row">
@@ -60,7 +95,8 @@
             <nav class="navbar navbar-inverse main" role="banner">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+{#                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">#}
+                        <button type="button" class="navbar-toggle menu-button">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -91,12 +127,83 @@
                                 </li>
                                 {% endif %}
                             {% endfor %}
+                        {% if not user.is_authenticated %}
+                            <li class="hidden-xs"><a href="{% url 'ikwen:sign_in' %}">
+                                <button class="btn-sm" style="background: #a40009; border: #a40009; color: #fff; font-size: 15px; font-weight: 600 ">{% trans "Login" %}</button>
+                            </a></li>
+                            <li class="visible-xs"><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                        {% endif %}
                         </ul>
                     </div>
                 </div><!--/.container-->
             </nav><!--/nav-->
 
         </header><!--/header-->
+        <div class="header-xs visible-xs visible-sm">
+            <div class="container-fluid">
+                <div class="pull-left left-content">
+                    <button type="button" class="navbar-toggle menu-button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h3 class="app-name">
+                        <a>{{ service.project_name }}</a>
+                    </h3>
+                </div>
+                <div class="pull-right" style="margin-right: 6px;">
+
+                    <div class="xs-nav-container">
+                        <div class="button-hover-handler">
+                            <a class="toggle-menu-appearance action" id="toggle-menu-xs-appearance" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-th-large"></i>
+                            </a>
+                        </div>
+
+
+                        {% if user.is_authenticated %}
+                            <div class="button-hover-handler">
+                                <a class="action" href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                    {% if user.get_notice_count > 0 %}
+                                        <span class="badge badge-danger">{{ user.get_notice_count }}</span>
+                                    {% endif %}
+                                    <i class="fa fa-bell"></i>
+                                </a>
+                            </div>
+                            <div class="action dropdown" style="float: right; width: 20px">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="true">
+                                        <div class="button-hover-handler"><i class="fa fa-user" style=" margin-left: 11px;"></i></div>
+                                    </a>
+
+
+                                <ul class="user-menu dropdown-menu" aria-labelledby="user-menu" style="left: -120px">
+                                    <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                    <li role="separator" class="divider"></li>
+                                    {% if user.is_staff %}
+                                        <li>
+                                            <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                        </li>
+                                    {% endif %}
+                                    <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                        <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                    </li>
+                                    <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="button-hover-handler">
+                                <a class="action" href="{% url 'ikwen:sign_in' %}">
+                                    <i class="fa fa-user-circle" style="margin-right: 0"></i>
+                                </a>
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% block page_content %}{% endblock %}
         <section id="bottom">
             <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
@@ -105,7 +212,7 @@
                         <div class="widget">
                             <h3>{{ service.project_name }}</h3>
                             <ul>
-				<li><a href="{% url 'shopping:home' %}">{% trans 'Store' %}</a></li>
+				                <li><a href="{% url 'shopping:home' %}">{% trans 'Store' %}</a></li>
                             	<li><a href="{% url 'blog:home' %}">Blog</a></li>
                                 {% if config.allow_shopping and config.show_prices %}
                                     <li><a href="{% url 'shopping:cart' %}">{% trans "Checkout" %}</a></li>
@@ -184,13 +291,36 @@
             </div>
         </footer><!--/#footer-->
 
+        {% include 'tchopetyamo/webnode/snippets/edge_panel.html' %}
+        <div class="edge-swipe-overlay"></div>
         {% block js %}
             <script src="{% static 'webnode/js/jquery.js' %}"></script>
-            <script src="{% static 'webnode/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
             <script src="{% static 'webnode/js/jquery.prettyPhoto.js' %}"></script>
             <script src="{% static 'webnode/js/jquery.isotope.min.js' %}"></script>
             <script src="{% static 'webnode/js/main.js' %}"></script>
             <script src="{% static 'webnode/js/wow.min.js' %}"></script>
+            <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
+            <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
+
+            <script src="{% static 'ikwen/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+
+            <script>
+            (function() {
+                    if ($(window).width() < 992) {
+                        $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
+                    }
+                    $( window ).resize(ikwen.debouncer(function (e) {
+                        var winWidth = $(window).width();
+                        if (winWidth >= 992) {
+                            $('.edge-panel-left').removeClass('has-shade').appendTo('.edge-panel-left-container').show();
+                        } else {
+                            $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                        }
+                    }));
+                })()
+            </script>
         {% endblock %}
     </body>
 </html>
