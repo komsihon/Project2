@@ -15,9 +15,10 @@ from ikwen_kakocase.kako.models import Product
 
 from ikwen.core.constants import CONFIRMED, PENDING
 from ikwen_kakocase.shopping.utils import after_order_confirmation
+from ikwen_kakocase.shopping.models import Customer
 
-from ikwen.core.utils import add_event, increment_history_field, get_service_instance,\
-    add_database_to_settings, get_mail_content, set_counters, rank_watch_objects
+from ikwen.core.utils import add_event, increment_history_field, get_service_instance, \
+    add_database_to_settings, get_mail_content, set_counters, rank_watch_objects, slice_watch_objects
 
 from ikwen.core.models import Service
 from ikwen.accesscontrol.backends import UMBRELLA
@@ -317,14 +318,15 @@ class ProviderDashboard(KakocaseDashboardBase):
 
     def get_context_data(self, **kwargs):
         context = super(ProviderDashboard, self).get_context_data(**kwargs)
-        retailers = list(OperatorProfile.objects.filter(business_type=OperatorProfile.RETAILER))
-        for retailer in retailers:
-            set_counters(retailer)
-        retailers_report = {
-            'today': rank_watch_objects(retailers, 'earnings_history'),
-            'yesterday': rank_watch_objects(retailers, 'earnings_history', 1),
-            'last_week': rank_watch_objects(retailers, 'earnings_history', 7),
-            'last_28_days': rank_watch_objects(retailers, 'earnings_history', 28)
+        customers_today = slice_watch_objects(Customer)
+        customers_yesterday = slice_watch_objects(Customer, 1)
+        customers_last_week = slice_watch_objects(Customer, 7)
+        customers_last_28_days = slice_watch_objects(Customer, 28)
+        customers_report = {
+            'today': rank_watch_objects(customers_today, 'earnings_history'),
+            'yesterday': rank_watch_objects(customers_yesterday, 'earnings_history', 1),
+            'last_week': rank_watch_objects(customers_last_week, 'earnings_history', 7),
+            'last_28_days': rank_watch_objects(customers_last_28_days, 'earnings_history', 28)
         }
-        context['retailers_report'] = retailers_report
+        context['customers_report'] = customers_report
         return context
