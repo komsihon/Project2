@@ -323,10 +323,10 @@ class ProviderDashboard(KakocaseDashboardBase):
         customers_last_week = slice_watch_objects(Customer, 7)
         customers_last_28_days = slice_watch_objects(Customer, 28)
         customers_report = {
-            'today': rank_watch_objects(customers_today, 'earnings_history'),
-            'yesterday': rank_watch_objects(customers_yesterday, 'earnings_history', 1),
-            'last_week': rank_watch_objects(customers_last_week, 'earnings_history', 7),
-            'last_28_days': rank_watch_objects(customers_last_28_days, 'earnings_history', 28)
+            'today': rank_watch_objects(customers_today, 'turnover_history'),
+            'yesterday': rank_watch_objects(customers_yesterday, 'turnover_history', 1),
+            'last_week': rank_watch_objects(customers_last_week, 'turnover_history', 7),
+            'last_28_days': rank_watch_objects(customers_last_28_days, 'turnover_history', 28)
         }
         context['customers_report'] = customers_report
         return context
