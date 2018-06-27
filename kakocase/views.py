@@ -108,7 +108,7 @@ class DeployCloud(TemplateView):
         context['theme_list'] = Theme.objects.using(UMBRELLA).filter(template__in=template_list)
         context['can_choose_themes'] = True
         if getattr(settings, 'IS_IKWEN', False):
-            billing_plan_list = CloudBillingPlan.objects.using(UMBRELLA).filter(app=app, partner__isnull=True)
+            billing_plan_list = CloudBillingPlan.objects.using(UMBRELLA).filter(app=app, partner__isnull=True, is_active=True)
             if billing_plan_list.count() == 0:
                 setup_months_count = 3
                 context['ikwen_setup_cost'] = app.base_monthly_cost * setup_months_count
@@ -116,7 +116,7 @@ class DeployCloud(TemplateView):
                 context['setup_months_count'] = setup_months_count
         else:
             service = get_service_instance()
-            billing_plan_list = CloudBillingPlan.objects.using(UMBRELLA).filter(app=app, partner=service)
+            billing_plan_list = CloudBillingPlan.objects.using(UMBRELLA).filter(app=app, partner=service, is_active=True)
             if billing_plan_list.count() == 0:
                 retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(app=app, partner=service)
                 setup_months_count = 3
