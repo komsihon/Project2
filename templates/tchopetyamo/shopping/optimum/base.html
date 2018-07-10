@@ -413,6 +413,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 {% endif %}
 
                 /* CART STUFFS */
+                {% if settings.DECIMAL_SEPARATOR != '.' or settings.THOUSAND_SEPARATOR != ',' %}
+                    $('#checkout-min, .item_price').each(function() {
+                        var val = $(this).text().replace('{{ CURRENCY.symbol }}', '');
+                        val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                            .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                            .replace('#', ',');
+                        $(this).text(val)
+                    });
+                    $('.item-size-selector option').each(function() {
+                        var val = $(this).data('retail_price_verbose');
+                        if (val) {
+                            val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                                .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                                .replace('#', ',');
+                            $(this).attr('data-retail_price', val);
+                        }
+                    });
+                {% endif %}
                 simpleCart.currency({
                     code: "{{ CURRENCY.code }}",
                     symbol: "{{ CURRENCY.symbol }} ",

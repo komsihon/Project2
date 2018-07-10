@@ -153,7 +153,7 @@
                         stock = item.get('stock');
                     item.increment();
                     simpleCart.update();
-                    $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}));
+                    $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
                     var id = $(this).data('id'),
@@ -161,7 +161,7 @@
                     if (item.quantity() == 1) return;
                     item.decrement();
                     simpleCart.update();
-                    $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}));
+                    $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
                     var $cartItem = $(this).parents('.cart-item'),
@@ -212,9 +212,9 @@
                         if (size == '-------') $cartItem.find('.size').hide();
                         else $cartItem.find('.size').show();
                         $cartItem.find('.item_size').text(size);
-                        $cartItem.find('.item_price').html(currency + ' ' + item.price().formatMoney({{ CURRENCY.precision }}));
+                        $cartItem.find('.item_price').html(currency + ' ' + item.price().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                         $cartItem.find('.item_quantity').text(item.quantity());
-                        $cartItem.find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}));
+                        $cartItem.find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                         $cartItem.insertBefore('.cart-item.tpl');
                         $.getJSON("{% url 'shopping:check_stock_single' %}", {product_id: item.id(), qty: item.quantity()}, function(resp) {
                             if (resp.insufficient) {
@@ -269,8 +269,8 @@
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
                     $('div#delivery .price .currency').html(simpleCart.currency().symbol);
-                    $('div#delivery .price .val').text(deliveryCost.formatMoney({{ CURRENCY.precision }}));
-                    $('.co.total .price .val').text(total.formatMoney({{ CURRENCY.precision }}));
+                    $('div#delivery .price .val').text(deliveryCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $('.co.total .price .val').text(total.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     $('#delivery-option-id').val(delOptId)
                 }).on('click', '.start-checkout', function() {
                     var deliveryOptionId = $('.delivery-option.active').data('id'),
