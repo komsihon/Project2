@@ -115,15 +115,15 @@
     </div>
     {% if products_page.paginator.num_pages > 1 %}
     <ul class="pagination">
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        <li class="disabled"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
         {% for page in products_page.paginator.page_range %}
             <li class="{% if page == products_page.number %}active{% endif %}" data-val="{{ page }}">
-                <a href="#">
+                <a href="javascript:;">
                     {{ page }} {% if page == products_page.number %}<span class="sr-only">(current)</span>{% endif %}
                 </a>
             </li>
         {% endfor %}
-        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+        <li><a href="javascript:;" aria-label="Next"><span aria-hidden="true">»</span></a></li>
     </ul>
     {% endif %}
 </div>

@@ -213,11 +213,11 @@
             {% endif %}
 
             $('#product-results').on('change', '.order-by', loadResults)
-                    .on('click', '.pagination li', function() {
-                        $('.pagination li').removeClass('active');
-                        $(this).addClass('active');
-                        loadResults();
-                    });
+            .on('click', '.pagination li', function() {
+                $('.pagination li').removeClass('active');
+                $(this).addClass('active');
+                loadResults();
+            });
 
 
             function loadResults() {
