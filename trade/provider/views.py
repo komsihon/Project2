@@ -11,6 +11,8 @@ from django.db.models import F
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import gettext as _
+from django.views.generic import TemplateView
+from ikwen.accesscontrol.models import Member
 from ikwen_kakocase.kako.models import Product
 
 from ikwen.core.constants import CONFIRMED, PENDING
@@ -18,7 +20,8 @@ from ikwen_kakocase.shopping.utils import after_order_confirmation
 from ikwen_kakocase.shopping.models import Customer
 
 from ikwen.core.utils import add_event, increment_history_field, get_service_instance, \
-    add_database_to_settings, get_mail_content, set_counters, rank_watch_objects, slice_watch_objects
+    add_database_to_settings, get_mail_content, set_counters, rank_watch_objects, slice_watch_objects, \
+    calculate_watch_info
 
 from ikwen.core.models import Service
 from ikwen.accesscontrol.backends import UMBRELLA
@@ -329,4 +332,29 @@ class ProviderDashboard(KakocaseDashboardBase):
             'last_28_days': rank_watch_objects(customers_last_28_days, 'turnover_history', 28)
         }
         context['customers_report'] = customers_report
+        return context
+
+
+class CCMDashboard(TemplateView):
+    template_name = 'trade/provider/ccm_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CCMDashboard, self).get_context_data(**kwargs)
+        service = get_service_instance()
+        CA = service.turnover_history[0]
+        set_counters(service)
+        community_today = calculate_watch_info(service.community_history)
+        community_yesterday = calculate_watch_info(service.community_history, 1)
+        community_last_week = calculate_watch_info(service.community_history, 7)
+        community_last_28_days = calculate_watch_info(service.community_history, 28)
+        community_report = {
+            'today': community_today,
+            'yesterday': community_yesterday,
+            'last_week': community_last_week,
+            'last_28_days': community_last_28_days
+        }
+        joins = Member.objects.all().order_by('-date_joined')[:5]
+        context['community_report'] = community_report
+        context['last_joined'] = joins
+        context['ca'] = CA
         return context

@@ -192,7 +192,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .header-xs .action .badge {position: absolute;z-index: 3;font-size: 10px;}
 .nav-xs {background: #ffffff8c;height: 55px;width: 100%;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);position: fixed;visibility: hidden;z-index: 0;top: 45px;}
-.nav-xs.appear {visibility: visible;z-index: 3;}
+.nav-xs.appear {visibility: visible;z-index: 11;/* background: #000; */}
 
 .top-edge-panel span.label.label-danger.simpleCart_quantity { margin: 11px -137px;position: absolute;}
 /*.nav-xs.diappear {visibility: hidden;}*/
@@ -657,7 +657,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .product-about .add {float: left; margin-top: 20px}
     .product-about .product-price {font-size: 1.2em}
     .modal-content .my-cart-btn.my-cart-b {margin-top: -5px; width: 160px}
-    .single-right.simpleCart_shelfItem .my-cart-b {min-width: auto; width: 165px;margin-top: -62px;text-align: center;font-size: 12px;padding: .8em 0;}
+    .single-right.simpleCart_shelfItem .my-cart-b {min-width: auto;width: 165px;margin-top: -62px;text-align: center;font-size: 12px;padding: .8em 0;}
     .single-right .details {padding-left: 15px;padding-right: 10px;float: left;clear: both; width: 100%}
 }
 

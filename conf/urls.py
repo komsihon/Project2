@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from ikwen.accesscontrol.views import SignIn
 from ikwen_kakocase.shopping.views import Home, FlatPageView
 
-from ikwen_kakocase.trade.provider.views import ProviderDashboard
+from ikwen_kakocase.trade.provider.views import ProviderDashboard, CCMDashboard
 from ikwen_kakocase.trade.views import RetailerDashboard, LogicomDashboard
 from ikwen_kakocase.kakocase.views import MerchantList
 
@@ -39,6 +39,7 @@ urlpatterns = patterns(
     url(r'^currencies/', include('currencies.urls')),
 
     url(r'^ikwen/dashboard/$', permission_required('trade.ik_view_dashboard')(Dashboard.as_view()), name='dashboard'),
+    url(r'^ikwen/CCMDashboard/$', permission_required('trade.ik_view_dashboard')(CCMDashboard.as_view()), name='ccm_dashboard'),
     url(r'^ikwen/theming/', include('ikwen.theming.urls', namespace='theming')),
     url(r'^ikwen/cashout/', include('ikwen.cashout.urls', namespace='cashout')),
     url(r'^ikwen/', include('ikwen.core.urls', namespace='ikwen')),
@@ -48,3 +49,4 @@ urlpatterns = patterns(
     url(r'^$', LandingPage.as_view(), name='home'),
     url(r'^', include('ikwen_kakocase.shopping.urls', namespace='shopping')),
 )
+

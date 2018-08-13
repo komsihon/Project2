@@ -41,8 +41,8 @@
                 </div>
                 <div class="divider"></div>
                     <ul class="nav nav-pills nav-stacked">
-                            <li><a href="{% url 'shopping:home' %}">{% trans 'Store' %}</a></li>
-                            <li><a href="{% url 'blog:home' %}">Blog</a></li>
+                        <li><a href="{% url 'shopping:home' %}">{% trans 'Order now' %}</a></li>
+                        <li><a href="{% url 'blog:home' %}">Blog</a></li>
                         {% if agreement_page %}
                             <li><a href="{% url 'flatpage' agreement_page.url %}">{{ agreement_page.title }}</a></li>
                         {% endif %}

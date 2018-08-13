@@ -1,0 +1,196 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/css/dashboard.css' %}" />
+    <style>
+        .ccm {}
+        .ccm .top {float: left; width: 100%}
+        .ccm .top .worth {}
+        .ccm .top .worth .estimated {border: solid 1px #ddd; float: left;padding: 7px 20px}
+        .ccm .top .worth .cntr {border: solid 1px #ddd; border-radius: 3px; float: left; height: 25px; max-width: 300px; width: 100%}
+        .ccm .top .worth .cntr .used {background-color: #319dd5; height: 24px; max-width: 300px; width: 145px}
+        .ccm .top .worth span {margin-left: 12px}
+        .community {}
+        .community .used {border: solid 1px #DDD; float: right; padding: 7px 20px}
+        .community .used i {float: left; font-size: 15px}
+        .community .used span {float: left; margin-left: 12px}
+        .ccm .middle {clear: both; float: left; margin-top: 35px; width: 100%}
+        .ccm .middle  .actions {clear: both; margin: 50px auto; }
+        .ccm .middle  .actions a {padding: 7px 25px; font-weight: 600}
+        .page-card {border: solid 1px #DDD; height: 250px;}
+        .last-joins li {list-style-type: none; padding: 5px 0}
+        @media (max-width: 767px) {
+            .page-card {border: solid 1px #DDD; height: 250px; width: 100%}
+            .btn-ctnr {border: solid 1px transparent;  width: 100%}
+            .btn-ctnr a {width: 100%}
+            .btn-ctnr a:last-child {margin: 35px 0}
+        }
+        @media (min-width: 992px) {
+            .page-card, .btn-ctnr {margin: auto; width: 450px}
+        }
+    </style>
+{% endblock %}
+
+{% block admin_content %}
+
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div class="ccm">
+                <div class="top">
+                    <div class="worth col-sm-6">
+{#                        <div class="cntr">#}
+{#                            <div class="used"></div>#}
+{#                        </div>#}
+                        <div class="estimated">
+                            <i class="fa fa-certificate" style="font-size: 18px;"></i>
+                            <span class="hidden-xs">{% trans "Estimated worth" %}: </span>
+                            <span>$60</span>
+                        </div>
+
+                    </div>
+
+                    <div class="community col-sm-6">
+                        <div class="used">
+                            <i class="fa fa-line-chart"></i>
+                            <span class="ca">4 3854</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle">
+                    <div class="page-card">
+
+                    </div>
+                    <div class="actions">
+                        <div class="btn-ctnr">
+                            <a class="btn btn-sm btn-success fcbk" href="http://www.ikwen.com/tsunami/">{% trans "Launch Facebook Campaign" %}</a>
+                            <a class="btn btn-sm btn-primary mailing" href="#" style="float: right">{% trans "Launch e-mailing Campaign" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="clear: both">
+                <div class="col-xs-6 col-sm-3 watch">
+                    <h5>{% trans "Today" %}</h5>
+                    <div>
+                        <span style="font-size: 30px">{{ community_report.today.total|intcomma }}</span>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-3 watch">
+                    <h5>{% trans "Yesterday" %}</h5>
+                    <div>
+                        <span>{{ community_report.yesterday.total|intcomma }}</span>
+                        {% if community_report.yesterday.change and community_report.yesterday.change > 0 %}
+                            <div class="arrow up"></div>
+                        {% elif community_report.yesterday.change and community_report.yesterday.change < 0 %}
+                            <div class="arrow down"></div>
+                        {% endif %}
+                    </div>
+                    {% if community_report.yesterday.change and community_report.yesterday.change > 0 %}
+                        <p class="change up">{{ community_report.yesterday.change|intcomma }}
+                            (+{{ community_report.yesterday.change_rate|floatformat:"2" }}%)</p>
+                    {% elif community_report.yesterday.change and community_report.yesterday.change < 0 %}
+                        <p class="change down">{{ community_report.yesterday.change|intcomma }}
+                            ({{ community_report.yesterday.change_rate|floatformat:"2"  }}%)</p>
+                    {% else %}
+                        <p class="change text-muted">---</p>
+                    {% endif %}
+                    <p class="vs">{% trans "vs same day last week" %}</p>
+                </div>
+                <div class="col-xs-6 col-sm-3 watch">
+                    <h5>{% trans "Last week" %}</h5>
+                    <div>
+                        <span>{{ community_report.last_week.total|intcomma }}</span>
+                        {% if community_report.last_week.change and community_report.last_week.change > 0 %}
+                            <div class="arrow up"></div>
+                        {% elif community_report.last_week.change and community_report.last_week.change < 0 %}
+                            <div class="arrow down"></div>
+                        {% endif %}
+                    </div>
+                    {% if community_report.last_week.change and community_report.last_week.change > 0 %}
+                        <p class="change up">{{ community_report.last_week.change|intcomma }}
+                            (+{{ community_report.last_week.change_rate}}%)</p>
+                    {% elif community_report.last_week.change and community_report.last_week.change < 0 %}
+                        <p class="change down">{{ community_report.last_week.change|intcomma }}
+                            ({{ community_report.last_week.change_rate|floatformat:"2" }}%)</p>
+                    {% else %}
+                        <p class="change text-muted">---</p>
+                    {% endif %}
+                    <p class="vs">{% trans "vs previous 7 days" %}</p>
+                </div>
+                <div class="col-xs-6 col-sm-3 watch">
+                    <h5 title="{% trans "Last 28 days" %}">{% trans "Last 28 days" %}</h5>
+                    <div>
+                        <span>{{ community_report.last_28_days.total|intcomma }}</span>
+                        {% if community_report.last_28_days.change and community_report.last_28_days.change > 0 %}
+                            <div class="arrow up"></div>
+                        {% elif community_report.last_28_days.change and community_report.last_28_days.change < 0 %}
+                            <div class="arrow down"></div>
+                        {% endif %}
+                    </div>
+                    {% if community_report.last_28_days.change and community_report.last_28_days.change > 0 %}
+                        <p class="change up">{{ community_report.last_28_days.change|intcomma }}
+                            (+{{ community_report.last_28_days.change_rate }}%)</p>
+                    {% elif community_report.last_28_days.change and community_report.last_28_days.change < 0 %}
+                        <p class="change down">{{ community_report.last_28_days.change|intcomma }}
+                            ({{ community_report.last_28_days.change_rate|floatformat:"2" }}%)</p>
+                    {% else %}
+                        <p class="change text-muted">---</p>
+                    {% endif %}
+                    <p class="vs">{% trans "vs previous 28 days" %}</p>
+                </div>
+            </div>
+
+            <h5 class="section-title perf">
+                <span style="float: left">{% trans "Last joins" %}</span>
+            </h5>
+            <div class="row performances" style="clear: both">
+                <div class="col-sm-6">
+                    <div style="float: left">
+                        <div class="ranking">
+{#                            <em class="report">{{ community_count }}</em>#}
+                            <ul style="padding: 0">
+                                {% for member in last_joined %}
+                                    {% url 'ikwen:profile' member.id as member_url %}
+                                    <li><a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a> </li>
+
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="contact-us" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title"  style="">{% trans "" %}</h2>
+                </div>
+                <div class="modal-body">
+                    <div class='input-block' style="margin-top: 15px">
+                       <p class="text" style="font-size: 22px; padding: 10px 14px">{% trans "Enter your e-mail address below and we will contact you for commodities" %}</p>
+                        <input id="email" maxlength="100" name="email" type="email" placeholder="you@domain.com" class="form-control input-lg">
+                    </div>
+                    <div style="margin-top: 30px">
+                        <div class="col-xs-12 col-sm-6 save-block" style="float: none; margin: auto">
+                            <button href="" class="btn btn-warning btn-block btn-lg save" >{% trans "Submit" %}</button>
+                        </div>
+                        <div class="success-panel">
+                            <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="" style="margin: auto;">
+                            <p class="text-muted">{% trans "Thank you !" %}</p>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

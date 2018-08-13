@@ -290,6 +290,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <!-- Additional required wrapper -->
                 <div class="xs-swiper-container">
                     <ul class="nav swiper-wrapper">
+
+                    <li class="swiper-slide level1">
+                        <a href="{% url 'webnode:home' %}">Home</a>
+                    </li>
+                    <li class="swiper-slide level1">
+                        <a href="{% url 'shopping:home' %}">Order now</a>
+                    </li>
                          {% for smart_category in smart_categories_level2 %}
                              <li class="swiper-slide level2"><a
                                     href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>

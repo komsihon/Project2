@@ -15,6 +15,9 @@
             <link href="{% static 'webnode/css/improve/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/responsive.css' %}" rel="stylesheet">
             <link href="{% static 'kakocase/css/edge-pannel.css' %}" rel="stylesheet">
+
+            <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
             <link href="{% static 'webnode/css/improve/base.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/tchopety/yamo.css' %}" rel="stylesheet">
 {#            {% if config.theme %}#}
@@ -54,6 +57,8 @@
         #side-nav .nav-stacked {clear: both; float: left; padding-top: 15px; width: 100%; margin-top: 199px;}
         #side-nav .nav-stacked li a {font-weight: 700; color: #5f0000; font-size: 14px;}
         .social-icon i {color: #5f0000; font-size: 30px;}
+        .nav-xs.appear {
+            z-index: 10;}
         @media (max-width: 767px){
             #side-nav .panel-top .cover .company .name {float: right;}
             .bottom-cntr {position: absolute; margin-top: 160px; right: 10px;}
@@ -132,6 +137,28 @@
                                 <button class="btn-sm" style="background: #a40009; border: #a40009; color: #fff; font-size: 15px; font-weight: 600 ">{% trans "Login" %}</button>
                             </a></li>
                             <li class="visible-xs"><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                        {% else %}
+
+                            <div class="action dropdown" style="float: right; width: 20px">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="true">
+                                        <div class="button-hover-handler"><i class="fa fa-user" style=" margin-left: 11px; margin-top: 3px; font-size: 20px"></i></div>
+                                    </a>
+
+
+                                <ul class="user-menu dropdown-menu" aria-labelledby="user-menu" style="left: -120px">
+                                    <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                    <li role="separator" class="divider"></li>
+                                    {% if user.is_staff %}
+                                        <li>
+                                            <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                        </li>
+                                    {% endif %}
+                                    <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                        <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                    </li>
+                                    <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                </ul>
+                            </div>
                         {% endif %}
                         </ul>
                     </div>
@@ -197,7 +224,6 @@
                                     <i class="fa fa-user-circle" style="margin-right: 0"></i>
                                 </a>
                             </div>
-
                         {% endif %}
                     </div>
                 </div>
@@ -212,7 +238,7 @@
                         <div class="widget">
                             <h3>{{ service.project_name }}</h3>
                             <ul>
-				                <li><a href="{% url 'shopping:home' %}">{% trans 'Store' %}</a></li>
+				                <li><a href="{% url 'shopping:home' %}">{% trans 'Order now' %}</a></li>
                             	<li><a href="{% url 'blog:home' %}">Blog</a></li>
                                 {% if config.allow_shopping and config.show_prices %}
                                     <li><a href="{% url 'shopping:cart' %}">{% trans "Checkout" %}</a></li>
@@ -235,7 +261,7 @@
                             <h3>{% trans 'About' %}</h3>
                             <ul>
                                  {% if config.address %}<li><a href="#">{{ config.short_description }}</a></li>{% endif %}
-				
+
                             <div class="social-icon">
                                 {% if config.facebook_link %}
                                     <a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook-official"></i></a>
@@ -291,6 +317,37 @@
             </div>
         </footer><!--/#footer-->
 
+        <div class="visible-xs nav-xs">
+            <!-- Additional required wrapper -->
+            <div class="xs-swiper-container">
+                <ul class="nav swiper-wrapper">
+                    {% for smart_category in smart_categories_level2 %}
+                         <li class="swiper-slide level2"><a
+                                href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+                         </li>
+                    {% endfor %}
+                    {% for smart_category in smart_categories_level1 %}
+                        <li class="swiper-slide level1">
+                            <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+                        </li>
+                    {% endfor %}
+                    {% for category in menu_categories %}
+                        <li class="swiper-slide">
+                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                        </li>
+                    {% endfor %}
+                    {% for category in quick_access_categories %}
+                         <li class="swiper-slide">
+                             <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                         </li>
+                    {% endfor %}
+                </ul>
+            {% if config.can_manage_currencies %}
+                {% include 'shopping/snippets/currency_switcher.html' %}
+            {% endif %}
+            </div>
+        </div>
+
         {% include 'tchopetyamo/webnode/snippets/edge_panel.html' %}
         <div class="edge-swipe-overlay"></div>
         {% block js %}
@@ -319,6 +376,29 @@
                             $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
                         }
                     }));
+                    $('body').on('click', '#toggle-menu-xs-appearance', function () {
+                    reInitTopComponent();
+                    $('.nav-xs').toggleClass('appear')
+                });
+
+
+                function reInitTopComponent() {
+                    $('.header-xs .nav-xs').removeClass('appear');
+                    $('.header-xs .cd-search-trigger').removeClass('search-is-visible');
+                    $('.header-xs .cd-search').removeClass('is-visible');
+                    $('.header-xs .action.dropdown').removeClass('open')
+                }
+                    var mySwiper = new Swiper ('.xs-swiper-container', {
+                        // Optional parameters
+                        direction: 'horizontal',
+                        loop: false,
+                        spaceBetween: 10,
+                        slidePosition: 0,
+                        freeMode: true,
+                        centeredSlides: true,
+            {#            cssWidthAndHeight: false,#}
+                        slidesPerView: 'auto',
+                    })
                 })()
             </script>
         {% endblock %}
