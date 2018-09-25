@@ -124,7 +124,6 @@
                                             {% trans "Homepage" %}
                                         {% endif %}
                                         <i class="fa fa-fw fa-caret-down"></i>
-                                        <span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span>
                                     </a>
                                     <ul id="marketing" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
                                         style="padding-left: 15px">
@@ -133,15 +132,15 @@
                                         </li>
 
                                         <li class="promotion">{% url 'sales:promotion_list' as promotion_list_url %}
-                                            <a href="{{ promotion_list_url }}">{% trans "Promotions" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+                                            <a href="{{ promotion_list_url }}">{% trans "Promotions" %}</a>
 
                                         </li>
                                         <li class="discount">{% url 'sales:promo_code_list' as Promo_code_list_url %}
-                                            <a href="{{ Promo_code_list_url }}">{% trans "Coupons" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+                                            <a href="{{ Promo_code_list_url }}">{% trans "Coupons" %}</a>
 
                                         </li>
                                         <li class="emails">{% url 'sales:email_list' as email_list_url %}
-                                            <a href="{{ email_list_url }}">{% trans "Emails" %}<span class="label label-danger" style="margin-left: 5px; text-transform: capitalize">New</span></a>
+                                            <a href="{{ email_list_url }}">{% trans "Emails" %}</a>
 
                                         </li>
                                     </ul>
@@ -155,12 +154,19 @@
                                         {% url 'kakocase:delivery_options' as delivery_options_url %}
                                         <a href="{{ delivery_options_url }}">{% trans "Delivery Options" %}</a>
                                     </li>
-                                    <li role="presentation" class="banks">
-                                        <a href="{{ partner_list_url }}" title="Partner Banks">
-                                            {% trans "Banks" %}
+                                    <li role="presentation" class="continuous-rewarding">
+                                        {% url 'rewarding:configuration' as rewarding_configuration_url %}
+                                        <a href="{{ rewarding_configuration_url }}" title="Partner Banks">
+                                            {% trans "Continuous Rewarding" %}
                                             <span class="label label-danger" style="text-transform: capitalize">New</span>
                                         </a>
                                     </li>
+{#                                    <li role="presentation" class="banks">#}
+{#                                        <a href="{{ partner_list_url }}" title="Partner Banks">#}
+{#                                            {% trans "Banks" %}#}
+{#                                            <span class="label label-danger" style="text-transform: capitalize">New</span>#}
+{#                                        </a>#}
+{#                                    </li>#}
                                 {% endif %}
                                 {% if settings.IS_BANK %}
                                     <li role="presentation" class="banks">
