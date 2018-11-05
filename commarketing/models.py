@@ -8,7 +8,6 @@ from djangotoolbox.fields import ListField
 from ikwen.core.fields import MultiImageField
 
 from ikwen.core.models import Model, Module
-from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService
 from django.utils.translation import gettext_lazy as _
 
@@ -149,8 +148,6 @@ def sync_module_menu(sender, **kwargs):
     whenever you activate/deactivate the module
     """
     if sender != Module:  # Avoid unending recursive call
-        return
-    if get_service_instance().app.slug == 'webnode':  # This is already managed in WebNode apps
         return
     module = kwargs['instance']
     if module.is_active:
