@@ -21,6 +21,7 @@
         .ccm .middle  .actions a {padding: 7px 25px; font-weight: 600}
         .page-card {border: solid 1px #DDD; height: 250px;}
         .last-joins li {list-style-type: none; padding: 5px 0}
+        .addresses .address {float: left; clear: both; padding: 7px 10px}
         @media (max-width: 767px) {
             .page-card {border: solid 1px #DDD; height: 250px; width: 100%}
             .btn-ctnr {border: solid 1px transparent;  width: 100%}
@@ -40,13 +41,10 @@
             <div class="ccm">
                 <div class="top">
                     <div class="worth col-sm-6">
-{#                        <div class="cntr">#}
-{#                            <div class="used"></div>#}
-{#                        </div>#}
                         <div class="estimated">
                             <i class="fa fa-certificate" style="font-size: 18px;"></i>
                             <span class="hidden-xs">{% trans "Estimated worth" %}: </span>
-                            <span>$60</span>
+                            <span>${{ estimated_worth }}</span>
                         </div>
 
                     </div>
@@ -54,18 +52,18 @@
                     <div class="community col-sm-6">
                         <div class="used">
                             <i class="fa fa-line-chart"></i>
-                            <span class="ca">4 3854</span>
+                            <span class="ca">${{ ca }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="middle">
                     <div class="page-card">
-
+                        <img src="{% static 'kakocase/img/continuous-rew.png' %}" class="img-responsive">
                     </div>
                     <div class="actions">
                         <div class="btn-ctnr">
-                            <a class="btn btn-sm btn-success fcbk" href="http://www.ikwen.com/tsunami/">{% trans "Launch Facebook Campaign" %}</a>
-                            <a class="btn btn-sm btn-primary mailing" href="#" style="float: right">{% trans "Launch e-mailing Campaign" %}</a>
+                            <a class="btn btn-sm btn-success fcbk" href="http://www.ikwen.com/tsunami/">{% trans "Launch SMS Campaign" %}</a>
+                            <a class="btn btn-sm btn-primary mailing" data-toggle="modal" data-target="#modalPush" href="#" style="float: right">{% trans "Launch e-mailing Campaign" %}</a>
                         </div>
                     </div>
                 </div>
@@ -142,13 +140,11 @@
                     <p class="vs">{% trans "vs previous 28 days" %}</p>
                 </div>
             </div>
+            <h5 class="section-title perf"><span style="float: left">{% trans "Last joins" %}</span></h5>
 
-            <h5 class="section-title perf">
-                <span style="float: left">{% trans "Last joins" %}</span>
-            </h5>
             <div class="row performances" style="clear: both">
                 <div class="col-sm-6">
-                    <div style="float: left">
+                    <div style="float: left; width: 100%">
                         <div class="ranking">
 {#                            <em class="report">{{ community_count }}</em>#}
                             <ul style="padding: 0">
@@ -165,32 +161,85 @@
         </div>
     </div>
 
-    <div class="modal fade" id="contact-us" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content modal-info">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h2 class="modal-title"  style="">{% trans "" %}</h2>
+{#    <div class="modal fade" id="contact-us" tabindex="-1" role="dialog">#}
+{#        <div class="modal-dialog" role="document">#}
+{#            <div class="modal-content modal-info">#}
+{#                <div class="modal-header">#}
+{#                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span#}
+{#                            aria-hidden="true">&times;</span></button>#}
+{#                    <h2 class="modal-title"  style="">{% trans "" %}</h2>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{#                    <div class='input-block' style="margin-top: 15px">#}
+{#                       <p class="text" style="font-size: 22px; padding: 10px 14px">{% trans "Enter your e-mail address below and we will contact you for commodities" %}</p>#}
+{#                        <input id="email" maxlength="100" name="email" type="email" placeholder="you@domain.com" class="form-control input-lg">#}
+{#                    </div>#}
+{#                    <div style="margin-top: 30px">#}
+{#                        <div class="col-xs-12 col-sm-6 save-block" style="float: none; margin: auto">#}
+{#                            <button href="" class="btn btn-warning btn-block btn-lg save" >{% trans "Submit" %}</button>#}
+{#                        </div>#}
+{#                        <div class="success-panel">#}
+{#                            <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="" style="margin: auto;">#}
+{#                            <p class="text-muted">{% trans "Thank you !" %}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="clearfix"></div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+
+
+
+    <!--Modal: modalPush-->
+
+<div class="modal fade" id="modalPush" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><strong class="heading" style="font-size: 20px;">{% trans "Contact us for more information" %}</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -27px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="illustration col-sm-4" style="float: left; overflow: hidden">
+                    <img src="{% static 'kakocase/img/contact-us.jpg' %}" style="max-width: 100%">
                 </div>
-                <div class="modal-body">
-                    <div class='input-block' style="margin-top: 15px">
-                       <p class="text" style="font-size: 22px; padding: 10px 14px">{% trans "Enter your e-mail address below and we will contact you for commodities" %}</p>
-                        <input id="email" maxlength="100" name="email" type="email" placeholder="you@domain.com" class="form-control input-lg">
+
+                <div class="addresses col-sm-8">
+                    <div class="address">
+                        <i class="fa fa-phone"></i>
+                        <strong>(+237) 657 833 956 / 652 916 124</strong>
                     </div>
-                    <div style="margin-top: 30px">
-                        <div class="col-xs-12 col-sm-6 save-block" style="float: none; margin: auto">
-                            <button href="" class="btn btn-warning btn-block btn-lg save" >{% trans "Submit" %}</button>
-                        </div>
-                        <div class="success-panel">
-                            <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="" style="margin: auto;">
-                            <p class="text-muted">{% trans "Thank you !" %}</p>
-                        </div>
+                    <div class="address">
+                        <i class="fa fa-whatsapp"></i>
+                        <strong>(+237) 657 833 956 / 652 916 124</strong>
                     </div>
 
-                    <div class="clearfix"></div>
+                    <div class="address">
+                        <i class="fa fa-at"></i>
+                        <strong>contact@ikwen.com</strong>
+                    </div>
+                    <div class="address">
+                        <i class="fa fa-facebook-square"></i>
+                        <strong><a href="http://facebook.com/ikwen">http://facebook.com/ikwen</a></strong>
+                    </div>
+
+                    <div class="address">
+                        <i class="fa fa-globe"></i>
+                        <strong><a href="http://ikwen.com">http://ikwen.com</a></strong>
+                    </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

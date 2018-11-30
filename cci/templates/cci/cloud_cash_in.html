@@ -1,0 +1,216 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens %}
+
+{% block page_title %}<title>{% trans "Cloud cash in" %} - {{ service.project_name }} </title>{% endblock %}
+{% block head_style %}
+    {{ block.super }}
+{#    <link href="{% static 'ikwen/css/console.css' %}" media="screen" rel="stylesheet" type="text/css" />#}
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <style>
+        {#.swiper-slide {border: solid; height: 122px;text-align: center}#}
+        {#.swiper-slide a {display: none; margin-top:80px;}#}
+
+        .swiper-slide .gauge {border: solid 1px transparent; border-radius: 3px; height: 15px; margin-top:140px;position: absolute; width: 85%}
+        .swiper-slide .gauge .level {background: #b60611; float: left; height: 15px; width: 80%}
+        .swiper-slide .gauge .text-level {color: #fff; font-weight: 700; position: absolute; text-align: center; width: 100%}
+        .swiper-wrapper {border: solid 1px #EEE; width: 99.5%}
+
+        #coupons .progress {margin: 0}
+        #coupons .progress-bar {background-color: #4CAF50;}
+        #coupons .join-community {font-weight: 600; width: 180px}
+        .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
+        .coupon-count span {font-size: 26px; font-weight: 700}
+
+         @media only screen
+        and (min-device-width : 768px) {
+            form.cashin-form {margin: auto; width: 56%}
+            .section-title {text-align: center; margin: 0 0 30px}
+        }
+        @media only screen
+         and (min-device-width : 992px) {
+            #admin-content.change-form {padding-top: 100px;}
+        }
+        #success-payment {background: #BCE8C2; border: solid 1px #065818; color: #065818; clear:both;float: left; display: none; font-size: 15px; margin-top: 35px; padding: 15px 20px; text-align: center; width: 100% }
+
+    </style>
+{% endblock %}
+
+
+
+{% block breadcrumb_location %}
+    <li>{% trans "Cloud Cash In" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content"  class="change-form">
+        <div class="container">
+            <form method="post" class="form-horizontal admin-form cashin-form">{% csrf_token %}
+                <input type="hidden" id="customer-id" name="customer_id" />
+                <input type="hidden" id="choosen-coupon" name="choosen-coupon" />
+{#                <div class="container">#}
+                    <div class="col-sm-9 col-md-8">
+                        <h2 class="section-title">{% trans "Cloud cash in" %}</h2>
+                        <div class="form-group row">
+                            <label for="customer-name" class="col-sm-4 col-md-3">{% trans "Customer name" %}</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input id="customer-name" class="form-control input-sm" type="text" autocomplete="off"/>
+                                {{ form.member_id.errors }}
+                                <div class="results customers has-shade" style="display: none; position: absolute; z-index: 2" data-min-search-chars="2">
+                                    {% include 'core/snippets/spinner.html' %}
+                                    <ul style="padding-left: 0">
+                                        <li class="member tpl" style="display: none">
+                                            <div style="display: block">
+                                                <span class="photo logo bg-img" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></span>
+                                                <div style="float: left; margin-left: 30px">
+                                                    <span class="full_name"></span>
+                                                    <p class="about short_description"></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="amount" class="col-sm-4 col-md-3">{% trans "Amount" %}</label>
+                            <div class="col-sm-6 col-md-6">
+                                <input id="amount" class="form-control input-sm" type="number" name="amount"/>
+                                {{ form.project_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+{#                </div>#}
+                <div id="cashin-form"></div>
+
+{#                <div class="container" style="clear: both; margin-top: 2em">#}
+                    <div class="col-md-6 col-md-offset-2" style="margin-top: 30px">
+                        <a class="btn btn-success btn-block cash-in"  data-toggle="modal" data-target="#confirm-payment"> {% trans "Submit" %} </a>
+                    </div>
+{#                </div>#}
+                    <div id="success-payment">{% trans "Your payment was successfully procceded; Thank for your concern" %}</div>
+            </form>
+            <div class="clear"></div>
+            {% include 'cci/snippets/modals.html' %}
+
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+    <script type="text/javascript">
+        (function () {
+            $('#admin-content').on('click', 'li.member', function() {
+                var customerId = $(this).data('id'),
+                    customerName = $(this).find('.full_name').text();
+                $('#customer-id').val(customerId);
+                $('#customer-name').val(customerName);
+            }).on('click', '.deploy', function() {
+                if (!$(this).hasClass('btn-success')) return;
+                $(this).removeClass('btn-success').addClass('btn-default');
+            }).on('click', '.select-coupon', function() {
+                $('.card-li.coupon').removeClass('used')
+                var couponId = $(this).data('id')
+                $('#use-coupon').data('id', couponId)
+                $(this).parents('.card-li.coupon').addClass('used')
+            }).on('click', '#use-coupon', function() {
+                var couponId = $(this).data('id')
+                $('#choosen-coupon').val(couponId)
+                $('.card-li.coupon.used').remove()
+            });
+            $('.results.customers').css('width', $('#customer-name').css('width'));
+            {% url 'ikwen:member_list' as list_members_url %}
+            var searchDescriptor = [{
+                endpoint: '{{ list_members_url|ikwenize }}',
+                resultTplSelector: '.results.customers li.member',
+                jsonp: true,
+                maxChars: function() {
+                    // The max number of characters that will be taken into consideration
+                    // in the string typed by user to do the search. Characters above that
+                    // limit will be ignored.
+                    return Math.max($('#customer-name').val().length, 5);
+                }
+            }];
+
+            $('#admin-content').on('click', 'li.member', function() {
+                var customerId = $(this).data('id'),
+                    customerName = $(this).find('.full_name').text();
+                $('#customer-id').val(customerId);
+                $('#customer-name').val(customerName);
+                getUserCoupon(customerId)
+            });
+            $('#customer-name').focusout(function() {$('.results.customers').fadeOut()});
+
+
+            ikwen.setupSearch('#customer-name', '.results.customers', searchDescriptor);
+
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 0) {
+                    $('#navbar').addClass('has-shade')
+                } else {
+                    $('#navbar').removeClass('has-shade')
+                }
+            });
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 3,
+                spaceBetween: 20,
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                breakpoints: {
+                    992: {
+                        spaceBetween: 15
+                    },
+                    768: {
+                        slidesPerView: 2
+                    },
+                    425: {
+                        slidesPerView: 1
+                    }
+                }
+            });
+            $('#admin-content').on('click', '#save-cashin', function(e) {
+                var amount = $('#amount').val(),
+                    customer_id = $('#customer-id').val(),
+                    coupon_id = $("#choosen-coupon").val()
+                if(amount === "") amount = 0
+                if(customer_id === ""){
+                    $("#incomplete-data").modal()
+                    return false
+                }
+                saveCCI(amount, customer_id, coupon_id)
+            })
+
+            function saveCCI(amount, customer_id, coupon_id) {
+                var endpoint = "{% url 'cci:save_cci' %}";
+                var params = {format: 'json', amount: amount, customer_id: customer_id, coupon_id: coupon_id};
+                $('body, button.confirm').css('cursor','wait');
+                $.getJSON(endpoint, params, function(data) {
+                    $('body, button.confirm').css('cursor','default');
+                    if (data.error) {
+                        $('div#top-notice-ctnr span').html(data.error).addClass('failure');
+                        $('#top-notice-ctnr').fadeIn().delay(5000).fadeOut();
+                    } else {
+                        $('form input').val('');
+                        $('div#success-payment').fadeIn().show().delay(15000).fadeOut()
+                        {# $('div#top-notice-ctnr span').html("Your payment was successfully procceeded. <b>Thanks for your concern</b>");#}
+                        {# $('#top-notice-ctnr').fadeIn().delay(5000).fadeOut();#}
+                    }
+                    return false
+                });
+            }
+            function getUserCoupon(customer_id) {
+                var  query = '?customer_id=' + customer_id,
+                     url = '{% url 'cci:get_user_coupon' %}' + query;
+                $('div#cashin-form .spinner').fadeIn();
+                $('div#cashin-form').load(url, function() {
+                    $('div#cashin-form .spinner').fadeOut();
+                });
+            }
+
+        })()
+    </script>
+    {{ config.scripts|safe }}
+{% endblock %}

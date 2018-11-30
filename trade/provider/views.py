@@ -343,6 +343,7 @@ class CCMDashboard(TemplateView):
         service = get_service_instance()
         CA = service.turnover_history[0]
         set_counters(service)
+        community_count = Member.objects.filter(is_active=True).count()
         community_today = calculate_watch_info(service.community_history)
         community_yesterday = calculate_watch_info(service.community_history, 1)
         community_last_week = calculate_watch_info(service.community_history, 7)
@@ -354,7 +355,8 @@ class CCMDashboard(TemplateView):
             'last_28_days': community_last_28_days
         }
         joins = Member.objects.all().order_by('-date_joined')[:5]
+        context['estimated_worth'] = 0
         context['community_report'] = community_report
         context['last_joined'] = joins
-        context['ca'] = CA
+        context['ca'] = CA/community_count
         return context

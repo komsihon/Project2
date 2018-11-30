@@ -1,0 +1,112 @@
+- model: accesscontrol.member
+  pk: 56eb6d04b37b3379b531e011
+  fields:
+    username: arch
+    email: arch@ikwen.com
+    password: pbkdf2_sha256$12000$nNK3SeCKYSvl$CuoviZNeie9YzaWhukVCi9iQtNmpu3QBbK2yHGHEUxc=  # admin
+    phone: 677000001
+    is_iao: Yes
+    is_superuser: Yes
+    is_bao: Yes
+    first_name: Arch
+    last_name: Soft
+    full_name: Soft Arch
+    email_verified: Yes
+    gender: Male
+    collaborates_on_fk_list: [56eb6d04b37b3379b531b101]
+    tags: member1 arch
+
+- model: accesscontrol.member
+  pk: 56eb6d04b37b3379b531e012
+  fields:
+    username: member2
+    email: member2@ikwen.com
+    password: pbkdf2_sha256$12000$nNK3SeCKYSvl$CuoviZNeie9YzaWhukVCi9iQtNmpu3QBbK2yHGHEUxc=  # admin
+    phone: 677000002
+    first_name: Tamo
+    is_iao: Yes
+    is_superuser: Yes
+    is_bao: Yes
+    gender: Male
+    email_verified: Yes
+    customer_on_fk_list: [56eb6d04b37b3379b531b101]
+    collaborates_on_fk_list: [56eb6d04b37b3379b531b102]
+    tags: member2
+
+- model: accesscontrol.member
+  pk: 56eb6d04b37b3379b531e013
+  fields:
+    username: member3
+    email: member3@ikwen.com
+    password: pbkdf2_sha256$12000$nNK3SeCKYSvl$CuoviZNeie9YzaWhukVCi9iQtNmpu3QBbK2yHGHEUxc=  # admin
+    phone: 677000003
+    first_name: Foka
+    last_name: Tchuendom
+    full_name: Foka Tchuendom
+    gender: Male
+    collaborates_on_fk_list: [56eb6d04b37b3379b531b101]
+    tags: member3
+
+- model: accesscontrol.member
+  pk: 56eb6d04b37b3379b531e014
+  fields:
+    username: member4
+    email: member4@ikwen.com
+    password: pbkdf2_sha256$12000$nNK3SeCKYSvl$CuoviZNeie9YzaWhukVCi9iQtNmpu3QBbK2yHGHEUxc=  # admin
+    phone: 677000004
+    first_name: Simo
+    last_name: Tchuente
+    full_name: Simo Tchuente
+    gender: Female
+    collaborates_on_fk_list: [56eb6d04b37b3379b531b102]
+    tags: member4
+
+- model: auth.group
+  pk: 5804b37b3379b531e01eb6d1
+  fields:
+    name: Sudo
+
+- model: auth.group
+  pk: 5804b37b3379b531e01eb6d2
+  fields:
+    name: Collabo
+
+- model: auth.group
+  pk: 5804b37b3379b531e01eb6d3
+  fields:
+    name: Community
+
+- model: kakocase.operatorprofile
+  pk: 56922874b37b33706b51f005
+  fields:
+    service: 56eb6d04b37b3379b531b102
+    rel_id: 500
+    payment_delay: Straight
+    company_name: Campost
+    company_name_slug: campost
+    business_type: Logistics
+    city: Yaounde
+    items_traded_history: [18, 9, 57, 23, 46]
+    turnover_history: [33800, 22700, 204150, 40890, 70235]
+    earnings_history: [33800, 22700, 204150, 40890, 70235]
+    orders_count_history: [11, 4, 41, 15, 27]
+    return_url: http://localhost/kakocase/test_return_url
+    ikwen_share_rate: 2
+
+- model: kakocase.operatorprofile
+  pk: 56922874b37b33706b51f007
+  fields:
+    service: 56eb6d04b37b3379b531b107
+    rel_id: 700
+    payment_delay: Straight
+    company_name: AFIC FINANCE
+    company_name_slug: aficfinance
+    contact_email: contact@aficfinance.cm
+    business_type: Bank
+    city: Yaounde
+    items_traded_history: [18, 9, 57, 23, 46]
+    turnover_history: [33800, 22700, 204150, 40890, 70235]
+    earnings_history: [33800, 22700, 204150, 40890, 70235]
+    orders_count_history: [11, 4, 41, 15, 27]
+    return_url: http://localhost/kakocase/test_return_url
+    ikwen_share_rate: 2

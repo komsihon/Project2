@@ -41,6 +41,7 @@ urlpatterns = patterns(
     url(r'^echo/', include('echo.urls', namespace='echo')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^currencies/', include('currencies.urls')),
 
     url(r'^ikwen/dashboard/$', permission_required('trade.ik_view_dashboard')(Dashboard.as_view()), name='dashboard'),

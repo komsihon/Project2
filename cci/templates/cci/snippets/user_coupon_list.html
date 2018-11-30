@@ -1,0 +1,44 @@
+{% load i18n humanize static auth_tokens %}
+
+<div id="coupons" class="card-ul col-sm-10">
+    <div class="card">
+        <div class="row">
+            <div class="row swiper-container" style="margin-top: 5px">
+                <div class="swiper-wrapper">
+                    {% for coupon in coupons %}
+                        <div class="col-xs-4 col-sm-3 card-li coupon swiper-slide"  data-id="{{ coupon.id }}" style="text-align: center">
+                            <div>
+                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({% get_media_prefix %}{{ coupon.image.name }})">
+                                    {% if coupon.count < 100 %}
+                                    <div class="text-has-shade coupon-count">
+                                        <span>{{ coupon.count }}</span>/100
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if coupon.count < 100 %}
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{ coupon.count }}%">
+                                        <span class="sr-only">{{ coupon.count }}% Complete</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <p style="margin-top: 5px">{{ coupon.name }}</p>
+                                {% if coupon.count >= 100 %}
+                                    <a class="btn btn-sm btn-block btn-warning select-coupon" data-id="{{ coupon.id }}" data-toggle="modal" data-target="#confirm-coupon-usage" style="margin-top: -30px">
+                                        {% trans "Use this coupon" %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                    <div class="swiper-button-next has-shade">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                    <div class="swiper-button-prev has-shade">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
