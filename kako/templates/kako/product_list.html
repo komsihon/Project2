@@ -239,8 +239,18 @@
             {% endif %}
             {% if request.GET.smart_link %}
                 $('.glyphicon-link').click(function() {
-                    var selection = $('#selection-control').data('selection');
-                    window.location = '{% url 'marketing:set_smart_object_content' 'add' %}?smart_object_id={{ smart_object.id }}&selection=' + selection;
+                    var selection = $('#selection-control').data('selection'),
+                        link;
+                    {% if request.GET.revival %}
+                        {% if request.GET.smart_object_id %}
+                            link = '{% url 'revival:change_profiletag' request.GET.smart_object_id %}?items_fk_list=' + selection;
+                        {% else %}
+                            link = '{% url 'revival:change_profiletag' %}?items_fk_list=' + selection;
+                        {% endif %}
+                    {% else %}
+                        link = '{% url 'marketing:set_smart_object_content' 'add' %}?smart_object_id={{ smart_object.id }}&selection=' + selection;
+                    {% endif %}
+                    window.location = link;
                 });
                 {% for product_id in smart_object.items_fk_list %}
                     $('#{{ product_id }} .select').click();

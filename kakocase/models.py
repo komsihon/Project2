@@ -30,6 +30,7 @@ ORDER_SHIPPED_EVENT = 'OrderShippedEvent'
 ORDER_PACKAGED_EVENT = 'OrderPackagedEvent'  # Case of Pick up in store
 PRODUCTS_LIMIT_ALMOST_REACHED_EVENT = 'ProductsLimitAlmostReached'
 PRODUCTS_LIMIT_REACHED_EVENT = 'ProductsLimitReached'
+PRODUCT_PUBLISHED_EVENT = 'ProductPublished'
 # End Code names
 
 

@@ -175,10 +175,6 @@
                     </div>
                     <div class="clearfix"> </div>
                 </div>
-                <script>
-                    (function () {
-                    })()
-                </script>
             </div>
         </div>
     </div>
@@ -213,9 +209,9 @@
             {% endif %}
 
             $('#product-results').on('change', '.order-by', loadResults)
-            .on('click', '.pagination li', function() {
+            .on('click', '.pagination li a', function() {
                 $('.pagination li').removeClass('active');
-                $(this).addClass('active');
+                $(this).parent().addClass('active');
                 loadResults();
             });
 

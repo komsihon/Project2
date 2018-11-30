@@ -22,7 +22,7 @@ from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import SUDO, Member
 from ikwen.billing.models import Invoice, PaymentMean, InvoicingConfig
 from ikwen.billing.utils import get_next_invoice_number
-from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, MEDIA_ROOT, MEDIA_URL
+from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, CLUSTER_MEDIA_ROOT, CLUSTER_MEDIA_URL
 from ikwen.core.models import Service, OperatorWallet, SERVICE_DEPLOYED
 from ikwen.core.tools import generate_django_secret_key, generate_random_key, reload_server
 from ikwen.core.utils import add_database_to_settings, add_event, get_mail_content, \
@@ -105,8 +105,8 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     # Create a copy of template application in the Cloud folder
     app_folder = CLOUD_HOME + '000Tpl/AppSkeleton'
     website_home_folder = CLOUD_FOLDER + ikwen_name
-    media_root = MEDIA_ROOT + ikwen_name + '/'
-    media_url = MEDIA_URL + ikwen_name + '/'
+    media_root = CLUSTER_MEDIA_ROOT + ikwen_name + '/'
+    media_url = CLUSTER_MEDIA_URL + ikwen_name + '/'
     default_images_folder = CLOUD_FOLDER + '000Tpl/images/000Default'
     theme_images_folder = CLOUD_FOLDER + '000Tpl/images/%s/%s' % (theme.template.slug, theme.slug)
     if os.path.exists(theme_images_folder):

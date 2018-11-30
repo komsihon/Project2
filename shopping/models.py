@@ -70,6 +70,11 @@ class Customer(AbstractWatchModel):
     total_earnings = models.IntegerField(default=0)
 
 
+class CustomerWallet(Model):
+    member_id = models.CharField(max_length=24, db_index=True)
+    balance = models.IntegerField(default=0)
+
+
 class DeliveryAddress(Model):
     name = models.CharField(max_length=100)
     country = models.ForeignKey(Country, blank=True, null=True)

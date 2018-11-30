@@ -3,7 +3,6 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import EmbeddedModelField, ListField
-from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.sales.models import PromoCode
 
 from ikwen.partnership.models import ApplicationRetailConfig
@@ -13,6 +12,7 @@ from ikwen.accesscontrol.models import Member
 from ikwen.billing.models import AbstractSubscription, PaymentMean
 from ikwen.core.models import Model, Service
 from ikwen.core.utils import to_dict, add_database_to_settings, get_service_instance
+from ikwen.rewarding.models import Coupon
 from ikwen_kakocase.kakocase.models import OperatorProfile
 from ikwen_kakocase.shopping.models import AnonymousBuyer
 from ikwen_kakocase.trade.utils import generate_tx_code
@@ -67,7 +67,8 @@ class Order(Model):
     ikwen_delivery_earnings = models.FloatField(default=0)  # Amount ikwen is supposed to earn from delivery company
     eshop_partner_earnings = models.FloatField(default=0)  # Amount partner is supposed to earn at the end
     logicom_partner_earnings = models.FloatField(default=0)  # Amount partner for logistics company is supposed to earn
-    coupon = models.ForeignKey(PromoCode, blank=True, null=True) # Coupon used by user
+    coupon = models.ForeignKey(PromoCode, blank=True, null=True)  # Coupon used by buyer
+    cr_coupon_id = models.CharField(max_length=30, blank=True, null=True)  # ID of CR Coupon  used by buyer if any
 
     def __unicode__(self):
         return self.rcc
@@ -91,6 +92,14 @@ class Order(Model):
         if self.member:
             return self.member
         return self.anonymous_buyer
+
+    def _get_cr_coupon(self):
+        if self.cr_coupon_id:
+            try:
+                return Coupon.objects.using(UMBRELLA).get(pk=self.cr_coupon_id)
+            except Coupon.DoesNotExist:
+                pass
+    cr_coupon = property(_get_cr_coupon)
 
     def get_nvp_api_dict(self):
         address = self.delivery_address

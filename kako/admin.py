@@ -50,6 +50,9 @@ class ProductResource(resources.ModelResource):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    fields = ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER \
+        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'retail_price_is_modifiable',
+              'reference', 'original_id', 'size', 'color', 'weight', 'stock', 'unit_of_measurement', 'min_order', 'badge_text', 'summary', 'description','visible', )
     fieldsets = (
         (None, {'fields': ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER
         else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'retail_price_is_modifiable',

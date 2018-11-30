@@ -27,6 +27,7 @@ from django.utils.translation import gettext as _
 
 from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
 
+from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
@@ -96,7 +97,7 @@ def set_session_data(request, *args, **kwargs):
     request.session['manage_drivy'] = manage_drivy
 
 
-class DeployCloud(TemplateView):
+class DeployCloud(VerifiedEmailTemplateView):
     template_name = 'kakocase/cloud_setup/deploy.html'
 
     def get_context_data(self, **kwargs):

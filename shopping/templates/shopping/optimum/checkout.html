@@ -172,7 +172,9 @@
             </div>
         </div>
     </div>
-    {% include 'billing/snippets/modal_payment_options.html' %}
+    {% with payment_cancel_default='yes' %}
+        {% include 'billing/snippets/modal_payment_options.html' %}
+    {% endwith %}
 {% endblock %}
 {% block js %}
     {{ block.super }}

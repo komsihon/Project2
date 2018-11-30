@@ -26,12 +26,13 @@ from django.views.generic import TemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import SUDO, Member, COMMUNITY
 from ikwen.billing.models import PaymentMean, BankAccount
-from ikwen.billing.mtnmomo.views import MTN_MOMO
-from ikwen.billing.orangemoney.views import ORANGE_MONEY
 from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
 from ikwen.core.views import HybridListView
 from ikwen.flatpages.models import FlatPage
+from ikwen.rewarding.models import Reward
+from ikwen.rewarding.utils import reward_member
+from ikwen.revival.models import ProfileTag, MemberProfile
 from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUCTS, Banner, SLIDE, TILES, POPUP, \
     FULL_WIDTH_SECTION, \
     FULL_SCREEN_POPUP
@@ -66,6 +67,25 @@ class TemplateSelector(object):
         except:
             pass
         return [self.template_name]
+
+
+def add_member_auto_profiletag(request, **kwargs):
+    """
+    Adds an auto profile to member based on the category
+    of product he is visiting.
+    """
+    if request.user.is_authenticated():
+        tag_slug = None
+        if kwargs.get('category_slug'):
+            tag_slug = kwargs.get('category_slug')
+        elif kwargs.get('smart_category_slug'):
+            tag_slug = kwargs.get('smart_category_slug')
+        if tag_slug:
+            ProfileTag.objects.get_or_create(name=tag_slug, slug=tag_slug, is_auto=True)
+            member_profile, update = MemberProfile.objects.get_or_create(member=request.user)
+            if tag_slug not in member_profile.tag_list:
+                member_profile.tag_list.append(tag_slug)
+                member_profile.save()
 
 
 class Home(TemplateSelector, TemplateView):
@@ -160,6 +180,8 @@ class ProductList(TemplateSelector, HybridListView):
         return 2
 
     def get(self, request, *args, **kwargs):
+        # Add this category to Member Profile
+        add_member_auto_profiletag(request, **kwargs)
         q = request.GET.get('q')
         if q:
             try:
@@ -310,6 +332,7 @@ class ProductDetail(TemplateSelector, TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = super(ProductDetail, self).get_context_data(**kwargs)
+        add_member_auto_profiletag(request, **kwargs)
         category_slug = kwargs['category_slug']
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
@@ -633,14 +656,13 @@ def confirm_checkout(request, *args, **kwargs):
         buyer_phone = order.anonymous_buyer.phone
 
     subject = _("Order successful")
-    send_order_confirmation_email(subject, buyer_name, buyer_email, order)
-    config = get_service_instance().config
-    script_url = getattr(settings, 'SMS_API_SCRIPT_URL', config.sms_api_script_url)
-    if script_url:
-        if getattr(settings, 'UNIT_TESTING', False):
-            send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url)
-        else:
-            Thread(target=send_order_confirmation_sms, args=(buyer_name, buyer_phone, order, script_url)).start()
+    reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
+                                                   amount=order.items_cost, model_name='trade.Order')
+    send_order_confirmation_email(subject, buyer_name, buyer_email, order, reward_pack_list=reward_pack_list)
+    if getattr(settings, 'UNIT_TESTING', False):
+        send_order_confirmation_sms(buyer_name, buyer_phone, order)
+    else:
+        Thread(target=send_order_confirmation_sms, args=(buyer_name, buyer_phone, order)).start()
 
     request.session.modified = True
     try:

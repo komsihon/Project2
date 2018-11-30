@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load currency i18n humanize %}
 {% with event_type=event.event_type %}
     <h4 class="text-primary col-xs-12">{% trans event_type.title %}</h4>
     {% if product.image.name %}
@@ -16,6 +16,13 @@
         <p class="col-xs-12">{% trans "A customer tried to order more than the available stock for this product." %}</p>
     {% elif event_type.codename == 'SoldOutEvent' %}
         <p class="col-xs-12">{% trans "This product went out of stock after customer order." %}</p>
+    {% elif event_type.codename == 'ProductPublished' %}
+        <p class="col-xs-12">{{ product.summary|safe }}</p>
+        <p class="col-xs-12" style="margin-top: 15px">
+            <strong class="pull-left">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
+            <a href="{{ event.service.url }}{% url 'shopping:product_detail' product.category.slug product.slug %}"
+               target="_blank" class="btn btn-warning btn-sm btn-block pull-right">{% trans "Buy now" %}</a>
+        </p>
     {% endif %}
 {% endwith %}
 <div class="clear"></div>

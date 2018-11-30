@@ -12,6 +12,7 @@ from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import Member
 from ikwen.core.models import Service, ConsoleEvent
 from ikwen.core.utils import get_service_instance, add_database_to_settings
+from ikwen.revival.models import ProfileTag, ObjectProfile, Revival
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService
 from ikwen_kakocase.kakocase.models import ProductCategory, OperatorProfile
 
@@ -27,6 +28,7 @@ def wipe_test_data(db='default'):
     import ikwen_kakocase.kakocase.models
     import ikwen_kakocase.commarketing.models
     import ikwen.core.models
+    import ikwen.revival.models
     if db != 'default':
         add_database_to_settings(db)
     for name in ('Customer', 'AnonymousBuyer', ):
@@ -49,6 +51,9 @@ def wipe_test_data(db='default'):
         model.objects.using(db).all().delete()
     for name in ('PartnerProfile', 'ApplicationRetailConfig'):
         model = getattr(ikwen.partnership.models, name)
+        model.objects.using(db).all().delete()
+    for name in ('ObjectProfile', 'MemberProfile', 'Revival', 'ProfileTag', 'Target'):
+        model = getattr(ikwen.revival.models, name)
         model.objects.using(db).all().delete()
 
 
@@ -376,10 +381,11 @@ class KakoViewsTestCase(unittest.TestCase):
         """
         copy_service_and_config_to_default_db()
         call_command('loaddata', 'kc_members.yaml', database=UMBRELLA)
+        category_id = '569228a9b37b3301e0706b51'
         self.client.login(username='member3', password='admin')
         response = self.client.post(reverse('kako:change_product'),
                                     {'name': 'New Black Chocolate', 'brand': 'Mambo',
-                                     'category': '569228a9b37b3301e0706b51',
+                                     'category': category_id,
                                      'wholesale_price': '0',
                                      'retail_price': '600',
                                      'min_order': '1',
@@ -392,6 +398,11 @@ class KakoViewsTestCase(unittest.TestCase):
         self.assertIsNone(product.max_price)  # max_price is None
         self.assertEqual(product.retail_price, 600)  # retail_price cannot be bigger than max_price
         self.assertEqual(product.description, 'Some description')
+        category = ProductCategory.objects.get(pk=category_id)
+        tag = '__' + category.slug
+        ProfileTag.objects.get(name=tag, slug=tag, is_auto=True)
+        ObjectProfile.objects.get(model_name='kako.product', object_id=product.id)
+        Revival.objects.using(UMBRELLA).get(service=get_service_instance(), model_name='kako.product', object_id=product.id)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        IS_RETAILER=True, IS_PROVIDER=False)

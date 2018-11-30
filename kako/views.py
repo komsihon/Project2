@@ -1,8 +1,10 @@
 import json
 import os
+from datetime import datetime
 from threading import Thread
 
 from ajaxuploader.views import AjaxFileUploader
+from currencies.context_processors import currencies
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import AdminSite, helpers
@@ -12,7 +14,6 @@ from django.core.files.base import File
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db.models import F
-from django.forms.models import modelform_factory
 from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -27,22 +28,22 @@ from django.views.generic import TemplateView
 from ikwen_kakocase.kakocase.templatetags.media_from_provider import from_provider
 
 from ikwen.core.models import Service
-
 from ikwen.accesscontrol.utils import get_members_having_permission
-
-from ikwen_kakocase.commarketing.models import SmartCategory, Banner
 from ikwen.accesscontrol.templatetags.auth_tokens import append_auth_tokens
-
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import add_database_to_settings, DefaultUploadBackend, get_service_instance, add_event, \
     get_mail_content, get_model_admin_instance
-from ikwen.core.views import HybridListView
+from ikwen.core.views import HybridListView, ChangeObjectBase
+from ikwen.revival.models import ProfileTag, CyclicRevival
+
 from ikwen_kakocase.kako.admin import ProductAdmin, RecurringPaymentServiceAdmin
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService, Photo
 from ikwen_kakocase.kako.utils import create_category, mark_duplicates, get_product_from_url
-from ikwen_kakocase.kakocase.models import OperatorProfile, BusinessCategory, ProductCategory, PROVIDER_REMOVED_PRODUCT_EVENT, \
-    PRODUCTS_LIMIT_ALMOST_REACHED_EVENT, PRODUCTS_LIMIT_REACHED_EVENT
+from ikwen_kakocase.kakocase.models import OperatorProfile, BusinessCategory, ProductCategory, \
+    PROVIDER_REMOVED_PRODUCT_EVENT, PRODUCTS_LIMIT_ALMOST_REACHED_EVENT, PRODUCTS_LIMIT_REACHED_EVENT, \
+    PRODUCT_PUBLISHED_EVENT
 from ikwen_kakocase.kakocase.admin import ProductCategoryAdmin
+from ikwen_kakocase.commarketing.models import SmartCategory, Banner
 
 
 class ProviderList(HybridListView):
@@ -183,91 +184,12 @@ class CategoryList(HybridListView):
         return super(CategoryList, self).get(request, *args, **kwargs)
 
 
-class ChangeCategory(TemplateView):
+class ChangeCategory(ChangeObjectBase):
     template_name = 'kako/change_category.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ChangeCategory, self).get_context_data(**kwargs)
-        category_id = kwargs.get('category_id')  # May be overridden with the one from GET data
-        category_id = self.request.GET.get('category_id', category_id)
-        category = None
-        if category_id:
-            category = get_object_or_404(ProductCategory, pk=category_id)
-            category.items_count = category.product_set.all().count()
-            category.save()
-        category_admin = get_model_admin_instance(ProductCategory, ProductCategoryAdmin)
-        ModelForm = modelform_factory(ProductCategory, fields=('name', 'description', 'badge_text',
-                                                               'appear_in_menu', 'is_active'))
-        form = ModelForm(instance=category)
-        category_form = helpers.AdminForm(form, list(category_admin.get_fieldsets(self.request)),
-                                          category_admin.get_prepopulated_fields(self.request),
-                                          category_admin.get_readonly_fields(self.request, obj=category))
-        context['category'] = category
-        context['model_admin_form'] = category_form
-        return context
-
-    def post(self, request, *args, **kwargs):
-        smart_category_id = self.request.POST.get('smart_category_id')
-        if not smart_category_id:
-            smart_category_id = self.request.GET.get('smart_category_id')
-        category_id = self.request.POST.get('category_id')
-        category = None
-        if category_id:
-            category = get_object_or_404(ProductCategory, pk=category_id)
-        category_admin = get_model_admin_instance(ProductCategory, ProductCategoryAdmin)
-        ModelForm = category_admin.get_form(self.request)
-        form = ModelForm(request.POST, instance=category)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            description = form.cleaned_data['description']
-            badge_text = form.cleaned_data['badge_text']
-            image_url = request.POST.get('image_url')
-            if not category:
-                category = create_category(name)
-            else:
-                category.name = name
-                category.slug = slugify(name)
-                category.items_count = category.product_set.all().count()
-            category.description = description
-            category.badge_text = badge_text
-            if image_url:
-                if not category.image.name or image_url != category.image.url:
-                    filename = image_url.split('/')[-1]
-                    media_root = getattr(settings, 'MEDIA_ROOT')
-                    media_url = getattr(settings, 'MEDIA_URL')
-                    image_url = image_url.replace(media_url, '')
-                    try:
-                        with open(media_root + image_url, 'r') as f:
-                            content = File(f)
-                            destination = media_root + ProductCategory.UPLOAD_TO + "/" + filename
-                            category.image.save(destination, content)
-                        os.unlink(media_root + image_url)
-                    except IOError as e:
-                        if getattr(settings, 'DEBUG', False):
-                            raise e
-                        return {'error': 'File failed to upload. May be invalid or corrupted image file'}
-            category.save()
-            if smart_category_id:
-                try:
-                    smart_category = SmartCategory.objects.get(pk=smart_category_id)
-                    if category.id not in smart_category.items_fk_list:
-                        smart_category.items_fk_list.append(category.id)
-                    smart_category.save()
-                except:
-                    pass
-            if category_id:
-                next_url = reverse('kako:change_category', args=(category_id, ))
-                messages.success(request, _("Category %s successfully updated." % category.name))
-            else:
-                next_url = self.request.REQUEST.get('next')
-                if not next_url:
-                    next_url = reverse('kako:category_list')
-                messages.success(request, _("Category %s successfully created." % category.name))
-            return HttpResponseRedirect(next_url)
-        else:
-            context = self.get_context_data(**kwargs)
-            context['errors'] = form.errors
-            return render(request, self.template_name, context)
+    context_object_name = 'category'
+    auto_profile = True
+    model = ProductCategory
+    model_admin = ProductCategoryAdmin
 
 
 @login_required
@@ -348,13 +270,22 @@ class ProductList(HybridListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
-        if self.request.GET.get('smart_link'):
-            smart_object_id = self.request.GET['smart_object_id']
+        if not self.request.GET.get('smart_link'):
+            return context
+        smart_object_id = self.request.GET['smart_object_id']
+        smart_object = None
+        if self.request.GET.get('revival'):
+            if smart_object_id:
+                try:
+                    smart_object = CyclicRevival.objects.using(UMBRELLA).get(profile_tag_id=smart_object_id)
+                except CyclicRevival.DoesNotExist:
+                    pass
+        else:
             try:
                 smart_object = Banner.objects.get(pk=smart_object_id)
             except Banner.DoesNotExist:
                 smart_object = get_object_or_404(SmartCategory, pk=smart_object_id)
-            context['smart_object'] = smart_object
+        context['smart_object'] = smart_object
         return context
 
     def get_search_results(self, queryset, max_chars=None):
@@ -571,38 +502,18 @@ class ProductPhotoUploadBackend(DefaultUploadBackend):
 product_photo_uploader = AjaxFileUploader(ProductPhotoUploadBackend)
 
 
-class ChangeProduct(TemplateView):
+class ChangeProduct(ChangeObjectBase):
     template_name = 'kako/change_product.html'
-
-    def get_product_admin(self):
-        default_site = AdminSite()
-        product_admin = ProductAdmin(Product, default_site)
-        return product_admin
+    model_admin = ProductAdmin
+    model = Product
+    context_object_name = 'product'
 
     def get_context_data(self, **kwargs):
         context = super(ChangeProduct, self).get_context_data(**kwargs)
-        collection_id = self.request.GET.get('collection_id')
-        if collection_id:
-            try:
-                SmartCategory.objects.get(pk=collection_id)
-                context['is_smart_category'] = True
-            except SmartCategory.DoesNotExist:
-                pass
-        product_id = kwargs.get('product_id', self.request.GET.get('product_id'))
-        product = None
+        product_id = kwargs.get('product_id')
         if product_id:
-            product = get_object_or_404(Product, pk=product_id)
             if self.request.GET.get('duplicate'):
-                product.id = ''
-        product_admin = self.get_product_admin()
-        ModelForm = product_admin.get_form(self.request, obj=product)
-        form = ModelForm(instance=product)
-
-        product_form = helpers.AdminForm(form, list(product_admin.get_fieldsets(self.request)),
-                                         product_admin.get_prepopulated_fields(self.request),
-                                         product_admin.get_readonly_fields(self.request, obj=product))
-        context['product'] = product
-        context['model_admin_form'] = product_form
+                context['product'].id = ''
         return context
 
     @method_decorator(csrf_protect)
@@ -610,13 +521,13 @@ class ChangeProduct(TemplateView):
         service = get_service_instance()
         config = service.config
         product_id = kwargs.get('product_id', request.POST.get('product_id'))
-        product_admin = self.get_product_admin()
-        ModelForm = product_admin.get_form(request)
+        product_admin = get_model_admin_instance(self.model, self.model_admin)
         if product_id:
-            product = get_object_or_404(Product, pk=product_id)
-            form = ModelForm(request.POST, instance=product)
+            obj = self.get_object(**kwargs)
         else:
-            form = ModelForm(request.POST)
+            obj = self.model()
+        model_form = product_admin.get_form(request)
+        form = model_form(request.POST, instance=obj)
         if form.is_valid():
             name = request.POST.get('name')
             category_id = request.POST.get('category')
@@ -643,6 +554,7 @@ class ChangeProduct(TemplateView):
             photos_ids = request.POST.get('photos_ids')
             photos_ids_list = photos_ids.strip(',').split(',') if photos_ids else []
             category = ProductCategory.objects.get(pk=category_id)
+            do_revive = False
             if retail_price and retail_price < wholesale_price:
                 error = _("Retail price cannot be smaller than wholesale price.")
                 context = self.get_context_data(**kwargs)
@@ -660,6 +572,7 @@ class ChangeProduct(TemplateView):
                 if product.retail_price_is_modifiable and retail_price < product.retail_price:
                     product.previous_price = product.retail_price
                     product.on_sale = True
+                    do_revive = True
                 else:
                     product.on_sale = False
                 if product.category != category:
@@ -673,6 +586,13 @@ class ChangeProduct(TemplateView):
                     return render(request, self.template_name, context)
                 category.items_count = category.product_set.all().count() + 1
                 product = Product(units_sold_history=[0])
+                try:
+                    previous_product_add = Product.objects.all().order_by('-id')[0].created_on
+                    diff = datetime.now() - previous_product_add
+                    if diff.days > 3:
+                        do_revive = True
+                except:
+                    do_revive = True
             # if product.id is not None and product.provider != operator:
             #     return HttpResponseForbidden("You don't have permission to access this resource.")
             product.name = name
@@ -731,10 +651,19 @@ class ChangeProduct(TemplateView):
                 next_url = reverse('kako:change_product', args=(product_id, ))
                 messages.success(request, _("Product %s successfully updated." % product.name))
             else:
+                add_event(service, PRODUCT_PUBLISHED_EVENT, object_id=product.id, model='kako.Product')
                 next_url = reverse('kako:product_list')
                 messages.success(request, _("Product %s successfully created." % product.name))
             mark_duplicates(product)
-            next_url = append_auth_tokens(next_url, request)
+            tag = '__' + category.slug
+            category_auto_profile_tag, update = ProfileTag.objects.get_or_create(name=tag, slug=tag, is_auto=True)
+            auto_profiletag_id_list = [category_auto_profile_tag.id]
+            revival_mail_renderer = 'ikwen_kakocase.kako.utils.render_products_added'
+            if product.on_sale:
+                revival_mail_renderer = 'ikwen_kakocase.kako.utils.render_product_on_sale'
+
+            self.save_object_profile_tags(request, product, auto_profiletag_id_list=auto_profiletag_id_list,
+                                          do_revive=do_revive, revival_mail_renderer=revival_mail_renderer, **kwargs)
             return HttpResponseRedirect(next_url)
         else:
             context = self.get_context_data(**kwargs)
@@ -944,7 +873,7 @@ def render_product_event(event, request):
     except Product.DoesNotExist:
         return ''
     html_template = get_template('kako/events/product_notice.html')
-    c = Context({'event': event, 'product': product})
+    c = Context({'event': event, 'product': product}.update(currencies(request)))
     return html_template.render(c)
 
 

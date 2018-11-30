@@ -269,8 +269,22 @@ def update_category_items_count(sender, **kwargs):
     """
     if sender != Product:  # Avoid unending recursive call
         return
+    instance = kwargs['instance']
+    if not instance.in_trash:
+        return
     for obj in ProductCategory.objects.all():
         obj.items_count = obj.product_set.filter(in_trash=False).count()
+        obj.save()
+    from ikwen_kakocase.commarketing.models import Banner, SmartCategory
+    for obj in Banner.objects.all():
+        if instance.id in obj.items_fk_list:
+            obj.items_fk_list.remove(instance.id)
+        obj.items_count = len(obj.items_fk_list)
+        obj.save()
+    for obj in SmartCategory.objects.all():
+        if instance.id in obj.items_fk_list:
+            obj.items_fk_list.remove(instance.id)
+        obj.items_count = len(obj.items_fk_list)
         obj.save()
 
 

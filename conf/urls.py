@@ -33,8 +33,13 @@ urlpatterns = patterns(
     url(r'^kako/', include('ikwen_kakocase.kako.urls', namespace='kako')),
     url(r'^trade/', include('ikwen_kakocase.trade.urls', namespace='trade')),
     url(r'^billing/', include('ikwen.billing.urls', namespace='billing')),
+    url(r'^rewarding/', include('ikwen.rewarding.urls', namespace='rewarding')),
+    url(r'^revival/', include('ikwen.revival.urls', namespace='revival')),
     url(r'^marketing/', include('ikwen_kakocase.commarketing.urls', namespace='marketing')),
     url(r'^sales/', include('ikwen_kakocase.sales.urls', namespace='sales')),
+
+    url(r'^echo/', include('echo.urls', namespace='echo')),
+
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^currencies/', include('currencies.urls')),
 

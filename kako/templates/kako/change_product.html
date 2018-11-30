@@ -201,10 +201,6 @@
                             <a class="twitter-share-button" data-size="large"
                                href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}">Tweet</a>
                         </div>
-                        <div class="col-xs-12 col-sm-2 social-media">
-                            <div class="g-plus" data-action="share" data-height="28"
-                                 data-href="{{ service.url }}{{ product_url }}" data-annotation="bubble" ></div>
-                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -217,7 +213,6 @@
 
 {% block js %}
     {{ block.super }}
-    {% if product %}<script src="https://apis.google.com/js/platform.js" async defer></script>{% endif %}
     <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
     <script type="text/javascript">
         (function() {

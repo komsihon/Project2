@@ -7,24 +7,28 @@ from currencies.models import Currency
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
+from django.db import transaction
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import gettext as _
+
+from ikwen.conf.settings import WALLETS_DB_ALIAS
+from ikwen.accesscontrol.models import SUDO
+from ikwen.accesscontrol.backends import UMBRELLA
+from ikwen.core.models import Country, Service
+from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
+    add_database, add_event, send_sms
+
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.sales.models import PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
-
-from ikwen.accesscontrol.models import SUDO
 from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, NEW_ORDER_EVENT
 
-from ikwen.accesscontrol.backends import UMBRELLA
-
-from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event, send_sms
-
-from ikwen.core.models import Country, Service
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
+from echo.models import Balance
+from echo.views import count_pages
+from echo.utils import SMS, notify_for_empty_messaging_credit
 
 
 def parse_order_info(request):
@@ -144,11 +148,19 @@ def parse_order_info(request):
     return order
 
 
-def send_order_confirmation_email(subject, buyer_name, buyer_email, order, message=None):
+def send_order_confirmation_email(subject, buyer_name, buyer_email, order, message=None, reward_pack_list=None):
     service = get_service_instance()
-    html_content = get_mail_content(subject, '', template_name='shopping/mails/order_notice.html',
+    coupon_count = 0
+    if reward_pack_list:
+        template_name = 'shopping/mails/order_notice_with_reward.html'
+        for pack in reward_pack_list:
+            coupon_count += pack.count
+    else:
+        template_name = 'shopping/mails/order_notice.html'
+    html_content = get_mail_content(subject, '', template_name=template_name,
                                     extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
-                                                   'IS_BANK': getattr(settings, 'IS_BANK', False)})
+                                                   'IS_BANK': getattr(settings, 'IS_BANK', False),
+                                                   'coupon_count': coupon_count})
     sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
     msg = EmailMessage(subject, html_content, sender, [buyer_email])
     bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
@@ -158,7 +170,12 @@ def send_order_confirmation_email(subject, buyer_name, buyer_email, order, messa
     Thread(target=lambda m: m.send(), args=(msg, )).start()
 
 
-def send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url=None):
+def send_order_confirmation_sms(buyer_name, buyer_phone, order):
+    service = get_service_instance()
+    config = service.config
+    script_url = getattr(settings, 'SMS_API_SCRIPT_URL', config.sms_api_script_url)
+    if not script_url:
+        return
     details_max_length = 90
     details = order.get_products_as_string()
     if len(details) > details_max_length:
@@ -175,18 +192,35 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order, script_url=None)
                "%(details)s\n" \
                "RCC: %(rcc)s" % {'buyer_name': buyer_name[:20], 'details': details, 'rcc': order.rcc.upper()}
 
-    config = get_service_instance().config
     iao_phones = [phone.strip() for phone in config.notification_phone.split(',') if phone.strip()]
-    buyer_phone = buyer_phone.strip()
-    buyer_phone = slugify(buyer_phone).replace('-', '')
-    if buyer_phone and len(buyer_phone) == 9:
-        buyer_phone = '237' + buyer_phone  # This works only for Cameroon
-    send_sms(buyer_phone, client_text, script_url=script_url)
-    for phone in iao_phones:
-        phone = slugify(phone).replace('-', '')
-        if len(phone) == 9:
-            phone = '237' + phone
-        send_sms(phone, iao_text, script_url=script_url)
+    client_page_count = count_pages(client_text)
+    iao_page_count = count_pages(iao_text)
+    needed_credit = client_page_count + iao_page_count * len(iao_phones)
+    with transaction.atomic(using=WALLETS_DB_ALIAS):
+        balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+        if balance.sms_count < needed_credit:
+            notify_for_empty_messaging_credit(service, SMS)
+            return
+        buyer_phone = buyer_phone.strip()
+        buyer_phone = slugify(buyer_phone).replace('-', '')
+        if buyer_phone and len(buyer_phone) == 9:
+            buyer_phone = '237' + buyer_phone  # This works only for Cameroon
+        try:
+            send_sms(buyer_phone, client_text, script_url=script_url, fail_silently=False)
+            balance -= client_page_count
+            balance.save()
+        except:
+            pass
+        for phone in iao_phones:
+            phone = slugify(phone).replace('-', '')
+            if len(phone) == 9:
+                phone = '237' + phone
+            try:
+                send_sms(phone, iao_text, script_url=script_url, fail_silently=False)
+                balance -= iao_page_count
+                balance.save()
+            except:
+                pass
 
 
 def set_ikwen_earnings_and_stats(order):
