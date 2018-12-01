@@ -3,6 +3,8 @@ import logging
 from threading import Thread
 
 from ajaxuploader.views import  render
+
+from django.template import Context
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMessage
 from django.core.urlresolvers import reverse
@@ -13,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateView
 
-from ikwen.accesscontrol.models import Member
+from ikwen.accesscontrol.models import Member, AccessRequest
 from ikwen.core.utils import get_service_instance, get_mail_content
 from ikwen.rewarding.models import Reward, CumulatedCoupon, Coupon
 from ikwen.rewarding.utils import reward_member, use_coupon
@@ -71,7 +73,7 @@ def save_cloud_cashin_payment(request):
     reward_type = Reward.PAYMENT
     reward_pack_list = reward_member(service, member, reward_type, amount=amount)
     subject = _("Payment successfully proceeded")
-    template_name = 'cci/snippets/user_coupon_list.html'
+    template_name = 'cci/tsunami_used_coupon_email.html'
     if has_use_coupon:
         subject = _("Payment successfully proceeded and you use a coupon.")
         msg = _(u"Payment successfully proceeded.")
@@ -89,9 +91,20 @@ def get_member_cumulated_coupon(request, *args, **kwargs):
     member_id = request.GET.get('customer_id')
     member = Member.objects.using('umbrella').get(pk=member_id)
     service = get_service_instance()
-    coupon_list = list(Coupon.objects.using('umbrella').filter(service=service))
-    coupons = CumulatedCoupon.objects.using('umbrella').filter(member=member)
-    context = {'coupons': coupons,}
+
+    coupon_qs = Coupon.objects.using('umbrella').filter(service=service, status=Coupon.APPROVED, is_active=True)
+    coupon_list = []
+    for coupon in coupon_qs:
+        try:
+            cumul = CumulatedCoupon.objects.using('umbrella').get(coupon=coupon, member=member)
+            coupon.count = cumul.count
+            coupon.ratio = float(cumul.count) / coupon.heap_size * 100
+        except CumulatedCoupon.DoesNotExist:
+            coupon.count = 0
+            coupon.ratio = 0
+        coupon_list.append(coupon)
+
+    context = {'coupons': coupon_list,}
     return render(request, 'cci/snippets/user_coupon_list.html', context)
 
 

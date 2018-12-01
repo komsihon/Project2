@@ -10,17 +10,42 @@
         {#.swiper-slide {border: solid; height: 122px;text-align: center}#}
         {#.swiper-slide a {display: none; margin-top:80px;}#}
 
-        .swiper-slide .gauge {border: solid 1px transparent; border-radius: 3px; height: 15px; margin-top:140px;position: absolute; width: 85%}
-        .swiper-slide .gauge .level {background: #b60611; float: left; height: 15px; width: 80%}
-        .swiper-slide .gauge .text-level {color: #fff; font-weight: 700; position: absolute; text-align: center; width: 100%}
-        .swiper-wrapper {border: solid 1px #EEE; width: 99.5%}
+        {#.swiper-slide .gauge {border: solid 1px transparent; border-radius: 3px; height: 15px; margin-top:140px;position: absolute; width: 85%}#}
+        {#.swiper-slide .gauge .level {background: #b60611; float: left; height: 15px; width: 80%}#}
+        {#.swiper-slide .gauge .text-level {color: #fff; font-weight: 700; position: absolute; text-align: center; width: 100%}#}
+        .swiper-wrapper {border: solid 1px #EEE; padding: 15px 0; width: 99.5%}
 
-        #coupons .progress {margin: 0}
+        {##coupons .progress {margin: 0}#}
         #coupons .progress-bar {background-color: #4CAF50;}
-        #coupons .join-community {font-weight: 600; width: 180px}
+        {##coupons .join-community {font-weight: 600; width: 180px}#}
         .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
         .coupon-count span {font-size: 26px; font-weight: 700}
 
+        .coupon-img {cursor: pointer}
+        #coupon-detail img {cursor: pointer; height: 180px}
+        .coupon-event {background-size: cover;float: left;height: 240px;margin: 0 0 1em;width: 100%;}
+        .coupon-event.count-3 {height: 300px}
+        .coupon-tile {background: no-repeat center;background-size: auto;border: 1px solid #fff;float: left;overflow: hidden;}
+        .coupon-tile .more {background: rgba(0, 0, 0, .6);color: #fff;text-align: center;float: left;}
+        .coupon-tile .more .main {font-size: 2em;margin: 2em 0 0;}
+        .coupon-tile .more .sub {font-size: .8em}
+        .coupon-tile.tile-2 {height: 100%; width: 50%}
+        .coupon-tile.tile-3-1 {height: 100%;width: 60%;}
+        .coupon-tile.tile-3-2 {height: 50%;width: 40%;}
+        .coupon-tile .coupon-count {margin: 0 0 0 10px; position: absolute}
+        .disc.coupon {background: #e84735;border-radius: 13px;color: #fff;float: left;font-size: 15px;height: 26px;line-height: 24px;margin: -5px 5px 0 0;text-align: center;width: 26px;}
+        @media (min-width: 375px) {
+            .coupon-event.count-3 {height: 340px;}
+        }
+        @media (min-width: 425px) {
+            .coupon-event.count-3 {height: 370px;}
+        }
+
+        @media (min-width: 1200px) {
+            .coupon-event.count-3 {height: 400px;}
+            .coupon-tile .more .main {margin-top: 2.5em}
+            #ad-space-right > div {width: 240px}
+        }
          @media only screen
         and (min-device-width : 768px) {
             form.cashin-form {margin: auto; width: 56%}
