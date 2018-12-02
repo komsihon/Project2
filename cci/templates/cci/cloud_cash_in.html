@@ -7,17 +7,14 @@
 {#    <link href="{% static 'ikwen/css/console.css' %}" media="screen" rel="stylesheet" type="text/css" />#}
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
     <style>
-        {#.swiper-slide {border: solid; height: 122px;text-align: center}#}
-        {#.swiper-slide a {display: none; margin-top:80px;}#}
-
-        {#.swiper-slide .gauge {border: solid 1px transparent; border-radius: 3px; height: 15px; margin-top:140px;position: absolute; width: 85%}#}
-        {#.swiper-slide .gauge .level {background: #b60611; float: left; height: 15px; width: 80%}#}
-        {#.swiper-slide .gauge .text-level {color: #fff; font-weight: 700; position: absolute; text-align: center; width: 100%}#}
         .swiper-wrapper {border: solid 1px #EEE; padding: 15px 0; width: 99.5%}
 
-        {##coupons .progress {margin: 0}#}
+        #coupons .reward {border: solid 4px transparent; border-radius: 3px}
+        #coupons .reward.selected {border: solid 4px rgba(243, 156, 18, 0.41)}
+        {##coupons .reward.used.selected  .select-coupon {display: none}#}
+
         #coupons .progress-bar {background-color: #4CAF50;}
-        {##coupons .join-community {font-weight: 600; width: 180px}#}
+
         .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
         .coupon-count span {font-size: 26px; font-weight: 700}
 
@@ -55,7 +52,9 @@
          and (min-device-width : 992px) {
             #admin-content.change-form {padding-top: 100px;}
         }
-        #success-payment {background: #BCE8C2; border: solid 1px #065818; color: #065818; clear:both;float: left; display: none; font-size: 15px; margin-top: 35px; padding: 15px 20px; text-align: center; width: 100% }
+        #success-payment {clear:both;float: left; display: none; font-size: 15px; margin-top: 35px; padding: 15px 20px; text-align: center; width: 100% }
+        #success-payment.success {background: #BCE8C2; border: solid 1px #065818; color: #065818;}
+        #success-payment.failure {background: rgba(255, 100, 112, 0.31); border: solid 1px #c41b1b; color: #c41b1b;}
 
     </style>
 {% endblock %}
@@ -113,7 +112,7 @@
                         <a class="btn btn-success btn-block cash-in"  data-toggle="modal" data-target="#confirm-payment"> {% trans "Submit" %} </a>
                     </div>
 {#                </div>#}
-                    <div id="success-payment">{% trans "Your payment was successfully procceded; Thank for your concern" %}</div>
+                    <div id="success-payment"></div>
             </form>
             <div class="clear"></div>
             {% include 'cci/snippets/modals.html' %}
@@ -136,16 +135,23 @@
             }).on('click', '.deploy', function() {
                 if (!$(this).hasClass('btn-success')) return;
                 $(this).removeClass('btn-success').addClass('btn-default');
-            }).on('click', '.select-coupon', function() {
-                $('.card-li.coupon').removeClass('used')
-                var couponId = $(this).data('id')
-                $('#use-coupon').data('id', couponId)
-                $(this).parents('.card-li.coupon').addClass('used')
-            }).on('click', '#use-coupon', function() {
-                var couponId = $(this).data('id')
-                $('#choosen-coupon').val(couponId)
-                $('.card-li.coupon.used').remove()
-            });
+            }).on('click', '.reward', function() {
+                if ($(this).hasClass('can-be-use')){
+                    if ($(this).hasClass('selected')){
+                        $(this).removeClass('selected')
+                        $('#choosen-coupon').val('')
+                    }else{
+                        $('.card-li.coupon .reward').removeClass('selected')
+                        $(this).addClass('selected')
+                        var couponId = $(this).data('id')
+                        $('#choosen-coupon').val(couponId)
+                    }
+                }else $("#incomplete-coupons").modal()
+            })
+
+
+
+
             $('.results.customers').css('width', $('#customer-name').css('width'));
             {% url 'ikwen:member_list' as list_members_url %}
             var searchDescriptor = [{
@@ -215,13 +221,13 @@
                 $.getJSON(endpoint, params, function(data) {
                     $('body, button.confirm').css('cursor','default');
                     if (data.error) {
-                        $('div#top-notice-ctnr span').html(data.error).addClass('failure');
-                        $('#top-notice-ctnr').fadeIn().delay(5000).fadeOut();
+                        $('div#success-payment').addClass('failure').text(data.error).fadeIn().show().delay(15000).fadeOut()
                     } else {
                         $('form input').val('');
-                        $('div#success-payment').fadeIn().show().delay(15000).fadeOut()
-                        {# $('div#top-notice-ctnr span').html("Your payment was successfully procceeded. <b>Thanks for your concern</b>");#}
-                        {# $('#top-notice-ctnr').fadeIn().delay(5000).fadeOut();#}
+                        $('div#success-payment').addClass('success').text('{% trans "Your payment was successfully procceded; Thank for your concern" %}').fadeIn().show().delay(15000).fadeOut()
+                        if (data.remaining_cumulated_coupon_count){
+                             $('.card-li.coupon .reward.selected').find('.coupon-count span').text(data.remaining_cumulated_coupon_count)
+                        }
                     }
                     return false
                 });

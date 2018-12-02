@@ -7,9 +7,14 @@
                 <div class="swiper-wrapper">
                     {% for coupon in coupons %}
                         <div class="col-xs-4 col-sm-3 card-li coupon swiper-slide"  data-id="{{ coupon.id }}" style="text-align: center">
-                            <div>
-{#                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({% static 'kakocase/img/coupon_test_img.png' %})">#}
-                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url('{{ settings.IKWEN_MEDIA_URL  }} {{ coupon.image.name }}')">
+                            {% if coupon.ratio >= 100 %}
+                                <div class="reward can-be-use" data-id="{{ coupon.id }}">
+                            {% else %}
+                                <div class="reward" data-id="{{ coupon.id }}">
+                            {% endif %}
+
+                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({% static 'kakocase/img/coupon_test_img.png' %})">
+{#                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url('{{ settings.IKWEN_MEDIA_URL  }} {{ coupon.image.name }}')">#}
 
                                     <div class="text-has-shade coupon-count">
                                         <span>{{ coupon.count }}</span>/100
@@ -21,11 +26,11 @@
                                     </div>
                                 </div>
                                 <p style="margin-top: 5px">{{ coupon.name }}</p>
-                                {% if coupon.count >= 100 %}
-                                    <a class="btn btn-sm btn-block btn-warning select-coupon" data-id="{{ coupon.id }}" data-toggle="modal" data-target="#confirm-coupon-usage">
-                                        {% trans "Use this coupon" %}
-                                    </a>
-                                {% endif %}
+{#                                {% if coupon.count >= 100 %}#}
+{#                                    <a class="btn btn-sm btn-block btn-warning select-coupon" data-id="{{ coupon.id }}" data-toggle="modal" data-target="#confirm-coupon-usage">#}
+{#                                        {% trans "Use this coupon" %}#}
+{#                                    </a>#}
+{#                                {% endif %}#}
                             </div>
                         </div>
                     {% endfor %}
