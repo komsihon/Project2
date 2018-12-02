@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: trade/templates/trade/provider/ccm_dashboard.html:174
 msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-11-23 21:33+0100\n"
-"PO-Revision-Date: 2018-05-23 02:46+0100\n"
+"PO-Revision-Date: 2018-12-02 18:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -57,11 +56,11 @@ msgstr "Section pleine largeur"
 
 #: commarketing/models.py:39 commarketing/models.py:47
 msgid "Full screen popup"
-msgstr "Plein écran popup"
+msgstr "Popup plein écran "
 
 #: commarketing/models.py:53
 msgid "Smart commercial title."
-msgstr "Titre smart commercial ."
+msgstr "Titre commercial ."
 
 #: commarketing/models.py:56
 msgid ""
@@ -69,11 +68,11 @@ msgid ""
 "an ordering in alphabetical order"
 msgstr ""
 "Ordre d'apparition de la section. Le même ordre d'apparition donnera lieu à "
-"une commande par ordre alphabétique"
+"un classement par ordre alphabétique"
 
 #: commarketing/models.py:59
 msgid "Whether it is a list of categories or a list of products"
-msgstr "Que ce soit une liste de catégories où une liste de produits"
+msgstr "Type: liste de catégories ou liste de produits"
 
 #: commarketing/models.py:64 kakocase/models.py:73
 msgid "Make it visible or no."
@@ -88,8 +87,8 @@ msgid ""
 "Action you want you visitors to undertake. <em><strong>E.g:</strong> \"Buy "
 "Now\"</em>"
 msgstr ""
-"Action que vous voulez que votre visiteurs entreprennent. "
-"<em><strong>Exemple:</strong> \"Acheter\"</em>"
+"Action que vous voulez que vos visiteurs entreprennent. <em><strong>Exemple:"
+"</strong> \"Acheter\"</em>"
 
 #: commarketing/models.py:121
 msgid "Manage marketing tools"
@@ -109,7 +108,7 @@ msgstr ""
 
 #: commarketing/models.py:135
 msgid "Smart Category will appear in main menu if checked."
-msgstr "La catégorie Smart apparaitra dans le menu principal si coché."
+msgstr "Cette Smart catégorie apparaîtra dans le menu principal si cochée."
 
 #: commarketing/templates/commarketing/banner_list.html:5
 #: commarketing/templates/commarketing/banner_list.html:26
@@ -123,7 +122,7 @@ msgstr "Bannières"
 #: kako/templates/kako/product_list.html:32
 #: sales/templates/sales/promotion_list.html:32
 msgid "Delete selected"
-msgstr "Supprimer les selectionnées"
+msgstr "Supprimer la sélection"
 
 #: commarketing/templates/commarketing/banner_list.html:33
 msgid "Homepage slideshow"
@@ -146,7 +145,7 @@ msgstr "Voir l'exemple"
 #: kako/templates/kako/category_list.html:58
 #: kako/templates/kako/category_list.html:89
 msgid "items"
-msgstr "icônes"
+msgstr "articles"
 
 #: commarketing/templates/commarketing/banner_list.html:52
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:23
@@ -164,7 +163,7 @@ msgstr "Partager"
 #: commarketing/templates/commarketing/banner_list.html:246
 #: commarketing/templates/commarketing/smart_category_list.html:47
 msgid "Link Categories"
-msgstr "Catégories liées"
+msgstr "Lier les Catégories "
 
 #: commarketing/templates/commarketing/banner_list.html:56
 #: commarketing/templates/commarketing/banner_list.html:107
@@ -173,7 +172,7 @@ msgstr "Catégories liées"
 #: commarketing/templates/commarketing/banner_list.html:248
 #: commarketing/templates/commarketing/smart_category_list.html:50
 msgid "Link Products"
-msgstr "Produits Liés"
+msgstr "Lier les Produits "
 
 #: commarketing/templates/commarketing/banner_list.html:59
 #: commarketing/templates/commarketing/banner_list.html:156
@@ -275,7 +274,7 @@ msgstr "Nouvelle Smart Catégorie"
 #: commarketing/templates/commarketing/change_banner.html:15
 #: commarketing/templates/commarketing/change_smart_object.html:15
 msgid "Remove selected"
-msgstr "Retirer les selectionnées"
+msgstr "Retirer la sélection"
 
 #: commarketing/templates/commarketing/change_banner.html:21
 #: templates/core/app_base_admin.html:94
@@ -336,7 +335,7 @@ msgstr "Sauvergarder"
 
 #: commarketing/templates/commarketing/change_banner.html:113
 msgid "Smart category successfully saved."
-msgstr "Catégorie Smart sauvegardé avec succès."
+msgstr "Catégorie Smart sauvegardée avec succès."
 
 #: commarketing/templates/commarketing/change_banner.html:149
 #: commarketing/templates/commarketing/change_smart_object.html:153
@@ -346,7 +345,7 @@ msgstr "Catégorie Smart sauvegardé avec succès."
 #: sales/templates/sales/change_promotion.html:114
 #: shopping/templates/shopping/optimum/checkout.html:233
 msgid "Missing information. Please check."
-msgstr "Information manquante. Vérifiez s'il vous plait "
+msgstr "Information manquante. Vérifiez s'il vous plaît "
 
 #: commarketing/templates/commarketing/change_banner.html:156
 #: commarketing/templates/commarketing/change_smart_object.html:160
@@ -358,7 +357,7 @@ msgstr "Les catégories sont mieux avec image. Continuer sans ?"
 #: commarketing/templates/commarketing/change_smart_object.html:167
 #: kako/templates/kako/change_category.html:117
 msgid "Upload cover"
-msgstr "Télécharger la couverture"
+msgstr "Uploader la couverture"
 
 #: commarketing/templates/commarketing/smart_category_list.html:5
 #: commarketing/templates/commarketing/smart_category_list.html:20
@@ -381,7 +380,7 @@ msgstr "Pas de smart catégorie"
 
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:10
 msgid "Share this banner"
-msgstr "Partager la bannière"
+msgstr "Partager cette bannière"
 
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:17
 msgid "Banner URL"
@@ -409,15 +408,15 @@ msgstr "Catégorie Smart %s sauvegardé avec succès."
 
 #: conf/settings.py:139
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 #: conf/settings.py:140
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #: kako/models.py:14
 msgid "Your wholesale price. Retailers may set their own price."
-msgstr "Votre prix de gros. Les détaillants peuvent fixer leur prix."
+msgstr "Votre prix de gros. Les détaillants peuvent fixer le leur."
 
 #: kako/models.py:15
 msgid "Wholesale price of the provider"
@@ -479,11 +478,11 @@ msgstr ""
 
 #: kako/models.py:45
 msgid "Reference number of the product as in your current IS."
-msgstr "Numéro de référence du produit tel que sur votre IS actuel."
+msgstr "Numéro de référence du produit tel que sur votre SI actuel."
 
 #: kako/models.py:47
 msgid "ID of the product in your current database."
-msgstr "Identité du produit sur votre base de données actuelle."
+msgstr "ID du produit sur votre base de données actuelle."
 
 #: kako/models.py:53
 msgid "modifiable price ?"
@@ -512,7 +511,7 @@ msgstr "Unité de mesure pour ce produit."
 #: kako/models.py:169
 msgid "Minimum number of units one can order. Excellent for wholesale."
 msgstr ""
-"Nombre minimum d'unités pouvant être commandée. Excellent pour le prix de "
+"Nombre minimum d'unités pouvant être commandée. Excellent pour la vente en "
 "gros."
 
 #: kako/models.py:180
@@ -521,15 +520,15 @@ msgstr "Gérer les produits"
 
 #: kako/templates/kako/category_list.html:19
 msgid "Link categories"
-msgstr "Catégories de lien"
+msgstr "Lier les Catégories "
 
 #: kako/templates/kako/category_list.html:34
 msgid "Choose items to link to "
-msgstr "Choisir des éléments a lier à "
+msgstr "Choisir des éléments à lier "
 
 #: kako/templates/kako/category_list.html:39
 msgid "No category"
-msgstr "Pas de catéorie"
+msgstr "Pas de catégorie"
 
 #: kako/templates/kako/category_list.html:95
 msgid "Add to menu"
@@ -590,20 +589,20 @@ msgstr ""
 
 #: kako/templates/kako/events/product_notice.html:18
 msgid "This product went out of stock after customer order."
-msgstr "Ce produit a été en rupture de stock après la commande du client."
+msgstr "Ce produit est entré en rupture de stock après la commande du client."
 
 #: kako/templates/kako/events/product_notice.html:24
 msgid "Buy now"
-msgstr ""
+msgstr "J'achète "
 
 #: kako/templates/kako/product_list.html:30
 #: sales/templates/sales/promotion_list.html:30
 msgid "Link products"
-msgstr "Lien produits"
+msgstr "Lier les produits"
 
 #: kako/templates/kako/product_list.html:49
 msgid "Search product"
-msgstr "Rechercher le produit"
+msgstr "Rechercher un produit"
 
 #: kako/templates/kako/product_list.html:59
 #: trade/templates/trade/order_list.html:44
@@ -624,7 +623,7 @@ msgstr "Importer"
 #: kako/templates/kako/snippets/product_list_results.html:60
 #: kako/templates/kako/snippets/product_list_results.html:99
 msgid "Update stock"
-msgstr "Stock renouvelé"
+msgstr "Mettre à jour un Stock "
 
 #: kako/templates/kako/product_list.html:93
 #: kako/templates/kako/product_list.html:115
@@ -665,12 +664,12 @@ msgstr "Prix de gros"
 #: kako/templates/kako/snippets/product_list_results.html:39
 #: kako/templates/kako/snippets/product_list_results.html:83
 msgid "Retail"
-msgstr "Détailler"
+msgstr "Vente en détail"
 
 #: kako/templates/kako/snippets/product_list_results.html:43
 #: kako/templates/kako/snippets/product_list_results.html:84
 msgid "Max"
-msgstr "Maximum"
+msgstr "Max"
 
 #: kako/templates/kako/snippets/product_list_results.html:50
 #: kako/templates/kako/snippets/product_list_results.html:90
@@ -697,7 +696,7 @@ msgid ""
 "                %(start)s – %(end)s of %(count)s results"
 msgstr ""
 "\n"
-"                %(start)s – %(end)s of %(count)s resultats"
+"                %(start)s – %(end)s of %(count)s résultats"
 
 #: kako/templates/kako/snippets/product_list_results.html:136
 #: sales/templates/sales/snippets/email_list_results.html:36
@@ -708,16 +707,16 @@ msgstr ""
 #: trade/templates/trade/snippets/package_list_results.html:81
 #, python-format
 msgid "%(count)s results"
-msgstr "%(count)s resultats"
+msgstr "%(count)s résultats"
 
 #: kako/utils.py:81
 msgid "You're going to love these new products! Check them out"
-msgstr ""
+msgstr "Vous allez aimer ces nouveaux produits! Jetez-y un coup d’œil"
 
 #: kako/utils.py:98
 #, python-format
 msgid "Wow ! Seize this opportunity on %s"
-msgstr ""
+msgstr "Waouh! Saisissez cette opportunité sur %s"
 
 #: kako/views.py:211 templates/core/app_base_admin.html:7
 #: templates/tchopetyamo/core/app_base_admin.html:7
@@ -755,7 +754,7 @@ msgstr "Produit %s mis à jour avec succès."
 #: kako/views.py:656
 #, python-format
 msgid "Product %s successfully created."
-msgstr "Produit %s crée avec succès."
+msgstr "Produit %s créé avec succès."
 
 #: kako/views.py:674
 msgid "Product was not created. One ore more fields were invalid."
@@ -780,7 +779,7 @@ msgid ""
 "%(company_name)s.</strong> It won't appear on your website anymore."
 msgstr ""
 "Salut %(member_name)s,<br/> Le produit ci-dessous a été retiré par <strong>"
-"%(company_name)s.</strong> Il n' apparaitra plus dans votre site internet."
+"%(company_name)s.</strong> Il n' apparaîtra plus dans votre site internet."
 
 #: kako/views.py:897
 #, python-format
@@ -804,7 +803,7 @@ msgstr "Entreprise"
 
 #: kakocase/admin.py:25
 msgid "Platform"
-msgstr "Plate-forme"
+msgstr "Plateforme"
 
 #: kakocase/admin.py:26
 msgid "SMS"
@@ -812,7 +811,7 @@ msgstr "SMS"
 
 #: kakocase/admin.py:27 kakocase/admin.py:55
 msgid "Mailing"
-msgstr "Publipostage"
+msgstr "Mailing"
 
 #: kakocase/admin.py:51
 msgid "Website"
@@ -836,8 +835,8 @@ msgid ""
 "AUTH CODE is invalid, please verify. If the problem persists, please contact "
 "%s to get the good one."
 msgstr ""
-"LE CODE D'AUTORISATION est invalide, s'il vous plait vérifiez. Si le "
-"problème persiste, veuillez contacter %s pour avoir le bon."
+"Le AUTH CODE est invalide, s'il vous plaît vérifiez. Si le problème "
+"persiste, veuillez contacter %s pour avoir le bon."
 
 #: kakocase/cloud_setup.py:340
 #, python-format
@@ -878,7 +877,7 @@ msgstr "apparaît dans le menu"
 
 #: kakocase/models.py:71
 msgid "Category will appear in main menu if checked."
-msgstr "La catégorie apparaîtra dans le menu principal si vérifié."
+msgstr "La catégorie apparaîtra dans le menu principal si coché."
 
 #: kakocase/models.py:75
 msgid "Order of appearance in a list of categories."
@@ -893,17 +892,17 @@ msgid ""
 "Number of elements in the category preview on home page. Must be a multiple "
 "of 4."
 msgstr ""
-"Nombres d'éléments dans la catégorie pré visualiser sur la page d'accueil. "
-"Devant être un multiple de 4."
+"Nombres d'éléments dans l'aperçu de la catégorie sur la page d'accueil. Doit "
+"être un multiple de 4."
 
 #: kakocase/models.py:186
 #: shopping/templates/shopping/mails/order_notice.html:87
 msgid "Pick up in store"
-msgstr "Ramassé en magasin"
+msgstr "Récupérer sur place"
 
 #: kakocase/models.py:187
 msgid "Home delivery"
-msgstr "Livraison  domicile"
+msgstr "Livraison à domicile"
 
 #: kakocase/models.py:191
 msgid "Get this code from the Logistics company."
@@ -927,9 +926,7 @@ msgstr "brève description"
 
 #: kakocase/models.py:197
 msgid "Short description of the option.Typically max delay as a text value."
-msgstr ""
-"brève description de l'option. Délai maximum typiquement comme une valeur du "
-"texte."
+msgstr "Brève description de l'option. Par exemple le délai maximum en texte."
 
 #: kakocase/models.py:200
 msgid "Description of the option. Typically coverage and conditions."
@@ -945,7 +942,7 @@ msgstr "coût"
 
 #: kakocase/models.py:204
 msgid "max delay"
-msgstr "délai maximum"
+msgstr "délai max"
 
 #: kakocase/models.py:206 kakocase/models.py:276
 msgid "checkout minimum"
@@ -953,7 +950,7 @@ msgstr "Minimum d'achat"
 
 #: kakocase/models.py:207
 msgid "Minimum checkout to make this option available."
-msgstr "Vérification minimum pour rendre cette option disponible."
+msgstr "Minimum d'achat pour rendre cette option disponible."
 
 #: kakocase/models.py:208 kakocase/models.py:302
 msgid "active"
@@ -966,7 +963,7 @@ msgstr "Cochez/Décochez pour le rendre actif sur votre boutique en ligne."
 #: kakocase/models.py:220
 #, python-format
 msgid "%d days"
-msgstr "%d jour"
+msgstr "%d jours"
 
 #: kakocase/models.py:221
 #, python-format
@@ -979,7 +976,7 @@ msgstr "Direct"
 
 #: kakocase/models.py:269
 msgid "Upon buyer confirmation"
-msgstr "A la confirmation de l'acheteur"
+msgstr "À la confirmation de l'acheteur"
 
 #: kakocase/models.py:275
 msgid "business type"
@@ -987,26 +984,26 @@ msgstr "type d'entreprise"
 
 #: kakocase/models.py:277
 msgid "Minimum amount you allow to customers to buy."
-msgstr "Montant minimum que vous autorisez les clients à acheter"
+msgstr "Montant minimum que vous autorisez les clients à acheter."
 
 #: kakocase/models.py:278
 msgid "ikwen share rate"
-msgstr "ikwen partage le tarif"
+msgstr "Pourcentage d'ikwen"
 
 #: kakocase/models.py:279
 msgid "Percentage ikwen collects on the turnover made by this person."
 msgstr ""
-"Pourcentage recueillit par ikwen sur le chiffre d'affaire réalisé par cette "
+"Pourcentage prélevé par ikwen sur le chiffre d'affaire réalisé par cette "
 "personne."
 
 #: kakocase/models.py:280
 msgid "ikwen share fixed"
-msgstr "partage ikwen fixé"
+msgstr "pourcentage fixe d'ikwen"
 
 #: kakocase/models.py:281
 msgid "Fixed amount ikwen collects on the turnover made by this person."
 msgstr ""
-"Montant fixé recueillit par ikwen sur le chiffre d'affaire réalisé par cette "
+"Montant fixe prélevé par ikwen sur le chiffre d'affaire réalisé par cette "
 "personne."
 
 #: kakocase/models.py:282
@@ -1023,7 +1020,7 @@ msgstr ""
 
 #: kakocase/models.py:285
 msgid "Auto-manage sales"
-msgstr "Autogérer les soldes"
+msgstr "Gestion automatique des soldes"
 
 #: kakocase/models.py:286
 msgid ""
@@ -1032,7 +1029,7 @@ msgid ""
 "image whenever a product retail price is updated by a smaller value."
 msgstr ""
 "Si coché, le <em>prix précédent</em>  est affiché barré juste avant l'actuel "
-"et un badge<em>'SOLDE'</em> apparaît sur l'image du produit; ceci chaque "
+"et un badge <em>'SOLDE'</em> apparaît sur l'image du produit; ceci chaque "
 "fois que le prix en détail du produit est mis à jour par une valeur plus "
 "petite."
 
@@ -1050,7 +1047,7 @@ msgid ""
 "<strong>FREE SHIPPING</strong> or <strong>PICK-UP IN STORE</strong> besides "
 "those offered by ikwen delivery company partners."
 msgstr ""
-"Si vérifié, l' IAO de la plateforme sera capable de mettre en place des "
+"Si coché, l' IAO de la plateforme sera capable de mettre en place des "
 "options de livraison tel que <strong>LIVRAISON GRATUITE</strong> ou "
 "<strong>RAMASSE EN MAGASIN</strong>en plus de ceux offerts par les "
 "partenaires de l'entreprise de livraison ikwen."
@@ -1065,7 +1062,7 @@ msgstr "autoriser les achats"
 
 #: kakocase/models.py:329
 msgid "Last time provider updated the stock"
-msgstr "Dernière fois que le stock a été mise à jour par le fournisseur"
+msgstr "Date de dernière mise à jour du stock par le fournisseur"
 
 #: kakocase/models.py:343
 msgid "Notification email(s)"
@@ -1077,39 +1074,35 @@ msgstr "Phone(s) de notification"
 
 #: kakocase/models.py:358
 msgid "Website URL"
-msgstr "URL du site internet"
+msgstr "URL du site web"
 
 #: kakocase/models.py:360
 msgid "Create Bank Account URL"
-msgstr "Créer une adresse de compte bancaire"
+msgstr "URL de création du compte bancaire"
 
 #: kakocase/models.py:362
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
 
 #: kakocase/scripts.py:27
-#, fuzzy
-#| msgid "Manage orders"
 msgid "Manage Profiles"
-msgstr "Gérer les commandes"
+msgstr "Gérer les profils"
 
 #: kakocase/scripts.py:29
-#, fuzzy
-#| msgid "Manage Drivy"
 msgid "Manage Revivals"
-msgstr "Gérer le Drive"
+msgstr "Gérer les Relances"
 
 #: kakocase/scripts.py:31
 msgid "Messaging Campaigns"
-msgstr ""
+msgstr "Campagnes de messagerie"
 
 #: kakocase/scripts.py:34
 msgid "Manage Continuous Rewarding"
-msgstr ""
+msgstr "Gérer le Continuous Rewarding"
 
 #: kakocase/templates/kakocase/cloud_setup/deploy.html:7
 msgid "Business Type"
-msgstr "Type d'entreprise"
+msgstr "Type d'qctivité"
 
 #: kakocase/templates/kakocase/cloud_setup/deploy.html:12
 msgid "Financial Institution"
@@ -1270,11 +1263,11 @@ msgid ""
 "span><br><br>Thank you for your business with %(company_name)s."
 msgstr ""
 "Cher %(member_name)s,<br><br>Ceci est un avis qu'une facture a été générée "
-"sur %(date_issued)s.<br><br><strong style='font-size: 1.2em'>Facture #"
+"le %(date_issued)s.<br><br><strong style='font-size: 1.2em'>Facture #"
 "%(invoice_number)s</strong><br>Montant: %(amount).2f %(currency)s<br>Date "
 "d'échéance:  %(due_date)s<br><br><strong>Articles de la facture:</"
 "strong><br><span style='color: #111'>%(invoice_description)s</"
-"span><br><br>Merçi pour votre entreprise avec %(company_name)s."
+"span><br><br>Merci d'être client chez %(company_name)s."
 
 #: kakocase/views.py:42
 msgid "Delivery Option"
@@ -1395,16 +1388,14 @@ msgid "To"
 msgstr "À"
 
 #: sales/views.py:118
-#, fuzzy, python-format
-#| msgid "Promotion %s successfully updated."
+#, python-format
 msgid "Coupon %s successfully updated."
-msgstr "Promotion %s mis à jour avec succès."
+msgstr "Le coupon %s mis à jour avec succès."
 
 #: sales/views.py:120
-#, fuzzy, python-format
-#| msgid "Promotion %s successfully created."
+#, python-format
 msgid "Coupon %s successfully created."
-msgstr "Promotion %s crée avec succès."
+msgstr "Le coupon %s créé avec succès."
 
 #: sales/views.py:190
 #, python-format
@@ -1414,7 +1405,7 @@ msgstr "Promotion %s mis à jour avec succès."
 #: sales/views.py:192
 #, python-format
 msgid "Promotion %s successfully created."
-msgstr "Promotion %s crée avec succès."
+msgstr "Promotion %s créée avec succès."
 
 #: shopping/manual_payment.py:24 shopping/views.py:658
 msgid "Order successful"
@@ -1548,7 +1539,7 @@ msgstr "Accès Rapide"
 #: trade/templates/trade/bank/deal_list.html:83
 #: trade/templates/trade/bank/deal_list.html:146
 msgid "About"
-msgstr "A propos"
+msgstr "À propos"
 
 #: shopping/templates/shopping/base.html:329
 #: shopping/templates/shopping/optimum/base.html:396
@@ -1598,7 +1589,7 @@ msgstr "Paiement annulé"
 #: shopping/templates/shopping/cancel.html:10
 #: shopping/templates/shopping/optimum/cancel.html:10
 msgid "Checkout Error"
-msgstr "Erreur de vérification"
+msgstr "Erreur "
 
 #: shopping/templates/shopping/cancel.html:17
 #: shopping/templates/shopping/optimum/cancel.html:17
@@ -1611,7 +1602,7 @@ msgid ""
 msgstr ""
 "\n"
 "                Vous pouvez <a href=\"%(cart_url)s\"><ins>retourner au "
-"panier</ins></a> et réessayer ou essayer encore plutard.\n"
+"panier</ins></a> et réessayer ou essayer encore plus tard.\n"
 "                "
 
 #: shopping/templates/shopping/cart.html:5
@@ -1636,8 +1627,8 @@ msgid ""
 "%(symbol)s %(checkout_min)s</strong> to checkout."
 msgstr ""
 "\n"
-"                    Cher client, vous devez un minimum de <strong>%(symbol)s "
-"%(checkout_min)s</strong> pour commander."
+"                    Cher client, veuillez atteindre un minimum de <strong>"
+"%(symbol)s %(checkout_min)s</strong> pour commander."
 
 #: shopping/templates/shopping/cart.html:55
 #: shopping/templates/shopping/mails/order_notice.html:108
@@ -1676,7 +1667,8 @@ msgstr "Sous-total"
 #: templates/tchopetyamo/shopping/optimum/cart.html:83
 msgid "Sorry, we had to adjust your quantity to currently available stock."
 msgstr ""
-"Désolé, nous devons ajuster vos quantité au stock actuellement disponible."
+"Désolé, nous avons du ajuster votre quantité au stock actuellement "
+"disponible."
 
 #: shopping/templates/shopping/cart.html:86
 #: shopping/templates/shopping/optimum/cart.html:86
@@ -1699,8 +1691,8 @@ msgid ""
 msgstr ""
 "\n"
 "                        <strong>CashFlex</strong> le paiement permet de "
-"régler avec l'argent dans votre banque \n"
-"                        compte ou en obtenant un prêt de votre banque. "
+"régler avec l'argent dans votre compte \n"
+"                        bancaire ou en obtenant un prêt de votre banque. "
 "Ainsi, vous devez absolument vous identifier\n"
 "                        pour nous permettre d'authentifier votre "
 "information.\n"
@@ -1719,9 +1711,9 @@ msgid ""
 msgstr ""
 "\n"
 "                        <a href=\"#\" class=\"btn btn-success connect"
-"\">S'identifier</a> pour procéder. Vous pouvez aussi\n"
-"                        <a href=\"#\" class=\"register\">enregistrer</a> si "
-"vous n'avez pas un compte chez nous.\n"
+"\">S'identifier</a> pour continuer. Vous pouvez toujours\n"
+"                        <a href=\"#\" class=\"register\">vous enregistrer</"
+"a> si vous n'avez pas de compte chez nous.\n"
 "                    "
 
 #: shopping/templates/shopping/cart.html:127
@@ -1734,7 +1726,7 @@ msgid ""
 msgstr ""
 "\n"
 "                        <a href=\"#\" class=\"turn-down\">Non, merci</a> Je "
-"vais vérifier anonymement.\n"
+"ferai un achat anonyme.\n"
 "                        "
 
 #: shopping/templates/shopping/cart.html:270
@@ -1748,7 +1740,7 @@ msgstr "Bien vouloir choisir une option de livraison."
 #: shopping/templates/shopping/optimum/checkout.html:32
 #: shopping/templates/shopping/optimum/checkout.html:197
 msgid "Click on a previous address below to use it."
-msgstr "Cliquez sur l'adresse précédente ci-dessous pour l'utiliser."
+msgstr "Cliquez sur une des adresses précédentes ci-dessous pour l'utiliser."
 
 #: shopping/templates/shopping/checkout.html:75
 #: shopping/templates/shopping/checkout.html:180
@@ -1806,7 +1798,7 @@ msgstr ""
 #: shopping/templates/shopping/checkout.html:108
 #: shopping/templates/shopping/optimum/checkout.html:91
 msgid "Please, give us your address"
-msgstr "S'il vous plait donnez-nous votre adresse"
+msgstr "S'il vous plaît donnez-nous votre adresse"
 
 #: shopping/templates/shopping/checkout.html:110
 #: shopping/templates/shopping/optimum/checkout.html:93
@@ -1858,11 +1850,11 @@ msgstr "Information manquante ou invalide. Vérifiez s'il vous plait "
 
 #: shopping/templates/shopping/choose_deal.html:4
 msgid "CashFlex Checkout"
-msgstr "Vérification de CashFlex"
+msgstr "Paiement CashFlex"
 
 #: shopping/templates/shopping/choose_deal.html:49
 msgid "Terms Payment is only possible for one single product at a time"
-msgstr "Conditions de paiement uniquement possible pour un produit à la fois"
+msgstr "Le paiement échelonné n'est possible que pour un produit à la fois"
 
 #: shopping/templates/shopping/choose_deal.html:61
 msgid "Pay Cash"
@@ -1882,7 +1874,7 @@ msgstr "Confirmer"
 
 #: shopping/templates/shopping/choose_deal.html:79
 msgid "First Term"
-msgstr "Premier mandat"
+msgstr "Premier paiement"
 
 #: shopping/templates/shopping/choose_deal.html:83
 msgid "No deposit"
@@ -1900,7 +1892,7 @@ msgid ""
 msgstr ""
 "\n"
 "                        En confirmant le paiement avec votre %(bank_name)s "
-"compte, vous êtes d'accord avec notre\n"
+"compte, vous êtes d'accord avec nos\n"
 "                        <a href=\"%(cashflex_terms_url)s\" target=\"_blank"
 "\">termes CASHFLEX </a>\n"
 "                    "
@@ -2092,7 +2084,7 @@ msgstr "Ajouter au panier"
 #: shopping/templates/shopping/mails/order_notice.html:7
 #, python-format
 msgid "Dear %(buyer_name)s"
-msgstr "Cher%(buyer_name)s"
+msgstr "Cher(e) %(buyer_name)s"
 
 #: shopping/templates/shopping/mails/order_notice.html:10
 #, python-format
@@ -2126,7 +2118,7 @@ msgstr "Message"
 
 #: shopping/templates/shopping/mails/order_notice.html:23
 msgid "Thanks for your business with us."
-msgstr "Merci de faire affaire avec nous."
+msgstr "Merci d'être client chez nous."
 
 #: shopping/templates/shopping/mails/order_notice.html:26
 #, python-format
@@ -2144,7 +2136,7 @@ msgstr ""
 "\n"
 "                     Votre commande a été émise avec succès sous le "
 "numéro<strong>%(rcc)s</strong> et\n"
-"                     soumettre a l'approbation%(bank_name)s.<br>\n"
+"                     soumettre à l'approbation%(bank_name)s.<br>\n"
 "                    Vous pouvez suivre l'état de votre commande a tout "
 "moment en cliquant sur le lien ci-dessous:<br><br>\n"
 "                     <a href=\"%(service_url)s%(order_cart_url)s\">"
@@ -2199,7 +2191,7 @@ msgstr ""
 
 #: shopping/templates/shopping/mails/order_notice.html:57
 msgid "See details below"
-msgstr "Voir les détails suivants"
+msgstr "Voir les détails ci-dessous"
 
 #: shopping/templates/shopping/mails/order_notice.html:59
 #, python-format
@@ -2213,7 +2205,7 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                %(items_count)s items(s), total\n"
+"                %(items_count)s article(s), total\n"
 "                    <ins>\n"
 "                        %(currency_symbol)s\n"
 "                        %(items_cost|currency:crcy.code|floatformat:crcy.precision|intcomma)s\n"
@@ -2256,12 +2248,12 @@ msgstr "Nous vous remercions de votre fidélité envers nous."
 #: shopping/templates/shopping/optimum/base.html:136
 #: templates/tchopetyamo/shopping/optimum/base.html:135
 msgid "Open search box"
-msgstr ""
+msgstr "Ouvrir le champs de recherche"
 
 #: shopping/templates/shopping/optimum/base.html:137
 #: templates/tchopetyamo/shopping/optimum/base.html:136
 msgid "Close search box"
-msgstr ""
+msgstr "Fermer le champs de recherche"
 
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
@@ -2308,7 +2300,7 @@ msgstr "Plein écran"
 #: shopping/templates/shopping/optimum/snippets/home_content.html:142
 #: shopping/templates/shopping/snippets/product_list_results.html:89
 msgid "Avail."
-msgstr "Dispo"
+msgstr "Dispo."
 
 #: shopping/templates/shopping/optimum/product_detail.html:145
 #: shopping/templates/shopping/product_detail.html:132
@@ -2317,8 +2309,8 @@ msgid ""
 "                                                    <strong>Add to Cart</"
 "strong>"
 msgstr ""
-"Sélectionner la taille et quantité de ce que vous desiré,ensuite cliquer \n"
-"                                                    <strong>Ajouter au "
+"Sélectionnez la taille et quantité que vous desirées,ensuite cliquez \n"
+"                                                    <strong>Ajoutez au "
 "panier</strong>"
 
 #: shopping/templates/shopping/optimum/product_detail.html:177
@@ -2329,7 +2321,7 @@ msgstr "Description"
 #: shopping/templates/shopping/optimum/product_detail.html:182
 #: shopping/templates/shopping/product_detail.html:164
 msgid "Reviews"
-msgstr "Commentaires"
+msgstr "Avis"
 
 #: shopping/templates/shopping/optimum/product_detail.html:192
 #: shopping/templates/shopping/product_detail.html:174
@@ -2405,7 +2397,7 @@ msgstr ""
 #: shopping/templates/shopping/optimum/product_detail.html:418
 #: shopping/templates/shopping/product_detail.html:396
 msgid "Please write a small comment."
-msgstr "SVP laissez un petit commantaire."
+msgstr "SVP laissez un petit commentaire."
 
 #: shopping/templates/shopping/optimum/product_detail.html:431
 #: shopping/templates/shopping/product_detail.html:410
@@ -2420,7 +2412,7 @@ msgstr "SVP entrez un email valide."
 #: shopping/templates/shopping/optimum/product_list.html:37
 #: templates/admin/change_list.html:78
 msgid "Filter"
-msgstr "Filtres"
+msgstr "Filtrer"
 
 #: shopping/templates/shopping/optimum/product_list.html:44
 msgid "Sort"
@@ -2448,7 +2440,7 @@ msgstr "Le paiement avec PayPal a échoué suivant les erreurs suivantes"
 
 #: shopping/templates/shopping/paypal/cancel.html:23
 msgid "Ooops! Payment canceled"
-msgstr "Oups! Paiement refusé"
+msgstr "Oups! Paiement annulé"
 
 #: shopping/templates/shopping/paypal/cancel.html:28
 #, python-format
@@ -2473,11 +2465,11 @@ msgstr "Confirmez-vous ce paiement ?"
 
 #: shopping/templates/shopping/product_detail.html:182
 msgid "Your Rating"
-msgstr "Votre évaluation"
+msgstr "Votre Évaluation"
 
 #: shopping/templates/shopping/product_detail.html:391
 msgid "Please rate using the stars."
-msgstr "SVP noter en utilisant les étoiles."
+msgstr "SVP notez en utilisant les étoiles."
 
 #: shopping/templates/shopping/snippets/checkout_confirmation.html:13
 #: trade/templates/trade/provider/package_list.html:47
@@ -2504,7 +2496,7 @@ msgstr ""
 
 #: shopping/templates/shopping/snippets/checkout_confirmation.html:54
 msgid "We will contact you as soon as the package is shipped."
-msgstr "Nous vous contacterons dès que le packet est expédié."
+msgstr "Nous vous contacterons dès que le paquet est expédié."
 
 #: shopping/templates/shopping/snippets/checkout_confirmation.html:59
 #, python-format
@@ -2515,7 +2507,7 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                           Vous pouvez toujours suivre votre l`état de votre "
+"                           Vous pouvez toujours suivre l'état de votre "
 "commande de votre calendrier<a href=\"%(console_url)s\"></a>.\n"
 "                    "
 
@@ -2625,7 +2617,7 @@ msgid ""
 "Select your desired size and quantity, then click <strong><ins>Add to Cart</"
 "ins></strong>"
 msgstr ""
-"Sélectionner la taille et quantité de ce dont vous désiré,ensuite cliquer "
+"Sélectionner la taille et quantité de ce dont vous désiré, ensuite cliquer "
 "<strong><ins>Ajouter au Panier</ins></strong>"
 
 #: shopping/templates/shopping/snippets/modal_preview.html:28
@@ -2641,7 +2633,7 @@ msgstr "Ajouter au panier"
 
 #: shopping/templates/shopping/snippets/modal_successful_registration.html:12
 msgid "You can start shopping now"
-msgstr "Vous pouvez maintenant commencé votre shopping "
+msgstr "Vous pouvez maintenant commencer votre shopping "
 
 #: shopping/templates/shopping/snippets/product_list_results.html:6
 msgid "Sorting by"
@@ -2666,16 +2658,16 @@ msgid ""
 msgstr ""
 "Commande réussie:\n"
 "%(details)s\n"
-"Votre RCC %(rcc)s\n"
+"Votre RCC est %(rcc)s\n"
 "Merci."
 
 #: shopping/views.py:512
 msgid "No order found with this AOTC"
-msgstr "Aucune commande trouvé avec AOTC"
+msgstr "Aucune commande trouvée avec cet AOTC"
 
 #: shopping/views.py:754
 msgid "Error setting up Deals selection page"
-msgstr "Les erreurs d'Offres mise en place de sélection de page"
+msgstr "Erreur lors de l'affichage de la page de Deals"
 
 #: shopping/views.py:813
 msgid "Terms payment is available only for one single product at a time."
@@ -2685,24 +2677,24 @@ msgstr ""
 
 #: shopping/views.py:827
 msgid "Order submit for approval"
-msgstr "Commande a soumettre pour approbation"
+msgstr "Commande soumise pour approbation"
 
 #: templates/admin/actions.html:4
 msgid "Run the selected action"
-msgstr "Exécutez l'action sélectionné"
+msgstr "Exécutez l'action sélectionnée"
 
 #: templates/admin/actions.html:4
 msgid "Go"
-msgstr "Aller"
+msgstr "Go"
 
 #: templates/admin/actions.html:11
 msgid "Click here to select the objects across all pages"
-msgstr "Cliquer ici pour seclectionner les objets à travers toutes les pages"
+msgstr "Cliquer ici pour sélectionner les objets à travers toutes les pages"
 
 #: templates/admin/actions.html:11
 #, python-format
 msgid "Select all %(total_count)s %(module_name)s"
-msgstr "Sélectionner %(total_count)s %(module_name)s"
+msgstr "Sélectionner tous les %(total_count)s %(module_name)s"
 
 #: templates/admin/actions.html:13
 msgid "Clear selection"
@@ -2770,7 +2762,7 @@ msgstr "Bannière"
 #: templates/core/app_base_admin.html:10
 #: templates/tchopetyamo/core/app_base_admin.html:10
 msgid "Smart Category"
-msgstr "Catégorie Chic"
+msgstr "Smart Catégorie"
 
 #: templates/core/app_base_admin.html:23
 #: templates/tchopetyamo/core/app_base_admin.html:23
@@ -2800,12 +2792,12 @@ msgstr "Drivy"
 #: trade/templates/trade/provider/package_list.html:5
 #: trade/templates/trade/provider/package_list.html:14
 msgid "Packages"
-msgstr "Packets"
+msgstr "Packages"
 
 #: templates/core/app_base_admin.html:85
 #: templates/tchopetyamo/core/app_base_admin.html:122
 msgid "Com & Marketing"
-msgstr ""
+msgstr "Com & Marketing"
 
 #: templates/core/app_base_admin.html:87
 #: templates/tchopetyamo/core/app_base_admin.html:32
@@ -2834,10 +2826,8 @@ msgid "Merchants"
 msgstr "Marchands"
 
 #: templates/core/app_base_admin.html:143
-#, fuzzy
-#| msgid "Tiles"
 msgid "Profiles"
-msgstr "Mosaïque"
+msgstr "Profils"
 
 #: templates/core/app_base_admin.html:156
 #: templates/tchopetyamo/core/app_base_admin.html:188
@@ -2862,7 +2852,7 @@ msgstr "Moyens de paiement"
 #: templates/core/app_base_admin.html:177
 #: templates/tchopetyamo/core/app_base_admin.html:204
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 #: templates/core/app_base_admin.html:183
 #: templates/tchopetyamo/core/app_base_admin.html:215
@@ -2941,19 +2931,19 @@ msgstr "Menus"
 
 #: templates/tchopetyamo/core/app_base_admin.html:38
 msgid "Items"
-msgstr ""
+msgstr "Articles"
 
 #: templates/tchopetyamo/core/app_base_admin.html:43
 msgid "Blog"
-msgstr ""
+msgstr "Blog"
 
 #: templates/tchopetyamo/core/app_base_admin.html:49
 msgid "Blog categories"
-msgstr "Catégories Blog"
+msgstr "Catégories du Blog"
 
 #: templates/tchopetyamo/core/app_base_admin.html:52
 msgid "Posts"
-msgstr ""
+msgstr "Posts"
 
 #: templates/tchopetyamo/core/app_base_admin.html:55
 msgid "Comments"
@@ -2962,7 +2952,7 @@ msgstr "Commentaires"
 #: templates/tchopetyamo/shopping/optimum/base.html:347
 #: templates/tchopetyamo/webnode/improve/base.html:249
 msgid "Admin Panel"
-msgstr ""
+msgstr "Panneau d'administration"
 
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:76
 msgid "Pick Up"
@@ -2971,10 +2961,8 @@ msgstr "Récupération"
 #: templates/tchopetyamo/shopping/snippets/edge_panel.html:64
 #: templates/tchopetyamo/webnode/improve/base.html:241
 #: templates/tchopetyamo/webnode/snippets/edge_panel.html:44
-#, fuzzy
-#| msgid "Orders"
 msgid "Order now"
-msgstr "Commandes"
+msgstr "J'achète"
 
 #: trade/models.py:78
 msgid "View report dashboard"
@@ -3106,7 +3094,7 @@ msgstr "Revenus"
 
 #: trade/templates/trade/bank/deal_list.html:5
 msgid "Deals"
-msgstr ""
+msgstr "Transactions"
 
 #: trade/templates/trade/bank/deal_list.html:47
 #: trade/templates/trade/bank/deal_list.html:114
@@ -3152,7 +3140,7 @@ msgstr ""
 
 #: trade/templates/trade/bank/deal_list.html:182
 msgid "Confirm deletion ?"
-msgstr "Confirmer la supression ?"
+msgstr "Confirmer la suppression ?"
 
 #: trade/templates/trade/mails/partnership_notice.html:6
 msgid ""
@@ -3170,7 +3158,7 @@ msgstr ""
 
 #: trade/templates/trade/mails/partnership_notice.html:11
 msgid "Thank you for your interest in us."
-msgstr "Merci pour l'intérêt que vous portez pour nous."
+msgstr "Merci pour l'intérêt que vous nous portez."
 
 #: trade/templates/trade/mails/partnership_notice.html:13
 msgid ""
@@ -3201,7 +3189,7 @@ msgstr "Confirmé"
 
 #: trade/templates/trade/order_list.html:41
 msgid "Rejected"
-msgstr "rejeté"
+msgstr "Rejeté"
 
 #: trade/templates/trade/order_list.html:43
 msgid "Delivered"
@@ -3214,12 +3202,12 @@ msgstr "Cliquez sur une commande dans la liste pour voir les détails."
 #: trade/templates/trade/order_list.html:82
 #: trade/templates/trade/order_list.html:151
 msgid "Confirm Order"
-msgstr "Commande Rejetée"
+msgstr "Confirmer Commande"
 
 #: trade/templates/trade/order_list.html:103
 #: trade/templates/trade/order_list.html:175
 msgid "Reject Order"
-msgstr "Commande Rejetée"
+msgstr "Rejeter Commande"
 
 #: trade/templates/trade/order_list.html:107
 #: trade/templates/trade/order_list.html:176
@@ -3240,15 +3228,15 @@ msgstr "Banque"
 
 #: trade/templates/trade/partner_list.html:14
 msgid "Partner Banks"
-msgstr "Partenaire de Banques"
+msgstr "Banques partenaires"
 
 #: trade/templates/trade/partner_list.html:16
 msgid "Partner Merchants"
-msgstr "Partenaire négociant"
+msgstr "Commerçants partenaires"
 
 #: trade/templates/trade/partner_list.html:32
 msgid "Remove"
-msgstr "Déplacer"
+msgstr "Retirer"
 
 #: trade/templates/trade/partner_list.html:39
 msgid "No Partner Bank found."
@@ -3274,40 +3262,40 @@ msgstr "Rechercher partenaire"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:48
 msgid "Estimated worth"
-msgstr ""
+msgstr "Valeur estimée"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:67
 msgid "Launch Facebook Campaign"
-msgstr ""
+msgstr "Lancer une Campagne Facebook"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:68
 msgid "Launch e-mailing Campaign"
-msgstr ""
+msgstr "Lancer une Campagne mail"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:100
 #: trade/templates/trade/retailer/dashboard.html:63
 #: trade/templates/trade/retailer/dashboard.html:73
 #: trade/templates/trade/retailer/dashboard.html:83
 msgid "vs same day last week"
-msgstr "vs même jour de la semaine"
+msgstr "vs même jr. sem. passée"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:121
 msgid "vs previous 7 days"
-msgstr ""
+msgstr "vs 7 jours précédents"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:142
 msgid "vs previous 28 days"
-msgstr ""
+msgstr "vs 28 jours précédents"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:147
-#, fuzzy
-#| msgid "Last month"
 msgid "Last joins"
-msgstr "Mois dernier"
+msgstr "Derniers joins"
 
 #: trade/templates/trade/provider/ccm_dashboard.html:178
 msgid "Enter your e-mail address below and we will contact you for commodities"
 msgstr ""
+"Entrez votre adresse e-mail ci-dessous et nous vous contacterons pour les "
+"commodités"
 
 #: trade/templates/trade/provider/dashboard.html:42
 msgid "Avg. Earning Per Order"
@@ -3316,11 +3304,11 @@ msgstr "Revenu Moy. Par Cmde"
 #: trade/templates/trade/provider/dashboard.html:59
 #: trade/templates/trade/retailer/dashboard.html:139
 msgid "Top categories"
-msgstr "Meilleures catégories"
+msgstr "Top catégories"
 
 #: trade/templates/trade/provider/dashboard.html:128
 msgid "Top products"
-msgstr "Meilleurs produits"
+msgstr "Top produits"
 
 #: trade/templates/trade/provider/dashboard.html:134
 msgid "Units ordered"
@@ -3328,16 +3316,16 @@ msgstr "Unités commandées"
 
 #: trade/templates/trade/provider/dashboard.html:200
 msgid "Top customers"
-msgstr "Meilleurs clients"
+msgstr "Top clients"
 
 #: trade/templates/trade/provider/dashboard.html:205
 msgid "Customer"
-msgstr ""
+msgstr "Client"
 
 #: trade/templates/trade/provider/package_list.html:26
 #: trade/templates/trade/snippets/deal_list_results.html:7
 msgid "Search PPC"
-msgstr "Recherche PPC"
+msgstr "Rechercher PPC"
 
 #: trade/templates/trade/provider/package_list.html:33
 #: trade/templates/trade/snippets/deal_list_results.html:14
@@ -3352,7 +3340,7 @@ msgstr "Expédié"
 #: trade/templates/trade/provider/package_list.html:61
 #: trade/templates/trade/snippets/deal_list_results.html:39
 msgid "Expected delivery"
-msgstr "Livraison prévue"
+msgstr "Livraison attendue"
 
 #: trade/templates/trade/provider/package_list.html:70
 #: trade/templates/trade/snippets/deal_list_results.html:48
@@ -3385,11 +3373,11 @@ msgstr "Du"
 #: trade/templates/trade/provider/package_list.html:116
 #: trade/templates/trade/snippets/deal_list_results.html:167
 msgid "Click on an package in the list to view details."
-msgstr "Cliquez sur unpaquet dans la liste pour voir les détails."
+msgstr "Cliquez sur un paquet dans la liste pour voir les détails."
 
 #: trade/templates/trade/provider/package_list.html:163
 msgid "Shipping confirmed"
-msgstr "Embarquement confirmé"
+msgstr "Expédition confirmée"
 
 #: trade/templates/trade/retailer/dashboard.html:76
 msgid "Last month"
@@ -3409,7 +3397,7 @@ msgstr "Détails de paiement"
 
 #: trade/templates/trade/retailer/dashboard.html:99
 msgid "Last payment"
-msgstr "Dernier Paiement"
+msgstr "Dernier paiement"
 
 #: trade/templates/trade/retailer/dashboard.html:104
 msgid "View payments"
@@ -3417,7 +3405,7 @@ msgstr "Voir les paiements"
 
 #: trade/templates/trade/retailer/dashboard.html:167
 msgid "Top providers"
-msgstr "Meilleurs fournisseurs"
+msgstr "Top fournisseurs"
 
 #: trade/templates/trade/retailer/dashboard.html:172
 msgid "Provider"
@@ -3440,7 +3428,7 @@ msgstr "PPC"
 #: trade/templates/trade/snippets/deal_list_results.html:118
 #: trade/templates/trade/snippets/package_list_results.html:32
 msgid "Del"
-msgstr "Del"
+msgstr "Liv."
 
 #: trade/templates/trade/snippets/deal_list_results.html:133
 #: trade/templates/trade/snippets/order_list_results.html:34
@@ -3470,7 +3458,7 @@ msgid ""
 "                %(items_count)s items"
 msgstr ""
 "\n"
-"                éléments %(items_count)s"
+"                %(items_count)s éléments "
 
 #: trade/templates/trade/snippets/order_details.html:56
 #: trade/templates/trade/snippets/package_details.html:53
@@ -3512,25 +3500,33 @@ msgstr "%s ajouté avec succès."
 #: trade/views.py:521
 #, python-format
 msgid "Deals for %s successfully saved."
-msgstr "Les transactions sont enrégistrées avec succès pour%s ."
+msgstr "Les deals pour %s ont été enregistrés avec succès ."
 
 #: trade/views.py:566 trade/views.py:594
 #, python-format
 msgid "Your order on %s was approved"
-msgstr "Votre commande a été validé sur %s"
+msgstr "Votre commande sur %s a été validée"
 
 #: trade/views.py:569 trade/views.py:597
 #, python-format
 msgid "Your order on %s was rejected"
-msgstr "Votre commande a été réjecté sur %s"
+msgstr "Votre commande sur %s a été rejetée"
 
 #: trade/views.py:606
 msgid "No Order found with this ID"
-msgstr "Aucune Commande trouvé avec cet identité"
+msgstr "Aucune Commande trouvé avec cet ID"
 
 #: trade/views.py:609
 msgid "Unknown error occurred"
 msgstr "Erreur inconnue survenue"
+
+#: reserved profiles tags
+msgid "Men"
+msgstr "Hommes"
+
+#: reserved profiles tags
+msgid "Women"
+msgstr "Femmes"
 
 #~ msgid "Manage marketing"
 #~ msgstr "Gérer le marketing"
