@@ -9,6 +9,8 @@ from ikwen.core.models import Model
 
 
 class CloudCashIn(Model):
-    member = models.ForeignKey(Member, blank=True)
+    customer = models.ForeignKey(Member, blank=True)
+    cashier = models.ForeignKey(Member, related_name="cashier_set")
     amount = models.IntegerField(help_text=_("Sales Cost"))
+    tags = models.CharField()
 
