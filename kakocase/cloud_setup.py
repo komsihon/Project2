@@ -63,8 +63,8 @@ class DeploymentForm(forms.Form):
     theme_id = forms.CharField()
 
 
-def deploy(app, member, business_type, project_name, billing_plan, theme, monthly_cost,
-           invoice_entries, billing_cycle, domain=None, partner_retailer=None):
+def deploy(app, member, business_type, project_name, billing_plan, theme, monthly_cost, invoice_entries,
+           billing_cycle, domain=None, business_category=None, bundle=None, partner_retailer=None):
     project_name_slug = slugify(project_name)  # Eg: slugify('Cool Shop') = 'cool-shop'
     ikwen_name = project_name_slug.replace('-', '')  # Eg: cool-shop --> 'coolshop'
     pname = ikwen_name
@@ -90,14 +90,16 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
             domain = domain.replace('www.', '')
         domain_type = Service.MAIN
         is_naked_domain = True
+        url = 'http://' + domain
     else:
-        domain = ikwen_name + '.kakocase.com'
+        domain = 'go.' + pname + '.ikwen.com'
         domain_type = Service.SUB
         is_naked_domain = False
+        url = 'http://go.ikwen.com/' + pname
     if getattr(settings, 'IS_UMBRELLA', False):
-        admin_url = domain + '/ikwen' + reverse('ikwen:staff_router')
+        admin_url = url + '/ikwen' + reverse('ikwen:staff_router')
     else:  # This is a deployment performed by a partner retailer
-        admin_url = domain + reverse('ikwen:staff_router')
+        admin_url = url + reverse('ikwen:staff_router')
     is_pro_version = billing_plan.is_pro_version
     now = datetime.now()
     expiry = now + timedelta(days=15)
@@ -143,8 +145,8 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         settings_template = 'kakocase/cloud_setup/settings.bank.html'
 
     service = Service(member=member, app=app, project_name=project_name, project_name_slug=ikwen_name, domain=domain,
-                      database=database, url='http://' + domain, domain_type=domain_type, expiry=expiry,
-                      admin_url='http://' + admin_url, billing_plan=billing_plan, billing_cycle=billing_cycle,
+                      database=database, url=url, domain_type=domain_type, expiry=expiry,
+                      admin_url=admin_url, billing_plan=billing_plan, billing_cycle=billing_cycle,
                       monthly_cost=monthly_cost, version=Service.TRIAL, retailer=partner_retailer,
                       api_signature=api_signature, home_folder=website_home_folder,
                       settings_template=settings_template)
@@ -157,7 +159,10 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
 
     # Re-create settings.py file as well as apache.conf file for the newly created project
     secret_key = generate_django_secret_key()
-    allowed_hosts = '"%s", "www.%s"' % (domain, domain)
+    if is_naked_domain:
+        allowed_hosts = '"%s", "www.%s"' % (domain, domain)
+    else:
+        allowed_hosts = '"go.ikwen.com"'
     settings_tpl = get_template(settings_template)
     settings_context = Context({'secret_key': secret_key, 'ikwen_name': ikwen_name, 'service': service,
                                 'static_root': STATIC_ROOT, 'static_url': STATIC_URL,
@@ -266,7 +271,8 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
                              can_manage_delivery_options=can_manage_delivery_options, business_type=business_type,
                              is_pro_version=is_pro_version, theme=theme, currency_code='XAF', currency_symbol='XAF',
                              signature=mail_signature, max_products=billing_plan.max_objects, decimal_precision=0,
-                             company_name=project_name, contact_email=member.email, contact_phone=member.phone)
+                             company_name=project_name, contact_email=member.email, contact_phone=member.phone,
+                             business_category=business_category, bundle=bundle)
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
@@ -277,6 +283,10 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         config.auth_code = auth_code
 
     theme.save(using=database)  # Causes theme to be routed to the newly created database
+    if business_category:
+        business_category.save(using=database)
+    if bundle:
+        bundle.save(using=database)
     config.save(using=database)
 
     InvoicingConfig.objects.using(database).create()
@@ -289,7 +299,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     logger.debug("Sample products successfully copied to database %s" % database)
 
     # Apache Server cloud_setup
-    if getattr(settings, 'LOCAL_DEV', False):
+    if not is_naked_domain or getattr(settings, 'LOCAL_DEV', False):
         apache_tpl = get_template('kakocase/cloud_setup/apache.conf.local.html')
     else:
         apache_tpl = get_template('kakocase/cloud_setup/apache.conf.html')
@@ -298,7 +308,10 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     fh.write(apache_tpl.render(apache_context))
     fh.close()
 
-    vhost = '/etc/apache2/sites-enabled/' + domain + '.conf'
+    if is_naked_domain:
+        vhost = '/etc/apache2/sites-enabled/' + domain + '.conf'
+    else:
+        vhost = '/etc/apache2/sites-enabled/go_ikwen/' + pname + '.conf'
     subprocess.call(['sudo', 'ln', '-sf', website_home_folder + '/apache.conf', vhost])
     logger.debug("Apache Virtual Host '%s' successfully created" % vhost)
 
@@ -338,7 +351,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     add_event(vendor, SERVICE_DEPLOYED, group_id=sudo_group.id, object_id=invoice.id)
     invoice_url = 'http://www.ikwen.com' + reverse('billing:invoice_detail', args=(invoice.id,))
     subject = _("Your website %s was created" % project_name)
-    html_content = get_mail_content(subject, '', template_name='core/mails/service_deployed.html',
+    html_content = get_mail_content(subject, template_name='core/mails/service_deployed.html',
                                     extra_context={'service_activated': service, 'invoice': invoice,
                                                    'member': member, 'invoice_url': invoice_url})
     msg = EmailMessage(subject, html_content, sender, [member.email])

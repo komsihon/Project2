@@ -25,7 +25,7 @@ from ikwen.core.models import Service, Application
 
 from django.utils.translation import gettext as _
 
-from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
+from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, BusinessCategory
 
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
@@ -150,12 +150,16 @@ class DeployCloud(VerifiedEmailTemplateView):
             business_type = form.cleaned_data.get('business_type')
             billing_cycle = form.cleaned_data.get('billing_cycle')
             billing_plan_id = form.cleaned_data.get('billing_plan_id')
+            business_category_id = form.cleaned_data.get('business_category_id')
+            bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
             theme_id = form.cleaned_data.get('theme_id')
             partner_id = form.cleaned_data.get('partner_id')
             app = Application.objects.using(UMBRELLA).get(pk=app_id)
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
             billing_plan = CloudBillingPlan.objects.using(UMBRELLA).get(pk=billing_plan_id)
+            business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
+            bundle = Bundle.objects.using(UMBRELLA).get(pk=bundle_id) if bundle_id else None
 
             is_ikwen = getattr(settings, 'IS_IKWEN', False)
             if not is_ikwen or (is_ikwen and request.user.is_staff):
@@ -200,12 +204,14 @@ class DeployCloud(VerifiedEmailTemplateView):
                 except:
                     break
             if getattr(settings, 'DEBUG', False):
-                service = deploy(app, customer, business_type, project_name, billing_plan, theme,
-                                 monthly_cost, invoice_entries, billing_cycle, domain, partner_retailer=partner)
+                service = deploy(app, customer, business_type, project_name, billing_plan, theme, monthly_cost,
+                                 invoice_entries, billing_cycle, domain, business_category, bundle,
+                                 partner_retailer=partner)
             else:
                 try:
-                    service = deploy(app, customer, business_type, project_name, billing_plan, theme,
-                                     monthly_cost, invoice_entries, billing_cycle, domain, partner_retailer=partner)
+                    service = deploy(app, customer, business_type, project_name, billing_plan, theme, monthly_cost,
+                                     invoice_entries, billing_cycle, domain, business_category, bundle,
+                                     partner_retailer=partner)
                 except Exception as e:
                     context = self.get_context_data(**kwargs)
                     context['error'] = e.message

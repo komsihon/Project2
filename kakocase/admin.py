@@ -15,7 +15,7 @@ from ikwen.core.admin import CustomBaseAdmin
 
 from ikwen.core.utils import get_service_instance, add_database_to_settings
 
-from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, ProductCategory
+from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, ProductCategory, BusinessCategory
 
 if getattr(settings, 'IS_IKWEN', False):
     _fieldsets = [
@@ -111,6 +111,13 @@ class ProductCategoryAdmin(admin.ModelAdmin):
         if getattr(settings, 'IS_RETAILER', False):
             readonly_fields = ('name', 'description', )
 
+
+class BusinessCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description',)
+    fields = ('name', 'slug', 'description',)
+    prepopulated_fields = {"slug": ("name",)}
+
+
 # Unregister ikwen billing models
 if not getattr(settings, 'IS_UMBRELLA', False):
     try:
@@ -142,5 +149,6 @@ admin.site.register(OperatorProfile, OperatorProfileAdmin)
 
 if getattr(settings, 'IS_IKWEN', False):
     admin.site.register(ProductCategory, ProductCategoryAdmin)
+    admin.site.register(BusinessCategory, BusinessCategoryAdmin)
 else:
     admin.site.register(DeliveryOption, DeliveryOptionAdmin)
