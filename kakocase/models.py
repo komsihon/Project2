@@ -45,6 +45,8 @@ CATEGORIES_PREVIEWS_PER_ROW = getattr(settings, 'CATEGORIES_PREVIEWS_PER_ROW', 3
 class TsunamiBundle(Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.CharField(max_length=100, unique=True)
+    sms_count = models.IntegerField()
+    mail_count = models.IntegerField()
     cost = models.IntegerField()
     support_bundle = models.ForeignKey(SupportBundle)
     content = models.TextField(blank=True, null=True)
