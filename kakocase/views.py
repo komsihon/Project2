@@ -151,7 +151,6 @@ class DeployCloud(VerifiedEmailTemplateView):
             billing_cycle = form.cleaned_data.get('billing_cycle')
             billing_plan_id = form.cleaned_data.get('billing_plan_id')
             business_category_id = form.cleaned_data.get('business_category_id')
-            bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
             theme_id = form.cleaned_data.get('theme_id')
             partner_id = form.cleaned_data.get('partner_id')
@@ -159,7 +158,6 @@ class DeployCloud(VerifiedEmailTemplateView):
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
             billing_plan = CloudBillingPlan.objects.using(UMBRELLA).get(pk=billing_plan_id)
             business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
-            bundle = Bundle.objects.using(UMBRELLA).get(pk=bundle_id) if bundle_id else None
 
             is_ikwen = getattr(settings, 'IS_IKWEN', False)
             if not is_ikwen or (is_ikwen and request.user.is_staff):
@@ -205,12 +203,12 @@ class DeployCloud(VerifiedEmailTemplateView):
                     break
             if getattr(settings, 'DEBUG', False):
                 service = deploy(app, customer, business_type, project_name, billing_plan, theme, monthly_cost,
-                                 invoice_entries, billing_cycle, domain, business_category, bundle,
+                                 invoice_entries, billing_cycle, domain, business_category, None,
                                  partner_retailer=partner)
             else:
                 try:
                     service = deploy(app, customer, business_type, project_name, billing_plan, theme, monthly_cost,
-                                     invoice_entries, billing_cycle, domain, business_category, bundle,
+                                     invoice_entries, billing_cycle, domain, business_category, None,
                                      partner_retailer=partner)
                 except Exception as e:
                     context = self.get_context_data(**kwargs)

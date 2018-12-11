@@ -15,7 +15,8 @@ from ikwen.core.admin import CustomBaseAdmin
 
 from ikwen.core.utils import get_service_instance, add_database_to_settings
 
-from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, ProductCategory, BusinessCategory
+from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, ProductCategory, BusinessCategory, \
+    TsunamiBundle
 
 if getattr(settings, 'IS_IKWEN', False):
     _fieldsets = [
@@ -118,6 +119,12 @@ class BusinessCategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+class TsunamiBundleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'cost', 'support_bundle', 'is_active')
+    prepopulated_fields = {"slug": ("name",)}
+    list_select_related = ('support_bundle', )
+
+
 # Unregister ikwen billing models
 if not getattr(settings, 'IS_UMBRELLA', False):
     try:
@@ -150,5 +157,6 @@ admin.site.register(OperatorProfile, OperatorProfileAdmin)
 if getattr(settings, 'IS_IKWEN', False):
     admin.site.register(ProductCategory, ProductCategoryAdmin)
     admin.site.register(BusinessCategory, BusinessCategoryAdmin)
+    admin.site.register(TsunamiBundle, TsunamiBundleAdmin)
 else:
     admin.site.register(DeliveryOption, DeliveryOptionAdmin)

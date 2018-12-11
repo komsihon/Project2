@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
 from ikwen.core.fields import MultiImageField
+from ikwen.billing.models import SupportBundle
 
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Model, AbstractConfig, AbstractWatchModel, Service
@@ -39,6 +40,15 @@ IS_RETAILER = getattr(settings, 'IS_RETAILER', False)
 IS_DELIVERY_COMPANY = getattr(settings, 'IS_DELIVERY_COMPANY', False)
 PRODUCTS_PREVIEWS_PER_ROW = getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
 CATEGORIES_PREVIEWS_PER_ROW = getattr(settings, 'CATEGORIES_PREVIEWS_PER_ROW', 3)
+
+
+class TsunamiBundle(Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.CharField(max_length=100, unique=True)
+    cost = models.IntegerField()
+    support_bundle = models.ForeignKey(SupportBundle)
+    content = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
 
 
 class City(Model):
@@ -307,8 +317,8 @@ class OperatorProfile(AbstractConfig):
                                                  help_text="Separate billing cycle allows operator to define a cost "
                                                            "per month on a product. Else the cost and duration of the "
                                                            "service are directly bound to the product.")
-    bundle = models.ForeignKey(Bundle, blank=True, null=True, db_index=True,
-                               help_text="Tsunami Bundle ID")
+    # bundle = models.ForeignKey(Bundle, blank=True, null=True, db_index=True,
+    #                            help_text="Tsunami Bundle ID")
 
     # REPORT INFORMATION
     # The following fields ending with _history are list of 366 values, each of which
