@@ -58,6 +58,8 @@ class DeploymentForm(forms.Form):
     business_type = forms.CharField(max_length=60)
     billing_cycle = forms.CharField(max_length=24)
     billing_plan_id = forms.CharField(max_length=24)
+    business_category_id = forms.CharField(max_length=24, required=False)
+    bundle_id = forms.CharField(max_length=24, required=False)
     setup_cost = forms.FloatField(required=False)
     monthly_cost = forms.FloatField(required=False)
     theme_id = forms.CharField()
