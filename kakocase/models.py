@@ -319,8 +319,6 @@ class OperatorProfile(AbstractConfig):
                                                  help_text="Separate billing cycle allows operator to define a cost "
                                                            "per month on a product. Else the cost and duration of the "
                                                            "service are directly bound to the product.")
-    # bundle = models.ForeignKey(Bundle, blank=True, null=True, db_index=True,
-    #                            help_text="Tsunami Bundle ID")
 
     # REPORT INFORMATION
     # The following fields ending with _history are list of 366 values, each of which

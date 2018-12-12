@@ -120,7 +120,7 @@ class BusinessCategoryAdmin(admin.ModelAdmin):
 
 
 class TsunamiBundleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'cost', 'support_bundle', 'is_active')
+    list_display = ('name', 'cost', 'support_bundle', 'sms_count', 'mail_count', 'is_active')
     prepopulated_fields = {"slug": ("name",)}
     list_select_related = ('support_bundle', )
 

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+import string
 import subprocess
 from datetime import datetime, timedelta
+from random import random
 from threading import Thread
 
 from django import forms
@@ -20,9 +22,9 @@ from permission_backend_nonrel.models import UserPermissionList, GroupPermission
 
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import SUDO, Member
-from ikwen.billing.models import Invoice, PaymentMean, InvoicingConfig
+from ikwen.billing.models import Invoice, PaymentMean, InvoicingConfig, SupportCode
 from ikwen.billing.utils import get_next_invoice_number
-from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, CLUSTER_MEDIA_ROOT, CLUSTER_MEDIA_URL
+from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, CLUSTER_MEDIA_ROOT, CLUSTER_MEDIA_URL, WALLETS_DB_ALIAS
 from ikwen.core.models import Service, OperatorWallet, SERVICE_DEPLOYED
 from ikwen.core.tools import generate_django_secret_key, generate_random_key, reload_server
 from ikwen.core.utils import add_database_to_settings, add_event, get_mail_content, \
@@ -30,6 +32,8 @@ from ikwen.core.utils import add_database_to_settings, add_event, get_mail_conte
 from ikwen.flatpages.models import FlatPage
 from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
+
+from echo.models import Balance
 
 import logging
 logger = logging.getLogger('ikwen')
@@ -274,12 +278,21 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
                              is_pro_version=is_pro_version, theme=theme, currency_code='XAF', currency_symbol='XAF',
                              signature=mail_signature, max_products=billing_plan.max_objects, decimal_precision=0,
                              company_name=project_name, contact_email=member.email, contact_phone=member.phone,
-                             business_category=business_category, bundle=bundle)
+                             business_category=business_category)
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
     if partner_retailer:
         partner_retailer.save(using=database)
+
+    if bundle:  # Tsunami bundle
+        token = ''.join([random.SystemRandom().choice(string.digits) for i in range(6)])
+        expiry = now + timedelta(days=bundle.support_bundle.duration)
+        SupportCode.objects.using(UMBRELLA).create(service=service, type=bundle.support_bundle.type,
+                                                   token=token, expiry=expiry)
+        Balance.objects.using('wallets').create(service_id=service.id,
+                                                sms_count=bundle.sms_count, mail_count=bundle.mail_count)
+
     service.save(using=database)
     if business_type == OperatorProfile.LOGISTICS:
         config.auth_code = auth_code
@@ -287,8 +300,6 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     theme.save(using=database)  # Causes theme to be routed to the newly created database
     if business_category:
         business_category.save(using=database)
-    if bundle:
-        bundle.save(using=database)
     config.save(using=database)
 
     InvoicingConfig.objects.using(database).create()
@@ -348,7 +359,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         ikwen_sudo_gp = Group.objects.using(UMBRELLA).get(name=SUDO)
         add_event(vendor, SERVICE_DEPLOYED, group_id=ikwen_sudo_gp.id, object_id=invoice.id)
     else:
-        sender = 'ikwen <no-reply@ikwen.com>'
+        sender = 'ikwen Tsunami <no-reply@ikwen.com>'
         sudo_group = Group.objects.using(UMBRELLA).get(name=SUDO)
     add_event(vendor, SERVICE_DEPLOYED, group_id=sudo_group.id, object_id=invoice.id)
     invoice_url = 'http://www.ikwen.com' + reverse('billing:invoice_detail', args=(invoice.id,))
