@@ -46,7 +46,9 @@ class TsunamiBundle(Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.CharField(max_length=100, unique=True)
     sms_count = models.IntegerField()
+    early_payment_sms_count = models.IntegerField()
     mail_count = models.IntegerField()
+    early_payment_mail_count = models.IntegerField()
     cost = models.IntegerField()
     support_bundle = models.ForeignKey(SupportBundle)
     content = models.TextField(blank=True, null=True)
@@ -283,35 +285,33 @@ class OperatorProfile(AbstractConfig):
         (STRAIGHT, _('Straight')),
         (UPON_CONFIRMATION, _('Upon buyer confirmation')),
     )
-    theme = models.ForeignKey(Theme, blank=True, null=True, related_name='+')
     rel_id = models.IntegerField(default=0, unique=True,
                                  help_text="Id of this object in the relational database, since these objects are kept"
                                            "in the relational database with traditional autoincrement Ids.")
+    bundle = models.ForeignKey(TsunamiBundle, blank=True, null=True)
+    # Managed by ikwen staff
     business_type = models.CharField(_("business type"), max_length=30)  # PROVIDER, RETAILER, DELIVERY_MAN or BANK
-    checkout_min = models.IntegerField(_("checkout minimum"), default=getattr(settings, 'CHECKOUT_MIN', 3000),
-                                       help_text=_("Minimum amount you allow to customers to buy."))
     ikwen_share_rate = models.FloatField(_("ikwen share rate"), default=0,
                                          help_text=_("Percentage ikwen collects on the turnover made by this person."))
     ikwen_share_fixed = models.FloatField(_("ikwen share fixed"), default=0,
                                           help_text=_("Fixed amount ikwen collects on the turnover made by this person."))
-    payment_delay = models.CharField(_("payment delay"), max_length=30, choices=PAYMENT_DELAY_CHOICES, default=STRAIGHT,
-                                     help_text=_("When cash should be deposited on trader's account. Right when the "
-                                                 "buyer pays or when he acknowledges reception of the order."))
-    auto_manage_sales = models.BooleanField(_("Auto-manage sales"), default=True,
-                                            help_text=_("If checked, may show a strike-through <em>previous price</em> "
-                                                        "right before the current <em>retail price</em> and a "
-                                                        "<em>'SALE'</em> badge on the product image whenever a product "
-                                                        "retail price is updated by a smaller value."))
-    # newsletter_title = models.CharField(max_length=150, blank=True, null=True,
-    #                              help_text="")
 
-    # Managed by ikwen staff
     is_certified = models.BooleanField(_("certified"), default=False)
     can_manage_delivery_options = models.BooleanField(_("Manage delivery options"), default=False,
                                                       help_text=_("If checked, IAO of the platform will be able to set "
                                                                   "delivery options like <strong>FREE SHIPPING</strong>"
                                                                   " or <strong>PICK-UP IN STORE</strong> besides those"
                                                                   " offered by ikwen delivery company partners."))
+
+    # Managed by Service owner
+    theme = models.ForeignKey(Theme, blank=True, null=True, related_name='+')
+    checkout_min = models.IntegerField(_("checkout minimum"), default=getattr(settings, 'CHECKOUT_MIN', 3000),
+                                       help_text=_("Minimum amount you allow to customers to buy."))
+    auto_manage_sales = models.BooleanField(_("Auto-manage sales"), default=True,
+                                            help_text=_("If checked, may show a strike-through <em>previous price</em> "
+                                                        "right before the current <em>retail price</em> and a "
+                                                        "<em>'SALE'</em> badge on the product image whenever a product "
+                                                        "retail price is updated by a smaller value."))
     show_prices = models.BooleanField(_("show prices"), default=True)
     allow_shopping = models.BooleanField(_("allow shopping"), default=True)
     is_active = models.BooleanField(_("active"), default=True)
@@ -319,6 +319,9 @@ class OperatorProfile(AbstractConfig):
                                                  help_text="Separate billing cycle allows operator to define a cost "
                                                            "per month on a product. Else the cost and duration of the "
                                                            "service are directly bound to the product.")
+    payment_delay = models.CharField(_("payment delay"), max_length=30, choices=PAYMENT_DELAY_CHOICES, default=STRAIGHT,
+                                     help_text=_("When cash should be deposited on trader's account. Right when the "
+                                                 "buyer pays or when he acknowledges reception of the order."))
 
     # REPORT INFORMATION
     # The following fields ending with _history are list of 366 values, each of which
