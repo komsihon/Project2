@@ -278,7 +278,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
                              is_pro_version=is_pro_version, theme=theme, currency_code='XAF', currency_symbol='XAF',
                              signature=mail_signature, max_products=billing_plan.max_objects, decimal_precision=0,
                              company_name=project_name, contact_email=member.email, contact_phone=member.phone,
-                             business_category=business_category)
+                             business_category=business_category, bundle=bundle)
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
