@@ -47,13 +47,13 @@
                         <h4>{% trans "Status" %}</h4>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="status{% if not status %} active{% endif %}" data-value="">
-                                <a href="#"> {% trans "All" %} </a>
+                                <a href="javascript:;"> {% trans "All" %} </a>
                             </li>
                             <li role="presentation" class="status{% if status == 'Pending' %} active{% endif %}" data-value="Pending">
-                                <a href="#"> {% trans "Pending" %} </a>
+                                <a href="javascript:;"> {% trans "Pending" %} </a>
                             </li>
                             <li role="presentation" class="status{% if status == 'Shipped' %} active{% endif %}" data-value="Shipped">
-                                <a href="#"> {% trans "Shipped" %} </a>
+                                <a href="javascript:;"> {% trans "Shipped" %} </a>
                             </li>
                         </ul>
                     </div>
@@ -61,19 +61,19 @@
                         <h4>{% trans "Expected delivery" %}</h4>
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="days-left{% if not days_left and days_left != 0 %} active{% endif %}" data-value="">
-                                <a href="#"> {% trans "All" %} </a>
+                                <a href="javascript:;"> {% trans "All" %} </a>
                             </li>
                             <li role="presentation" class="days-left{% if days_left == 0 %} active{% endif %}" data-value="0">
-                                <a href="#"> {% trans "Today" %} </a>
+                                <a href="javascript:;"> {% trans "Today" %} </a>
                             </li>
                             <li role="presentation" class="days-left{% if days_left == 1 %} active{% endif %}" data-value="1">
-                                <a href="#"> {% trans "Tomorrow" %} </a>
+                                <a href="javascript:;"> {% trans "Tomorrow" %} </a>
                             </li>
                             <li role="presentation" class="days-left{% if days_left == 3 %} active{% endif %}" data-value="3">
-                                <a href="#"> {% trans "Within 3 days" %} </a>
+                                <a href="javascript:;"> {% trans "Within 3 days" %} </a>
                             </li>
                             <li role="presentation" class="days-left{% if days_left == 7 %} active{% endif %}" data-value="7">
-                                <a href="#"> {% trans "Within 7 days" %} </a>
+                                <a href="javascript:;"> {% trans "Within 7 days" %} </a>
                             </li>
                         </ul>
                     </div>
@@ -85,12 +85,12 @@
                         {% endif %}
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" class="partner{% if not partner %} active{% endif %}" data-value="">
-                                <a href="#"> {% trans "All" %} </a>
+                                <a href="javascript:;"> {% trans "All" %} </a>
                             </li>
                             {% if partners|length <= 4 %}
                                 {% for p in partners %}
                                     <li role="presentation" class="partner{% if partner == p.service %} active{% endif %}" data-value="{{ p.service.id }}">
-                                        <a href="#">
+                                        <a href="javascript:;">
                                             {{ p.company_name }}
                                         </a>
                                     </li>

@@ -57,19 +57,19 @@
 {% if orders_page.paginator.num_pages > 1 %}
 <ul class="pagination" style="float: left">
     {% if orders_page.paginator.num_pages > 10 %}
-        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+        <li class="disabled"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
     {% endif %}
     {% for page in orders_page.paginator.page_range %}
         {% if page <= 10 %}
             <li class="{% if page == orders_page.number %}active{% endif %}" data-val="{{ page }}">
-                <a href="#">
+                <a href="javascript:;">
                     {{ page }} {% if page == orders_page.number %}<span class="sr-only">(current)</span>{% endif %}
                 </a>
             </li>
         {% endif %}
     {% endfor %}
     {% if orders_page.paginator.num_pages > 10 %}
-        <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+        <li><a href="javascript:;" aria-label="Next"><span aria-hidden="true">»</span></a></li>
     {% endif %}
 </ul>
 {% endif %}
