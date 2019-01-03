@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import helpers
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.urlresolvers import reverse
 from django.forms.models import modelform_factory
@@ -115,6 +116,13 @@ class ChangeSmartObject(TemplateView):
         if form.is_valid():
             title = form.cleaned_data['title']
             slug = slugify(title)
+            try:
+                model.objects.get(slug=slug)
+                context = self.get_context_data(**kwargs)
+                context['errors'] = _("Smart object with title %s already exists" % title)
+                return render(request, self.template_name, context)
+            except ObjectDoesNotExist:
+                pass
             content_type = form.cleaned_data['content_type']
             description = form.cleaned_data.get('description')
             badge_text = form.cleaned_data.get('badge_text')
