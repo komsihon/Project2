@@ -157,7 +157,10 @@ class DeployCloud(VerifiedEmailTemplateView):
             app = Application.objects.using(UMBRELLA).get(pk=app_id)
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
             billing_plan = CloudBillingPlan.objects.using(UMBRELLA).get(pk=billing_plan_id)
-            business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
+            if business_category_id:
+                business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
+            else:
+                business_category = None
 
             is_ikwen = getattr(settings, 'IS_IKWEN', False)
             if not is_ikwen or (is_ikwen and request.user.is_staff):
