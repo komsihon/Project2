@@ -70,8 +70,9 @@ def get_product_from_url(url):
     return product, merchant
 
 
-def render_products_added(target, product, revival):
+def render_products_added(target, product, revival, **kwargs):
     service = revival.service
+    sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
     db = service.database
     if target.member.date_joined > product.created_on or target.revival_count >= 1:
         # Do not revive customers who joined after product creation
@@ -87,11 +88,12 @@ def render_products_added(target, product, revival):
         'media_url': media_url
     }
     html_content = get_mail_content(subject, template_name=template_name, service=service, extra_context=extra_context)
-    return subject, html_content
+    return sender, subject, html_content
 
 
-def render_product_on_sale(target, product, revival):
+def render_product_on_sale(target, product, revival, **kwargs):
     service = revival.service
+    sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
     if target.member.date_joined > product.created_on or target.revival_count >= 1:
         # Do not revive customers who joined after product creation
         return None, None
@@ -104,4 +106,4 @@ def render_product_on_sale(target, product, revival):
         'media_url': media_url
     }
     html_content = get_mail_content(subject, template_name=template_name, service=service, extra_context=extra_context)
-    return subject, html_content
+    return sender, subject, html_content
