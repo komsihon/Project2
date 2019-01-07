@@ -510,8 +510,8 @@ class ChangeProduct(ChangeObjectBase):
 
     def get_context_data(self, **kwargs):
         context = super(ChangeProduct, self).get_context_data(**kwargs)
-        product_id = kwargs.get('product_id')
-        if product_id:
+        object_id = kwargs.get('object_id')
+        if object_id:
             if self.request.GET.get('duplicate'):
                 context['product'].id = ''
         return context
@@ -520,9 +520,9 @@ class ChangeProduct(ChangeObjectBase):
     def post(self, request, *args, **kwargs):
         service = get_service_instance()
         config = service.config
-        product_id = kwargs.get('product_id', request.POST.get('product_id'))
+        object_id = kwargs.get('object_id', request.POST.get('object_id'))
         product_admin = get_model_admin_instance(self.model, self.model_admin)
-        if product_id:
+        if object_id:
             obj = self.get_object(**kwargs)
         else:
             obj = self.model()
@@ -560,8 +560,8 @@ class ChangeProduct(ChangeObjectBase):
                 context = self.get_context_data(**kwargs)
                 context['error'] = error
                 return render(request, self.template_name, context)
-            if product_id:
-                product = get_object_or_404(Product, pk=product_id)
+            if object_id:
+                product = get_object_or_404(Product, pk=object_id)
                 if getattr(settings, 'IS_PROVIDER', False):
                     if product.is_retailed:
                         error = _("Product already imported by some retailers. Delete and start again.")
@@ -647,8 +647,8 @@ class ChangeProduct(ChangeObjectBase):
                     product_manager_list = get_members_having_permission(Product, 'ik_manage_product')
                     for m in product_manager_list:
                         add_event(service, PRODUCTS_LIMIT_REACHED_EVENT, m)
-            if product_id:
-                next_url = reverse('kako:change_product', args=(product_id, ))
+            if object_id:
+                next_url = reverse('kako:change_product', args=(object_id, ))
                 messages.success(request, _("Product %s successfully updated." % product.name))
             else:
                 add_event(service, PRODUCT_PUBLISHED_EVENT, object_id=product.id, model='kako.Product')
@@ -656,7 +656,7 @@ class ChangeProduct(ChangeObjectBase):
                 messages.success(request, _("Product %s successfully created." % product.name))
             mark_duplicates(product)
             tag = '__' + category.slug
-            category_auto_profile_tag, update = ProfileTag.objects.get_or_create(name=tag, slug=tag, is_auto=True)
+            category_auto_profile_tag, update = ProfileTag.objects.get_or_create(slug=tag, is_auto=True)
             auto_profiletag_id_list = [category_auto_profile_tag.id]
             revival_mail_renderer = 'ikwen_kakocase.kako.utils.render_products_added'
             if product.on_sale:
