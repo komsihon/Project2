@@ -25,7 +25,7 @@ if getattr(settings, 'IS_IKWEN', False):
                                     'payment_delay', 'cash_out_min', 'is_certified', )}),
         (_('Platform'), {'fields': ('can_manage_delivery_options', 'is_pro_version', 'can_manage_currencies')}),
         (_('SMS'), {'fields': ('sms_api_script_url', )}),
-        (_('Mailing'), {'fields': ('welcome_message', 'signature',)})
+        (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature',)})
     ]
     _readonly_fields = ()
 else:
@@ -53,7 +53,7 @@ else:
         (_('Address & Contact'), {'fields': ('contact_email', 'contact_phone', 'address', 'country', 'city')}),
         (_('Social'), {'fields': ('facebook_link', 'twitter_link', 'google_plus_link',
                                   'youtube_link', 'instagram_link', 'tumblr_link', 'linkedin_link', )}),
-        (_('Mailing'), {'fields': ('welcome_message', 'signature', )}),
+        (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature', )}),
     ]
     _fieldsets.extend([
         (_('External scripts'), {'fields': ('scripts', )}),
