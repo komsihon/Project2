@@ -1,6 +1,5 @@
 {% load i18n static auth_tokens media_from_provider cache %}
 <!--
-Au<!--
 Author: Roddy Mbogning
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
@@ -360,7 +359,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 {% if about_page %}
                                     <li><a href="{% url 'flatpage' about_page.url %}">{{ about_page.title }}</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                                {% if flatpage_list %}
+                                    {% for flatpage in flatpage_list %}
+                                        <li><a href="{% url 'flatpage' flatpage.url %}">{{ flatpage.title }}</a></li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="col-sm-6 col-md-3 footer-grid hidden-sm">

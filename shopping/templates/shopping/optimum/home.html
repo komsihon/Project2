@@ -64,13 +64,12 @@
                 prevEl: '.swiper-button-prev',
                 },
                 autoplay: 5000
-            })
+            });
 
             $('.swiper-container').on('mouseenter', function(e){
                 console.log('stop autoplay');
                 mySwiper.stopAutoplay();
-            })
-             $('.swiper-container').on('mouseleave', function(e){
+            }).on('mouseleave', function(e){
                 console.log('start autoplay');
                 mySwiper.startAutoplay();
             })
@@ -78,7 +77,6 @@
     </script>
     <script>
         (function() {
-
             $('section.product-agile:first').css('background', '#f9f8f8');
             $('section.product-agile:not(:first)').each(function(i) {
                 if ((i%2) === 1) $(this).css('background', '#f9f8f8');
