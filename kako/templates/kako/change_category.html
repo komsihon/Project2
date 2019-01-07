@@ -24,7 +24,7 @@
 
 {% block breadcrumb_location %}
     <li>{% url 'kako:category_list' as category_list_url %}
-        <a href="{{ category_list_url|append_auth_tokens:request }}">{% trans "Categories" %}</a>
+        <a href="{{ category_list_url }}">{% trans "Categories" %}</a>
     </li>
     {% if category %}
         <li>{{ category.name }}</li>
@@ -38,8 +38,7 @@
         <div class="container-fluid">
             {% url 'kako:change_category' as change_category_url %}
             {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
-            <form id="submit-category" class="admin-form" method="post" action="{{ change_category_url|append_auth_tokens:request }}">{% csrf_token %}
-                <input type="hidden" name="category_id" value="{{ category.id }}" />
+            <form id="submit-category" class="admin-form" method="post">{% csrf_token %}
                 <input type="hidden" name="image_url" id="image_url" value="" />
                 {% include 'core/snippets/model_admin_form.html' %}
                 <section class="photos" style="width: 100%">
@@ -78,7 +77,9 @@
                 var category = getLocalCategory();
                 localStorage.setItem('category', JSON.stringify(category));
             }).submit(function() {
-                return checkInput();
+                var isCorrect = checkInput();
+                if (isCorrect) localStorage.removeItem('category');
+                return isCorrect;
             });
             var pageLoading = true,
                 category;
@@ -146,15 +147,18 @@
                     'csrf_xname': 'X-CSRFToken'
                 }
             });
-            {% if category and category.image.name %}
-                $('#image_url').val("{{ category.image.url }}");
+            {% if category %}
+                {% if category.image.name  %}
+                    $('#image_url').val("{{ category.image.url }}");
+                {% endif %}
+                localStorage.removeItem('category');
             {% else %}
                 category = getLocalCategory();  // Category from an unterminated submit
                 if (category) {
                     $('#id_name').val(category.name);
                     $('#id_description').val(category.description);
                     $('#image_url').val(category.image_url);
-                    $('#id_is_active').prop('checked', product.is_active);
+                    $('#id_is_active').prop('checked', category.is_active);
                     $('div#upload-container .image').css('background-image', "url('" + category.image_url +"')");
                 }
             {% endif %}

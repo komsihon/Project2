@@ -124,10 +124,9 @@
                     </div>
                 </div>
             </div>
-            <form id="submit-product" class="tab-content admin-form" method="post" action="{{ request.META.path }}">{% csrf_token %}
+            <form id="submit-product" class="tab-content admin-form" method="post">{% csrf_token %}
                 {% url 'kako:submit_product' as submit_product_url %}
                 {% if error %}<p class="alert alert-danger">{{ error }}</p>{% endif %}
-                <input type="hidden" id="product-id" name="product_id" value="{{ product.id }}" />
                 <input type="hidden" name="slug" id="slug" value="{{ product.slug }}" />
                 <input type="hidden" name="photos_ids" id="photos_ids" value="" />
                 <div id="product-photos" class="tab-pane active" role="tabpanel" style="padding-bottom: 90px">
@@ -249,7 +248,9 @@
                     var product = getLocalProduct();
                     localStorage.setItem('product', JSON.stringify(product));
                 }).submit(function() {
-                    return checkInput();
+                    var isCorrect = checkInput();
+                    if (isCorrect) localStorage.removeItem('product');
+                    return isCorrect;
                 });
                 var pageLoading = true,
                     product;
