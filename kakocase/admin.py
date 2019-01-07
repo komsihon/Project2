@@ -21,8 +21,8 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, Prod
 if getattr(settings, 'IS_IKWEN', False):
     _fieldsets = [
         (_('Company'), {'fields': ('company_name', 'short_description', 'slogan', 'description')}),
-        (_('Business'), {'fields': ('ikwen_share_fixed', 'ikwen_share_rate',
-                                    'payment_delay', 'cash_out_min', 'is_certified', )}),
+        (_('Business'), {'fields': ('business_category', 'ikwen_share_fixed', 'ikwen_share_rate',
+                                    'payment_delay', 'cash_out_min', 'is_certified')}),
         (_('Platform'), {'fields': ('can_manage_delivery_options', 'is_pro_version', 'can_manage_currencies')}),
         (_('SMS'), {'fields': ('sms_api_script_url', )}),
         (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature',)})
@@ -36,10 +36,10 @@ else:
     if getattr(settings, 'IS_PROVIDER', False):
         if config.is_pro_version:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices', 'allow_shopping',
-                                          'notification_email', 'notification_phone', 'return_url', 'is_certified')}
+                                          'notification_email', 'notification_phone', 'return_url', 'is_ecommerce_active')}
         else:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
-                                          'allow_shopping', 'notification_email', 'notification_phone', 'is_certified')}
+                                          'allow_shopping', 'notification_email', 'notification_phone', 'is_ecommerce_active')}
     elif getattr(settings, 'IS_RETAILER', False):
         _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'is_certified',)}
     elif getattr(settings, 'IS_DELIVERY_COMPANY', False):

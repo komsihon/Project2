@@ -219,11 +219,11 @@ class DeployCloud(VerifiedEmailTemplateView):
                     return render(request, 'kakocase/cloud_setup/deploy.html', context)
             if is_ikwen:
                 if request.user.is_staff:
-                    next_url = reverse('partnership:change_service', args=(service.id, ))
+                    next_url = reverse('partnership:change_service', args=(service.id,))
                 else:
                     next_url = reverse('ikwen:console')
             else:
-                next_url = reverse('change_service', args=(service.id, ))
+                next_url = reverse('change_service', args=(service.id,))
             return HttpResponseRedirect(next_url)
         else:
             context = self.get_context_data(**kwargs)
@@ -264,3 +264,13 @@ class MerchantList(TemplateView):
         context['merchant_list_string'] = ' - '.join([m.project_name for m in merchant_list[:20]])
         return context
 
+
+class Welcome(TemplateView):
+    template_name = 'kakocase/welcome.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Welcome, self).get_context_data(**kwargs)
+        service = get_service_instance()
+        config = OperatorProfile.objects.using(UMBRELLA).get(service=service)
+        context['business_category'] = config.business_category.slug
+        return context
