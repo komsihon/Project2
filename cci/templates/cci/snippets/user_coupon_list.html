@@ -7,22 +7,15 @@
                 <div class="swiper-wrapper">
                     {% for coupon in coupons %}
                         <div class="col-xs-4 col-sm-3 card-li coupon swiper-slide"  data-id="{{ coupon.id }}" style="text-align: center">
-                            {% if coupon.ratio >= 100 %}
-                                <div class="reward can-be-use" data-id="{{ coupon.id }}">
-                            {% else %}
-                                <div class="reward" data-id="{{ coupon.id }}">
-                            {% endif %}
-
-                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({% static 'kakocase/img/coupon_test_img.png' %})">
-{#                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url('{{ settings.IKWEN_MEDIA_URL  }} {{ coupon.image.name }}')">#}
-
+                            <div class="reward{% if coupon.ratio >= 100 %} can-be-use{% endif %}" data-id="{{ coupon.id }}">
+                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url('{{ settings.IKWEN_MEDIA_URL  }}{{ coupon.image.name }}')">
                                     <div class="text-has-shade coupon-count">
-                                        <span>{{ coupon.count }}</span>/100
+                                        <span>{{ coupon.count }}</span>/{{ coupon.heap_size }}
                                     </div>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar" style="width: {{ coupon.ratio }}%">
-                                        <span class="sr-only">{{ coupon.ration }}% Complete</span>
+                                    <div class="progress-bar" style="width: {{ coupon.ratio|floatformat:"0" }}%">
+                                        <span class="sr-only">{{ coupon.ratio }}% Complete</span>
                                     </div>
                                 </div>
                                 <p style="margin-top: 5px">{{ coupon.name }}</p>
