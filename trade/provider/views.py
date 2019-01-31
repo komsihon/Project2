@@ -188,19 +188,20 @@ def confirm_shipping(request, *args, **kwargs):
     if getattr(settings, 'IS_PROVIDER', False):
         service = get_service_instance()
         retailer_service = order.retailer
-        retailer_earnings = order.retailer_earnings
-        if delivery_company == retailer_service:
-            retailer_earnings += order.delivery_earnings
+        if retailer_service != service:
+            retailer_earnings = order.retailer_earnings
+            if delivery_company == retailer_service:
+                retailer_earnings += order.delivery_earnings
 
-        retailer_profile = retailer_service.config
-        retailer_db = retailer_service.database
-        add_database_to_settings(retailer_db)
-        retailer_profile_original = OperatorProfile.objects.using(retailer_db).get(pk=retailer_profile.id)
+            retailer_profile = retailer_service.config
+            retailer_db = retailer_service.database
+            add_database_to_settings(retailer_db)
+            retailer_profile_original = OperatorProfile.objects.using(retailer_db).get(pk=retailer_profile.id)
 
-        set_counters(retailer_profile_original)
-        increment_history_field(retailer_profile_original, 'earnings_history', retailer_earnings)
-        retailer_profile.report_counters_to_umbrella()
-        retailer_profile_original.raise_balance(retailer_earnings, order.payment_mean.slug)
+            set_counters(retailer_profile_original)
+            increment_history_field(retailer_profile_original, 'earnings_history', retailer_earnings)
+            retailer_profile.report_counters_to_umbrella()
+            retailer_profile_original.raise_balance(retailer_earnings, order.payment_mean.slug)
 
         if order.delivery_option.type == DeliveryOption.HOME_DELIVERY:
             if order.member:
