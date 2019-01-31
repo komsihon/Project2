@@ -2,13 +2,14 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, user_passes_test
 from ikwen.accesscontrol.views import SignIn
+from ikwen.accesscontrol.utils import is_staff
 from ikwen_kakocase.shopping.views import Home, FlatPageView
 
 from ikwen_kakocase.trade.provider.views import ProviderDashboard, CCMDashboard
 from ikwen_kakocase.trade.views import RetailerDashboard, LogicomDashboard
-from ikwen_kakocase.kakocase.views import MerchantList
+from ikwen_kakocase.kakocase.views import AdminHome, MerchantList
 
 admin.autodiscover()
 
@@ -41,13 +42,14 @@ urlpatterns = patterns(
     url(r'^echo/', include('echo.urls', namespace='echo')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
-    url(r'^cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^currencies/', include('currencies.urls')),
 
+    url(r'^ikwen/home/$', user_passes_test(is_staff)(AdminHome.as_view()), name='admin_home'),
     url(r'^ikwen/dashboard/$', permission_required('trade.ik_view_dashboard')(Dashboard.as_view()), name='dashboard'),
     url(r'^ikwen/CCMDashboard/$', permission_required('trade.ik_view_dashboard')(CCMDashboard.as_view()), name='ccm_dashboard'),
     url(r'^ikwen/theming/', include('ikwen.theming.urls', namespace='theming')),
     url(r'^ikwen/cashout/', include('ikwen.cashout.urls', namespace='cashout')),
+    url(r'^ikwen/cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^ikwen/', include('ikwen.core.urls', namespace='ikwen')),
 
     # url(r'^$', ProviderDashboard.as_view(), name='admin_home'),
