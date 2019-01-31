@@ -14,6 +14,7 @@
         .ik-li.product .about .provider {font-size: .9em}
         .ik-li.product .actions .glyphicon-edit:not(.edit) {color: #ddd}
         #results .spinner {padding-top: 8%; position: fixed; right: 0; top: 0}
+        .search-text {padding-right: 15px}
         @media (min-width: 768px) {
             #admin-tools + #results {margin-top: 45px}
             #results .spinner {padding-top: 10%}
@@ -66,6 +67,13 @@
                         </div>
                     {% endif %}
                 </form>
+                {% if not settings.IS_BANK %}
+                    <a href="javascript:;" class="btn btn-sm btn-success cta add pull-right action"
+                            data-toggle="modal" data-target="#modal-add-product" title="{% trans "Add new product" %}">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span class="hidden-xs">{% trans "Add" %}</span>
+                    </a>
+                {% endif %}
                 {% if settings.IS_BANK %}
                     <button class="btn btn-sm btn-success cta pull-right action" style="border-color: #18bc9c; min-width: 90px"
                             data-toggle="modal" data-target="#load-product">
@@ -158,6 +166,38 @@
                             </div>
                         </div>
                         <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-add-product" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header no-border" style="border: none; padding-bottom: 0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 0">
+                    <div class="speech text-center" style="font-size: 15px; padding: 20px 0">
+                        {% blocktrans %}
+                            <p>Type a product name in the <em style="color: #888">Search product</em> text input.
+                                If product does not exist, you will be suggested to add.</p>
+                        {% endblocktrans %}
+                    </div>
+                    <div class="text-center">
+                        <img alt="Welcome Img" src="{% static 'kakocase/img/add-product.png' %}" style="border: 1px solid #ddd" />
+                    </div>
+                    <div class="modal-footer no-border" style="border: none; padding: 15px 0 30px">
+                        <div class="actions reward-available row">
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+                                <button class="btn btn-success btn-block" data-dismiss="modal">
+                                    {% blocktrans %}Got it !{% endblocktrans %}
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
             </div>
