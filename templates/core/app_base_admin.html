@@ -1,32 +1,25 @@
 {% extends "core/base_admin.html" %}
 {% load i18n humanize staticfiles cache auth_tokens %}
 
-{% block new_menu %}
-    <ul class="dropdown-menu" style="width: 100%">
-        <li><a href="{% url 'kako:change_product' %}">{% trans "Product" %}</a></li>
-        <li><a href="{% url 'kako:change_category' %}">{% trans "Category" %}</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="{% url 'marketing:change_smart_object' 'banner' %}">{% trans "Banner" %}</a></li>
-        <li><a href="{% url 'marketing:change_smart_object' 'smartcategory' %}">{% trans "Smart Category" %}</a></li>
-    </ul>
-{% endblock %}
-
 {% block admin_nav %}
     {% cache 600 sidebar user.username %}
     <div id="admin-nav" class="edge-panel-left">
         <div class="wrapper">
             <div class="stage">
                 <div class="menu">
-                    {% if not settings.IS_BANK and perms.trade.ik_view_dashboard %}
-                        <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation" class="dashboard">
-                                <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
-                            </li>
-                        </ul>
-                    {% endif %}
-                    {% if perms.trade.ik_manage_order or perms.trade.ik_manage_drivy or perms.trade.ik_manage_package %}
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" class="home">
+                            <a href="{% url 'admin_home' %}">{% trans "Home" %}</a>
+                        </li>
+                    </ul>
+                    {% if perms.trade.ik_manage_order or perms.trade.ik_manage_drivy or perms.trade.ik_manage_package or perms.trade.ik_view_dashboard %}
                         <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">
+                            {% if not settings.IS_BANK and perms.trade.ik_view_dashboard %}
+                                <li role="presentation" class="dashboard">
+                                    <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
+                                </li>
+                            {% endif %}
                             {% if not settings.IS_DELIVERY_COMPANY and perms.trade.ik_manage_order %}
                                 <li role="presentation" class="orders">
                                     {% url 'trade:order_list' as order_list_url %}
