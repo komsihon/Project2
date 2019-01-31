@@ -1,0 +1,69 @@
+{% extends "core/app_base_admin.html" %}
+{% load i18n humanize static admin_list %}
+
+{% block page_title %}
+<title> {% trans "Home" %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Home" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid stage">
+            <div id="stage" style="margin: auto">
+                {% include 'core/snippets/spinner.html' %}
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Customers contacts and community" %}</h4>
+                    <p>{% blocktrans %}
+                        Register your customers contacts here. Our system will be in charge of
+                    {% endblocktrans %}</p>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Website preview" %}</h4>
+                    <p>{% blocktrans %}
+                        Register your customers contacts here. Our system will be in charge of
+                    {% endblocktrans %}</p>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Products and categories" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Smart categories" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Homepage slideshow" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Mails and SMS campaigns" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Website appearance and logo" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Website configurations and branding" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Customer retention program" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Promotions" %}</h4>
+                </div>
+                <div class="card-section subtle-shade">
+                    <h4>{% trans "Help & Support" %}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {% include 'core/snippets/sort_and_actions.html' %}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .home').addClass('active');
+        })()
+    </script>
+{% endblock %}

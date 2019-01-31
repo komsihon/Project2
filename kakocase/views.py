@@ -33,6 +33,10 @@ from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 
 
+class AdminHome(TemplateView):
+    template_name = 'kakocase/admin_home.html'
+
+
 class DeliveryOptionList(TemplateView):
     template_name = 'core/iframe_admin.html'
 
