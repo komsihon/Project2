@@ -290,8 +290,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         expiry = now + timedelta(days=bundle.support_bundle.duration)
         SupportCode.objects.using(UMBRELLA).create(service=service, type=bundle.support_bundle.type,
                                                    token=token, expiry=expiry)
-        Balance.objects.using('wallets').create(service_id=service.id,
-                                                sms_count=bundle.sms_count, mail_count=bundle.mail_count)
+        Balance.objects.using('wallets').create(service_id=service.id)
 
     service.save(using=database)
     if business_type == OperatorProfile.LOGISTICS:
