@@ -19,11 +19,11 @@ body, .header-bottom  {background: #f9f8f8}
 }
 #checkout-summary .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
 	position: absolute; width: 100%; z-index: 100}
-.co {background: #fff;margin-bottom: 1em;padding: 15px;float: left;width: 100%;}
+.co {background: #fff;margin-bottom: 1em;padding: 15px 10px;float: left;width: 100%;}
 .multiple-delivery-options .co:not(.total) h4 {color: #666}
 .multiple-delivery-options .co:not(.total) .price {color: #009688; font-size: 1.5em}
 .delivery-option:not(:first-of-type) {border-top: 1px solid #eee}
-.delivery-option {color: #555;cursor: pointer;display: block;padding: .6em;transition: color .3s, background-color .3s;float: left;clear: both;width: 100%;}
+.delivery-option {color: #555;cursor: pointer;display: block;padding: .6em .3em;transition: color .3s, background-color .3s;float: left;clear: both;width: 100%;}
 .delivery-option:hover, .delivery-option.active {background: #f6f6f6; color: #0d59af; transition: color .3s, background-color .3s}
 .delivery-option .img {float: left; width: 15%}
 .delivery-option .cost {color: #888;float: right;font-weight: 700;}
