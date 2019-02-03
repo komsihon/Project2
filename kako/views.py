@@ -250,10 +250,12 @@ class MerchantListFilter(object):
 class ProductList(HybridListView):
     template_name = 'kako/product_list.html'
     html_results_template_name = 'kako/snippets/product_list_results.html'
+    model = Product
     queryset = Product.objects.filter(in_trash=False)
-    ordering = ('-updated_on', '-total_units_sold')
+    ordering = ('id', )
     search_field = 'name'
     context_object_name = 'product_list'
+    page_size = 50
     list_filter = (MerchantListFilter, ) if getattr(settings, 'IS_BANK', False) else (CategoryListFilter, )
 
     def get_queryset(self):
@@ -608,6 +610,7 @@ class ChangeProduct(ChangeObjectBase):
             product.weight = weight
             product.min_order = min_order
             product.unit_of_measurement = unit_of_measurement
+            product.order_of_appearance = Product.objects.all().count() + 1
             product.tags = product.slug.replace('-', ' ')
             try:
                 product.stock = int(stock.strip())

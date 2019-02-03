@@ -169,6 +169,8 @@ class Product(AbstractProduct):
                                     help_text=_("Minimum number of units one can order. Excellent for wholesale."))
     batch_upload = models.ForeignKey('BatchUpload', blank=True, null=True, editable=False)
 
+    order_of_appearance = models.IntegerField(default=0)
+
     # Django ORM does not support .distinct() with MongoDB Backend.
     # This field helps track which objects are duplicates of another
     # The field is set upon the saving and deleting an object using

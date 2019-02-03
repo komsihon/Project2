@@ -107,11 +107,11 @@ class Home(TemplateSelector, TemplateView):
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)
         preview_smart_categories = list(SmartCategory.objects
                                         .filter(items_count__gt=0, is_active=True, appear_in_menu=False)
-                                        .order_by('order_of_appearance', '-updated_on')[:preview_sections_count])
+                                        .order_by('order_of_appearance', 'title', '-updated_on')[:preview_sections_count])
         additional = preview_sections_count - len(preview_smart_categories)
         preview_categories = list(ProductCategory.objects
                                   .filter(items_count__gt=0, is_active=True, appear_in_menu=False)
-                                  .order_by('order_of_appearance', '-updated_on')[:additional])
+                                  .order_by('order_of_appearance', 'name', '-updated_on')[:additional])
         to_be_removed = []
         for item in preview_categories:
             products = item.get_visible_items()
@@ -232,7 +232,7 @@ class ProductList(TemplateSelector, HybridListView):
             context['content_type'] = PRODUCTS
         elif category_slug:
             category = get_object_or_404(ProductCategory, slug=category_slug)
-            product_queryset = base_queryset.filter(category=category).order_by('-updated_on')
+            product_queryset = base_queryset.filter(category=category).order_by('order_of_appearance', '-updated_on')
             page_title = category.name
             context['category'] = category
             context['obj_group'] = category
@@ -391,12 +391,13 @@ class Cart(TemplateSelector, TemplateView):
         order_id = kwargs.get('order_id')
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
-            if not order.currency:
-                order.currency = Currency.active.base()
-            diff = datetime.now() - order.created_on
-            if diff.total_seconds() >= 3600:
-                order.is_more_than_one_hour_old = True
-            context['order'] = order
+            if order.status != Order.PENDING_FOR_PAYMENT:
+                if not order.currency:
+                    order.currency = Currency.active.base()
+                diff = datetime.now() - order.created_on
+                if diff.total_seconds() >= 3600:
+                    order.is_more_than_one_hour_old = True
+                context['order'] = order
         return render(request, self.get_template_names(), context)
 
 

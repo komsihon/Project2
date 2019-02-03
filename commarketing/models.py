@@ -69,12 +69,14 @@ class SmartObject(Model):
 
     def get_category_queryset(self):
         if self.content_type == CATEGORIES:
-            return ProductCategory.objects.filter(pk__in=self.items_fk_list)
+            return ProductCategory.objects.filter(pk__in=self.items_fk_list)\
+                .order_by('order_of_appearance', 'name', '-updated_on')
 
     def get_product_queryset(self):
         if self.content_type == PRODUCTS:
             return Product.objects.exclude(Q(retail_price__isnull=True) & Q(retail_price=0))\
-                .filter(pk__in=self.items_fk_list, visible=True, is_duplicate=False)
+                .filter(pk__in=self.items_fk_list, visible=True, is_duplicate=False)\
+                .order_by('order_of_appearance', 'name', '-updated_on')
         elif self.content_type == SERVICES:
             return RecurringPaymentService.objects.filter(pk__in=self.items_fk_list, visible=True, is_duplicate=False)
 
