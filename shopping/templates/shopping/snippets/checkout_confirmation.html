@@ -32,7 +32,10 @@
                         {% endif %}
                     </p>
                 </div>
-                <p style="margin-top: 1em">{% trans "Thank you for shopping with us." %}</p>
+                <p style="margin-top: 1em">{% blocktrans with email=da.email %}
+                    A confirmation email was sent to {{ email }}.
+                {% endblocktrans %}</p>
+                <p style="margin-top: .5em">{% trans "Thank you for shopping with us." %}</p>
             </div>
 {#            <div class="highlight col-sm-5 col-sm-offset-2">#}
 {#                {% if order.status == 'Shipped' %}#}

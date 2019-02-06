@@ -6,6 +6,9 @@
         Kakocase rules for product detail page
 */
 
+.details .summary {margin: 10px 0 20px}
+.details li {list-style-type: disc}
+
 .swiper-slide {
     background-size: cover;
     background-position: center;

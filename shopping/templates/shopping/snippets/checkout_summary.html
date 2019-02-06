@@ -73,8 +73,8 @@
         {% if delivery_options|length > 1 %}
             <div class="actions">
                 <div id="delivery" class="co subtle-shade">
-                    <h4>{% trans "Delivery" %}</h4>
-                    <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Choose a delivery option below" %}</p>
+                    <h4>{% trans "Pick-up / Delivery" %}</h4>
+                    <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Choose an option below" %}</p>
                     <ul style="padding: 1em 0 0 0">
                         {% for option in delivery_options %}
                             <li class="delivery-option{% if option == delivery_option %} active{% endif %}"

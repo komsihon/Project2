@@ -267,7 +267,7 @@
                         paymentMeanSlug = $(this).data('slug'),
                         isCashFlex = $(this).data('is_cashflex');
                     if (!deliveryOptionId) {
-                        alert("{% trans "Please choose a delivery option." %}");
+                        alert("{% trans "Please choose a pick-up or home delivery option." %}");
                         return false;
                     }
                     if (isCashFlex) {

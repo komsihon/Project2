@@ -210,6 +210,17 @@
     <script type="text/javascript">
         (function() {
             $('div#admin-nav .products').addClass('active');
+            $(".object-list").sortable({
+                placeholder: "sortable-placeholder",
+                forcePlaceholderSize: true,
+                update: function (event, ui) {
+                    var sorted = [];
+                    $('.object-list li').each(function (i) {
+                        sorted.push($(this).attr('id') + ':' + i)
+                    });
+                    $.getJSON('', {sorted: sorted.join(',')})
+                }
+            }).disableSelection();
             var searchDescriptor = [{
                 endpoint: '{% url 'kako:product_list' %}',
                 resultTplSelector: '#results li.ik-li'
