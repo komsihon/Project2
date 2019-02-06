@@ -1,0 +1,56 @@
+{% extends 'kakocase/welcome/base.html' %}
+{% load i18n static %}
+
+{% block meta %}
+    {{ block.super }}
+{% endblock %}
+
+{% block page_title %}
+    <title>{{ service.project_name }} - Welcome</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!--Conditional custom css -->
+{#    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}commerce-shop.css">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
+{% endblock %}
+
+{% block header_brand %}
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="font-family: Lato">
+        <div class="container desktop-landscape">
+			<div class="row">
+				<div class="col-sm-5 col-xs-5 textBox landscape">
+					<h3 style="text-align: center">Lorem ipsum - TITLE</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et netus et malesuada fames ac.
+						Non nisi est sit amet facilisis magna. Lacus vestibulum sed arcu non odio euismod lacinia at. Pretium viverra suspendisse potenti nullam. Ultricies mi quis hendrerit dolor magna. Duis
+						at consectetur lorem donec. Purus in massa tempor nec feugiat nisl.
+					</p>
+					<div class="text-center">
+						<a href="http://ikwen.com?join={{ service.project_name_slug }}" class="btn btn-outline" style="min-width: 200px; margin-top: 15px; ">
+                            <img src="http://static.ikwen.com/ikwen/img/Join_button_white.svg" height="15" style="margin: -4px 5px 0 0">
+                            Join
+                        </a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container mobile-portrait" style="display: none">
+			<div class="row">
+				<div class="textBox portrait">
+					<h3 style="text-align: center">Lorem ipsum - TITLE</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et netus et malesuada fames ac.
+						Non nisi est sit amet facilisis magna. Lacus vestibulum sed arcu non odio euismod lacinia at. Pretium viverra suspendisse potenti nullam.
+					</p>
+					<div class="text-center">
+						<a href="http://ikwen.com?join={{ service.project_name_slug }}" class="btn btn-outline" style="min-width: 200px; margin-top: 15px; ">Join</a>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+{% endblock %}

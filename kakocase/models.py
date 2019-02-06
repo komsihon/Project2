@@ -304,6 +304,7 @@ class OperatorProfile(AbstractConfig):
                                                                   " offered by ikwen delivery company partners."))
 
     # Managed by Service owner
+    is_ecommerce_active = models.BooleanField(_("Activate shopping ?"), default=False)
     theme = models.ForeignKey(Theme, blank=True, null=True, related_name='+')
     checkout_min = models.IntegerField(_("checkout minimum"), default=getattr(settings, 'CHECKOUT_MIN', 3000),
                                        help_text=_("Minimum amount you allow to customers to buy."))
