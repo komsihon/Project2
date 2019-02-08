@@ -21,6 +21,7 @@
                     <input type="hidden" id="previous-address-index" name="previous_address_index" />
                     <input type="hidden" name="anonymous_buyer_id" value="{{ request.GET.anonymous_buyer_id }}" />
                     <input type="hidden" name="delivery_option_id" value="{{ request.GET.delivery_option_id }}" />
+                    <input type="hidden" name="buy_packaging" value="{{ request.GET.buy_packaging }}" />
                     {% if pick_up_in_store %}
                         <div class="alert alert-info">
                             <h2>{{ delivery_option.name }}</h2>

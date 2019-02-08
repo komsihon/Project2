@@ -153,21 +153,30 @@
                 {% endif %}
             {% else %}
                 var currency = simpleCart.currency().symbol,
-                    minCheckout = $('#checkout-min').text();
+                    minCheckout = $('#checkout-min').text(),
+                    totalPackagingCost = 0;
                 $('body').on('click', '.value-plus1', function() {
                     var id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0],
-                        stock = item.get('stock');
+                        max = $(this).data('max');
+                    var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) + 1;
+                    if (newVal > max) {
+                        ikwen.showFloatingNotice("{% trans "Available stock limit reached." %}", "", 3);
+                        return;
+                    }
                     item.increment();
                     simpleCart.update();
+                    var qty = item.quantity();
+                    totalPackagingCost += qty * item.get('packaging_price');
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
                     var id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0];
-                    if (item.quantity() == 1) return;
+                    if (item.quantity() === 1) return;
                     item.decrement();
                     simpleCart.update();
+                    totalPackagingCost -= qty * item.get('packaging_price');
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
@@ -190,7 +199,9 @@
                         var _item = item,
                             url = item.get('url'),
                             size = item.get('size'),
+                            packagingCost = item.get('packaging_price'),
                             $cartItem = $('.cart-item.tpl').clone().removeClass('tpl');
+                        totalPackagingCost += packagingCost * item.quantity();
                         $cartItem.attr('id', item.id()).data('id', item.id());
                         $cartItem.find('.item_id').text(item.id());
                         $cartItem.find('.value-plus1, .value-minus1, .close1').data('id', item.id());
@@ -200,7 +211,7 @@
                         $cartItem.find('.cart-item-img').attr('href', url);
                         $cartItem.find('.cart-item-img img').attr('src', item.get('image'));
                         $cartItem.find('.item_name').text(item.get('name'));
-                        if (size == '-------') $cartItem.find('.size').hide();
+                        if (size === '-------') $cartItem.find('.size').hide();
                         else $cartItem.find('.size').show();
                         $cartItem.find('.item_size').text(size);
                         $cartItem.find('.item_price').html(currency + ' ' + item.price().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
@@ -228,13 +239,14 @@
                             }
                         });
                     });
+                    var $packageItem = $('.cart-item.tpl').clone().removeClass('tpl');
                     loadCheckoutSummary();
                 }
                 function loadCheckoutSummary() {
                     var itemsCount = simpleCart.quantity(),
                         itemsCost = simpleCart.total(),
                         delOptId = $('.delivery-option.active').data('id'),
-                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost,
+                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packaging_cost=' + totalPackagingCost,
                         url = '{% url 'shopping:load_checkout_summary' %}' + query;
                     if (delOptId) url += '&delivery_option_id=' + delOptId;
                     $('div#checkout-summary .spinner').fadeIn();

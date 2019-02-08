@@ -112,6 +112,7 @@
                                 {% if config.show_prices %}
                                     <p class="price item-price-verbose">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</p>
                                     <span class="hidden item_price">{{ product.retail_price|currency:CURRENCY.code }}</span>
+                                    <span class="hidden item_packaging_price">{{ product.packaging_price|currency:CURRENCY.code }}</span>
                                     {% if deal_list %}
                                     <div class="product-deals">
                                         <div class="row">

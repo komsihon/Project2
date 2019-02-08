@@ -537,6 +537,7 @@ class ChangeProduct(ChangeObjectBase):
             reference = request.POST.get('reference')
             original_id = request.POST.get('original_id')
             wholesale_price = float(request.POST.get('wholesale_price'))
+            packaging_price = float(request.POST.get('packaging_price'))
             try:
                 retail_price = float(request.POST.get('retail_price'))
             except:
@@ -609,6 +610,7 @@ class ChangeProduct(ChangeObjectBase):
             product.size = size
             product.weight = weight
             product.min_order = min_order
+            product.packaging_price = packaging_price
             product.unit_of_measurement = unit_of_measurement
             product.order_of_appearance = Product.objects.all().count() + 1
             product.tags = product.slug.replace('-', ' ')

@@ -1,0 +1,41 @@
+- model: core.config
+  pk: 58922874b37b6b51f0073371
+  fields:
+    service: 56eb6d04b37b3379b531b101
+    company_name: Tecno Mobile Telecom
+    company_name_slug: tecno-mobile-telecom
+    contact_email: contact@tecno.cm
+    city: Yaounde
+
+- model: core.config
+  pk: 58922874b37b6b51f0073372
+  fields:
+    service: 56eb6d04b37b3379b531b102
+    company_name: Les Brasseries du Cameroun
+    company_name_slug: les-brasseries-du-cameroun
+    city: Yaounde
+
+- model: core.config
+  pk: 58922874b37b6b51f0073373
+  fields:
+    service: 56eb6d04b37b3379b531b103
+    company_name: Point Fokal
+    company_name_slug: point-fokal
+    city: Douala
+
+- model: core.config
+  pk: 58922874b37b6b51f0073374
+  fields:
+    service: 56eb6d04b37b3379b531b105
+    company_name: Campost
+    company_name_slug: campost
+    city: Yaounde
+
+- model: core.config
+  pk: 58922874b37b6b51f0073375
+  fields:
+    service: 56eb6d04b37b3379b531b107
+    company_name: AFIC FINANCE
+    company_name_slug: aficfinance
+    contact_email: contact@aficfinance.cm
+    city: Yaounde

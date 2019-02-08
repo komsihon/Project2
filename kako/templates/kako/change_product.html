@@ -346,6 +346,7 @@
                         $('#id_wholesale_price').val(product.wholesale_price);
                         $('#id_retail_price').val(product.retail_price);
                         $('#id_max_price').val(product.max_price);
+                        $('#id_packaging_price').val(product.packaging_price);
                         $('#id_size').val(product.size);
                         $('#id_weight').val(product.weight);
                         $('#id_stock').val(product.stock);
@@ -372,6 +373,7 @@
                 {# BEGIN: Separate form accross tabs: Order is important as they are stacked LIFO #}
 
                 $('.field-retail_price_is_modifiable').prependTo('#product-pricing');
+                $('.field-packaging_price').prependTo('#product-pricing');
                 $('.field-max_price').prependTo('#product-pricing');
                 $('.field-retail_price').prependTo('#product-pricing');
                 $('.field-wholesale_price').prependTo('#product-pricing');

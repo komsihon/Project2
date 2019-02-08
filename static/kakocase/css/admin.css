@@ -7,6 +7,7 @@
 */
 
 #object-detail .content .col-xs-6 {padding: 0 5px}
+.order-details .ik-li:last-child, .package-details .ik-li:last-child {border-bottom: none; margin-bottom: 15px}
 .show-results-filter {background: none; color: #545454}
 .btn.show-results-filter:hover, .btn.show-results-filter:active, .btn.show-results-filter.active {background: none; color: #545454}
 .order-summary {border: 1px solid #eee;clear: both;margin-top: .5em;padding: 10px;}

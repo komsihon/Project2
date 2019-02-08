@@ -48,7 +48,7 @@ class AbstractProduct(AbstractWatchModel):
     photos = ListField(EmbeddedModelField('Photo'), editable=False)
     # PRICES
     wholesale_price = models.FloatField(blank=IS_RETAILER, null=IS_RETAILER, help_text=wholesale_price_help_text)
-    retail_price = models.FloatField(blank=True, null=True, help_text=retail_price_help_text)
+    retail_price = models.FloatField(default=0, blank=True, null=True, help_text=retail_price_help_text)
     max_price = models.FloatField(blank=True, null=True, help_text=max_price_help_text)
     retail_price_is_modifiable = models.BooleanField(_("modifiable price ?"), editable=IS_PROVIDER, default=True,
                                                      help_text="If True, retailer can set his own retail price. "
@@ -170,6 +170,7 @@ class Product(AbstractProduct):
     batch_upload = models.ForeignKey('BatchUpload', blank=True, null=True, editable=False)
 
     order_of_appearance = models.IntegerField(default=0)
+    packaging_price = models.FloatField(default=0)
 
     # Django ORM does not support .distinct() with MongoDB Backend.
     # This field helps track which objects are duplicates of another
@@ -202,8 +203,9 @@ class Product(AbstractProduct):
                 obj = Product.objects.filter(category=self.category, brand=self.brand, slug=self.slug, size=size)[0]
                 obj = apply_promotion_discount([obj])[0]
 
-                size_list_obj.append({'label': obj.size, 'stock': obj.stock, 'retail_price': obj.retail_price,
-                                      'id': obj.pk, 'wholesale_price': obj.wholesale_price, 'max_price': obj.max_price})
+                size_list_obj.append({'id': obj.pk, 'label': obj.size, 'stock': obj.stock,
+                                      'retail_price': obj.retail_price, 'wholesale_price': obj.wholesale_price,
+                                      'packaging_price': obj.packaging_price, 'max_price': obj.max_price})
             except:
                 pass
         return size_list_obj

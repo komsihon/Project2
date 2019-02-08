@@ -447,6 +447,7 @@ class Checkout(TemplateSelector, TemplateView):
 def load_checkout_summary(request, *args, **kwargs):
     items_count = request.GET['items_count']
     items_cost = float(request.GET['items_cost'])
+    packaging_cost = float(request.GET['packaging_cost'])
     delivery_option_id = request.GET.get('delivery_option_id')
     items_gross_cost = 0
     delivery_option = None
@@ -462,7 +463,7 @@ def load_checkout_summary(request, *args, **kwargs):
             items_gross_cost = items_cost
             items_cost = items_cost - (items_cost * coupon.rate / 100)
 
-    total_cost = items_cost
+    total_cost = items_cost + packaging_cost
     if delivery_option_id:
         delivery_option = DeliveryOption.objects.get(pk=delivery_option_id)
         total_cost += delivery_option.cost

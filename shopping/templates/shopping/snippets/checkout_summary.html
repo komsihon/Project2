@@ -35,7 +35,8 @@
         {% if items_cost >= config.checkout_min %}
             {% if delivery_options|length == 1 %}
                 <div class="actions">
-                    <div class="delivery-option active" style="margin-bottom: .5em" data-id="{{ delivery_options.0.id }}" data-cost="{{ delivery_options.0.cost|currency:CURRENCY.code }}">
+                    <div class="delivery-option active" style="margin-bottom: .5em" data-id="{{ delivery_options.0.id }}"
+                         data-type="{{ delivery_options.0.type }}" data-cost="{{ delivery_options.0.cost|currency:CURRENCY.code }}">
                         <div class="img">
                             {% if delivery_options.0.icon.name %}
                                 <img src="{{ delivery_options.0.icon.url }}" class="img-responsive"/>

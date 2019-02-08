@@ -482,7 +482,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 simpleCart.bind('afterAdd', function (item) {
                     $('div#added-to-cart .name').text(item.get('name'));
                     var size = item.get('size');
-                    if (size != '-------')
+                    if (size !== '-------')
                         $('div#added-to-cart .size').text('(' + size + ')');
                     else
                         $('div#added-to-cart .size').text('');
@@ -503,6 +503,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 }).on('change', '.size-list .item-size-selector', function () {
                     var id =$('option:selected',this).data('id'),
                         price =$('option:selected',this).data('retail_price'),
+                        packagingPrice =$('option:selected',this).data('packaging_price'),
                         priceVerbose =$('option:selected',this).data('retail_price_verbose'),
                         stock =$('option:selected',this).data('stock'),
                         size = $(this).val(),
@@ -513,9 +514,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $(this).parents('.simpleCart_shelfItem').find('.item_id').text(id);
                     $(this).parents('.simpleCart_shelfItem').find('.item-price-verbose').html(currency + ' ' + priceVerbose);
                     $(this).parents('.simpleCart_shelfItem').find('.item_price').text(price);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_packaging_price').text(packagingPrice);
                     $(this).parents('.simpleCart_shelfItem').find('.item_stock').text(stock);
                     if (item) max = stock - item.quantity();
-                    if (max == 0) $('.simpleCart_shelfItem .value1').text(0);
+                    if (max === 0) $('.simpleCart_shelfItem .value1').text(0);
                     else $('.simpleCart_shelfItem .value1').text(1);
                     $(this).parents('.simpleCart_shelfItem').find('.value-plus1').data('max', max)
                 }).on('change', '.currency-switcher select', function() {
@@ -543,13 +545,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $('div#product-modal-preview .product-about .product-price').html($price.html());
                     $('div#product-modal-preview img').attr('src', image);
                     $('div#product-modal-preview .size-radios').html($sizeRadios.html());
-                    if ($sizeRadios.length == 0) {
+                    if ($sizeRadios.length === 0) {
                         $('div#product-modal-preview .size-list').hide();
                         $('div#product-modal-preview .item_size').text('-------');
                         $('div#product-modal-preview .size-hint').hide();
                     } else {
                         $('div#product-modal-preview .size-list').show();
-                        if ($sizeRadios.find('.choose-size').length == 1) {
+                        if ($sizeRadios.find('.choose-size').length === 1) {
                             var onlySize = $sizeRadios.find('.item-size-selector').val();
                             $('div#product-modal-preview .item_size').text(onlySize);
                             $('div#product-modal-preview .size-hint').hide();
@@ -559,7 +561,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         }
                     }
                     if (item) max = stock - item.quantity();
-                    if (max == 0) $('div#product-modal-preview .value1').text(0);
+                    if (max === 0) $('div#product-modal-preview .value1').text(0);
                     else $('div#product-modal-preview .value1').text(1);
                     $('div#product-modal-preview .value-plus1').data('max', max);
                 });
@@ -622,7 +624,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     reInitTopComponent();
                     var showEmailModal = $(this).val();
                     localStorage.removeItem('showEmailModal');
-                    if (showEmailModal == 'on'){
+                    if (showEmailModal === 'on'){
                         localStorage.setItem('showEmailModal', true)
                     }
                     if ($(window).width() < 992) {
@@ -647,7 +649,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         }
                     }));
                 });
-                if (("{{ is_in_newsletter }}")== 'False') {
+                if (("{{ is_in_newsletter }}") === 'False') {
                     if(!localStorage.getItem('showEmailModal')){
                         setTimeout(function() {
                             $('#news-letter').modal();
@@ -736,7 +738,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 $("i.fa-user").click(function () {
                     $(".button-hover-handler").removeClass('active');
                     $(this).parent('.button-hover-handler').addClass('active');
-                })
+                });
 
                 function ran_col() { //function name
                     var color = '#'; // hexadecimal starting symbol

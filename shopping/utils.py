@@ -39,6 +39,7 @@ def parse_order_info(request):
 
     entries = request.POST['entries'].split(',')
     delivery_option_id = request.POST['delivery_option_id']
+    buy_packaging = request.POST.get('buy_packaging', False)
     try:
         currency = Currency.objects.get(code=request.session[CURRENCY_SESSION_KEY])
     except KeyError:
@@ -132,18 +133,23 @@ def parse_order_info(request):
         product.units_sold_history = []  # Wipe these unnecessary data for this case
         count = int(tokens[1])
 
+        if not buy_packaging:
+            product.packaging_price = 0  # Cancel packaging price if refused to buy packaging
+
         if coupon:
             rate = coupon.rate
             product.retail_price = product.retail_price * (100 - rate) / 100
+            # product.packaging_price = product.packaging_price * (100 - rate) / 100
 
         order_entry = OrderEntry(product=product,  count=count)
         order.entries.append(order_entry)
         order.items_count += count
         order.items_cost += product.retail_price * count
+        order.packaging_cost += product.packaging_price * count
         order.tags += ' ' + product.name
 
     order.coupon = coupon
-    order.total_cost = order.items_cost + delivery_option.cost
+    order.total_cost = order.items_cost + delivery_option.cost + order.packaging_cost
     order.delivery_address = address
     return order
 
@@ -157,17 +163,25 @@ def send_order_confirmation_email(subject, buyer_name, buyer_email, order, messa
             coupon_count += pack.count
     else:
         template_name = 'shopping/mails/order_notice.html'
-    html_content = get_mail_content(subject, '', template_name=template_name,
-                                    extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
-                                                   'IS_BANK': getattr(settings, 'IS_BANK', False),
-                                                   'coupon_count': coupon_count})
-    sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
-    msg = EmailMessage(subject, html_content, sender, [buyer_email])
-    bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
-    bcc.append(service.member.email)
-    msg.bcc = list(set(bcc))
-    msg.content_subtype = "html"
-    Thread(target=lambda m: m.send(), args=(msg, )).start()
+
+    with transaction.atomic(using=WALLETS_DB_ALIAS):
+        balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+        if balance.mail_count == 0:
+            notify_for_empty_messaging_credit(service, balance)
+            return
+        html_content = get_mail_content(subject, '', template_name=template_name,
+                                        extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
+                                                       'IS_BANK': getattr(settings, 'IS_BANK', False),
+                                                       'coupon_count': coupon_count})
+        sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
+        msg = EmailMessage(subject, html_content, sender, [buyer_email])
+        bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
+        bcc.append(service.member.email)
+        msg.bcc = list(set(bcc))
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg, )).start()
+        balance.mail_count -= 1
+        balance.save()
 
 
 def send_order_confirmation_sms(buyer_name, buyer_phone, order):
@@ -199,7 +213,7 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order):
     with transaction.atomic(using=WALLETS_DB_ALIAS):
         balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
         if balance.sms_count < needed_credit:
-            notify_for_empty_messaging_credit(service, SMS)
+            notify_for_empty_messaging_credit(service, balance)
             return
         buyer_phone = buyer_phone.strip()
         buyer_phone = slugify(buyer_phone).replace('-', '')

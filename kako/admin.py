@@ -1,9 +1,7 @@
-from django.contrib.admin.sites import AlreadyRegistered
 from django.template.defaultfilters import slugify
 from ikwen.core.admin import CustomBaseAdmin
 from import_export import resources
 
-from ikwen.core.utils import get_service_instance
 from ikwen_kakocase.kakocase.models import ProductCategory
 from ikwen_kakocase.kako.models import Product, RecurringPaymentService
 from django.contrib import admin
@@ -50,12 +48,12 @@ class ProductResource(resources.ModelResource):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER \
-        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'retail_price_is_modifiable',
+    fields = ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER \
+        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'retail_price_is_modifiable',
               'reference', 'original_id', 'size', 'color', 'weight', 'stock', 'unit_of_measurement', 'min_order', 'badge_text', 'summary', 'description','visible', )
     fieldsets = (
-        (None, {'fields': ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER
-        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'retail_price_is_modifiable',
+        (None, {'fields': ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER
+        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'retail_price_is_modifiable',
               'reference', 'original_id', 'size', 'color', 'weight', 'stock', 'unit_of_measurement', 'min_order', 'badge_text', 'summary', 'description',
               'visible',)}),
     )
@@ -63,7 +61,8 @@ class ProductAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         if IS_PROVIDER:
             return ()
-        ro = ['provider', 'category', 'name', 'brand', 'wholesale_price', 'summary', 'description', 'max_price', 'size', 'color', 'weight', 'stock', 'visible']
+        ro = ['provider', 'category', 'name', 'brand', 'wholesale_price', 'summary', 'description',
+              'max_price', 'packaging_price', 'size', 'color', 'weight', 'stock', 'visible']
         if not obj.retail_price_is_modifiable:
             ro.append('retail_price')
         return ro
