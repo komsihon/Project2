@@ -1,0 +1,155 @@
+{% extends 'com/base.html' %}
+{% load i18n static %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
+    <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
+    <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
+{% endblock %}
+
+{% block page_title %}
+    <title>Tsunami - How to</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/tsunami/tsunami_how_to.css' %}">
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
+        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}"/>
+    </a>
+    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+{% endblock %}
+
+{% block content %}
+    {% url 'billing:invoice_detail' invoice.id as invoice_url %}
+    <body style="background-color: #f8f9fa">
+		<div id="section-header-general-view" class="container-fluid section-header">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 mobile-adjust" style="padding-top: 20vh">
+					<div class="media">
+						<a href="#" class="pull-left">
+							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object img-responsive" style="max-width: 110px" alt="Sample Image"/>
+						</a>
+						<div class="media-body ">
+                        {% blocktrans with client_name=service.member.first_name service_url=new_service.url %}
+							<h1 class="media-heading">Congratulations {{client_name}} !</h1>
+							<h4 class="mobile-adjust"> You're now the owner of TSUNAMI platform, availaible at <a href="{{ service_url }}"> {{ service_url }}</a>.
+								Discover all what you can do with this awesome Cloud tool. Take your business to the next level.
+                            </h4>
+                            <p class="bill-link">
+                                Your invoice is available, pay now and get your <span class="animated infinite pulse" style="color: #ef7000">support code,</span>
+                                 bonus Mails and SMS to optimize your customer relationship.
+                            </p>
+                            <a href="{{ invoice_url }}" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;"> Payer</a>
+						{% endblocktrans %}
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="section-header-iPad-view" class="container-fluid section-header" style="display: none;">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 mobile-adjust" style="padding-top: 20vh">
+					<div class="media">
+						<a href="#" class="pull-left">
+							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object img-responsive" style="max-width: 110px" alt="Sample Image"/>
+						</a>
+						<div class="media-body">
+                        {% blocktrans with client_name=service.member.first_name service_url=new_service.url %}
+							<h2 class="media-heading">Congratulations {{client_name}} !</h2>
+							<h4 class="mobile-adjust"> You're now the owner of TSUNAMI platform, availaible at <a href="{{ service_url }}"> {{ service_url }}</a>.
+								Discover all what you can do with this awesome Cloud tool. Take your business to the next level.
+                            </h4>
+                            <p class="bill-link">Your invoice is available, pay now and get your <span class="animated infinite pulse" style="color: #ef7000">support code.</span></p>
+                            <a href="{{ invoice_url }}" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;"> Payer</a>
+						{% endblocktrans %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="features-top" class="container">
+			<div class="col-md-12 col-md-offset-1 mobile-adjust fisrt">
+				<div class="row custom_row"  style="padding-top: 5vh">
+					<div class="col-md-6 section-features-text second-on-mobile">
+						<h2 class="mobile-adjust" style="font-size: 1.6vw">{% trans "Your customer relationship fully automated!" %}</h2>
+						<p class="mobile-adjust">
+                            {% blocktrans %}
+                                Clients are just everywhere you know... Get them registered efficiently with TSUNAMI and let it take care of the rest.
+                                Invite people to <em>join</em> your community now by sharing your link.
+                            {% endblocktrans %}
+						</p>
+						<a href="http://ikwen.com/?join={{ new_service.project_name_slug }}" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Share my link" %}<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+
+					</div>
+					<div class="col-md-6 col-sm-6 first-on-mobile">
+						<img class="img-features img-responsive" alt="img_client_list_exploitation" src="{% static 'tsunami/img/fully_automated.png' %}" />
+					</div>
+				</div>
+				<div class="row custom_row"  style="padding-top: 5vh">
+					<div class="col-md-6 section-features-text second-on-mobile">
+						<h2 class="mobile-adjust" style="font-size: 1.6vw">Inbound marketing : {% trans "attract customer to you!" %}.</h2>
+                    {% blocktrans %}
+						<p class="mobile-adjust">
+                            No more blind and ineffective marketing campaigns, now your prospects and customers have 100 reasons to come, stay and bring people to you.
+                            TSUNAMI gives you the possibility to offer everybody free collectible coupons. They'll rush to register in your CCM*
+						</p>
+						<a href="http://blog.ikwen.com/about-continuous-rewarding/" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link"> Read more about coupons &nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+					{% endblocktrans %}
+                    </div>
+					<div class="col-md-6 col-sm-6 first-on-mobile">
+						<img class="img-features img-responsive" alt="img_inbound_marketing" src="{% static 'tsunami/img/inbound_marketing.png' %}" />
+					</div>
+				</div>
+				<div class="row custom_row"  style="padding-top: 5vh">
+					<div class="col-md-6 section-features-text second-on-mobile">
+						<h2 class="mobile-adjust" style="font-size: 1.6vw">{% trans "Conquer World market today!" %}</h2>
+						<p class="mobile-adjust">
+                            {% blocktrans %}
+                                You can start selling online now. Get paid via Mobile money. Your business work 24/7,
+                                and customers can buy from you immediately after they receive your automated offers sent by TSUNAMI via Emails and SMS.
+                            {% endblocktrans %}
+
+						</p>
+						<a href="{{ new_service.url }}{% url 'kako:product_list' %}" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Publish your products" %}&nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+					</div>
+					<div class="col-md-6 col-sm-6 first-on-mobile">
+						<img class="img-features img-responsive" alt="img_client_list_exploitation" src="{% static 'tsunami/img/glogal-market.png' %}" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row section-banniere">
+				<div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 3vh">
+				  	<h1>
+						{% trans "Need help ?" %}
+					</h1>
+					<h3>
+						{% trans "Contact us" %}
+					</h3>
+					<div>
+						<h4 class="contact-address">
+							<i class="fab fa-whatsapp"></i> &nbsp;(+237) 656 123 522 <br>
+							<i class="fas fa-envelope"></i> &nbsp;support@ikwen.com
+						</h4>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+{% endblock %}
