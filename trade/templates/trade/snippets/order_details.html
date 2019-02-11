@@ -24,14 +24,14 @@
                 {% endwith %}
             </li>
         {% endfor %}
-        {% if order.packaging_cost %}
+        {% if order.packing_cost %}
             <li class="ik-li">
                 <span class="image" style="background-image: url({% static 'kakocase/img/shopping-bag.png' %}"></span>
                 <div class="info">
-                    <span class="name">{% trans "Packaging" %}</span>
+                    <span class="name">{% trans "Packing" %}</span>
                     <div class="about">
                         <div class="meta">
-                            <strong>{% trans "Price" %}:</strong> <span>{{ CURRENCY.symbol }} {{ order.packaging_cost }}</span>
+                            <strong>{% trans "Price" %}:</strong> <span>{{ CURRENCY.symbol }} {{ order.packing_cost }}</span>
                         </div>
                     </div>
                 </div>

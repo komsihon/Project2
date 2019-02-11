@@ -447,7 +447,7 @@ class Checkout(TemplateSelector, TemplateView):
 def load_checkout_summary(request, *args, **kwargs):
     items_count = request.GET['items_count']
     items_cost = float(request.GET['items_cost'])
-    packaging_cost = float(request.GET['packaging_cost'])
+    packing_cost = float(request.GET['packing_cost'])
     delivery_option_id = request.GET.get('delivery_option_id')
     items_gross_cost = 0
     delivery_option = None
@@ -463,7 +463,9 @@ def load_checkout_summary(request, *args, **kwargs):
             items_gross_cost = items_cost
             items_cost = items_cost - (items_cost * coupon.rate / 100)
 
-    total_cost = items_cost + packaging_cost
+    total_cost = items_cost
+    if request.GET.get('buy_packing'):
+        total_cost += packing_cost
     if delivery_option_id:
         delivery_option = DeliveryOption.objects.get(pk=delivery_option_id)
         total_cost += delivery_option.cost
@@ -660,7 +662,7 @@ def confirm_checkout(request, *args, **kwargs):
     subject = _("Order successful")
     reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
                                                    amount=order.items_cost, model_name='trade.Order')
-    send_order_confirmation_email(subject, buyer_name, buyer_email, order, reward_pack_list=reward_pack_list)
+    send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, reward_pack_list=reward_pack_list)
     if getattr(settings, 'UNIT_TESTING', False):
         send_order_confirmation_sms(buyer_name, buyer_phone, order)
     else:
@@ -827,7 +829,7 @@ def submit_order_for_bank_approval(request, order, bank_id, account_number, deal
     except:
         pass
     subject = _("Order submit for approval")
-    send_order_confirmation_email(subject, member.full_name, member.email, order)
+    send_order_confirmation_email(request, subject, member.full_name, member.email, order)
     bank_profile_original = OperatorProfile.objects.using(bank_db).get(service=bank)
     if bank_profile_original.return_url:
         nvp_dict = {'member': member.full_name, 'email': member.email, 'phone': member.phone,

@@ -170,7 +170,7 @@ class Product(AbstractProduct):
     batch_upload = models.ForeignKey('BatchUpload', blank=True, null=True, editable=False)
 
     order_of_appearance = models.IntegerField(default=0)
-    packaging_price = models.FloatField(default=0)
+    packing_price = models.FloatField(default=0)
 
     # Django ORM does not support .distinct() with MongoDB Backend.
     # This field helps track which objects are duplicates of another
@@ -205,7 +205,7 @@ class Product(AbstractProduct):
 
                 size_list_obj.append({'id': obj.pk, 'label': obj.size, 'stock': obj.stock,
                                       'retail_price': obj.retail_price, 'wholesale_price': obj.wholesale_price,
-                                      'packaging_price': obj.packaging_price, 'max_price': obj.max_price})
+                                      'packing_price': obj.packing_price, 'max_price': obj.max_price})
             except:
                 pass
         return size_list_obj

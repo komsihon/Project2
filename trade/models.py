@@ -34,7 +34,7 @@ class Order(Model):
     entries = ListField(EmbeddedModelField('OrderEntry'))
     items_count = models.IntegerField()
     items_cost = models.IntegerField()
-    packaging_cost = models.IntegerField(default=0)
+    packing_cost = models.IntegerField(default=0)
     delivery_option = EmbeddedModelField('kakocase.DeliveryOption')
     delivery_company = models.ForeignKey(Service, related_name='+')
     pick_up_in_store = models.BooleanField(default=False)
@@ -144,13 +144,13 @@ class Order(Model):
         for entry in self.entries:
             provider = entry.product.provider
             provider_db = provider.database
-            retail_cost = entry.count * (entry.product.retail_price + entry.product.packaging_price)
+            retail_cost = entry.count * (entry.product.retail_price + entry.product.packing_price)
             if service == provider:
-                provider_revenue = entry.count * (entry.product.retail_price + entry.product.packaging_price)
+                provider_revenue = entry.count * (entry.product.retail_price + entry.product.packing_price)
                 retailer_revenue = 0
             else:
                 provider_revenue = entry.count * entry.product.wholesale_price
-                retailer_revenue = entry.count * (entry.product.retail_price + entry.product.packaging_price - entry.product.wholesale_price)
+                retailer_revenue = entry.count * (entry.product.retail_price + entry.product.packing_price - entry.product.wholesale_price)
             retailer_charges = retailer_revenue * config.ikwen_share_rate / 100
             retailer_earnings = retailer_revenue - retailer_charges
             total_retailer_charges += retailer_charges

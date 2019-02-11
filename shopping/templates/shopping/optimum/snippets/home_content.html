@@ -135,6 +135,7 @@
                                                     {% endif %}
                                                     <em class="item-price-verbose">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                                     <span class="hidden item_price">{{ product.retail_price|currency:CURRENCY.code }}</span>
+                                                    <span class="hidden item_packing_price">{{ product.packing_price|currency:CURRENCY.code }}</span>
                                                 </p>
                                             {% endif %}
                                             <div class="availability">
@@ -275,6 +276,7 @@
                                                     {% endif %}
                                                     <em class="item-price-verbose">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                                     <span class="hidden item_price">{{ product.retail_price|currency:CURRENCY.code }}</span>
+                                                    <span class="hidden item_packing_price">{{ product.packing_price|currency:CURRENCY.code }}</span>
                                                 </p>
                                             {% endif %}
                                             {% if config.allow_shopping and config.show_prices %}
@@ -362,6 +364,7 @@
                                                 {% endif %}
                                                 <em class="item-price-verbose">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</em>
                                                 <span class="hidden item_price">{{ product.retail_price|currency:CURRENCY.code }}</span>
+                                                <span class="hidden item_packing_price">{{ product.packing_price|currency:CURRENCY.code }}</span>
                                             </p>
                                         {% endif %}
                                         {% if product.min_order > 1 %}

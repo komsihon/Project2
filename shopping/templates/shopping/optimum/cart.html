@@ -88,14 +88,14 @@
                                  <div class="clearfix"></div>
                              </div>
                          </div>
-                        <div class="cart-item packaging subtle-shade tpl">
+                        <div class="cart-item packing subtle-shade" style="display: none">
                              <div class="cart-sec">
                                  <a class="cart-item-img cyc">
                                      <img class="img-responsive" src="{% static 'kakocase/img/shopping-bag.png' %}" alt="">
                                  </a>
                                  <div class="cart-item-description">
                                      <h2>
-                                         <span class="item_name">{% trans "Packaging" %}</span>
+                                         <span class="item_name">{% trans "Packing" %}</span>
                                      </h2>
                                      <div class="cart-item-info">
                                          <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
@@ -131,15 +131,15 @@
                                      <div class="alert alert-warning">{% trans "Sorry, we had to adjust your quantity to currently available stock." %}</div>
                                      <div class="alert alert-danger">{% trans "Sorry, unfortunately this product went out of stock meanwhile." %}</div>
                                  </div>
-                                 <div style="clear: both" class="include-packaging">
+                                 <div style="clear: both" class="include-packing">
                                      <label style="cursor: pointer">
-                                         <input class="form-control" id="check-packaging" type="checkbox" checked>
-                                         <span style="float: left">{% trans "No I don't want packaging" %}</span>
+                                         <input class="form-control" id="check-packing" type="checkbox" checked>
+                                         <span style="float: left">{% trans "No I don't want packing" %}</span>
                                      </label>
                                  </div>
                                  <div class="clearfix"></div>
                              </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
                 <div id="checkout-summary" class="col-sm-4 col-md-3">
@@ -189,7 +189,7 @@
         <input type="hidden" id="next" name="next">
         <input type="hidden" id="anonymous-buyer-id" name="anonymous_buyer_id">
         <input type="hidden" id="delivery-option-id" name="delivery_option_id">
-        <input type="hidden" id="buy-packaging" name="buy_packaging">
+        <input type="hidden" id="buy-packing" name="buy_packing">
     </form>
     {% endwith %}
 {% endblock %}
@@ -209,8 +209,8 @@
             {% else %}
                 var currency = simpleCart.currency().symbol,
                     minCheckout = $('#checkout-min').text(),
-                    totalPackagingQty = 0,
-                    totalPackagingCost = 0;
+                    totalPackingQty = 0,
+                    totalPackingCost = 0;
                 $('body').on('click', '.value-plus1', function() {
                     var id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0],
@@ -222,9 +222,14 @@
                     }
                     item.increment();
                     simpleCart.update();
-                    totalPackagingQty += 1;
-                    totalPackagingCost += parseFloat(item.get('packaging'));
+                    var packing = parseFloat(item.get('packing'));
+                    if (packing > 0) {
+                        totalPackingQty += 1;
+                        totalPackingCost += packing;
+                    }
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $('.cart-item.packing .item_quantity span').text(totalPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
                     var id = $(this).data('id'),
@@ -232,9 +237,14 @@
                     if (item.quantity() === 1) return;
                     item.decrement();
                     simpleCart.update();
-                    totalPackagingQty -= 1;
-                    totalPackagingCost -= parseFloat(item.get('packaging'));
+                    var packing = parseFloat(item.get('packing'));
+                    if (packing > 0) {
+                        totalPackingQty -= 1;
+                        totalPackingCost -= packing;
+                    }
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $('.cart-item.packing .item_quantity span').text(totalPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
                     var $cartItem = $(this).parents('.cart-item'),
@@ -260,8 +270,8 @@
                     });
                 }).on('keypress', '.promo input[type=text]',function () {
                     $(".invalid-code").fadeOut().hide()
-                }).on('click', '#check-packaging', function() {
-                    var buyPackaging = $('#check-packaging').prop('checked'),
+                }).on('click', '#check-packing', function() {
+                    var buyPacking = $('#check-packing').prop('checked'),
                         itemsCost = parseFloat($('#items-summary').data('total')),
                         $delOpt = $('.delivery-option.active'),
                         deliveryCost = 0,
@@ -269,13 +279,13 @@
                     if ($delOpt.length > 0) deliveryCost = $delOpt.data('cost');
                     else deliveryCost = 0;
                     total = itemsCost + deliveryCost;
-                    if (buyPackaging) {
-                        total += totalPackagingCost;
-                        $('.cart-item.packaging').removeClass('no');
-                        $('#buy-packaging').val('yes')
+                    if (buyPacking) {
+                        total += totalPackingCost;
+                        $('.cart-item.packing').removeClass('no');
+                        $('#buy-packing').val('yes')
                     } else {
-                        $('.cart-item.packaging').addClass('no');
-                        $('#buy-packaging').val('')
+                        $('.cart-item.packing').addClass('no');
+                        $('#buy-packing').val('')
                     }
                     $('.co.total .price .val').text(total.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                 });
@@ -284,15 +294,17 @@
 
                 function populateCartPanel() {
                     simpleCart.load();
-                    $('.cart-item:not(.tpl)').remove();
+                    $('.cart-item:not(.tpl, .packing)').remove();
                     simpleCart.each(function(item) {
                         var _item = item,
                             url = item.get('url'),
                             size = item.get('size'),
-                            packagingCost = item.get('packaging'),
-                            $cartItem = $('.cart-item.tpl:not(.packaging)').clone().removeClass('tpl');
-                        totalPackagingCost += packagingCost * item.quantity();
-                        if (packagingCost) totalPackagingQty += item.quantity();
+                            packingCost = item.get('packing'),
+                            $cartItem = $('.cart-item.tpl').clone().removeClass('tpl');
+                        if (packingCost > 0) {
+                            totalPackingCost += packingCost * item.quantity();
+                            totalPackingQty += item.quantity();
+                        }
                         $cartItem.attr('id', item.id()).data('id', item.id());
                         $cartItem.find('.item_id').text(item.id());
                         $cartItem.find('.value-plus1, .value-minus1, .close1').data('id', item.id());
@@ -330,15 +342,15 @@
                             }
                         });
                     });
-                    var $packageItem = $('.cart-item.packaging');
-                    $packageItem.find('.item_quantity span').text(totalPackagingQty);
-                    $packageItem.find('.subtotal').text(totalPackagingCost);
-                    if (totalPackagingCost > 0) {
+                    var $packageItem = $('.cart-item.packing');
+                    $packageItem.find('.item_quantity span').text(totalPackingQty);
+                    $packageItem.find('.subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    if (totalPackingCost > 0) {
                         $packageItem.show();
-                        $('#buy-packaging').val('yes')
+                        $('#buy-packing').val('yes')
                     } else {
                         $packageItem.hide();
-                        $('#buy-packaging').val('')
+                        $('#buy-packing').val('')
                     }
                     loadCheckoutSummary();
                 }
@@ -346,8 +358,10 @@
                     var itemsCount = simpleCart.quantity(),
                         itemsCost = simpleCart.total(),
                         delOptId = $('.delivery-option.active').data('id'),
-                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packaging_cost=' + totalPackagingCost,
-                        url = '{% url 'shopping:load_checkout_summary' %}' + query;
+                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packing_cost=' + totalPackingCost,
+                        buyPacking = $('#check-packing').prop('checked');
+                    if (buyPacking) query += '&buy_packing=yes';
+                    var url = '{% url 'shopping:load_checkout_summary' %}' + query;
                     if (delOptId) url += '&delivery_option_id=' + delOptId;
                     $('div#checkout-summary .spinner').fadeIn();
                     $('div#checkout-summary .content').load(url, function() {
@@ -373,13 +387,14 @@
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
                     if (delOptType === 'HomeDelivery') {
-                        total += totalPackagingCost;
-                        $('#check-packaging').prop({'checked': true, 'disabled': true});
-                        $('#buy-packaging').val('yes')
+                        total += totalPackingCost;
+                        $('#check-packing').prop({'checked': true, 'disabled': true});
+                        $('#buy-packing').val('yes');
+                        $('.cart-item.packing').removeClass('no');
                     } else {
-                        $('#check-packaging').prop('disabled', false);
-                        var buyPackaging = $('#check-packaging').prop('checked');
-                        if (buyPackaging) total += totalPackagingCost
+                        $('#check-packing').prop('disabled', false);
+                        var buyPacking = $('#check-packing').prop('checked');
+                        if (buyPacking) total += totalPackingCost
                     }
                     $('div#delivery .price .currency').html(simpleCart.currency().symbol);
                     $('div#delivery .price .val').text(deliveryCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));

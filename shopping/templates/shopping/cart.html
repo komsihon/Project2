@@ -154,7 +154,7 @@
             {% else %}
                 var currency = simpleCart.currency().symbol,
                     minCheckout = $('#checkout-min').text(),
-                    totalPackagingCost = 0;
+                    totalPackingCost = 0;
                 $('body').on('click', '.value-plus1', function() {
                     var id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0],
@@ -167,7 +167,7 @@
                     item.increment();
                     simpleCart.update();
                     var qty = item.quantity();
-                    totalPackagingCost += qty * item.get('packaging_price');
+                    totalPackingCost += qty * item.get('packing_price');
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
@@ -176,7 +176,7 @@
                     if (item.quantity() === 1) return;
                     item.decrement();
                     simpleCart.update();
-                    totalPackagingCost -= qty * item.get('packaging_price');
+                    totalPackingCost -= qty * item.get('packing_price');
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
@@ -199,9 +199,9 @@
                         var _item = item,
                             url = item.get('url'),
                             size = item.get('size'),
-                            packagingCost = item.get('packaging_price'),
+                            packingCost = item.get('packing_price'),
                             $cartItem = $('.cart-item.tpl').clone().removeClass('tpl');
-                        totalPackagingCost += packagingCost * item.quantity();
+                        totalPackingCost += packingCost * item.quantity();
                         $cartItem.attr('id', item.id()).data('id', item.id());
                         $cartItem.find('.item_id').text(item.id());
                         $cartItem.find('.value-plus1, .value-minus1, .close1').data('id', item.id());
@@ -246,8 +246,10 @@
                     var itemsCount = simpleCart.quantity(),
                         itemsCost = simpleCart.total(),
                         delOptId = $('.delivery-option.active').data('id'),
-                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packaging_cost=' + totalPackagingCost,
-                        url = '{% url 'shopping:load_checkout_summary' %}' + query;
+                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packing_cost=' + totalPackingCost,
+                        buyPacking = $('#check-packing').prop('checked');
+                    if (buyPacking) query += '&buy_packing=yes';
+                    var url = '{% url 'shopping:load_checkout_summary' %}' + query;
                     if (delOptId) url += '&delivery_option_id=' + delOptId;
                     $('div#checkout-summary .spinner').fadeIn();
                     $('div#checkout-summary .content').load(url, function() {

@@ -448,7 +448,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                 /* CART STUFFS */
                 {% if settings.DECIMAL_SEPARATOR != '.' or settings.THOUSAND_SEPARATOR != ',' %}
-                    $('#checkout-min, .item_price').each(function() {
+                    $('#checkout-min, .item_price, .item_packing_price').each(function() {
                         var val = $(this).text().replace('{{ CURRENCY.symbol }}', '');
                         val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
                             .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
@@ -456,12 +456,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         $(this).text(val)
                     });
                     $('.item-size-selector option').each(function() {
-                        var val = $(this).data('retail_price_verbose');
+                        var val = $(this).data('retail_price_verbose'),
+                            packing = $(this).data('packing_price');
                         if (val) {
                             val = val.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
                                 .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
                                 .replace('#', ',');
                             $(this).attr('data-retail_price', val);
+                        }
+                        if (packing) {
+                            packing = packing.trim().replace('{{ settings.THOUSAND_SEPARATOR }}', '#')
+                                .replace('{{ settings.DECIMAL_SEPARATOR }}', '.')
+                                .replace('#', ',');
+                            $(this).attr('data-packing_price', packing);
                         }
                     });
                 {% endif %}

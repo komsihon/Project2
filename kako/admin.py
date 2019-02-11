@@ -48,12 +48,12 @@ class ProductResource(resources.ModelResource):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER \
-        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'retail_price_is_modifiable',
+    fields = ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packing_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER \
+        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packing_price', 'retail_price_is_modifiable',
               'reference', 'original_id', 'size', 'color', 'weight', 'stock', 'unit_of_measurement', 'min_order', 'badge_text', 'summary', 'description','visible', )
     fieldsets = (
-        (None, {'fields': ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER
-        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packaging_price', 'retail_price_is_modifiable',
+        (None, {'fields': ('provider', 'category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packing_price', 'size', 'color', 'weight', 'badge_text', 'stock', 'visible', 'summary', 'description', ) if IS_RETAILER
+        else ('category', 'name', 'brand', 'wholesale_price', 'retail_price', 'max_price', 'packing_price', 'retail_price_is_modifiable',
               'reference', 'original_id', 'size', 'color', 'weight', 'stock', 'unit_of_measurement', 'min_order', 'badge_text', 'summary', 'description',
               'visible',)}),
     )
@@ -62,7 +62,7 @@ class ProductAdmin(admin.ModelAdmin):
         if IS_PROVIDER:
             return ()
         ro = ['provider', 'category', 'name', 'brand', 'wholesale_price', 'summary', 'description',
-              'max_price', 'packaging_price', 'size', 'color', 'weight', 'stock', 'visible']
+              'max_price', 'packing_price', 'size', 'color', 'weight', 'stock', 'visible']
         if not obj.retail_price_is_modifiable:
             ro.append('retail_price')
         return ro

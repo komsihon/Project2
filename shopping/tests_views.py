@@ -509,7 +509,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.post(reverse('billing:momo_set_checkout'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packaging': 'yes',
+                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': 'yes',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
         response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
@@ -519,7 +519,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
         json_resp = json.loads(response.content)
         order = Order.objects.all()[0]
-        self.assertEqual(order.packaging_cost, 1000)
+        self.assertEqual(order.packing_cost, 1000)
         self.assertEqual(order.total_cost, 14000)
 
         service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')
@@ -538,7 +538,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.post(reverse('billing:momo_set_checkout'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packaging': '',
+                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': '',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
         response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
@@ -548,7 +548,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
         json_resp = json.loads(response.content)
         order = Order.objects.all()[0]
-        self.assertEqual(order.packaging_cost, 0)
+        self.assertEqual(order.packing_cost, 0)
         self.assertEqual(order.total_cost, 13000)
 
         service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')

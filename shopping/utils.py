@@ -3,6 +3,7 @@ from datetime import timedelta, datetime
 from threading import Thread
 
 import requests
+from currencies.context_processors import currencies
 from currencies.models import Currency
 from django.conf import settings
 from django.contrib.auth.models import Group
@@ -39,7 +40,7 @@ def parse_order_info(request):
 
     entries = request.POST['entries'].split(',')
     delivery_option_id = request.POST['delivery_option_id']
-    buy_packaging = request.POST.get('buy_packaging', False)
+    buy_packing = request.POST.get('buy_packing', False)
     try:
         currency = Currency.objects.get(code=request.session[CURRENCY_SESSION_KEY])
     except KeyError:
@@ -133,28 +134,28 @@ def parse_order_info(request):
         product.units_sold_history = []  # Wipe these unnecessary data for this case
         count = int(tokens[1])
 
-        if not buy_packaging:
-            product.packaging_price = 0  # Cancel packaging price if refused to buy packaging
+        if not buy_packing:
+            product.packing_price = 0  # Cancel packing price if refused to buy packing
 
         if coupon:
             rate = coupon.rate
             product.retail_price = product.retail_price * (100 - rate) / 100
-            # product.packaging_price = product.packaging_price * (100 - rate) / 100
+            # product.packing_price = product.packing_price * (100 - rate) / 100
 
         order_entry = OrderEntry(product=product,  count=count)
         order.entries.append(order_entry)
         order.items_count += count
         order.items_cost += product.retail_price * count
-        order.packaging_cost += product.packaging_price * count
+        order.packing_cost += product.packing_price * count
         order.tags += ' ' + product.name
 
     order.coupon = coupon
-    order.total_cost = order.items_cost + delivery_option.cost + order.packaging_cost
+    order.total_cost = order.items_cost + delivery_option.cost + order.packing_cost
     order.delivery_address = address
     return order
 
 
-def send_order_confirmation_email(subject, buyer_name, buyer_email, order, message=None, reward_pack_list=None):
+def send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, message=None, reward_pack_list=None):
     service = get_service_instance()
     coupon_count = 0
     if reward_pack_list:
@@ -166,22 +167,24 @@ def send_order_confirmation_email(subject, buyer_name, buyer_email, order, messa
 
     with transaction.atomic(using=WALLETS_DB_ALIAS):
         balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
-        if balance.mail_count == 0:
+        if balance.mail_count == 0 and not getattr(settings, 'UNIT_TESTING', False):
             notify_for_empty_messaging_credit(service, balance)
             return
-        html_content = get_mail_content(subject, '', template_name=template_name,
+        crcy = currencies(request)['CURRENCY']
+        html_content = get_mail_content(subject, template_name=template_name,
                                         extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
                                                        'IS_BANK': getattr(settings, 'IS_BANK', False),
-                                                       'coupon_count': coupon_count})
+                                                       'coupon_count': coupon_count, 'crcy': crcy})
         sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
         msg = EmailMessage(subject, html_content, sender, [buyer_email])
         bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
         bcc.append(service.member.email)
         msg.bcc = list(set(bcc))
-        msg.content_subtype = "html"
-        Thread(target=lambda m: m.send(), args=(msg, )).start()
-        balance.mail_count -= 1
+        if not getattr(settings, 'UNIT_TESTING', False):
+            msg.content_subtype = "html"
+            balance.mail_count -= len(msg.bcc) + 1
         balance.save()
+        Thread(target=lambda m: m.send(), args=(msg, )).start()
 
 
 def send_order_confirmation_sms(buyer_name, buyer_phone, order):
@@ -220,9 +223,9 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order):
         if buyer_phone and len(buyer_phone) == 9:
             buyer_phone = '237' + buyer_phone  # This works only for Cameroon
         try:
-            send_sms(buyer_phone, client_text, script_url=script_url, fail_silently=False)
             balance -= client_page_count
             balance.save()
+            send_sms(buyer_phone, client_text, script_url=script_url, fail_silently=False)
         except:
             pass
         for phone in iao_phones:
@@ -230,9 +233,9 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order):
             if len(phone) == 9:
                 phone = '237' + phone
             try:
-                send_sms(phone, iao_text, script_url=script_url, fail_silently=False)
                 balance -= iao_page_count
                 balance.save()
+                send_sms(phone, iao_text, script_url=script_url, fail_silently=False)
             except:
                 pass
 

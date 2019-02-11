@@ -73,7 +73,7 @@
         image: kako/photos/mutzig.jpg
     wholesale_price: 900
     retail_price: 1000
-    packaging_price: 100
+    packing_price: 100
     max_price: 1000
     retail_price_is_modifiable: No
     total_units_sold: 249
