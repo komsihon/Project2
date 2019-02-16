@@ -29,17 +29,17 @@ class OrderResource(resources.ModelResource):
         model = Order
         if getattr(settings, 'IS_PROVIDER', False):
             fields = ('created_on', 'rcc', 'client', 'details', 'delivery_address', 'delivery_option',
-                      'delivery_company', 'items_cost', 'shipping_cost', 'payment_mean', 'deal')
+                      'delivery_company', 'items_cost', 'shipping_cost', 'packing_cost', 'payment_mean', 'deal')
             export_order = ('client', 'rcc', 'created_on', 'details', 'delivery_address', 'delivery_option',
-                            'delivery_company', 'items_cost', 'shipping_cost', 'payment_mean', 'deal', )
+                            'delivery_company', 'items_cost', 'shipping_cost', 'packing_cost', 'payment_mean', 'deal', )
         elif getattr(settings, 'IS_DELIVERY_COMPANY', False):
             fields = ('created_on', 'rcc', 'client', 'details',
                       'delivery_address', 'delivery_option', 'shipping_cost', 'provider', )
             export_order = ('client', 'rcc', 'created_on', 'details',
                             'delivery_address', 'delivery_option', 'shipping_cost', 'provider', )
         elif getattr(settings, 'IS_BANK', False):
-            fields = ('created_on', 'rcc', 'client', 'account_number', 'items_cost', 'shipping_cost', 'deal', 'provider')
-            export_order = ('client', 'account_number', 'rcc', 'created_on', 'items_cost', 'shipping_cost', 'deal', 'provider', )
+            fields = ('created_on', 'rcc', 'client', 'account_number', 'items_cost', 'shipping_cost', 'packing_cost', 'deal', 'provider')
+            export_order = ('client', 'account_number', 'rcc', 'created_on', 'items_cost', 'shipping_cost', 'packing_cost', 'deal', 'provider', )
 
     def dehydrate_created_on(self, order):
         return order.created_on.strftime('%y-%m-%d %H:%M')

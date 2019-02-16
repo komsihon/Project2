@@ -4,8 +4,10 @@
         <option>----------</option>
         {% for size in size_list %}
             <option value="{{ size.label }}" data-id="{{ size.id }}"
-            data-retail_price_verbose="{{ size.retail_price|currency:CURRENCY.code }}"
-            data-stock="{{ size.stock }}" {% if size_list|length == 1 %}checked{% endif %}> {{ size.label }}</option>
+            data-retail_price="{{ size.retail_price|currency:CURRENCY.code }}"
+            data-packing_price="{{ size.packing_price|currency:CURRENCY.code }}"
+            data-retail_price_verbose="{{ size.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}"
+            data-stock="{{ size.stock }}"{% if size_list|length == 1 %} checked{% endif %}> {{ size.label }}</option>
         {% endfor %}
     </select>
 </div>

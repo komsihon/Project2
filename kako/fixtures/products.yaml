@@ -60,8 +60,28 @@
     units_sold_history: [74, 51, 35, 89]
     stock: 65
 
-- model: kako.recurringpaymentservice
+- model: kako.product
   pk: 55d1fa8feb60008099bd4154
+  fields:
+    provider: 56eb6d04b37b3379b531b102
+    category: 569228a9b37b3301e0706b52
+    name: Breaded fish
+    slug: breaded-fish
+    tags: fish breaded
+    photos:
+      - id: 56eb6d04b3779b33b531e093
+        image: kako/photos/mutzig.jpg
+    wholesale_price: 900
+    retail_price: 1000
+    packing_price: 100
+    max_price: 1000
+    retail_price_is_modifiable: No
+    total_units_sold: 249
+    units_sold_history: [74, 51, 35, 89]
+    stock: 65
+
+- model: kako.recurringpaymentservice
+  pk: 55d1fa8feb60008099bd4155
   fields:
     provider: 56eb6d04b37b3379b531b101
     category: 569228a9b37b3301e0706b52

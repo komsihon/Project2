@@ -1,6 +1,6 @@
 {% load i18n humanize staticfiles auth_tokens media_from_provider %}
 <h3 class="main-title">{% trans "Package details" %}</h3>
-<ul class="object-list">
+<ul class="object-list package-details">
     {% for entry in order.entries %}
         <li class="ik-li">
             {% with product=entry.product %}

@@ -30,7 +30,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
     Thus, self.client is not automatically created and fixtures not automatically loaded. This
     will be achieved manually by a custom implementation of setUp()
     """
-    fixtures = ['kc_setup_data.yaml', 'kc_operators_configs.yaml', 'kc_members.yaml',
+    fixtures = ['kc_setup_data.yaml', 'kc_operators_configs.yaml', 'kc_basic_configs.yaml', 'kc_members.yaml',
                 'kc_profiles.yaml', 'categories.yaml', 'products.yaml', 'kc_promotions', 'kc_promocode']
 
     def setUp(self):
@@ -86,7 +86,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('shopping:product_list', args=('food', )))
         self.assertEqual(response.status_code, 200)
         products_page = response.context['products_page']
-        self.assertEqual(products_page.paginator.count, 2)
+        self.assertEqual(products_page.paginator.count, 3)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_ProductListView_with_empty_product_list(self):
@@ -495,6 +495,64 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
         json_resp = json.loads(response.content)
         order = Order.objects.all()[0]
+        self.assertTrue(json_resp['success'])
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b102', IS_PROVIDER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/', DEBUG=True, UNIT_TESTING=True)
+    def test_confirm_checkout_with_paid_packaging(self):
+        """
+        Packaging cost must be included in order cost if Product has packaging cost
+        and buyer decided to purchase with packaging along
+        """
+        self.client.login(username='member4', password='admin')
+        response = self.client.post(reverse('billing:momo_set_checkout'),
+                                   {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                    'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
+                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': 'yes',
+                                    'delivery_option_id': '55d1feb9b37b301e070604d3',
+                                    'success_url': reverse('shopping:checkout')})
+        response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
+        json_resp = json.loads(response.content)
+        tx_id = json_resp['tx_id']
+        sleep(1)  # Wait for the transaction to complete before querying status
+        response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
+        json_resp = json.loads(response.content)
+        order = Order.objects.all()[0]
+        self.assertEqual(order.packing_cost, 1000)
+        self.assertEqual(order.total_cost, 14000)
+
+        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')
+        self.assertEqual(service_wallet.balance, 10780)
+        self.assertTrue(json_resp['success'])
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b102', IS_PROVIDER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/', DEBUG=True, UNIT_TESTING=True)
+    def test_confirm_checkout_with_unpaid_packaging(self):
+        """
+        Packaging cost must be ignored if Product has packaging cost
+        and buyer decided to refuse to buy packaging
+        """
+        self.client.login(username='member4', password='admin')
+        response = self.client.post(reverse('billing:momo_set_checkout'),
+                                   {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                    'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
+                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': '',
+                                    'delivery_option_id': '55d1feb9b37b301e070604d3',
+                                    'success_url': reverse('shopping:checkout')})
+        response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
+        json_resp = json.loads(response.content)
+        tx_id = json_resp['tx_id']
+        sleep(1)  # Wait for the transaction to complete before querying status
+        response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
+        json_resp = json.loads(response.content)
+        order = Order.objects.all()[0]
+        self.assertEqual(order.packing_cost, 0)
+        self.assertEqual(order.total_cost, 13000)
+
+        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')
+        self.assertEqual(service_wallet.balance, 9800)
         self.assertTrue(json_resp['success'])
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',

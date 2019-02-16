@@ -252,7 +252,8 @@ class ProductList(HybridListView):
     html_results_template_name = 'kako/snippets/product_list_results.html'
     model = Product
     queryset = Product.objects.filter(in_trash=False)
-    ordering = ('id', )
+    ordering = ('order_of_appearance', 'id', )
+    ajax_ordering = ('order_of_appearance', 'id', )
     search_field = 'name'
     context_object_name = 'product_list'
     page_size = 50
@@ -537,6 +538,7 @@ class ChangeProduct(ChangeObjectBase):
             reference = request.POST.get('reference')
             original_id = request.POST.get('original_id')
             wholesale_price = float(request.POST.get('wholesale_price'))
+            packing_price = float(request.POST.get('packing_price'))
             try:
                 retail_price = float(request.POST.get('retail_price'))
             except:
@@ -595,6 +597,7 @@ class ChangeProduct(ChangeObjectBase):
                         do_revive = True
                 except:
                     do_revive = True
+                product.order_of_appearance = Product.objects.all().count() + 1
             # if product.id is not None and product.provider != operator:
             #     return HttpResponseForbidden("You don't have permission to access this resource.")
             product.name = name
@@ -609,8 +612,8 @@ class ChangeProduct(ChangeObjectBase):
             product.size = size
             product.weight = weight
             product.min_order = min_order
+            product.packing_price = packing_price
             product.unit_of_measurement = unit_of_measurement
-            product.order_of_appearance = Product.objects.all().count() + 1
             product.tags = product.slug.replace('-', ' ')
             try:
                 product.stock = int(stock.strip())

@@ -1,7 +1,7 @@
 {% load i18n humanize staticfiles auth_tokens media_from_provider %}
 <h3 class="main-title">{% trans "Order details" %}</h3>
 {% if not settings.IS_BANK %}
-    <ul class="object-list">
+    <ul class="object-list order-details">
         {% for entry in order.entries %}
             <li class="ik-li">
                 {% with product=entry.product %}
@@ -24,6 +24,19 @@
                 {% endwith %}
             </li>
         {% endfor %}
+        {% if order.packing_cost %}
+            <li class="ik-li">
+                <span class="image" style="background-image: url({% static 'kakocase/img/shopping-bag.png' %}"></span>
+                <div class="info">
+                    <span class="name">{% trans "Packing" %}</span>
+                    <div class="about">
+                        <div class="meta">
+                            <strong>{% trans "Price" %}:</strong> <span>{{ CURRENCY.symbol }} {{ order.packing_cost }}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endif %}
     </ul>
 {% endif %}
 
