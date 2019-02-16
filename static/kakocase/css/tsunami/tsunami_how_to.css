@@ -40,7 +40,7 @@ p { font-family: PT sans; font-size: 1vw; line-height: 3.5vh;}
 
 @media all and (max-width: 980px) {
 /*** wrap row in a flex box ***/
-.custom_row {
+.row-custom {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -62,7 +62,7 @@ order: 1;
 order: 2;
 }
 /*** add margin to last column ***/
-.custom_row:last-child .et_pb_column:last-child {
+.row-custom:last-child .et_pb_column:last-child {
 margin-bottom: 30px;
 }
  

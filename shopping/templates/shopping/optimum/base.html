@@ -19,7 +19,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
-            {% if config.theme %}
+            {% if request.session.theme %}
+                {% with theme=config.theme %}
+                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
+                {% endwith %}
+            {% elif config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
                 {% endwith %}
@@ -342,6 +346,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% block banner %}{% endblock %}
         {% block content %}{% endblock %}
         {% block footer %}
+            {% if request.session.theme %}
+                <div>
+                    <a href="{% url 'theming:theme_list' %}?apply=yes">{% trans "Apply" %}</a>
+                </div>
+            {% endif %}
+
             {% cache template_cache_duration footer %}
             <div class="footer-w3l hidden-xs">
                 <div class="container">
