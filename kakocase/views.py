@@ -365,7 +365,7 @@ class Go(VerifiedEmailTemplateView):
                     context = self.get_context_data(**kwargs)
                     context['error'] = e.message
                     return render(request, 'kakocase/tsunami/go.html', context)
-            next_url = reverse('tsunami:successful_deployment', args=(service.id, ))
+            next_url = reverse('kakocase:successful_deployment', args=(service.id, ))
             return HttpResponseRedirect(next_url)
         else:
             context = self.get_context_data(**kwargs)
