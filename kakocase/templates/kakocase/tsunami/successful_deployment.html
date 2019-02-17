@@ -22,7 +22,8 @@
 {% block head_style %}
     {{ block.super }}
     <!-- Custom css -->
-    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/tsunami/tsunami_how_to.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ikwen/css/console.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_how_to.css' %}">
 {% endblock %}
 
 {% block header_brand %}
@@ -39,47 +40,46 @@
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 mobile-adjust" style="padding-top: 20vh">
 					<div class="media">
-						<a href="#" class="pull-left">
-							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object img-responsive" style="max-width: 110px" alt="Sample Image"/>
-						</a>
+						<div class="pull-left">
+							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
+						</div>
 						<div class="media-body ">
-                        {% blocktrans with client_name=service.member.first_name service_url=new_service.url %}
+                        {% blocktrans with client_name=new_service.member.first_name service_url=new_service.url %}
 							<h1 class="media-heading">Congratulations {{client_name}} !</h1>
 							<h4 class="mobile-adjust"> You're now the owner of TSUNAMI platform, availaible at <a href="{{ service_url }}"> {{ service_url }}</a>.
 								Discover all what you can do with this awesome Cloud tool. Take your business to the next level.
                             </h4>
-                            <p class="bill-link">
-                                Your invoice is available, pay now and get your <span class="animated infinite pulse" style="color: #ef7000">support code,</span>
-                                 bonus Mails and SMS to optimize your customer relationship.
-                            </p>
-                            <a href="{{ invoice_url }}" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;"> Payer</a>
+                            <p class="bill-link">Your invoice is available, pay now and get your <span class="animated infinite pulse" style="color: #ef7000">support code.</span></p>
+                            <a href="{{ invoice_url }}" target="_blank" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;">Buy</a>
 						{% endblocktrans %}
                         </div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div id="section-header-iPad-view" class="container-fluid section-header" style="display: none;">
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1 mobile-adjust" style="padding-top: 20vh">
 					<div class="media">
-						<a href="#" class="pull-left">
-							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object img-responsive" style="max-width: 110px" alt="Sample Image"/>
-						</a>
+						<div class="pull-left">
+							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
+						</div>
 						<div class="media-body">
-                        {% blocktrans with client_name=service.member.first_name service_url=new_service.url %}
+                        {% blocktrans with client_name=service.member.first_name service_url=service.url %}
 							<h2 class="media-heading">Congratulations {{client_name}} !</h2>
 							<h4 class="mobile-adjust"> You're now the owner of TSUNAMI platform, availaible at <a href="{{ service_url }}"> {{ service_url }}</a>.
 								Discover all what you can do with this awesome Cloud tool. Take your business to the next level.
                             </h4>
                             <p class="bill-link">Your invoice is available, pay now and get your <span class="animated infinite pulse" style="color: #ef7000">support code.</span></p>
-                            <a href="{{ invoice_url }}" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;"> Payer</a>
+                            <a href="{{ invoice_url }}" target="_blank" class="btn btn-outline-primary mobile-adjust" style="min-width: 200px;"> Payer</a>
 						{% endblocktrans %}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div id="features-top" class="container">
 			<div class="col-md-12 col-md-offset-1 mobile-adjust fisrt">
 				<div class="row row-custom" style="padding-top: 5vh">
@@ -91,11 +91,11 @@
                                 Invite people to <em>join</em> your community now by sharing your link.
                             {% endblocktrans %}
 						</p>
-						<a href="http://ikwen.com/?join={{ new_service.project_name_slug }}" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Share my link" %}<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+						<span style=" color: #319dd5; cursor: pointer; font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link" data-toggle="modal" data-target="#modal-refer-now">{% trans "Share my link" %} <i class="fa fa-arrow-circle-right animated slideInLeft"></i></span>
 
 					</div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features img-responsive" alt="img_client_list_exploitation" src="{% static 'tsunami/img/fully_automated.png' %}" />
+						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'tsunami/img/fully_automated.png' %}" />
 					</div>
 				</div>
 				<div class="row row-custom" style="padding-top: 5vh">
@@ -106,11 +106,11 @@
                             No more blind and ineffective marketing campaigns, now your prospects and customers have 100 reasons to come, stay and bring people to you.
                             TSUNAMI gives you the possibility to offer everybody free collectible coupons. They'll rush to register in your CCM*
 						</p>
-						<a href="http://blog.ikwen.com/about-continuous-rewarding/" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link"> Read more about coupons &nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+						<a href="http://blog.ikwen.com/about-continuous-rewarding/" target="_blank" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link"> Read more about coupons &nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
 					{% endblocktrans %}
                     </div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features img-responsive" alt="img_inbound_marketing" src="{% static 'tsunami/img/inbound_marketing.png' %}" />
+						<img class="img-features" alt="img_inbound_marketing" src="{% static 'tsunami/img/inbound_marketing.png' %}" />
 					</div>
 				</div>
 				<div class="row row-custom" style="padding-top: 5vh">
@@ -123,10 +123,10 @@
                             {% endblocktrans %}
 
 						</p>
-						<a href="{{ new_service.url }}{% url 'kako:product_list' %}" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Publish a product" %}&nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
+						<a href="{{ service.url }}/kako/products/" target="_blank" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Publish your products" %}&nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
 					</div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features img-responsive" alt="img_client_list_exploitation" src="{% static 'tsunami/img/glogal-market.png' %}" />
+						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'tsunami/img/glogal-market.png' %}" />
 					</div>
 				</div>
 			</div>
@@ -144,7 +144,7 @@
 					<div>
 						<h4 class="contact-address">
 							<i class="fab fa-whatsapp"></i> &nbsp;(+237) 656 123 522 <br>
-							<i class="fas fa-envelope"></i> &nbsp;support@ikwen.com
+							<i class="fas fa-envelope"></i> &nbsp;suport@ikwen.com
 						</h4>
 					</div>
 
@@ -152,4 +152,86 @@
 			</div>
 		</div>
 	</body>
+
+    {#    Modal declaration : BEGIN #}
+
+    <div class="modal fade" id="whatsapp-share" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Share on WhatsApp" %}</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <form onclick="return false" class="form-horizontal">
+                        <div class="form-group row">
+                            <label for="whatsapp-share-msg" class="col-sm-5 col-md-4">{% trans "Message" %}</label>
+                            <div class="col-sm-7 col-md-8">
+                                <textarea id="whatsapp-share-msg"
+                                          class="form-control input-sm">{% blocktrans %}Hey! Join {{ service.project_name_slug }} on ikwen and get some free gifts. I just did it. It works !{% endblocktrans %}</textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                            <button class="btn btn-success btn-block btn-sm ok"
+                                    data-dismiss="modal" aria-label="OK">OK</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
+                            <button class="btn btn-default btn-block btn-sm"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-refer-now" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info" style="background: url({% static 'kakocase/img/tsunami/refer-now.png' %}")>
+                <div class="modal-header no-border" style="padding-bottom: 0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: #fff">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 0">
+                    <div class="speech text-center" style="color: #fff; margin: 90px 0 30px">
+                        {% blocktrans %}
+                            <h3 style="">Share now !</h3>
+                            <p>And get many people to JOIN your community</p>
+                        {% endblocktrans %}
+                    </div>
+                    <ul class="social" style="padding: 0">
+                        <li data-dismiss="modal">
+                            <a href="javascript:;" data-toggle="modal" data-target="#whatsapp-share"
+                               class="wsap-link" data-url="{{ url }}">
+                                <i class="fab fa-whatsapp"></i>
+                                <span class="sr-only">WhatsApp</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://facebook.com/sharer/sharer.php?u=http://ikwen.com/?join={{ new_service.project_name_slug }}"
+                               class="fb-link" target="_blank">
+                                <i class="fab fa-facebook"></i>
+                                <span class="sr-only">Facebook</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/home?status=http://ikwen.com/?join={{ new_service.project_name_slug }}"
+                               class="twtr-link" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                                <span class="sr-only">Twitter</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#    Modal declaration : END #}
+
 {% endblock %}

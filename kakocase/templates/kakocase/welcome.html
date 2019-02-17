@@ -3,6 +3,16 @@
 
 {% block meta %}
     {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
+    <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
+    <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
 {% endblock %}
 
 {% block page_title %}
@@ -24,12 +34,15 @@
         <div class="container desktop-landscape">
 			<div class="row">
 				<div class="col-sm-5 col-xs-5 textBox landscape">
-					<h3 style="text-align: center">Lorem ipsum - TITLE</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et netus et malesuada fames ac.
-						Non nisi est sit amet facilisis magna. Lacus vestibulum sed arcu non odio euismod lacinia at. Pretium viverra suspendisse potenti nullam. Ultricies mi quis hendrerit dolor magna. Duis
-						at consectetur lorem donec. Purus in massa tempor nec feugiat nisl.
+					<h3>Communauté {{ service.project_name_slug }}</h3>
+                    {% blocktrans with project_name=service.project_name_slug %}
+					<p>
+                        Bienvenue à l'acceuil de la communauté {{ project_name }} !<br>
+                        Dépêchez-vous de nous <i>JOIN</i> et commencez à recevoir une tonne de cadeaux exclusifs.
+                        C'est aussi simple qu'un clic de souris, et c'est gratuit...
 					</p>
-					<div class="text-center">
+                    {% endblocktrans %}
+					<div>
 						<a href="http://ikwen.com?join={{ service.project_name_slug }}" class="btn btn-outline" style="min-width: 200px; margin-top: 15px; ">
                             <img src="http://static.ikwen.com/ikwen/img/Join_button_white.svg" height="15" style="margin: -4px 5px 0 0">
                             Join
@@ -53,10 +66,14 @@
 		<div class="container mobile-portrait" style="display: none">
 			<div class="row">
 				<div class="textBox portrait">
-					<h3 style="text-align: center">Lorem ipsum - TITLE</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et netus et malesuada fames ac.
-						Non nisi est sit amet facilisis magna. Lacus vestibulum sed arcu non odio euismod lacinia at. Pretium viverra suspendisse potenti nullam.
+					<h3>Communauté {{ service.project_name_slug }}</h3>
+                    {% blocktrans with project_name=service.project_name_slug %}
+					<p>
+                        Bienvenue à l'acceuil de la communauté {{ project_name }} !<br>
+                        Dépêchez-vous de nous <i>JOIN</i> et commencez à recevoir une tonne de cadeaux exclusifs.
+                        C'est aussi simple qu'un clic de souris, et c'est gratuit...
 					</p>
+                    {% endblocktrans %}
 					<div class="text-center">
 						<a href="http://ikwen.com?join={{ service.project_name_slug }}" class="btn btn-outline" style="min-width: 200px; margin-top: 15px; ">Join</a>
 					</div>
