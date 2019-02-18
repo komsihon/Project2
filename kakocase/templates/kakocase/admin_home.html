@@ -23,7 +23,12 @@
 
                 <div style="margin-bottom: 3vh;">
                     <div class="text-center">
-                        <img class="img-circle img-thumbnail" src="https://via.placeholder.com/100" style="margin-top: 1vh;">
+                        {% if user.photo.name %}
+                            <img class="img-circle img-thumbnail" src="{{ settings.IKWEN_MEDIA_URL }}{{ user.photo.small_name }}" style="margin-top: 1vh;width:100px;height:100px">
+                        {% else %}
+                            <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
+                        {% endif %}
+                        <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 1vh;">
                         <h2 class="welcome-title">{% trans "Welcome " %} {{ user }}</h2>
                         <h5 class="col-xs-12 welcome-subtitle"> {% trans "Manage your platform, your customer wallet and your relaunch campaigns to make the most of Tsunami services" %}</h5>
                     </div>
@@ -33,22 +38,24 @@
                 <div class=" card-section subtle-shade">
                     <h4 class="card-section-title" style="padding-bottom: 3vh;">{% trans "Website preview" %}</h4>
                     <div class="col-md-8 col-md-offset-1 col-sm-12">
+                        {% url 'welcome' as welcome_url %}
                         <p class="subtitle" style="padding-bottom: 1vh !important;">{% blocktrans %}
-                            Take the time to configure your web storefront and decide when it is presentable to the world.
-                            When this is the case, simply turn the switch to "on".<br>
-                            By default, TSUNAMI provides you with a home page calling users to JOIN your community.
+                            Your visitors will see <a href="{{ welcome_url }}">this welcome page</a> when they visit your website.
+                            If you want them to see your offers and products, simply turn the switch to "on".<br>
+                            Make sure you add your own products and configure everything correctly before you go live.<br>
                         {% endblocktrans %}
                         </p>
                     </div>
                     <div class="text-center">
                         <div class="col-md-2" style="padding-bottom: 3vh !important; ">
-                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-style="slow" data-width="80" data-height="10">
+                            <input id="check-ecommerce-active" type="checkbox" data-toggle="toggle" data-onstyle="success"
+                                   data-offstyle="danger" data-style="slow" data-width="80" data-height="10"
+                                    {% if config.is_ecommerce_active %}checked{% endif %}>
                         </div>
                     </div>
-
                     <div class="clearfix"></div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh">{% trans "Go to public Website" %}</a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh">{% trans "Go to public Website" %}</a>
                     </div>
                 </div>
 
@@ -71,8 +78,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Create profile" %}</a>
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Add contact" %}</a>
+                        <a href="{% url 'revival:profiletag_list' %}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Create profile" %}</a>
+                        <a href="{% url 'ikwen:community' %}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Add contact" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -91,8 +98,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Start Email campaign" %}</a>
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Start SMS campaign" %}</a>
+                        <a href="javascript:;" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Start Email campaign" %}</a>
+                        <a href="{% url 'echo:sms_campaign' %}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Start SMS campaign" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -139,7 +146,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Add a smart category" %}</a>
+                        <a href="{% url 'marketing:smart_category_list' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Add a smart category" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -159,7 +166,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Create delivery options" %}</a>
+                        <a href="{% url 'kakocase:delivery_options' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Create delivery options" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -172,15 +179,16 @@
                         <div class="col-md-6">
                             <p class="subtitle">
                                 {% blocktrans %}
-                                Create and manipulate big images that slide on the homepage. Use images of 1920 x 800px.
-                                Smaller images will result in incorrect display on FullHD screens.
-                                Once created. You can drag an drop to organize their order of appearance on the website.
+                                    Create and manipulate big images that slide on the homepage.<br/>
+                                    <strong>Use images of 1920 x 800px.</strong>
+                                    Smaller images will result in incorrect display on FullHD screens.
+                                    Once created. You can drag an drop to organize their order of appearance on the website.
                                 {% endblocktrans %}
                             </p>
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Add slide" %}</a>
+                        <a href="{% url 'marketing:banner_list' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Add slide" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -200,7 +208,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Configure appearance" %}</a>
+                        <a href="{% url 'theming:theme_list' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Configure appearance" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -220,7 +228,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Configure your website" %}</a>
+                        <a href="{% url 'ikwen:configuration' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Configure your website" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -243,7 +251,7 @@
                     </div>
 
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Create coupons" %}</a>
+                        <a href="{% url 'rewarding:configuration' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Create coupons" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -265,8 +273,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Launch promotion" %}</a>
-                        <a href="{{ service_url }}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Create Coupon code" %}</a>
+                        <a href="{% url 'sales:promotion_list' %}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Launch promotion" %}</a>
+                        <a href="{% url 'sales:promo_code_list' %}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Create Coupon code" %}</a>
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
@@ -328,6 +336,9 @@
     <script type="text/javascript">
         (function() {
             $('div#admin-nav .home').addClass('active');
+            $('#check-ecommerce-active').change(function() {
+                $.getJSON('', {'action': 'toggle_ecommerce_active'})
+            })
         })()
     </script>
 {% endblock %}
