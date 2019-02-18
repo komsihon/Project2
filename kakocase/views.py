@@ -36,6 +36,15 @@ from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 class AdminHome(TemplateView):
     template_name = 'kakocase/admin_home.html'
 
+    def get(self, request, *args, **kwargs):
+        action = request.GET.get('action')
+        if action == 'toggle_ecommerce_active':
+            config = get_service_instance().config
+            config.is_ecommerce_active = not config.is_ecommerce_active
+            config.save()
+            return HttpResponse(json.dumps({'success': True}))
+        return super(AdminHome, self).get(request, *args, **kwargs)
+
 
 class DeliveryOptionList(TemplateView):
     template_name = 'core/iframe_admin.html'
@@ -289,8 +298,7 @@ class Go(VerifiedEmailTemplateView):
         context['billing_cycles'] = Service.BILLING_CYCLES_CHOICES
         app = Application.objects.using(UMBRELLA).get(slug='kakocase')
         context['app'] = app
-        template_list = list(Template.objects.using(UMBRELLA).filter(app=app))
-        context['theme'] = list(Theme.objects.using(UMBRELLA).filter(template__in=template_list))[-1]
+        context['theme'] = Theme.objects.using(UMBRELLA).get(pk='5a3ab237bbd6b4024f0b6fed')
         context['can_choose_themes'] = True
         billing_plan_list = CloudBillingPlan.objects.using(UMBRELLA).filter(app=app, partner__isnull=True, is_active=True)
         setup_months_count = 3
@@ -310,7 +318,6 @@ class Go(VerifiedEmailTemplateView):
             project_name = form.cleaned_data.get('project_name')
             business_type = form.cleaned_data.get('business_type')
             billing_cycle = form.cleaned_data.get('billing_cycle')
-            billing_plan_id = form.cleaned_data.get('billing_plan_id')
             business_category_id = form.cleaned_data.get('business_category_id')
             bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
@@ -318,9 +325,9 @@ class Go(VerifiedEmailTemplateView):
             partner_id = form.cleaned_data.get('partner_id')
             app = Application.objects.using(UMBRELLA).get(pk=app_id)
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
-            billing_plan = CloudBillingPlan.objects.using(UMBRELLA).get(pk=billing_plan_id)
             business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
-            bundle = TsunamiBundle.objects.using(UMBRELLA).get(pk=bundle_id) if bundle_id else None
+            bundle = TsunamiBundle.objects.using(UMBRELLA).get(pk=bundle_id)
+            billing_plan = bundle.billing_plan
 
             customer = Member.objects.using(UMBRELLA).get(pk=request.user.id)
             setup_cost = billing_plan.setup_cost
@@ -380,5 +387,9 @@ class Welcome(TemplateView):
         context = super(Welcome, self).get_context_data(**kwargs)
         service = get_service_instance()
         config = OperatorProfile.objects.using(UMBRELLA).get(service=service)
-        context['business_category'] = config.business_category.slug
+        business_category = config.business_category
+        if business_category:
+            context['business_category'] = business_category.slug
+        else:
+            context['business_category'] = 'other'
         return context

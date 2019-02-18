@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
 from ikwen.core.fields import MultiImageField
-from ikwen.billing.models import SupportBundle
+from ikwen.billing.models import SupportBundle, CloudBillingPlan
 
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Model, AbstractConfig, AbstractWatchModel, Service
@@ -50,7 +50,8 @@ class TsunamiBundle(Model):
     mail_count = models.IntegerField()
     early_payment_mail_count = models.IntegerField(default=0)
     cost = models.IntegerField()
-    support_bundle = models.ForeignKey(SupportBundle)
+    support_bundle = models.ForeignKey(SupportBundle, blank=True, null=True)
+    billing_plan = models.ForeignKey(CloudBillingPlan, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 

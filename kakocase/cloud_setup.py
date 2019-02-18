@@ -61,7 +61,7 @@ class DeploymentForm(forms.Form):
     domain = forms.CharField(max_length=60, required=False)
     business_type = forms.CharField(max_length=60)
     billing_cycle = forms.CharField(max_length=24)
-    billing_plan_id = forms.CharField(max_length=24)
+    billing_plan_id = forms.CharField(max_length=24, required=False)
     business_category_id = forms.CharField(max_length=24, required=False)
     bundle_id = forms.CharField(max_length=24, required=False)
     setup_cost = forms.FloatField(required=False)
@@ -311,20 +311,22 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     logger.debug("Sample products successfully copied to database %s" % database)
 
     # Apache Server cloud_setup
-    if not is_naked_domain or getattr(settings, 'LOCAL_DEV', False):
-        apache_tpl = get_template('kakocase/cloud_setup/apache.conf.local.html')
-    else:
-        apache_tpl = get_template('kakocase/cloud_setup/apache.conf.html')
+    go_apache_tpl = get_template('kakocase/cloud_setup/apache.conf.local.html')
     apache_context = Context({'is_naked_domain': is_naked_domain, 'domain': domain, 'ikwen_name': ikwen_name})
-    fh = open(website_home_folder + '/apache.conf', 'w')
-    fh.write(apache_tpl.render(apache_context))
+    if is_naked_domain:
+        apache_tpl = get_template('kakocase/cloud_setup/apache.conf.html')
+        fh = open(website_home_folder + '/apache.conf', 'w')
+        fh.write(apache_tpl.render(apache_context))
+        fh.close()
+    fh = open(website_home_folder + '/go_apache.conf', 'w')
+    fh.write(go_apache_tpl.render(apache_context))
     fh.close()
 
+    vhost = '/etc/apache2/sites-enabled/go_ikwen/' + pname + '.conf'
+    subprocess.call(['sudo', 'ln', '-sf', website_home_folder + '/go_apache.conf', vhost])
     if is_naked_domain:
         vhost = '/etc/apache2/sites-enabled/' + domain + '.conf'
-    else:
-        vhost = '/etc/apache2/sites-enabled/go_ikwen/' + pname + '.conf'
-    subprocess.call(['sudo', 'ln', '-sf', website_home_folder + '/apache.conf', vhost])
+        subprocess.call(['sudo', 'ln', '-sf', website_home_folder + '/apache.conf', vhost])
     logger.debug("Apache Virtual Host '%s' successfully created" % vhost)
 
     # Send notification and Invoice to customer
