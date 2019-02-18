@@ -20,9 +20,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
             {% if request.session.theme %}
-                {% with theme=config.theme %}
-                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
+                {% with theme=request.session.theme %}
+                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
                 {% endwith %}
+                <style>
+                    .apply-theme-band {
+                        background-color: rgba(0, 0, 0, 0.6); bottom: 0; color: #FFFFFF; height: 15vh;
+                        padding: 10px 0; position: fixed; width: 100%;
+                    }
+                    .apply-theme-band p {margin-bottom: 10px; text-align: center}
+                    @media (min-width: 768px) {
+                        .apply-theme-band {height: 12vh}
+                        .apply-theme-band p {font-size: 15px; text-align: left}
+                    }
+                </style>
             {% elif config.theme %}
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
@@ -437,6 +448,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             {% endcache %}
         {% endblock %}
+        {% if request.session.theme %}
+        <div class="apply-theme-band">
+            <div class="container-fluid">
+                <div class="col-sm-9">
+                   <p class="hidden-xs">{% trans 'If you like this theme, click Apply to use it.' %}</p>
+                   <p class="visible-xs">{% trans 'Do you like this theme ?' %}</p>
+                </div>
+                <div class="col-sm-3 col-lg-2 col-xs-12">
+                   <a class="btn btn-success btn-block" href="{% url 'theming:theme_list' %}?apply=yes">{% trans "Apply" %}</a>
+                </div>
+           </div>
+        </div>
+        {% endif %}
         {% include 'shopping/snippets/edge_panel.html' %}
         {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
