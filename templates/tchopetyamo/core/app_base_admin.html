@@ -19,14 +19,21 @@
                 <div class="menu">
                     {% if perms.trade.ik_view_dashboard %}
                         <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation" class="dashboard">
-                                <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
+                            <li role="presentation" class="home">
+                                <a href="{% url 'admin_home' %}">{% trans "Home" %}</a>
                             </li>
                         </ul>
                     {% endif %}
                     {% if perms.commarketing.ik_manage_marketing %}
                         <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">
+                            {% if perms.trade.ik_view_dashboard %}
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li role="presentation" class="dashboard">
+                                        <a href="{% url 'dashboard' %}">{% trans "Dashboard" %}</a>
+                                    </li>
+                                </ul>
+                            {% endif %}
                             <li role="presentation" class="homepage">
                                 {% url 'web:banner_list' as banner_list_url %}
                                 <a href="{{ banner_list_url }}">{% trans "Homepage" %}</a>

@@ -29,7 +29,7 @@
                             <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
                         {% endif %}
                         <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 1vh;">
-                        <h2 class="welcome-title">{% trans "Welcome " %} {{ user }}</h2>
+                        <h2 class="welcome-title">{% trans "Welcome " %} {{ user.first_name }}</h2>
                         <h5 class="col-xs-12 welcome-subtitle"> {% trans "Manage your platform, your customer wallet and your relaunch campaigns to make the most of Tsunami services" %}</h5>
                     </div>
                     <div class="clearfix"></div>
@@ -69,9 +69,6 @@
                             <p class="subtitle">{% blocktrans %}
                                 Register your customers contacts here. Our system will automatically invite them to create an account on your website and also
                                 invite their friends to do so. You will rapidly have thousands of users to whom you can offer your products and services.
-                                For better qualification of your database, create profiles first and group them.Register your customers contacts here.
-                                Our system will automatically invite them to create an account on your website and also invite their friends to do so.
-                                You will rapidly have thousands of users to whom you can offer your products and services.
                                 For better qualification of your database, create profiles first and group them.
                             {% endblocktrans %}
                             </p>
