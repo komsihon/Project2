@@ -1,0 +1,51 @@
+/**
+	Document   : admin.css
+	Created on : March 01, 2018, 20:12
+	Author     : W1773ND (wilfriedwillend@gmail.com)
+	Description:
+		Additional rules for kakocase cart page
+*/
+
+h1, h2, h3, h4, h5, h6 {color: #0a0a0a;}
+.header-xs {background: #8bc34a;}
+.nav-xs .swiper-slide {background: #8bc34a;}
+.header-bottom, .header-bottom.fixed {color: #8bc34a;}
+.header-bottom.fixed #auth.top-right .fa {color: #0a0a0a;}
+.header-bottom.fixed #auth.top-right a:not(.dropdown-menu a) {color: #FFF}
+.header-bottom a, .header-bottom>h1, .header-bottom h5 {color: #0a0a0a;}
+.footer-w3l {}
+.copy-section {background: #000000;}
+.footer-grid i {border: 1px solid #f0eded;}
+.social-icon a i { color: #000000 !important;}
+.social-icon a i:hover {color: #8bc34a !important;}
+.latest-text {background: rgba(48, 2, 2, 0.65);}
+.my-cart-b {color: #0a0a0a; border: 2px solid #4CAF51}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {background: #4CAF51;border-color: #4CAF51;}
+em.item_price {color: #0a0a0a;}
+.ribben2 { background: #000000 !important; }
+.ribben2:after { border-top: 24px solid #000000; }
+.price h3, .top-rates h3, .brand-w3l h3 {background: #0e0e0e;}
+p.price {color: #4CAF51;}
+.product-about h6 a {color: #0e0e0e;}
+span.price-in1 {color: #140320;}
+.navbar-nav > li > a:hover {color: #ebf0e9;}
+.left-tab > li > a {background: #4CAF51;}
+.left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {background-color: #000000;}
+#reviews input[type="submit"] {background: #291705; font-weight: 700}
+.footer-grid i {color: #0a0a0a;border: 1px solid transparent;}
+.navbar-nav > li > a:hover,  a:active{border-bottom: 1px solid; color: #8bc34a; line-height: 1;}
+ul.dropdown-menu.user-menu  li{color:  #0e0e0e}
+.footer-grid ul li a {color: #1F1137}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { background: #8bc34a !important; }
+@media (min-width: 768px){
+    .modal .product-about .product-price em {color: #291705;}
+    .toggle-cd-search .fa {color: #0a0a0a;}
+    .price h3, .top-rates h3, .brand-w3l h3 {background: transparent; color: #0a0a0a}
+    .ribben2:after { border-top: 19px solid #000000; }
+}
+@media (min-width: 992px){
+    .modal .product-about .product-price em {color: #291705;}
+    .toggle-cd-search .fa {color: #0a0a0a;}
+    .price h3, .top-rates h3, .brand-w3l h3 {background: #000000; color: #8bc34a}
+}
