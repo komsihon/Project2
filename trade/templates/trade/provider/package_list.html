@@ -20,18 +20,20 @@
             <div id="admin-tools" class="ceil bottom-shade-xs">
                 <form id="admin-tools-form">
                     <div>
-                        <i class="glyphicon glyphicon-search"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-                        <input id="context-search" type="text" class="form-input input-sm tool search"
-                               placeholder="{% trans "Search PPC" %}" data-min-search-chars="2" />
-                    </div>
-                    <div class="filter-trigger">
-                        <i class="glyphicon glyphicon-filter"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
-                        <div class="show-results-filter tool filter btn btn-default btn-sm{% if filter_results %} active{% endif %}">
-                            <div>
-                                <span class="pull-left">{% trans "Filters" %}</span>
-                                <span class="caret pull-right" style="margin: 7px 0 0 5px"></span>
+                        <div>
+                            <i class="glyphicon glyphicon-search"></i>
+                            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+                            <input id="context-search" type="text" class="form-input input-sm tool search"
+                                   placeholder="{% trans "Search PPC" %}" data-min-search-chars="2" />
+                        </div>
+                        <div class="filter-trigger">
+                            <i class="glyphicon glyphicon-filter"></i>
+                            <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                            <div class="show-results-filter tool filter btn btn-default btn-sm{% if filter_results %} active{% endif %}">
+                                <div>
+                                    <span class="pull-left">{% trans "Filters" %}</span>
+                                    <span class="caret pull-right" style="margin: 7px 0 0 5px"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
