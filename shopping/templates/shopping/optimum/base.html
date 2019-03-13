@@ -19,7 +19,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
-            {% if request.session.theme %}
+            <link rel='stylesheet' href="{% static 'kakocase/themes/optimum/dark-green.css' %}"/>
+            {% comment %}{% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
                 {% endwith %}
@@ -38,10 +39,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 {% with theme=config.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
                 {% endwith %}
-            {% else %}
+            {% else %}{% endcomment %}
                 <link href="https://fonts.googleapis.com/css?family=Cagliostro" rel="stylesheet">
                 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300" rel="stylesheet">
-            {% endif %}
+{#            {% endif %}#}
 		{% endblock %}
         {% block head_js %}
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
