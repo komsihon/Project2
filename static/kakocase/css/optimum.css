@@ -21,7 +21,7 @@ h1,h2,h3,h4,h5,h6{padding:0 0;margin:0 0;color: #1f1137;}
 a:hover, a:focus {color: inherit; text-decoration: none}
 p{padding:0 0;margin:0 0;  }
 ul{padding:0 0;margin: -5px 0 -6px;}
-li {list-style-type: none;color: #2a2424;}
+li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-top {background: #ececec;padding: 8px 0 9px;height: 40px;}
 .header-top .fa {cursor: pointer}
 
@@ -210,8 +210,8 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .invalid-code {color: #e51c23;float: left;margin-top: -15px;font-size:  13px;display: none;}
 .navbar {position: relative; margin-bottom: 0}
-.navbar-nav > li > a {font-size: 1em; font-weight: 700}
-.navbar-nav > li > a:hover {color:#1B242F}
+.navbar-nav > li > a {font-size: 1em;font-weight: 700;padding: 0 !important;}
+.navbar-nav > li > a:hover { color:#99141d !important; }
 
 #side-nav {background: #fff;left: 0;max-width: 300px;overflow: auto;position: fixed;height: 100%;width: 90%;top: 0;z-index: 10;display: none;}
 .edge-swipe-overlay {background: rgba(0, 0, 0, .3); display: none;height: 100%;overflow: hidden;position: fixed;top: 0;width: 100%;z-index: 1000}
@@ -259,7 +259,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .product-about.groupon p  {clear: both; float: left; text-align: center; width: 100%}
 .product-about.groupon p strong {float: left; margin-left: 40px;}
 .product-about.groupon p span {float: left; margin-left: 12px}
-.progress {margin: auto; width: 80%}
+.progress {margin: auto;width: 90%;}
 em.item-price-verbose {font-style: normal; color: #000; font-weight: 600;}
 span.size {color: #000000;font-weight: 600;}
 
@@ -292,7 +292,7 @@ a.my-cart-b {text-decoration: none;}
 .dropdown ul.dropdown-menu.categories-menu {border-radius:4px; box-shadow:none; margin-top: 8px;}
 .dropdown ul.dropdown-menu.categories-menu:before {content: ""; border-bottom: 10px solid #fff; border-right: 10px solid transparent; border-left: 10px solid transparent;position: absolute;top: -10px; left: 30px; z-index: 10}
 .dropdown ul.dropdown-menu.categories-menu:after {content: ""; border-bottom: 12px solid #ccc; border-right: 12px solid transparent; border-left: 12px solid transparent; position: absolute; top: -12px; left: 28px; z-index: 9}
-.nav-container {width: 100%;float: left;}
+.nav-container {width: 100%;float: left;text-align: center;}
 .nav-container .navbar-nav {float: left}
 
 .tab-wl3 .container {padding-left: 0}

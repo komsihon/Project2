@@ -12,14 +12,19 @@
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link href="{% static 'webnode/css/prettyPhoto.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/animate.min.css' %}" rel="stylesheet">
+            <link href="{% static 'kakocase/css/tchopetyamo/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/improve/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/responsive.css' %}" rel="stylesheet">
             <link href="{% static 'kakocase/css/edge-pannel.css' %}" rel="stylesheet">
+            <link href="{% static 'kakocase/css/tchopetyamo/base.css' %}" rel="stylesheet">
+            <link href="{% static 'ikwen/css/console.css' %}" rel="stylesheet">
+{#            <link href="{% static 'ikwen/css/base.css' %}" rel="stylesheet">#}
 
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
-            <link href="{% static 'webnode/css/improve/base.css' %}" rel="stylesheet">
-            <link href="{% static 'webnode/css/tchopety/yamo.css' %}" rel="stylesheet">
+{#            <link href="{% static 'webnode/css/improve/base.css' %}" rel="stylesheet">#}
+            <link href="{% static 'webnode/css/tchopetyamo/yamo.css' %}" rel="stylesheet">
+{#            <link href="{% static 'webnode/css/optimum/dark-green.css' %}" rel="stylesheet">#}
 {#            {% if config.theme %}#}
 {#                {% with theme=config.theme %}#}
 {#                    <link rel='stylesheet' href="{% static 'webnode/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />#}
@@ -64,22 +69,37 @@
             .bottom-cntr {position: absolute; margin-top: 160px; right: 10px;}
             .social-icon {margin-top: 1.8em; padding-left: 15px;}
             .header-xs h3.app-name a {width: 300%; float: left;}
-            .cta, a.cta {background-color: transparent; border: none; position: absolute; text-align: center; width: 100%}
-            div.slide.mobile .cta, .home-section.bg-img-true .cta {margin-top: 200px}
-            .slide h1 {margin-top: 120px; position: absolute; text-align: center; width: 100%}
-            .slide .details .cta {margin-top: 10px;}
-            .slide .button1 {background-color: #a40009; border: 2px solid #a40009; color: #fff; font-size: 24px; padding: 8px 30px;}
-            .slide .details {margin-top: 150px;}
-            .swiper-slide .slide {background-size: 200% auto; background-position: center;}
-            .center {padding-top: 25px}
-            .home-section.bg-img-true .cta {width: 91%;}
-            .home-section-cta {float: left}
         }
+
     </style>
     </head><!--/head-->
 
 
     <body>
+        <div class="header-top hidden-xs">
+            <div class="container">
+                <div class="top-left">
+                    {% if config.contact_phone %}
+                        <strong>{% trans "Call" %}</strong>
+                        <i class="fa fa-mobile" aria-hidden="true" style="font-size: 23px; margin-top: 2px"></i>
+                        <a href="tel://{{ config.contact_phone }}">{{ config.contact_phone }}</a>
+                    {% endif %}
+                </div>
+
+                <div class="top-right" style="font-size: 25px;">
+                    {% if config.facebook_link %}
+                        <a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook-official"></i></a>
+                    {% endif %}
+                    {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i
+                            class="fa fa-twitter-square"></i></a>{% endif %}
+                </div>
+                {% include 'shopping/snippets/language_switcher.html' %}
+                {% if config.can_manage_currencies %}
+                    {% include 'shopping/snippets/currency_switcher.html' %}
+                {% endif %}
+                <div class="clearfix"></div>
+            </div>
+        </div>
         <header id="header" class="hidden-xs">
             <div class="top-bar">
                 <div class="container">
@@ -106,77 +126,103 @@
                 </div><!--/.container-->
             </div><!--/.top-bar-->
 
-            <nav class="navbar navbar-inverse main" role="banner">
+            <div class="header-bottom">
                 <div class="container">
-                    <div class="navbar-header">
-{#                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">#}
-                        <button type="button" class="navbar-toggle menu-button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        {% if config.theme.logo.name %}
-                            <a class="navbar-brand" href="{% url 'webnode:home' %}"><img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"></a>
-                        {% else %}
-                            <a class="navbar-brand" href="{% url 'webnode:home' %}"><img src="{% static 'webnode/img/webnode.png' %}" alt="logo"></a>
-                        {% endif %}
-                    </div>
+                    <div class="logo-nav">
+                        <div class="logo-nav-left">
+                            {% url 'webnode:home' as home_url %}
+                            <h1>
+                                <a href="{{ home_url }}" class="hidden-xs">
+                                    {% if config.theme.logo.name %}
+                                        <div class="company-logo-container">
+                                            <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"/>
+                                        </div>
+                                    {% else %}
+                                       <span>{{ service.project_name }}</span>
+                                    {% endif %}
+                                {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
+                                </a>
+                                <a class="visible-xs">
+                                    {% if config.theme.logo.name %}
+                                        <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}"/>
+                                    {% else %}
+                                        <span>{{ service.project_name }}</span>
+                                    {% endif %}
+                                {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
+                                </a>
+                            </h1>
+                        </div>
+                        <div class="header-right2">
+                            <ul class="nav navbar-nav navbar-right">
+                            {% if not user.is_authenticated %}
+                                <li class="hidden-xs" style="margin-right: 1vw;"><a href="{% url 'ikwen:sign_in' %}">
+                                    <button class="btn-sm" style="background: #a40009; border: #a40009; color: #fff; font-size: 15px; font-weight: 600 ">{% trans "Login" %}</button>
+                                </a></li>
+                                <li class="visible-xs"><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                            {% else %}
 
-                    <div class="collapse navbar-collapse navbar-right">
-                        <ul class="nav navbar-nav">
-                            <!--<li class="home"><a href="{% url 'webnode:home' %}">{% trans 'Home' %}</a></li>-->
+                                <div class="action dropdown" style="float: right; margin-right: 2vw; width: 20px">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="true">
+                                            <div class="button-hover-handler"><i class="fa fa-user" style=" margin-left: 11px; margin-top: 3px; font-size: 25px"></i></div>
+                                        </a>
+                                    <ul class="user-menu dropdown-menu" aria-labelledby="user-menu" style="left: -120px">
+                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                        <li role="separator" class="divider"></li>
+                                        {% if user.is_staff %}
+                                            <li>
+                                                <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                            </li>
+                                        {% endif %}
+                                        <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                            <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                        </li>
+                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            </ul>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="container" style="">
+                    <nav class="navbar">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header nav_2 visible-xs visible-sm">
+                            <button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="nav-container">
+                            <h3><ul class="nav navbar-nav" style="float: none; margin: auto; width: 500px">
+                            <li>
+                                <a href="{% url 'shopping:menu' %}">{% trans "Notre carte" %}</a>
+                            </li>
                             {% for menu in menu_list %}
                                 {% if menu.appear_in_menu %}
-                                <li class="{{ menu.slug }}">
-                                    {% if menu.content_type == 'FlatPage'  %}
-                                        {% if menu.description %}
-                                            <a href="{% url 'flatpage' menu.description %}">{% trans menu.title %}</a>
+                                    <li class="{{ menu.slug }}">
+                                        {% if menu.content_type == 'FlatPage'  %}
+                                            {% if menu.description %}
+                                                <a href="{% url 'flatpage' menu.description %}">{% trans menu.title %}</a>
+                                            {% endif %}
+                                        {% elif menu.content_type == 'ItemList' %}
+                                            <a href="{% url 'webnode:item_list' menu.slug %}">{% trans menu.title %}</a>
+                                        {% elif menu.content_type == 'Module' %}
+                                            <a href="{% url menu.module.url_name %}">{% trans menu.title %}</a>
                                         {% endif %}
-                                    {% elif menu.content_type == 'ItemList' %}
-                                        <a href="{% url 'webnode:item_list' menu.slug %}">{% trans menu.title %}</a>
-                                    {% elif menu.content_type == 'Module' %}
-                                        <a href="{% url menu.module.url_name %}">{% trans menu.title %}</a>
-                                    {% elif menu.content_type == 'Link' %}
-                                        <a href="{{ menu.target_url }}">{% trans menu.title %}</a>
-                                    {% endif %}
-                                </li>
+                                    </li>
                                 {% endif %}
                             {% endfor %}
-                        {% if not user.is_authenticated %}
-                            <li class="hidden-xs"><a href="{% url 'ikwen:sign_in' %}">
-                                <button class="btn-sm" style="background: #a40009; border: #a40009; color: #fff; font-size: 15px; font-weight: 600 ">{% trans "Login" %}</button>
-                            </a></li>
-                            <li class="visible-xs"><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
-                        {% else %}
+                            </ul></h3>
+                        </div>
+                    </nav>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
 
-                            <div class="action dropdown" style="float: right; width: 20px">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" id="user-menu" aria-haspopup="true" aria-expanded="true">
-                                        <div class="button-hover-handler"><i class="fa fa-user" style=" margin-left: 11px; margin-top: 3px; font-size: 20px"></i></div>
-                                    </a>
-
-
-                                <ul class="user-menu dropdown-menu" aria-labelledby="user-menu" style="left: -120px">
-                                    <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                    <li role="separator" class="divider"></li>
-                                    {% if user.is_staff %}
-                                        <li>
-                                            <a href="{% url 'ikwen:staff_router' %}">Admin</a>
-                                        </li>
-                                    {% endif %}
-                                    <li>{% url "ikwen:account_setup" as account_setup_url %}
-                                        <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
-                                    </li>
-                                    <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
-                                </ul>
-                            </div>
-                        {% endif %}
-                        </ul>
-                    </div>
-                </div><!--/.container-->
-            </nav><!--/nav-->
-
-        </header><!--/header-->
         <div class="header-xs visible-xs visible-sm">
             <div class="container-fluid">
                 <div class="pull-left left-content">
@@ -241,8 +287,11 @@
             </div>
         </div>
 
-        {% block page_content %}{% endblock %}
-        <section id="bottom">
+        {% block page_content %}
+
+        {% endblock %}
+
+        <section id="bottom" style="padding: 1em;">
             <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
                 <div class="row">
                     <div class="col-sm-4">
@@ -399,18 +448,56 @@
                     $('.header-xs .cd-search').removeClass('is-visible');
                     $('.header-xs .action.dropdown').removeClass('open')
                 }
-                    var mySwiper = new Swiper ('.xs-swiper-container', {
-                        // Optional parameters
-                        direction: 'horizontal',
-                        loop: false,
-                        spaceBetween: 10,
-                        slidePosition: 0,
-                        freeMode: true,
-                        centeredSlides: true,
-            {#            cssWidthAndHeight: false,#}
-                        slidesPerView: 'auto',
-                    })
-                })()
+                 var couponSwiper = new Swiper('#coupons .swiper-container', {
+                slidesPerView: 'auto',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev'
+            });
+                var headerTopH = $('.header-top').height(),
+                        headerBottomH = $('.header-bottom').height(),
+                        lastScrollTop = 0;
+                $(window).scroll(function (e) {
+                    var winWidth = $(window).width();
+                    var scrollTop = $(this).scrollTop();
+                    $('.toggle-cd-search .open').css('display', 'block');
+                    $('.toggle-cd-search .close2').css('display', 'none');
+                    $('.cd-search').removeClass('is-visible').removeClass('reveal');
+                    if (winWidth < 1000)  $('.cd-search').removeClass('.reveal');
+
+                    if (scrollTop > headerTopH + headerBottomH) {
+                        $('.header-bottom:not(.fixed)').addClass('fixed').animate({top: 0});
+                        $('.toggle-cd-search').addClass('is_active');
+                        $('#auth').remove().prependTo('.header-right2')
+                    } else {
+                        $('.header-bottom.fixed').removeClass('fixed');
+                        $('.toggle-cd-search').removeClass('is_active');
+                        $('.cd-search input').val('');
+                        $('.cd-search').removeClass('is-visible').removeClass('reveal');
+                        $('#auth').remove().insertAfter('.top-left')
+                    }
+
+                    if (winWidth < 768) {
+                        var st = window.pageYOffset +1 || document.documentElement.scrollTop;
+                        if (st  > lastScrollTop ){
+                            if(!($(".header-xs").hasClass('is-up'))){
+                                $(".header-xs").addClass('is-up');
+                                $('.nav-xs').removeClass('appear');
+                                $('.cd-search-trigger').removeClass('search-is-visible');
+                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                            }
+                        } else {
+                            if($(".header-xs").hasClass('is-up')){
+                                $(".header-xs").removeClass('is-up');
+                                $('.nav-xs').removeClass('appear');
+                                $('.cd-search-trigger').removeClass('search-is-visible');
+                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                            }
+                        }
+                           lastScrollTop = st;
+                    }
+                });
+
+            })()
             </script>
         {% endblock %}
     </body>

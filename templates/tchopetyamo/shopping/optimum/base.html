@@ -1,7 +1,7 @@
 {% load i18n static staticfiles auth_tokens media_from_provider cache %}
 <!--
 Au<!--
-Author: Roddy Mbogning
+Author: Roddy Mbogning & W1773ND (wilfriedwillend@gmail.com)
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
@@ -29,7 +29,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,400italic,300" rel="stylesheet">
             {% endif %}
 		{% endblock %}
-            <link href="{% static 'webnode/css/tchopety/yamo.css' %}" rel="stylesheet">
+            <link href="{% static 'webnode/css/tchopetyamo/yamo.css' %}" rel="stylesheet">
         {% block head_js %}
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -186,6 +186,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="nav-container">
                                 <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{% url 'shopping:menu' %}">{% trans "Notre carte" %}</a>
+                                </li>
                                 {% for menu in menu_list %}
                                     {% if menu.appear_in_menu %}
                                         <li class="{{ menu.slug }}">
@@ -351,7 +354,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		                {% endif %}
                             </ul>
                         </div>
-                        
+
                         <div class="col-sm-6 col-md-4 footer-grid hidden-sm">
                             <h4>{% trans "About" %}</h4>
                             <p>{{ config.description|truncatewords:25 }}</p>
