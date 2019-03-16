@@ -1,0 +1,161 @@
+{% extends 'webnode/improve/base.html' %}
+{% load i18n static auth_tokens %}
+{% block meta %}
+    {{ block.super }}
+    {% include 'webnode/snippets/home_seo.html' %}
+{% endblock %}
+{% block page_title %}<title>{{ service.project_name }} - {% trans "Home" %}</title>{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    {% if slideshow %}
+    <section id="main-slider" class="no-margin">
+        <div class="carousel slide">
+            {% if slideshow|length > 1 %}
+                <ol class="carousel-indicators">
+                    {% for slide in slideshow %}
+                    <li data-target="#main-slider" data-slide-to="{{ forloop.counter0 }}"></li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <div class="carousel-inner">
+                <div class="stage">
+                {% for slide in slideshow %}
+                    {% if slide.image.name %}
+                        <div class="item" style="background-image: url({{ slide.image.url }}">
+                            <div class="veil"></div>
+                            <div class="container">
+                                <div class="row slide-margin">
+                                    <div class="animation animated-item-4 slide-title">
+                                        {{ slide.title }}
+                                    </div>
+                                    {% if slide.cta %}
+                                        <div class="animation animated-item-4 slide-cta">
+                                            <a href="{{ slide.target_url }}" class="cta">
+                                                {{ slide.cta }}
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div><!--/.item-->
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div><!--/.carousel-inner-->
+        </div><!--/.carousel-->
+        {% if slideshow|length > 1 %}
+            <a class="prev hidden-xs" href="#main-slider" data-slide="prev">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+            <a class="next hidden-xs" href="#main-slider" data-slide="next">
+                <i class="fa fa-chevron-right"></i>
+            </a>
+        {% endif %}
+    </section><!--/#main-slider-->
+    {% endif %}
+
+    {% for section in homepage_section_list %}
+        {{ section.render|safe }}
+    {% endfor %}
+
+    {% if coupon_list %}
+    <section class="home-section">
+        <div id="coupons" class="container card-ul">
+            <div class="card">
+                <h2 class="title center wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">{% trans "Collect our free coupon and get wonderfull gift!" %}</h2>
+                <div class="dropdown social-sharing pull-right">
+                    <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-share-alt" style="color: #99141d; font-size: 21px; margin-right: 10px"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="share-coupons">
+                        <li class="visible-xs visible-sm">
+                            <a href="javascript:;" data-toggle="modal" data-target="#whatsapp-share">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://facebook.com/sharer/sharer.php?u={{ url }}" target="_blank">
+                                <i class="fab fa-facebook"></i>
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/home?status={{ url }}" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row" style="">
+                <div class="row swiper-container" >
+                    <div class="swiper-wrapper" style="">
+                    {% for coupon in coupon_list %}
+                        <div class="col-xs-4 col-sm-3 card-li swiper-slide" style="text-align: center; margin: auto">
+                            <div>
+                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({% get_media_prefix %}{{ coupon.image.name }})">
+                                    {% if user.is_authenticated %}
+                                    <div class="text-has-shade coupon-count">
+                                        <span>{{ coupon.count }}</span>/100
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if user.is_authenticated %}
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{ coupon.ratio|floatformat:"0" }}%">
+                                        <span class="sr-only">{{ coupon.ratio }}% Complete</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <p style="margin-top: 5px">{{ coupon.name }}</p>
+                            </div>
+                            {% if coupon.count >= 100 %}
+                                <button class="btn btn-sm btn-block btn-warning claim-reward"
+                                        data-toggle="modal" data-target="#claim-reward">
+                                    {% trans "Claim your reward" %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <div class="swiper-button-next has-shade">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                    <div class="swiper-button-prev has-shade">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+                </div>
+            </div>
+            {% if is_member %}
+            <div>
+                <p class="text-muted" style="margin: 15px 0 25px; text-align: center">{% blocktrans %}
+                    Refer {{ profile_name }} to a friend by sharing and earn {{ referral_coupon_count }} more free coupons.
+                {% endblocktrans %}</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('ul.navbar-nav li').removeClass('active');
+            $('ul.navbar-nav li.home').addClass('active');
+            $('.carousel.slide .carousel-inner').find('div.item:first-child').addClass('active');
+            $('.carousel.slide .carousel-indicators').find('li:first-child').addClass('active')
+        })()
+    </script>
+{% endblock %}

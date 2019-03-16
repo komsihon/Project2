@@ -325,9 +325,9 @@ class ProductList(TemplateSelector, HybridListView):
         else:
             return super(ProductList, self).render_to_response(context, **response_kwargs)
 
-
-class OurMenu(TemplateView):
-    template_name = 'shopping/optimum/menu.html'
+#
+# class OurMenu(TemplateView):
+#     template_name = 'shopping/optimum/menu.html'
 
 
 class ProductDetail(TemplateSelector, TemplateView):

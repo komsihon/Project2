@@ -5,13 +5,13 @@ from django.contrib.auth.decorators import login_required
 from ikwen_kakocase.shopping.paypal.views import SetExpressCheckout, GetExpressCheckoutDetails, DoExpressCheckout, PayPalCancel
 from ikwen_kakocase.shopping.views import ProductList, ProductDetail, confirm_checkout, Cart, \
     check_stock, check_stock_single, Home, Contact, load_checkout_summary, Checkout, review_product, test_return_url, \
-    ChooseDeal, Cancel, load_countries, OurMenu
+    ChooseDeal, Cancel, load_countries
 
 urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^contact/$', Contact.as_view(), name='contact'),
-    url(r'^menu/$', OurMenu.as_view(), name='menu'),
+    # url(r'^menu/$', OurMenu.as_view(), name='menu'),
     url(r'^cart/$', Cart.as_view(), name='cart'),
     url(r'^cart/(?P<order_id>[-\w]+)/$', Cart.as_view(), name='cart'),
     url(r'^checkout/$', Checkout.as_view(), name='checkout'),
