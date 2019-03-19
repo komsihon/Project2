@@ -11,7 +11,6 @@ urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^contact/$', Contact.as_view(), name='contact'),
-    # url(r'^menu/$', OurMenu.as_view(), name='menu'),
     url(r'^cart/$', Cart.as_view(), name='cart'),
     url(r'^cart/(?P<order_id>[-\w]+)/$', Cart.as_view(), name='cart'),
     url(r'^checkout/$', Checkout.as_view(), name='checkout'),
