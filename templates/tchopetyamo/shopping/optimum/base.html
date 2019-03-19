@@ -186,9 +186,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="nav-container">
                                 <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="{% url 'shopping:menu' %}">{% trans "Notre carte" %}</a>
-                                </li>
+{#                                <li>#}
+{#                                    <a href="{% url 'shopping:menu' %}">{% trans "Notre carte" %}</a>#}
+{#                                </li>#}
                                 {% for menu in menu_list %}
                                     {% if menu.appear_in_menu %}
                                         <li class="{{ menu.slug }}">
