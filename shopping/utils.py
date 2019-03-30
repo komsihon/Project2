@@ -213,31 +213,33 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order):
     client_page_count = count_pages(client_text)
     iao_page_count = count_pages(iao_text)
     needed_credit = client_page_count + iao_page_count * len(iao_phones)
-    with transaction.atomic(using=WALLETS_DB_ALIAS):
-        balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
-        if balance.sms_count < needed_credit:
-            notify_for_empty_messaging_credit(service, balance)
-            return
-        buyer_phone = buyer_phone.strip()
-        buyer_phone = slugify(buyer_phone).replace('-', '')
-        if buyer_phone and len(buyer_phone) == 9:
-            buyer_phone = '237' + buyer_phone  # This works only for Cameroon
-        try:
-            balance -= client_page_count
+    balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+    if balance.sms_count < needed_credit:
+        notify_for_empty_messaging_credit(service, balance)
+        return
+    buyer_phone = buyer_phone.strip()
+    buyer_phone = slugify(buyer_phone).replace('-', '')
+    if buyer_phone and len(buyer_phone) == 9:
+        buyer_phone = '237' + buyer_phone  # This works only for Cameroon
+    try:
+        with transaction.atomic(using=WALLETS_DB_ALIAS):
+            balance.sms_count -= client_page_count
             balance.save()
             send_sms(buyer_phone, client_text, script_url=script_url, fail_silently=False)
-        except:
-            pass
-        for phone in iao_phones:
-            phone = slugify(phone).replace('-', '')
-            if len(phone) == 9:
-                phone = '237' + phone
-            try:
-                balance -= iao_page_count
+    except:
+        pass
+
+    for phone in iao_phones:
+        phone = slugify(phone).replace('-', '')
+        if len(phone) == 9:
+            phone = '237' + phone
+        try:
+            with transaction.atomic(using=WALLETS_DB_ALIAS):
+                balance.sms_count -= iao_page_count
                 balance.save()
                 send_sms(phone, iao_text, script_url=script_url, fail_silently=False)
-            except:
-                pass
+        except:
+            pass
 
 
 def set_ikwen_earnings_and_stats(order):
