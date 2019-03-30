@@ -78,13 +78,15 @@ def add_member_auto_profiletag(request, **kwargs):
         tag_slug = None
         if kwargs.get('category_slug'):
             tag_slug = kwargs.get('category_slug')
+            name = ProductCategory.objects.get(slug=tag_slug).name
         elif kwargs.get('smart_category_slug'):
             tag_slug = kwargs.get('smart_category_slug')
+            name = SmartCategory.objects.get(slug=tag_slug).title
         if tag_slug:
-            ProfileTag.objects.get_or_create(name=tag_slug, slug=tag_slug, is_auto=True)
+            tag, update = ProfileTag.objects.get_or_create(name=name, slug='__' + tag_slug, is_auto=True)
             member_profile, update = MemberProfile.objects.get_or_create(member=request.user)
-            if tag_slug not in member_profile.tag_list:
-                member_profile.tag_list.append(tag_slug)
+            if tag.id not in member_profile.tag_fk_list:
+                member_profile.tag_fk_list.append(tag.id)
                 member_profile.save()
 
 
