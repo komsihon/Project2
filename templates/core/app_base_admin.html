@@ -116,7 +116,6 @@
                                     {% url 'rewarding:configuration' as rewarding_configuration_url %}
                                     <a href="{{ rewarding_configuration_url }}" title="Continuous Rewarding">
                                         {% trans "Continuous Rewarding" %}
-                                        <span class="label label-danger" style="text-transform: capitalize">New</span>
                                     </a>
                                 </li>
                             {% endif %}
@@ -138,7 +137,6 @@
                                     {% url 'revival:profiletag_list' as profiletag_list_url %}
                                     <a href="{{ profiletag_list_url }}">
                                         {% trans "Profiles" %}
-                                        <span class="label label-danger" style="text-transform: capitalize">New</span>
                                     </a>
                                 </li>
                             {% endif %}
@@ -147,7 +145,6 @@
                                     <a href="javascript:;" data-toggle="collapse" data-target="#messaging-campaigns"
                                        aria-expanded="true" style="padding-right: 0;">
                                         {% trans "Messaging Campaigns" %}
-                                        <span class="label label-danger" style="text-transform: capitalize">New</span>
                                         <i class="fa fa-fw fa-caret-down"></i>
                                     </a>
                                     <ul id="messaging-campaigns" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
@@ -155,8 +152,11 @@
                                         <li class="sms-campaigns">{% url 'echo:sms_campaign' as sms_campaign_url %}
                                             <a href="{{ sms_campaign_url }}">{% trans "SMS" %}</a>
                                         </li>
-                                        <li class="mail-campaigns">{% url 'echo:mail_campaign' as mail_campaign_url %}
-                                            <a href="javascript:;">{% trans "Mail" %}</a>
+                                        <li class="mail-campaigns">{% url 'echo:mailcampaign_list' as mail_campaign_url %}
+                                            <a href="{{ mail_campaign_url }}">
+                                                {% trans "Mail" %}
+                                                <span class="label label-danger" style="text-transform: capitalize">New</span>
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
