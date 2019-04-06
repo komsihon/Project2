@@ -298,6 +298,12 @@
                         {% else %}
                             link = '{% url 'revival:change_profiletag' %}?items_fk_list=' + selection;
                         {% endif %}
+                    {% elif request.GET.campaign %}
+                        {% if request.GET.smart_object_id %}
+                            link = '{% url 'echo:change_mailcampaign' request.GET.smart_object_id %}?items_fk_list=' + selection;
+                        {% else %}
+                            link = '{% url 'echo:change_mailcampaign' %}?items_fk_list=' + selection;
+                        {% endif %}
                     {% else %}
                         link = '{% url 'marketing:set_smart_object_content' 'add' %}?smart_object_id={{ smart_object.id }}&selection=' + selection;
                     {% endif %}
