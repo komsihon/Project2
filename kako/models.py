@@ -9,6 +9,7 @@ from djangotoolbox.fields import ListField, EmbeddedModelField
 from ikwen.core.fields import MultiImageField
 from ikwen.core.models import AbstractWatchModel, Service
 from ikwen.core.utils import to_dict
+from ikwen.revival.models import ProfileTag
 from ikwen_kakocase.kakocase.models import ProductCategory, IS_PROVIDER, IS_RETAILER
 
 wholesale_price_help_text = _("Your wholesale price. Retailers may set their own price.") if IS_PROVIDER\
@@ -315,5 +316,22 @@ def update_product_containers_items_count(sender, **kwargs):
         obj.items_count = len(obj.items_fk_list)
         obj.save()
 
+
+def delete_auto_profile_tag(sender, **kwargs):
+    """
+    Receiver of the post_delete signals of ProductCategory. It deletes
+    the corresponding auto ProfileTag
+    """
+    if sender != ProductCategory:  # Avoid unending recursive call
+        return
+    instance = kwargs['instance']
+    try:
+        tag = ProfileTag.objects.get(slug='__' + instance.slug, is_auto=True)
+        tag.delete()
+    except ProfileTag.DoesNotExist:
+        pass
+
+
 post_save.connect(update_category_items_count, dispatch_uid="product_post_save_id")
 post_delete.connect(update_product_containers_items_count, dispatch_uid="product_post_delete_id")
+post_delete.connect(delete_auto_profile_tag, dispatch_uid="product_category_post_delete_id")

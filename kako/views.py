@@ -45,6 +45,8 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, BusinessCategory, Pr
 from ikwen_kakocase.kakocase.admin import ProductCategoryAdmin
 from ikwen_kakocase.commarketing.models import SmartCategory, Banner
 
+from echo.models import MailCampaign
+
 
 class ProviderList(HybridListView):
     template_name = 'kako/retailer/provider_list.html'
@@ -282,6 +284,12 @@ class ProductList(HybridListView):
                 try:
                     smart_object = CyclicRevival.objects.using(UMBRELLA).get(profile_tag_id=smart_object_id)
                 except CyclicRevival.DoesNotExist:
+                    pass
+        elif self.request.GET.get('campaign'):
+            if smart_object_id:
+                try:
+                    smart_object = MailCampaign.objects.using(UMBRELLA).get(pk=smart_object_id)
+                except MailCampaign.DoesNotExist:
                     pass
         else:
             try:
@@ -662,7 +670,7 @@ class ChangeProduct(ChangeObjectBase):
                 messages.success(request, _("Product %s successfully created." % product.name))
             mark_duplicates(product)
             tag = '__' + category.slug
-            category_auto_profile_tag, update = ProfileTag.objects.get_or_create(slug=tag, is_auto=True)
+            category_auto_profile_tag, update = ProfileTag.objects.get_or_create(name=category.name, slug=tag, is_auto=True)
             auto_profiletag_id_list = [category_auto_profile_tag.id]
             revival_mail_renderer = 'ikwen_kakocase.kako.utils.render_products_added'
             if product.on_sale:

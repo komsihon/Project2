@@ -55,6 +55,10 @@ def wipe_test_data(db='default'):
     for name in ('ObjectProfile', 'MemberProfile', 'Revival', 'ProfileTag', 'Target'):
         model = getattr(ikwen.revival.models, name)
         model.objects.using(db).all().delete()
+    for name in ('Product', 'Payment', 'Invoice', 'Subscription', 'InvoicingConfig',
+                 'PaymentMean', 'MoMoTransaction', 'SupportBundle', 'SupportCode'):
+        model = getattr(ikwen.billing.models, name)
+        model.objects.using(db).all().delete()
 
 
 def copy_service_and_config_to_default_db():
@@ -142,8 +146,8 @@ class KakoViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('kako:provider_product_list', args=('56922874b37b33706b51f002', )))
         self.assertEqual(response.status_code, 200)
         products = response.context['products']
-        self.assertEqual(products.count(), 2)
-        self.assertEqual(products[0].name, 'Mutzig')
+        self.assertEqual(products.count(), 3)
+        self.assertEqual(products[0].name, 'Breaded fish')
         from pymongo import Connection
         cnx = Connection()
         cnx.drop_database(service.database)
@@ -205,8 +209,8 @@ class KakoViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('kako:product_list'))
         self.assertEqual(response.status_code, 200)
         products = response.context['product_list']
-        self.assertEqual(products.count(), 3)
-        self.assertEqual(products[0].name, 'Mutzig')
+        self.assertEqual(products.count(), 4)
+        self.assertEqual(products[0].name, 'Samsung Galaxy S7')
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_ProductList_json_format(self):
@@ -237,8 +241,8 @@ class KakoViewsTestCase(unittest.TestCase):
                                    {'format': 'json', 'category_slug': 'food', 'start': 0, 'length': 24})
         self.assertEqual(response.status_code, 200)
         products = json.loads(response.content)
-        self.assertEqual(len(products), 2)
-        self.assertEqual(products[0]['name'], 'Mutzig')
+        self.assertEqual(len(products), 3)
+        self.assertEqual(products[0]['name'], 'Coca-Cola')
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_do_import_products(self):
@@ -374,7 +378,7 @@ class KakoViewsTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
-    def test_submit_product_with_new_product(self):
+    def test_ChangeProduct_with_new_product(self):
         """
         submit_product view updates product information if it previously exists.
         Only retail_price can be set if user is a Retailer
@@ -389,6 +393,7 @@ class KakoViewsTestCase(unittest.TestCase):
                                      'wholesale_price': '0',
                                      'retail_price': '600',
                                      'min_order': '1',
+                                     'packing_price': '0',
                                      'summary': 'Some summary',
                                      'description': 'Some description'})
         product = Product.objects.get(slug='new-black-chocolate')  # Slug must be correctly set
@@ -399,10 +404,9 @@ class KakoViewsTestCase(unittest.TestCase):
         self.assertEqual(product.retail_price, 600)  # retail_price cannot be bigger than max_price
         self.assertEqual(product.description, 'Some description')
         category = ProductCategory.objects.get(pk=category_id)
-        tag = '__' + category.slug
-        ProfileTag.objects.get(name=tag, slug=tag, is_auto=True)
-        ObjectProfile.objects.get(model_name='kako.product', object_id=product.id)
-        Revival.objects.using(UMBRELLA).get(service=get_service_instance(), model_name='kako.product', object_id=product.id)
+        tag = ProfileTag.objects.get(name=category.name, slug='__' + category.slug, is_auto=True)
+        Revival.objects.using(UMBRELLA).get(service=get_service_instance(), model_name='kako.product',
+                                            object_id=product.id, profile_tag_id=tag.id)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        IS_RETAILER=True, IS_PROVIDER=False)
@@ -539,7 +543,7 @@ class KakoViewsTestCase(unittest.TestCase):
         self.client.get(reverse('kako:put_product_in_trash'), {'selection': '55d1fa8feb60008099bd4152'})
         category = ProductCategory.objects.get(pk='569228a9b37b3301e0706b52')
         smart_category = SmartCategory.objects.get(pk='56a9b37b3301e0706b549224')
-        self.assertEqual(category.items_count, 1)
+        self.assertEqual(category.items_count, 2)
         self.assertEqual(smart_category.items_count, 0)
         self.assertListEqual(smart_category.items_fk_list, [])
 

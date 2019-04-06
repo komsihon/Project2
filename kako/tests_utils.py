@@ -2,12 +2,10 @@ from django.core.management import call_command
 from django.test.client import Client
 from django.test.utils import override_settings
 from django.utils import unittest
-from ikwen.core.models import Service
 
-from ikwen.accesscontrol.models import Member
+from ikwen.revival.models import ProfileTag
 
-from commarketing.models import Banner, PRODUCTS, SLIDE
-from ikwen.accesscontrol.backends import UMBRELLA
+from ikwen_kakocase.commarketing.models import Banner, PRODUCTS, SLIDE
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.tests_views import wipe_test_data
 from ikwen_kakocase.kako.utils import create_category, mark_duplicates, get_product_from_url
@@ -104,3 +102,14 @@ class KakoUtilsTestCase(unittest.TestCase):
         product, merchant = get_product_from_url(url)
         self.assertEqual(product.slug, 'samsung-galaxy-s7')
         self.assertEqual(merchant.id, '56eb6d04b37b3379b531b101')
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b107', LOCAL_DEV=False)
+    def test_post_delete_category(self):
+        """
+        Retrieves product an merchant based on URL of product
+        """
+        category = ProductCategory.objects.get(pk='569228a9b37b3301e0706b51')  # 'phone-and-tablets'
+        slug = category.slug
+        ProfileTag.objects.create(name=category.name, slug='__' + category.slug, is_auto=True)
+        category.delete()
+        self.assertRaises(ProfileTag.DoesNotExist, ProfileTag.objects.get, **{'slug': '__' + slug})
