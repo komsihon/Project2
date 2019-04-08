@@ -1,6 +1,5 @@
 import json
 
-from django.conf import settings
 from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.test.client import Client
@@ -8,15 +7,12 @@ from django.test.utils import override_settings
 from django.utils import unittest
 
 
-from ikwen.theming.models import Theme
 from ikwen_kakocase.kako.tests_views import wipe_test_data
 
 from ikwen.accesscontrol.backends import UMBRELLA
-from ikwen.accesscontrol.models import Member
-from ikwen.core.models import Service, Application
-from ikwen.core.utils import get_service_instance, add_database_to_settings
-from ikwen_kakocase.kako.models import Product, RecurringPaymentService
-from ikwen_kakocase.kakocase.models import ProductCategory, OperatorProfile
+from ikwen.core.models import Service
+from ikwen.core.utils import get_service_instance
+from ikwen_kakocase.kakocase.models import OperatorProfile
 
 
 def copy_service_and_config_to_default_db():

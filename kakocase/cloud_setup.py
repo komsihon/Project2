@@ -17,7 +17,7 @@ from django.template.defaultfilters import slugify
 from django.template.loader import get_template
 from django.utils.translation import gettext as _
 from ikwen_kakocase.kako.models import Product
-from ikwen_kakocase.kakocase.models import OperatorProfile
+from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
 from permission_backend_nonrel.models import UserPermissionList, GroupPermissionList
 
 from ikwen.accesscontrol.backends import UMBRELLA
@@ -45,6 +45,7 @@ else:
     CLOUD_HOME = '/home/ikwen/Cloud/'
 
 CLOUD_FOLDER = CLOUD_HOME + 'Kakocase/'
+SMS_API_URL = 'http://websms.mobinawa.com/http_api?action=sendsms&username=675187705&password=depotguinness&from=$label&to=$recipient&msg=$text'
 
 
 # from captcha.fields import ReCaptchaField
@@ -278,7 +279,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
                              is_pro_version=is_pro_version, theme=theme, currency_code='XAF', currency_symbol='XAF',
                              signature=mail_signature, max_products=billing_plan.max_objects, decimal_precision=0,
                              company_name=project_name, contact_email=member.email, contact_phone=member.phone,
-                             business_category=business_category, bundle=bundle)
+                             business_category=business_category, bundle=bundle, sms_api_script_url=SMS_API_URL)
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
@@ -309,6 +310,14 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         product.provider = service
         product.save(using=database)
     logger.debug("Sample products successfully copied to database %s" % database)
+
+    # Create delivery options: Pick-up in store and Free home delivery
+    DeliveryOption.objects.using(database).create(company=service, type=DeliveryOption.PICK_UP_IN_STORE,
+                                                  name=_("Pick up in store"), slug='pick-up-in-store',
+                                                  short_description=_("2H after order"), cost=0, max_delay=2)
+    DeliveryOption.objects.using(database).create(company=service, type=DeliveryOption.HOME_DELIVERY,
+                                                  name=_("Home delivery"), slug='home-delivery',
+                                                  short_description=_("Max. 72H after order"), cost=500, max_delay=72)
 
     # Apache Server cloud_setup
     go_apache_tpl = get_template('kakocase/cloud_setup/apache.conf.local.html')
