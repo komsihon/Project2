@@ -30,10 +30,11 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, Busi
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance
+from ikwen.core.views import AdminHomeBase
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 
 
-class AdminHome(TemplateView):
+class AdminHome(AdminHomeBase):
     template_name = 'kakocase/admin_home.html'
 
     def get(self, request, *args, **kwargs):
