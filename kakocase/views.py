@@ -384,6 +384,12 @@ class Go(VerifiedEmailTemplateView):
 class Welcome(TemplateView):
     template_name = 'kakocase/welcome.html'
 
+    def get(self, request, *args, **kwargs):
+        config = get_service_instance().config
+        if config.is_ecommerce_active:
+            return HttpResponseRedirect(reverse('home'))
+        return super(Welcome, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(Welcome, self).get_context_data(**kwargs)
         service = get_service_instance()
