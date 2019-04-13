@@ -2,7 +2,7 @@
 {% load i18n static %}
 
 {% block page_title %}
-    <title> IKWEN - Tsunami Deployment</title>
+    <title>{% trans "Deploy Tsunami" %} - ikwen</title>
 {% endblock %}
 
 {% block head_style %}
@@ -97,11 +97,5 @@
             {% endif %}
         </div>
     </div>
-{% endblock %}
-
-{% block js %}
-    {{ block.super }}
-    <script>
-    </script>
 {% endblock %}
 
