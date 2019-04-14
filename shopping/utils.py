@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from datetime import timedelta, datetime
 from threading import Thread
 
@@ -29,8 +30,9 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOL
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
 from echo.views import count_pages
-from echo.utils import SMS, notify_for_empty_messaging_credit
+from echo.utils import notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT
 
+logger = logging.getLogger('ikwen.crons')
 
 def parse_order_info(request):
     from ikwen_kakocase.kako.models import Product
@@ -167,8 +169,16 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
 
     with transaction.atomic(using=WALLETS_DB_ALIAS):
         balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+        if 0 < balance.mail_count < LOW_SMS_LIMIT:
+            try:
+                notify_for_low_messaging_credit(service, balance)
+            except:
+                logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
         if balance.mail_count == 0 and not getattr(settings, 'UNIT_TESTING', False):
-            notify_for_empty_messaging_credit(service, balance)
+            try:
+                notify_for_empty_messaging_credit(service, balance)
+            except:
+                logger.error("Failed to notify %s for empty messaging credit." % service, exc_info=True)
             return
         crcy = currencies(request)['CURRENCY']
         html_content = get_mail_content(subject, template_name=template_name,
@@ -214,8 +224,16 @@ def send_order_confirmation_sms(buyer_name, buyer_phone, order):
     iao_page_count = count_pages(iao_text)
     needed_credit = client_page_count + iao_page_count * len(iao_phones)
     balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+    if needed_credit < balance.mail_count < LOW_SMS_LIMIT:
+        try:
+            notify_for_low_messaging_credit(service, balance)
+        except:
+            logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
     if balance.sms_count < needed_credit:
-        notify_for_empty_messaging_credit(service, balance)
+        try:
+            notify_for_empty_messaging_credit(service, balance)
+        except:
+            logger.error("Failed to notify %s for empty messaging credit." % service, exc_info=True)
         return
     buyer_phone = buyer_phone.strip()
     buyer_phone = slugify(buyer_phone).replace('-', '')
