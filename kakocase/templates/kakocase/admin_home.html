@@ -8,7 +8,7 @@
 {% block head_style %}
     {{ block.super }}
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <link href="{% static 'kakocase/css/admin-home.css' %}" rel="stylesheet">
+    <link href="{% static 'ikwen/css/admin-home.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block breadcrumb_location %}
@@ -35,11 +35,11 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title" style="padding-bottom: 3vh;">{% trans "Website preview" %}</h4>
                     <div class="col-md-8 col-md-offset-1 col-sm-12">
                         {% url 'welcome' as welcome_url %}
-                        <p class="subtitle" style="padding-bottom: 1vh !important;">{% blocktrans %}
+                        <p class="section-about" style="padding-bottom: 1vh !important;">{% blocktrans %}
                             Your visitors will see <a href="{{ welcome_url }}">this welcome page</a> when they visit your website.
                             If you want them to see your offers and products, simply turn the switch to "on".<br>
                             Make sure you add your own products and configure everything correctly before you go live.<br>
@@ -66,7 +66,7 @@
                             <img style="max-width: 250px;" src="{% static 'kakocase/img/best_buddy_list_exploitation.png' %}">
                         </div>
                         <div class="col-md-6 col-sm-12">
-                            <p class="subtitle">{% blocktrans %}
+                            <p class="section-about">{% blocktrans %}
                                 Register your customers contacts here. Our system will automatically invite them to create an account on your website and also
                                 invite their friends to do so. You will rapidly have thousands of users to whom you can offer your products and services.
                                 For better qualification of your database, create profiles first and group them.
@@ -80,14 +80,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Mails and SMS campaigns" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/inbound_marketing.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Send individual or mass mails and SMS campaigns. The recipient receives it with the name of your company as sender.
                                 {% endblocktrans %}
@@ -100,14 +100,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Products and categories" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/Product-and-categorie.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Add photos, description, cost and stock for products/services you want to sell online. People can pay online.
                                 The categories will appear in the menu bar of the website if you want to. It is highly suggested to use the same image size for all your products.<br>
@@ -126,14 +126,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Smart categories" %}</h4>
                     <div class="row-card-section" style="display: flex; align-items: center">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/Smart-categorie.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Smart categories let you group certain products under an attractive commercial name. Eg: “Top products”, “Arrivals”, etc.
                                 Once created you can populate a Smart category with products from different categories or a list of categories.
@@ -147,14 +147,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Delivery options" %}</h4>
                     <div class="row-card-section" style="display: flex; align-items: center">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/Delivery-illustration.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 You need to set delivery options before the Checkout button can appear on the card page. For every delivery option created,
                                 you can configure the cost, the minimum purchase to make this option available and the area of coverage for the option.
@@ -167,14 +167,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Homepage slideshow" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/Slideshow.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                     Create and manipulate big images that slide on the homepage.<br/>
                                     <strong>Use images of 1920 x 800px.</strong>
@@ -189,14 +189,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Website appearance and logo" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/website-appearance.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Choose your preferred template and configure logo that appear in the top left corner of the website.
                                 You can configure how dense products are displayed. Compact, Cozy or comfortable.
@@ -209,14 +209,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Website configurations and branding" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/website-configuration.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Configure useful information of your website like company name, description, invitation message, mail signature, etc.
                                 Upload a square-size symbol that will serve as favicon and smartphone launcher.
@@ -229,14 +229,14 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Customer retention program" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/customer-retention-programm.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 Create coupons that your customers and fans will collect in heap of 100 to get the actual gift indicated.
                                 You can configure how much of each coupons they get for joining your community, referring to a friend or buying from you, online or onsite.
@@ -251,15 +251,14 @@
                         <a href="{% url 'rewarding:configuration' %}" class="btn btn-outline-primary" role="button" style="margin-bottom: 1vh;">{% trans "Create coupons" %}</a>
                     </div>
                 </div>
-{#                <div class="clearfix"></div>#}
-                <div class=" card-section subtle-shade">
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Promotions" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/promotion.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 You can create a promotion on a product, a category or on all products on the website.
                                 You simply choose the category a product and set the sales rate.
@@ -274,35 +273,15 @@
                         <a href="{% url 'sales:promo_code_list' %}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Create Coupon code" %}</a>
                     </div>
                 </div>
-{#                <div class="clearfix"></div>#}
-                {% if  service.domain_type == 'Sub' %}
-                <div class=" card-section subtle-shade">
-                    <h4 class="card-section-title">{% trans "Domain name" %}</h4>
-                    <div class="row-card-section">
-                        <div class="col-md-4 col-md-offset-1 card-img">
-                            <img  style="max-width: 250px;" src="{% static 'kakocase/img/glogal-market.png' %}">
-                        </div>
-                        <div class="col-md-6">
-                            <p class="subtitle">
-                                {% blocktrans with service_url=service.url %}
-                                Your website is actually running with the name <b>{{ service_url }}</b>.<br>
-                                You can change it to yourcompany.com, yourcompany.cm or whatever you want.
-                                You have to buy a domain name and configure for this to work. Read this very simple tutorial on how to do that.
-                                {% endblocktrans %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-{#                <div class="clearfix"></div>#}
-                {% endif %}
-                <div class=" card-section subtle-shade">
+                {% include 'core/snippets/admin_home_change_domain.html' %}
+                <div class="card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Help & Support" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
                             <img  style="max-width: 250px;" src="{% static 'kakocase/img/help-and-support.png' %}">
                         </div>
                         <div class="col-md-6">
-                            <p class="subtitle">
+                            <p class="section-about">
                                 {% blocktrans %}
                                 If you are still having issues getting all this to run, we offer multiple support options.
                                 You have free and full access to our online documentation and FAQ.
