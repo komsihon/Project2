@@ -35,10 +35,8 @@
 
 {% block admin_content %}
     <div id="admin-content" class="change-form">
-        {% url 'marketing:change_smart_object' object_type as change_smart_object_url %}
         {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
-        <form id="submit-category" class="admin-form" method="post" action="{{ change_smart_object_url }}">{% csrf_token %}
-            <input type="hidden" name="smart_object_id" value="{{ smart_object.id }}" />
+        <form id="submit-category" class="admin-form" method="post">{% csrf_token %}
             <input type="hidden" name="image_url" id="image_url" />
             <input type="hidden" name="items_fk_list" id="items_fk_list" value="{{ smart_object.items_fk_list }}" />
             <div class="container-fluid">

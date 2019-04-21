@@ -66,7 +66,6 @@ class ChangeSmartObject(TemplateView):
         context = super(ChangeSmartObject, self).get_context_data(**kwargs)
         object_type = kwargs.get('object_type')
         smart_object_id = kwargs.get('smart_object_id')  # May be overridden with the one from GET data
-        smart_object_id = self.request.GET.get('smart_object_id', smart_object_id)
         smart_object = None
         if object_type == BANNER:
             model = Banner
@@ -100,7 +99,7 @@ class ChangeSmartObject(TemplateView):
     @method_decorator(csrf_protect)
     def post(self, request, *args, **kwargs):
         object_type = kwargs.get('object_type')
-        smart_object_id = request.POST['smart_object_id']
+        smart_object_id = kwargs.get('smart_object_id')
         smart_object = None
         if object_type == BANNER:
             model = Banner
@@ -116,13 +115,14 @@ class ChangeSmartObject(TemplateView):
         if form.is_valid():
             title = form.cleaned_data['title']
             slug = slugify(title)
-            try:
-                model.objects.get(slug=slug)
-                context = self.get_context_data(**kwargs)
-                context['errors'] = _("Smart object with title %s already exists" % title)
-                return render(request, self.template_name, context)
-            except ObjectDoesNotExist:
-                pass
+            if not smart_object_id:
+                try:
+                    model.objects.get(slug=slug)
+                    context = self.get_context_data(**kwargs)
+                    context['errors'] = _("Smart object with title %s already exists" % title)
+                    return render(request, self.template_name, context)
+                except ObjectDoesNotExist:
+                    pass
             content_type = form.cleaned_data['content_type']
             description = form.cleaned_data.get('description')
             badge_text = form.cleaned_data.get('badge_text')
