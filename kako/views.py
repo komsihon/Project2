@@ -887,7 +887,9 @@ def render_product_event(event, request):
     except Product.DoesNotExist:
         return ''
     html_template = get_template('kako/events/product_notice.html')
-    c = Context({'event': event, 'product': product}.update(currencies(request)))
+    context = {'event': event, 'product': product}
+    context.update(currencies(request))
+    c = Context(context)
     return html_template.render(c)
 
 

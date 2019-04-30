@@ -1,9 +1,9 @@
 {% load currency i18n humanize %}
 {% with event_type=event.event_type %}
-    <h4 class="text-primary col-xs-12">{% trans event_type.title %}</h4>
+    <h4 class="text-primary col-xs-12">{{ product.name }}</h4>
     {% if product.image.name %}
         <div class="event-media" style="background-image: url({{ product.image.url }})">
-{#            <img src="{{ product.image.url }}" alt="Product" class="img-responsive" />#}
+            <div class="stretched card-tile" style="background-image: url({{ product.image.url }})"></div>
         </div>
     {% endif %}
     {% if event_type.codename == 'ProviderRemovedProductEvent' %}
@@ -17,12 +17,20 @@
     {% elif event_type.codename == 'SoldOutEvent' %}
         <p class="col-xs-12">{% trans "This product went out of stock after customer order." %}</p>
     {% elif event_type.codename == 'ProductPublished' %}
-        <p class="col-xs-12">{{ product.summary|safe }}</p>
+        <div class="col-xs-12">
+            {% if product.summary %}
+                {{ product.summary|safe }}
+            {% else %}
+                {{ product.description|safe }}
+            {% endif %}
+        </div>
         <p class="col-xs-12" style="margin-top: 15px">
-            <strong class="pull-left">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
-            <a href="{{ event.service.url }}{% url 'shopping:product_detail' product.category.slug product.slug %}"
-               target="_blank" class="btn btn-warning btn-sm btn-block pull-right">{% trans "Buy now" %}</a>
+            <strong class="pull-right">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
         </p>
+        <div class="col-xs-8 col-xs-offset-2 col-sm-offset-3 col-sm-6" style="margin-top: 15px">
+            <a href="{{ event.service.url }}{% url 'shopping:product_detail' product.category.slug product.slug %}"
+               target="_blank" class="btn btn-warning btn-sm btn-block">{% trans "Buy now" %}</a>
+        </div>
     {% endif %}
 {% endwith %}
 <div class="clear"></div>
