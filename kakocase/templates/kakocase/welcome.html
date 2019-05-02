@@ -34,12 +34,12 @@
         <div class="container desktop-landscape">
 			<div class="row">
 				<div class="col-sm-5 col-xs-5 textBox landscape">
-					<h3>Communauté {{ service.project_name_slug }}</h3>
-                    {% blocktrans with project_name=service.project_name_slug %}
+                    {% blocktrans with project_name=service.project_name %}
+					<h3>{{ project_name }} Community</h3>
 					<p>
-                        Bienvenue à l'acceuil de la communauté {{ project_name }} !<br>
-                        Dépêchez-vous de nous <i>JOIN</i> et commencez à recevoir une tonne de cadeaux exclusifs.
-                        C'est aussi simple qu'un clic de souris, et c'est gratuit...
+                        Welcome to {{ project_name }} community !<br>
+                        Hurry up and <i>Join</i>. You will receive tons of exclusive gifts
+                        It is simple and totally free ...
 					</p>
                     {% endblocktrans %}
 					<div>
@@ -54,12 +54,12 @@
 		<div class="container mobile-portrait" style="display: none">
 			<div class="row">
 				<div class="textBox portrait">
-					<h3>Communauté {{ service.project_name_slug }}</h3>
-                    {% blocktrans with project_name=service.project_name_slug %}
+                    {% blocktrans with project_name=service.project_name %}
+					<h3>{{ project_name }} Community</h3>
 					<p>
-                        Bienvenue à l'acceuil de la communauté {{ project_name }} !<br>
-                        Dépêchez-vous de nous <i>JOIN</i> et commencez à recevoir une tonne de cadeaux exclusifs.
-                        C'est aussi simple qu'un clic de souris, et c'est gratuit...
+                        Welcome to {{ project_name }} community !<br>
+                        Hurry up and <i>Join</i>. You will receive tons of exclusive gifts
+                        It is simple and totally free ...
 					</p>
                     {% endblocktrans %}
 					<div class="text-center">

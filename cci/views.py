@@ -48,7 +48,7 @@ def save_cloud_cashin_payment(request):
     except Member.DoesNotExist:
         response = HttpResponse(json.dumps(
             {'error': True,
-             'msg': _(u"This user is yet your customer; invite him to join your community first"),
+             'msg': _("This user is not yet registered; invite him to join your community first."),
              }), 'content-type: text/json')
         return response
     if coupon_id:
@@ -61,17 +61,17 @@ def save_cloud_cashin_payment(request):
             use_coupon(member, used_cumulated_coupon.coupon, None)
             remaining_cumulated_coupon = CumulatedCoupon.objects.using('umbrella').get(coupon=coupon, member=member)
             remaining_cumulated_coupon_count = remaining_cumulated_coupon.count
-            subject = _("Your coupon has been used.")
+            subject = _("Your coupons have been used.")
             has_use_coupon = True
             # send_confirmation_email(subject, member.get_short_name(), member.email, cci, message=None)
     cci.save()
     reward_type = Reward.PAYMENT
     reward_pack_list = reward_member(service, member, reward_type, amount=amount)
-    subject = _("Payment successfully proceeded")
+    subject = _("Successful payment")
     template_name = 'cci/tsunami_used_coupon_email.html'
     if has_use_coupon:
-        subject = _("Payment successfully proceeded and you use a coupon.")
-        msg = _(u"Payment successfully proceeded.")
+        subject = _("Successful payment with coupon used.")
+        msg = _("Payment successfully proceeded.")
     send_confirmation_email(subject, member.get_short_name(), member.email, cci, template_name, message=None)
     response = HttpResponse(json.dumps( {'success': True,}), 'content-type: text/json')
     if has_use_coupon:

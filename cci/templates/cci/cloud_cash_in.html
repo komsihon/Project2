@@ -224,7 +224,7 @@
                         $('div#success-payment').addClass('failure').text(data.error).fadeIn().show().delay(15000).fadeOut()
                     } else {
                         $('form input').val('');
-                        $('div#success-payment').addClass('success').text('{% trans "Your payment was successfully procceded; Thank for your concern" %}').fadeIn().show().delay(15000).fadeOut()
+                        $('div#success-payment').addClass('success').text('{% trans "Successful payment" %}').fadeIn().show().delay(15000).fadeOut()
                         if (data.remaining_cumulated_coupon_count){
                              $('.card-li.coupon .reward.selected').find('.coupon-count span').text(data.remaining_cumulated_coupon_count)
                         }
