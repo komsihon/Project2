@@ -19,7 +19,7 @@ from ikwen.accesscontrol.models import SUDO
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Country, Service
 from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event, send_sms
+    add_database, add_event, send_sms, XEmailMessage
 
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
@@ -33,6 +33,7 @@ from echo.views import count_pages
 from echo.utils import notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT
 
 logger = logging.getLogger('ikwen.crons')
+
 
 def parse_order_info(request):
     from ikwen_kakocase.kako.models import Product
@@ -152,7 +153,8 @@ def parse_order_info(request):
         order.tags += ' ' + product.name
 
     order.coupon = coupon
-    order.total_cost = order.items_cost + delivery_option.cost + order.packing_cost
+    order.packing_cost += delivery_option.packing_cost
+    order.total_cost = order.items_cost + order.packing_cost + delivery_option.cost
     order.delivery_address = address
     return order
 
@@ -186,12 +188,12 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
                                                        'IS_BANK': getattr(settings, 'IS_BANK', False),
                                                        'coupon_count': coupon_count, 'crcy': crcy})
         sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
-        msg = EmailMessage(subject, html_content, sender, [buyer_email])
+        msg = XEmailMessage(subject, html_content, sender, [buyer_email])
         bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
         bcc.append(service.member.email)
         msg.bcc = list(set(bcc))
+        msg.content_subtype = "html"
         if not getattr(settings, 'UNIT_TESTING', False):
-            msg.content_subtype = "html"
             balance.mail_count -= len(msg.bcc) + 1
         balance.save()
         Thread(target=lambda m: m.send(), args=(msg, )).start()
