@@ -74,9 +74,9 @@ class OperatorProfileAdmin(admin.ModelAdmin):
 class DeliveryOptionAdmin(CustomBaseAdmin):
     add_form_template = 'admin/deliveryoption/change_form.html'
     change_form_template = 'admin/deliveryoption/change_form.html'
-    list_display = ('company_name', 'type', 'short_description', 'cost', 'max_delay', 'checkout_min', 'is_active')
+    list_display = ('company_name', 'type', 'short_description', 'cost', 'packing_cost', 'max_delay', 'checkout_min', 'is_active')
     fields = ('company', 'auth_code', 'type', 'name', 'short_description', 'description',
-              'cost', 'max_delay', 'checkout_min', 'is_active', )
+              'cost', 'packing_cost', 'max_delay', 'checkout_min', 'is_active', )
     raw_id_fields = ('company', )
 
     def save_model(self, request, obj, form, change):

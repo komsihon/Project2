@@ -388,8 +388,13 @@ class Cart(TemplateSelector, TemplateView):
     template_name = 'shopping/cart.html'
     optimum_template_name = 'shopping/optimum/cart.html'
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(Cart, self).get_context_data(**kwargs)
+        try:
+            max_delivery_packing_cost = DeliveryOption.objects.filter(is_active=True).order_by('-packing_cost')[0].packing_cost
+        except IndexError:
+            max_delivery_packing_cost = 0
+        context['max_delivery_packing_cost'] = max_delivery_packing_cost
         order_id = kwargs.get('order_id')
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
@@ -400,7 +405,7 @@ class Cart(TemplateSelector, TemplateView):
                 if diff.total_seconds() >= 3600:
                     order.is_more_than_one_hour_old = True
                 context['order'] = order
-        return render(request, self.get_template_names(), context)
+        return context
 
 
 class Checkout(TemplateSelector, TemplateView):

@@ -219,6 +219,8 @@ class DeliveryOption(Model):
     icon = models.ImageField(upload_to=UPLOAD_TO, width_field=24, height_field=24, blank=True, null=True,
                              help_text=_("24x24 PNG icon to illustrate the option."))
     cost = models.FloatField(_("cost"), help_text="Cost of the option.")
+    packing_cost = models.IntegerField(_("packing cost"), default=0,
+                                       help_text=_("Packing cost for this option if any."))
     max_delay = models.IntegerField(_("max delay"),
                                     help_text="Max duration (in hours) it should take to deliver the package.")
     checkout_min = models.IntegerField(_("checkout minimum"), default=0,
