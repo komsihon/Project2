@@ -92,17 +92,10 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         except Service.DoesNotExist:
             break
     database = ikwen_name
-    if domain:
-        if domain.startswith('www.'):
-            domain = domain.replace('www.', '')
-        domain_type = Service.MAIN
-        is_naked_domain = True
-        url = 'http://' + domain
-    else:
-        domain = 'go.' + pname + '.ikwen.com'
-        domain_type = Service.SUB
-        is_naked_domain = False
-        url = 'http://go.ikwen.com/' + pname
+    domain = 'go.' + pname + '.ikwen.com'
+    domain_type = Service.SUB
+    is_naked_domain = False
+    url = 'http://go.ikwen.com/' + pname
     if getattr(settings, 'IS_UMBRELLA', False):
         admin_url = url + '/ikwen' + reverse('ikwen:staff_router')
     else:  # This is a deployment performed by a partner retailer
