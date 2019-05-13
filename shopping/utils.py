@@ -8,7 +8,6 @@ from currencies.context_processors import currencies
 from currencies.models import Currency
 from django.conf import settings
 from django.contrib.auth.models import Group
-from django.core.mail import EmailMessage
 from django.db import transaction
 from django.template.defaultfilters import slugify
 from django.utils import timezone
@@ -29,8 +28,7 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOL
 
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
-from echo.views import count_pages
-from echo.utils import notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT
+from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT
 
 logger = logging.getLogger('ikwen.crons')
 
