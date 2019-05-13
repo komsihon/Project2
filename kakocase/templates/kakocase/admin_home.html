@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="javascript:;" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Start Email campaign" %}</a>
+                        <a href="{% url 'echo:mailcampaign_list' %}" class="btn btn-outline-primary" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Start Email campaign" %}</a>
                         <a href="{% url 'echo:sms_campaign' %}" class="btn btn-outline-primary" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Start SMS campaign" %}</a>
                     </div>
                 </div>
