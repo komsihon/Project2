@@ -30,7 +30,7 @@ from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
 from ikwen.core.views import HybridListView
 from ikwen.flatpages.models import FlatPage
-from ikwen.rewarding.models import Reward
+from ikwen.rewarding.models import Reward, Coupon, CumulatedCoupon
 from ikwen.rewarding.utils import reward_member
 from ikwen.revival.models import ProfileTag, MemberProfile
 from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUCTS, Banner, SLIDE, TILES, POPUP, \
@@ -52,6 +52,7 @@ from permission_backend_nonrel.models import UserPermissionList
 logger = logging.getLogger('ikwen')
 
 _OPTIMUM = 'optimum'
+_ORIGIN = 'origin'
 COZY = "Cozy"
 COMPACT = "Compact"
 COMFORTABLE = "Comfortable"
@@ -62,11 +63,17 @@ class TemplateSelector(object):
     def get_template_names(self):
         config = get_service_instance().config
         try:
-            if config.theme.template.slug == _OPTIMUM:
+            if config.theme.template.slug == _OPTIMUM or config.theme.template.slug == _ORIGIN:
                 return [self.optimum_template_name]
+            elif config.theme.template.slug and (config.theme.template.slug is not _OPTIMUM or config.theme.template.slug is not _ORIGIN):
+                tokens = self.template_name.split('/')
+                tokens.insert(1, config.theme.template.slug)
+                return ['/'.join(tokens)]
+            return [self.template_name]
         except:
-            pass
-        return [self.template_name]
+            tokens = self.template_name.split('/')
+            tokens.insert(1, config.theme.template.slug)
+            return ['/'.join(tokens)]
 
 
 def add_member_auto_profiletag(request, **kwargs):
@@ -405,7 +412,25 @@ class Cart(TemplateSelector, TemplateView):
                 if diff.total_seconds() >= 3600:
                     order.is_more_than_one_hour_old = True
                 context['order'] = order
-        return context
+        member = self.request.user
+        service = get_service_instance()
+
+        coupon_qs = Coupon.objects.filter(service=service, status=Coupon.APPROVED, is_active=True)
+        if member.is_authenticated():
+            coupon_list = []
+            for coupon in coupon_qs:
+                try:
+                    cumul = CumulatedCoupon.objects.get(coupon=coupon, member=member)
+                    coupon.count = cumul.count
+                    coupon.ratio = float(cumul.count) / coupon.heap_size * 100
+                except CumulatedCoupon.DoesNotExist:
+                    coupon.count = 0
+                    coupon.ratio = 0
+                if coupon.ratio >= 100:
+                    coupon_list.append(coupon)
+            coupon_summary_list = member.couponsummary_set.filter(service=service)
+            context['coupon_list'] = coupon_list
+        return render(request, self.get_template_names(), context)
 
 
 class Checkout(TemplateSelector, TemplateView):

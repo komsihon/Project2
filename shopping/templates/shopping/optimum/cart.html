@@ -21,6 +21,11 @@
     <div id="content" class="checkout-content">
         <div id="checkout-min" class="hidden">{{ checkout_min }}</div>
         <h2 class="checkout-header">{% trans "My Shopping Bag" %}</h2>
+        <h5 class="checkout-header">
+            <span>{% trans "You have some free coupons" %}</span>
+            <a href="javascript:;">{% trans "Clic here to use your reward" %}</a>
+        </h5>
+
         <div class="container" style="overflow: hidden; padding: 2em 0">
             {% if order %}
                 {% include 'shopping/snippets/checkout_confirmation.html' %}
@@ -185,6 +190,46 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="suggest-login" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row swiper-container" >
+                        <div class="swiper-wrapper" style="">
+                        {% for coupon in coupon_list %}
+                            <div class="col-xs-4 col-sm-3 card-li swiper-slide" style="text-align: center; margin: auto">
+                                <div>
+                                    <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }})">
+                                        {% if user.is_authenticated %}
+                                        <div class="text-has-shade coupon-count">
+                                            <span>{{ coupon.count }}</span>/100
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <p style="margin-top: 5px">{{ coupon.name }}</p>
+                                </div>
+                                <button class="btn btn-sm btn-block btn-warning claim-reward"
+                                        data-toggle="modal" data-target="#claim-reward">
+                                    {% trans "Claim your reward" %}
+                                </button>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="swiper-button-next has-shade">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                        <div class="swiper-button-prev has-shade">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <form id="start-checkout" action="{% if user.is_authenticated %}{{ checkout_url }}{% endif %}">
         <input type="hidden" id="next" name="next">
         <input type="hidden" id="anonymous-buyer-id" name="anonymous_buyer_id">
@@ -209,9 +254,7 @@
             {% else %}
                 var currency = simpleCart.currency().symbol,
                     minCheckout = $('#checkout-min').text(),
-                    itemsPackingQty = 0,
-                    deliveryPackingCost = {{ max_delivery_packing_cost }},
-                    itemsPackingCost = 0,
+                    totalPackingQty = 0,
                     totalPackingCost = 0;
                 $('body').on('click', '.value-plus1', function() {
                     var id = $(this).data('id'),
@@ -226,13 +269,12 @@
                     simpleCart.update();
                     var packing = parseFloat(item.get('packing'));
                     if (packing > 0) {
-                        itemsPackingQty += 1;
-                        itemsPackingCost += packing;
+                        totalPackingQty += 1;
+                        totalPackingCost += packing;
                     }
-                    totalPackingCost = itemsPackingCost + deliveryPackingCost;
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
-                    $('.cart-item.packing .item_quantity span').text(itemsPackingQty);
+                    $('.cart-item.packing .item_quantity span').text(totalPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
                     var id = $(this).data('id'),
@@ -242,13 +284,12 @@
                     simpleCart.update();
                     var packing = parseFloat(item.get('packing'));
                     if (packing > 0) {
-                        itemsPackingQty -= 1;
-                        itemsPackingCost -= packing;
+                        totalPackingQty -= 1;
+                        totalPackingCost -= packing;
                     }
-                    totalPackingCost = itemsPackingCost + deliveryPackingCost;
                     $(this).parents('.cart-item').find('.subtotal').html(currency + ' ' + item.total().formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
-                    $('.cart-item.packing .item_quantity span').text(itemsPackingQty);
+                    $('.cart-item.packing .item_quantity span').text(totalPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
                     var $cartItem = $(this).parents('.cart-item'),
@@ -280,11 +321,11 @@
                         $delOpt = $('.delivery-option.active'),
                         deliveryCost = 0,
                         total;
-                    if ($delOpt.length > 0) deliveryCost = $delOpt.data('cost') + $delOpt.data('packing-cost');
+                    if ($delOpt.length > 0) deliveryCost = $delOpt.data('cost');
                     else deliveryCost = 0;
                     total = itemsCost + deliveryCost;
                     if (buyPacking) {
-                        total += itemsPackingCost;
+                        total += totalPackingCost;
                         $('.cart-item.packing').removeClass('no');
                         $('#buy-packing').val('yes')
                     } else {
@@ -306,8 +347,8 @@
                             packingCost = item.get('packing'),
                             $cartItem = $('.cart-item.tpl').clone().removeClass('tpl');
                         if (packingCost > 0) {
-                            itemsPackingCost += packingCost * item.quantity();
-                            itemsPackingQty += item.quantity();
+                            totalPackingCost += packingCost * item.quantity();
+                            totalPackingQty += item.quantity();
                         }
                         $cartItem.attr('id', item.id()).data('id', item.id());
                         $cartItem.find('.item_id').text(item.id());
@@ -347,9 +388,8 @@
                         });
                     });
                     var $packageItem = $('.cart-item.packing');
-                    $packageItem.find('.item_quantity span').text(itemsPackingQty);
-                    totalPackingCost = itemsPackingCost + deliveryPackingCost;
-                    $packageItem.find('.subtotal').html(currency + ' ' + itemsPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $packageItem.find('.item_quantity span').text(totalPackingQty);
+                    $packageItem.find('.subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     if (totalPackingCost > 0) {
                         $packageItem.show();
                         $('#buy-packing').val('yes')
@@ -391,16 +431,15 @@
                         itemsCost = parseFloat($('#items-summary').data('total')),
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
-                    deliveryPackingCost = parseFloat($(this).data('packing-cost'));
                     if (delOptType === 'HomeDelivery') {
-                        total += itemsPackingCost + deliveryPackingCost;
+                        total += totalPackingCost;
                         $('#check-packing').prop({'checked': true, 'disabled': true});
                         $('#buy-packing').val('yes');
                         $('.cart-item.packing').removeClass('no');
                     } else {
                         $('#check-packing').prop('disabled', false);
                         var buyPacking = $('#check-packing').prop('checked');
-                        if (buyPacking) total += itemsPackingCost + deliveryPackingCost;
+                        if (buyPacking) total += totalPackingCost
                     }
                     $('div#delivery .price .currency').html(simpleCart.currency().symbol);
                     $('div#delivery .price .val').text(deliveryCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
