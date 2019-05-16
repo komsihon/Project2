@@ -111,7 +111,7 @@ li.dropdown:hover > .dropdown-menu {display: block;}
     #side-nav {background: #fff;left: 0;max-width: 300px;overflow: auto;position: fixed;height: 100%;width: 90%;top: 0;z-index: 135000000;display: none;}
     #side-nav .panel-top {background-size: cover;float: left;height: 100px;width: 100%;}
     #side-nav .panel-top .cover {height: 100px;padding: 10px;width: 100%;}
-    #side-nav .panel-top .cover .company {/* background: #ff7c00; */color: #FFF;float: left;height: 75px;width: 75px;}
+    #side-nav .panel-top .cover .company {color: #FFF;float: left;height: 75px;width: 75px;}
     #side-nav .panel-top .cover .company .logo {}
     #side-nav .panel-top .cover .company .logo a .no-logo {font-size: 52px;font-weight: 700;text-align: center;margin: 11px;}
     #side-nav .panel-top .cover .bottom-cntr {float: right; margin-top: 15px}
@@ -129,7 +129,15 @@ li.dropdown:hover > .dropdown-menu {display: block;}
     .navbar-custom{background: #0e283e;height: 8vh;}
     .header-bottom {background: transparent; color: #FFF}
     .header-bottom a, .navbar-toggle .icon-bar  {color: #FFF}
+    .top-right i {font-size: 20px; color: #fff;}
+    .top-right .dropdown-menu li a {font-size: 15px; padding: 3px 0px;}
+    #auth.top-right ul {left: -98px}
     .navbar-toggle .icon-bar  {background: #FFF; color: #FFF}
+    .top-filter {display: none}
+    .navbar-header{background: #0e283e;}
+    .container-fluid.footer {border-top: none}
+    label {width: 100%}
+
 }
 @media (max-width: 767px) {
     .navbar-custom{height: 7vh;}

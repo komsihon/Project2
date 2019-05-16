@@ -1,0 +1,346 @@
+{% extends 'webnode/improve/base.html' %}
+{% load i18n static auth_tokens %}
+{% block meta %}
+    {{ block.super }}
+    {% include 'webnode/snippets/home_seo.html' %}
+{% endblock %}
+{% block page_title %}<title>{{ service.project_name }} - {% trans "Home" %}</title>{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'ikwen/css/console.css' %}" media="screen" rel="stylesheet" type="text/css" />
+{#    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />#}
+    <style>
+        body {background: #f6f6f6}
+        .card-ul .swiper-slide {margin-left: 5px !important;}
+        {% if profile_cover_url %}
+            #cover {background-image: url({{ profile_cover_url }})}
+        {% else %}
+            {% if is_company %}
+                #cover {
+                    background-image: url({% static 'ikwen/img/default-cover-company.jpg' %})
+                }
+            {% else %}
+                #cover {
+                    background-image: url({% static 'ikwen/img/default-cover.jpg' %})
+                }
+            {% endif %}
+        {% endif %}
+        {% if profile_photo_url %}
+            #banner .frame .photo {background-image: url({{ profile_photo_url }})}
+        {% else %}
+            {% if is_company %}
+                #banner .frame .photo {
+                    background-image: url({% static 'ikwen/img/logo-placeholder.jpg' %})
+                }
+            {% else %}
+                #banner .frame .photo {
+                    background-image: url({% static 'ikwen/img/login-avatar.jpg' %})
+                }
+            {% endif %}
+        {% endif %}
+
+        {% if is_console %}
+            @media (min-width: 476px) {
+                #banner h2 {
+                    margin-top: 210px
+                }
+            }
+        {% endif %}
+        #main-slider .swiper-slide .slide {background-repeat: no-repeat; background-size: cover; height: 700px; }
+        #main-slider .slide .details {margin-top: 250px; text-align: center; position: absolute;width: 100%;}
+        #deploy {background: #7a1e31; border-color:  #7a1e31; color: #fff; font-weight: 700; letter-spacing: 2px}
+        #deploy:hover {background: #982035; border-color:  #982035}
+        #coupons .progress {margin: 0}
+        #coupons .progress-bar {background-color: #4CAF50;}
+        .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
+        .coupon-count span {font-size: 26px; font-weight: 700}
+        .progress {border-radius: 3px; width: 100%}
+        .progress span:before {position: inherit}
+        .speech h3 {color: inherit}
+        section.h-section:nth-child(2n) {background: inherit}
+        .carousel-indicators {z-index: 9}
+        .login-btn {background: transparent; border: solid 1px #a40009; color: #a40009; font-size: 15px; font-weight: 600; min-width: 120px}
+        .login-btn:hover {background: #a40009; color: #FFF; border-color: #a40009}
+    </style>
+{% endblock %}
+
+{% block page_content %}
+    {% if request.GET.referrer and user.is_anonymous %}
+    <div class="cr-join-widget">
+        <p style="margin: 15px 0 25px; text-align: center; font-size: 18px">
+            <strong>{{ referrer }} is inviting  you on TCHOPETYAMO. </strong>
+            Join now and earn some free coupons today.
+        </p>
+        <p class="text-center">
+
+            <a class="btn btn-primary btn-sm join-community" href="{% url "ikwen:sign_in" %}?join=tchopetyamo&amp;referrer={{ request.GET.referrer }}">
+                <img src="http://static.ikwen.com/ikwen/img/Join_button_white.svg" height="15" style="margin: -4px 5px 0 0">Join
+            </a>
+
+        </p>
+    </div>
+    {% endif %}
+    <div class="container">
+    {% if slideshow %}
+    <section id="main-slider" class="no-margin">
+
+            <div class="swiper-container">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                        {% for slide in slideshow %}
+                        <div class="swiper-slide">
+
+                                    <div class="slide" style="background-image: url({{ slide.image.url }})">
+
+                                        <div class="details">
+
+                                                <h1 class="">BHB</h1>
+
+{#                                            {% if slide.cta %}#}
+                                                <div class="cta">
+                                                    <a href="{{ slide.target_url }}" class="button1 has-shade">Commander</a>
+                                                </div>
+{#                                            {% endif %}#}
+                                        </div>
+                                    </div>
+{#                                    <div class="swiper-lazy-preloader"></div>#}
+
+                        </div>
+                        {% endfor %}
+
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
+                <div  id="js-prev1" class="swiper-button-prev hidden-xs"></div>
+                <div  id="js-next1" class="swiper-button-next hidden-xs"></div>
+
+            </div>
+
+    </section><!--/#main-slider-->
+
+    {% endif %}
+
+    {% for section in homepage_section_list %}
+        {{ section.render|safe }}
+    {% endfor %}
+
+    {% if coupon_list %}
+    <section class="home-section">
+        <div id="coupons" class="container card-ul">
+            <div class="card">
+                <h2 class="title center wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">{% trans "Collect our free coupon and get wonderfull gift!" %}</h2>
+                <div class="dropdown social-sharing pull-right">
+                    <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-share-alt" style="color: #99141d; font-size: 21px; margin-right: 10px"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="share-coupons">
+                        <li class="visible-xs visible-sm">
+                            <a href="javascript:;" data-toggle="modal" data-target="#whatsapp-share">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://facebook.com/sharer/sharer.php?u={{ url }}" target="_blank">
+                                <i class="fab fa-facebook"></i>
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/home?status={{ url }}" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row" style="">
+                <div class="row swiper-container" >
+                    <div class="swiper-wrapper" style="">
+                    {% for coupon in coupon_list %}
+                        <div class="col-xs-4 col-sm-3 card-li swiper-slide" style="text-align: center; margin: auto">
+                            <div>
+                                <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }})">
+                                    {% if user.is_authenticated %}
+                                    <div class="text-has-shade coupon-count">
+                                        <span>{{ coupon.count }}</span>/100
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if user.is_authenticated %}
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: {{ coupon.ratio|floatformat:"0" }}%">
+{#                                        <span class="sr-only">{{ coupon.ratio }}% Complete</span>#}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <p style="margin-top: 5px">{{ coupon.name }}</p>
+                            </div>
+                            {% if coupon.count >= 100 %}
+                                <button class="btn btn-sm btn-block btn-warning claim-reward"
+                                        data-toggle="modal" data-target="#claim-reward">
+                                    {% trans "Claim your reward" %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <div class="swiper-button-next has-shade">
+                        <i class="fa fa-angle-right"></i>
+                    </div>
+                    <div class="swiper-button-prev has-shade">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+                </div>
+            </div>
+            {% if is_member %}
+            <div>
+                <p class="text-muted" style="margin: 15px 0 25px; text-align: center">{% blocktrans %}
+                    Refer {{ profile_name }} to a friend by sharing and earn {{ referral_coupon_count }} more free coupons.
+                {% endblocktrans %}</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+        {% include 'rewarding/snippets/cr_console_modals.html' %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {% with do_refer=request.GET.do_refer joined=request.GET.joined join_coupon_count=request.GET.join_coupon_count referral_coupon_count=request.GET.referral_coupon_count %}
+    {% include 'accesscontrol/snippets/request_management.html' %}
+    <script type="text/javascript">
+        (function() {
+            $('ul.navbar-nav li').removeClass('active');
+            $('ul.navbar-nav li.home').addClass('active');
+
+            var mySwiper = new Swiper ('#main-slider .swiper-container', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: true,
+
+                // If we need pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                },
+
+                // Navigation arrows
+                navigation: {
+                    prevEl:  '.swiper-button-prev',
+                    nextEl:  '.swiper-button-next',
+                },
+                autoplay: 5000
+            })
+
+            $('.swiper-container').on('mouseenter', function(e){
+                console.log('stop autoplay');
+                mySwiper.stopAutoplay();
+            })
+             $('.swiper-container').on('mouseleave', function(e){
+                console.log('start autoplay');
+                mySwiper.startAutoplay();
+            })
+
+            $('.dropup.social-sharing').removeClass('col-sm-offset-2').addClass('col-sm-offset-4')
+            $('body').on('click', 'button.join-community.btn-primary', function() {
+                var _$btn = $(this),
+                    serviceId = $(this).data('service-id'),
+                    params = {service_id: serviceId, format: 'json', referrer: ''};
+                _$btn.addClass('btn-default').removeClass('btn-primary');
+                $.getJSON('/join', params, function(data) {
+                    if (data.success) {
+                        _$btn.fadeOut('normal', 'linear', function () {
+                            _$btn.next().show();
+                        });
+                        $('div#modal-join-notice .speech > div, div#modal-join-notice .actions > div, .cr-refer').hide();
+                        if (data.reward.join_coupon_count || data.reward.referral_coupon_count) {
+                            $('.reward-available').show();
+                            if (data.reward.referral_coupon_count) {
+                                $('.cr-refer').show();
+                                $('.reward-available.col-sm-offset-4').removeClass('col-sm-offset-4');
+                            }
+                        } else {
+                            $('.no-reward').show();
+                        }
+                        $('.join-coupon-count').text(data.reward.join_coupon_count);
+                        $('.referral-coupon-count').text(data.reward.referral_coupon_count);
+                        $('div#modal-join-notice .project-name').text(data.project_name);
+                        $('#modal-join-notice').modal('show').find('.claim').attr('href', data.ikwen_page);
+                        $('#modal-join-notice .fb-link').attr('href', 'https://facebook.com/sharer/sharer.php?u=' + data.ikwen_page);
+                        $('#modal-join-notice .twtr-link').attr('href', 'https://twitter.com/home?status=' + data.ikwen_page);
+                        $('.wsap-link').data('url', data.ikwen_page);
+                    }
+                })
+            });
+            var couponSwiper = new Swiper('#coupons .swiper-container', {
+                slidesPerView: 'auto',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev'
+            });
+
+            $('body').on('click', '.coupon-img', function() {
+                var id = $(this).data('id');
+                {#$.getJSON('http://localhost/tchopetyamo/rewarding/coupon_detail', {id: id}, function(data) {#}
+                $.getJSON('rewarding/coupon_detail', {id: id}, function(data) {
+                    if (data.error) {
+                        ikwen.showFloatingNotice(data.error, '', 6);
+                        return;
+                    }
+                    $('div#coupon-detail .modal-title').text(data.name);
+                    $('div#coupon-detail img').prop('src', data.image_url);
+                    $('div#coupon-detail .description').html(data.description);
+                    $('#coupon-detail').modal('show');
+                })
+            }).on('click', '#whatsapp-share .btn.ok', function() {
+                var msg = $('#whatsapp-share-msg').val(),
+                    url = $('.wsap-link').data('url');
+                window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A' + msg;
+            });
+            $(window).scroll(function() {
+                var scrollTop = $(this).scrollTop();
+                if (scrollTop > 150) $('.bottom-join').addClass('revealed');
+                else $('.bottom-join').removeClass('revealed');
+            });
+
+
+
+            $('#modal-join-notice .invite-friends').click(function () {
+                $('.social-sharing')
+            });
+
+            {% if joined %}
+                $('div#modal-join-notice .speech > div, div#modal-join-notice .actions > div, .cr-refer').hide();
+                {% if  join_coupon_count or referral_coupon_count %}
+                    $('.reward-available').show();
+                    $('#modal-join-notice .claim').hide();
+                    if ("{{ request.GET.referral_coupon_count }}") {
+                        $('.cr-refer').show();
+                        $('.reward-available.col-sm-offset-4').removeClass('col-sm-offset-4');
+                    }
+                {% else %}
+                    $('.no-reward').show();
+                {% endif %}
+                $('#modal-join-notice').modal('show');
+            {% endif %}
+            {% if do_refer %}
+                {% if user.is_anonymous %}
+                    $('#modal-login-to-refer').modal('show');
+                {% else %}
+                    $('#modal-refer-now').modal('show');
+                {% endif %}
+            {% endif %}
+        {% endwith %}
+        })()
+    </script>
+
+
+{% endblock %}

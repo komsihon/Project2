@@ -1,0 +1,186 @@
+{% load i18n staticfiles auth_tokens %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}
+            {% include 'core/snippets/favicon.html' %}
+        {% endblock %}
+		{% block page_title %}{% endblock %}
+		{% block head_style %}
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+            <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
+            <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
+		{% endblock %}
+        {% block head_js %}
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+              <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <![endif]-->
+            <script src="{% static 'ikwen/js/jquery-1.12.4.min.js' %}"></script>
+        {% endblock %}
+    </head>
+    {% block after_head %}{% endblock %}
+    <body>
+        <div id="top-notice-ctnr" style="display: none">
+            <span class="floating-notice has-shade" style="float: none; position: static"> </span>
+        </div>
+        {% block header %}
+            {% with collaborates_on=user.collaborates_on %}
+                {% url "ikwen:account_setup" as account_setup_url %}
+                <nav id="navbar" class="navbar navbar-default navbar-static-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <div class="container-fluid">
+                                <i class="glyphicon glyphicon-menu-left back"></i>
+                                <div class="menu-button">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </div>
+                                {% block header_brand %}
+
+                                    <a href="{{ home_url }}" class="hidden-xs">
+                                        {% if config.theme.logo.name %}
+                                            <div class="company-logo-container">
+                                                <img src="{{ config.theme.logo.url }}" alt="Logo {{ service.project_name }}" width="150"/>
+                                            </div>
+                                        {% else %}
+                                           <span>{{ service.project_name }}</span>
+                                        {% endif %}
+                                    {% if config.slogan %}<span class="slogan" title="{{ config.slogan }}"><div style="float: left; width: 500%">{{ config.slogan }}</div></span>{% endif %}
+                                    </a>
+                                {% endblock %}
+                                {% block site_menu_xs %}
+                                    <nav class="visible-xs pull-right">
+                                        <ul id="nav-xs" class="nav navbar-nav navbar-right">
+                                            {% if user.is_authenticated %}
+                                                <li class="dropdown">
+                                                    <a id="user-menu-xs" class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="glyphicon glyphicon-user"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu" aria-labelledby="user-menu-xs">
+                                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                        <li role="separator" class="divider"></li>
+                                                        <li>
+                                                            <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                                        </li>
+                                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                                    </ul>
+                                                </li>
+                                            {% else %}
+                                                <li>
+                                                    <a href="{% url 'ikwen:sign_in' %}" style="float: left">{% trans "Login" %}</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endblock %}
+                            </div>
+                        </div>
+
+                        {% block site_menu %}
+                            <div id="site-menu" class="collapse navbar-collapse">
+                                <div class="container-fluid">
+                                    <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                                        {% if user.is_authenticated %}
+                                            <li id="user-menu" class="dropdown">
+                                                <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="glyphicon glyphicon-user"></i>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                                    <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                                    </li>
+                                                    <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li class="hidden-xs">
+                                                <a href="{% url 'ikwen:sign_in' %}" class="cta">{% trans "Login" %}</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endblock %}
+                    </div>
+                </nav>
+            {% endwith %}
+        {% endblock %}
+        {% block selection_control %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block footer %}
+            <footer>
+                &copy; {{ year }} <a class="company-name" href="{{ service.url }}"><strong>{{ config.company_name }}</strong></a>.
+                {% trans "All rights reserved." %}
+                {% if config.legal_mentions_url %}
+                - <a href="{{ config.legal_mentions_url }}" style="color: #666; text-decoration: none">{% trans "Legal mentions" %}</a>
+                {% endif %}
+            </footer>
+        {% endblock %}
+        <div class="edge-swipe-overlay"></div>
+        <script src="{% static 'ikwen/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
+        <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        {% block js %}
+            <script>
+                (function() {
+                    $('form#lang a').click(function() {
+                        var lang = $(this).data('val');
+                        $('form#lang input[name=language]').val(lang);
+                        $('form#lang').submit();
+                        return false
+                    });
+
+                    $('#nav-xs').on('click', '.show-search', function() {
+                        $('#navbar-search').prependTo('body').fadeIn().find('input').focus();
+                    });
+                    $('#navbar-search').on('click', '.hide-search', function() {
+                        $('#navbar-search').fadeOut();
+                        $(this).val("");
+                        $('#search-results').fadeOut()
+                    });
+                    if ($(window).width() < 992) {
+                        $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
+                    }
+                    $( window ).resize(ikwen.debouncer(function (e) {
+                        var winWidth = $(window).width();
+                        if (winWidth < 768) {
+                            if (!$('#navbar-search').is(':visible')) {
+                                $('#navbar-search').prependTo('body');
+                                $('#navbar-search input').focus();
+                            }
+                            $('.edge-panel-right').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                        } else if (winWidth >= 768) {
+                            $('#navbar-search').insertBefore('#site-menu');
+                            $('.edge-panel-right').css('margin-right', 0).removeClass('has-shade').appendTo('.edge-panel-right-container').show();
+                        }
+                        if (winWidth >= 992) {
+                            $('.edge-panel-left').css('margin-left', 0).removeClass('has-shade').appendTo('.edge-panel-left-container').show();
+                        } else {
+                            $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
+                        }
+                    }));
+
+                    {% url 'ikwen:list_projects' as list_projects_url %}
+                    var searchDescriptor = [{
+                        endpoint: '{{ list_projects_url|ikwenize }}',
+                        resultTplSelector: '#navbar-results .ik-li',
+                        jsonp: true
+                    }];
+                    $('form#search input').focusout(function() {$('#navbar-results').fadeOut()});
+                    ikwen.setupSearch('#search input', '#navbar-results', searchDescriptor);
+                })()
+            </script>
+        {% endblock %}
+    </body>
+</html>

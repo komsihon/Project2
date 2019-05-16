@@ -8,28 +8,20 @@
         {% include 'core/snippets/favicon.html' %}
         {% block page_title %}{% endblock %}
         {% block head_style %}
-            <link href="{% static 'webnode/css/bootstrap.min.css' %}" rel="stylesheet">
-            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
+            <link href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" rel="stylesheet">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+{#            <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />#}
             <link href="{% static 'webnode/css/prettyPhoto.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/animate.min.css' %}" rel="stylesheet">
-            <link href="{% static 'kakocase/css/tchopetyamo/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/improve/main.css' %}" rel="stylesheet">
             <link href="{% static 'webnode/css/responsive.css' %}" rel="stylesheet">
-            <link href="{% static 'kakocase/css/edge-pannel.css' %}" rel="stylesheet">
             <link href="{% static 'kakocase/css/tchopetyamo/base.css' %}" rel="stylesheet">
             <link href="{% static 'ikwen/css/console.css' %}" rel="stylesheet">
-{#            <link href="{% static 'ikwen/css/base.css' %}" rel="stylesheet">#}
+            <link href="{% static 'ikwen/css/base.css' %}" rel="stylesheet">
 
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
-{#            <link href="{% static 'webnode/css/improve/base.css' %}" rel="stylesheet">#}
             <link href="{% static 'webnode/css/tchopetyamo/yamo.css' %}" rel="stylesheet">
-{#            <link href="{% static 'webnode/css/optimum/dark-green.css' %}" rel="stylesheet">#}
-{#            {% if config.theme %}#}
-{#                {% with theme=config.theme %}#}
-{#                    <link rel='stylesheet' href="{% static 'webnode/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />#}
-{#                {% endwith %}#}
-{#            {% endif %}#}
         {% endblock %}
         {% block head_js %}
             <!--[if lt IE 9]>
@@ -62,13 +54,14 @@
         #side-nav .nav-stacked {clear: both; float: left; padding-top: 15px; width: 100%; margin-top: 199px;}
         #side-nav .nav-stacked li a {font-weight: 700; color: #5f0000; font-size: 14px;}
         .social-icon i {color: #5f0000; font-size: 30px;}
-        .nav-xs.appear {
-            z-index: 10;}
+        .nav-xs.appear { z-index: 10;}
         @media (max-width: 767px){
             #side-nav .panel-top .cover .company .name {float: right;}
             .bottom-cntr {position: absolute; margin-top: 160px; right: 10px;}
             .social-icon {margin-top: 1.8em; padding-left: 15px;}
             .header-xs h3.app-name a {width: 300%; float: left;}
+            .edge-panel-left .logo {margin-top: 20px; padding: 0}
+            .edge-panel-left .wrapper {padding: 0 0 120px}
         }
 
     </style>
@@ -101,30 +94,6 @@
             </div>
         </div>
         <header id="header" class="hidden-xs">
-            <div class="top-bar">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            {% if config.contact_phone %}<div class="top-number"><p><i class="fa fa-phone-square"></i> {{ config.contact_phone  }}</p></div>{% endif %}
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                           <div class="social">
-                                <ul class="social-share">
-                                    {% if config.facebook_link %}
-                                    <li><a href="{{ config.facebook_link }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                    {% endif %}
-                                    {% if config.twitter_link %}
-                                    <li><a href="{{ config.twitter_link }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                                    {% endif %}
-                                    {% if config.google_plus_link %}
-                                    <li><a href="{{ config.linkedin_link }}" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                                    {% endif %}
-                                </ul>
-                           </div>
-                        </div>
-                    </div>
-                </div><!--/.container-->
-            </div><!--/.top-bar-->
 
             <div class="header-bottom">
                 <div class="container">
@@ -156,7 +125,7 @@
                             <ul class="nav navbar-nav navbar-right">
                             {% if not user.is_authenticated %}
                                 <li class="hidden-xs" style="margin-right: 1vw;"><a href="{% url 'ikwen:sign_in' %}">
-                                    <button class="btn-sm" style="background: #a40009; border: #a40009; color: #fff; font-size: 15px; font-weight: 600 ">{% trans "Login" %}</button>
+                                    <button class="btn btn-sm btn-default login-btn">{% trans "Login" %}</button>
                                 </a></li>
                                 <li class="visible-xs"><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
                             {% else %}
@@ -222,7 +191,7 @@
                 </div>
                 <div class="clearfix"> </div>
             </div>
-
+        </header>
         <div class="header-xs visible-xs visible-sm">
             <div class="container-fluid">
                 <div class="pull-left left-content">
@@ -408,7 +377,7 @@
             </div>
         </div>
 
-        {% include 'tchopetyamo/webnode/snippets/edge_panel.html' %}
+        {% include 'webnode/snippets/edge_panel.html' %}
         <div class="edge-swipe-overlay"></div>
         {% block js %}
             <script src="{% static 'webnode/js/jquery.js' %}"></script>

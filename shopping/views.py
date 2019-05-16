@@ -430,7 +430,7 @@ class Cart(TemplateSelector, TemplateView):
                     coupon_list.append(coupon)
             coupon_summary_list = member.couponsummary_set.filter(service=service)
             context['coupon_list'] = coupon_list
-        return render(request, self.get_template_names(), context)
+        return render(self.request, self.get_template_names(), context)
 
 
 class Checkout(TemplateSelector, TemplateView):

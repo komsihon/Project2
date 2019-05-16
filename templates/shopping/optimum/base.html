@@ -58,16 +58,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div id="auth" class="top-right">
                             {% if user.is_authenticated %}
                                 <ul>
-                                    <li>
-                                        <a href="{{ settings.IKWEN_CONSOLE_URL }}">
-                                            {% if user.get_notice_count > 0 %}
-                                                <span class="label label-danger"
-                                                      style="">{{ user.get_notice_count }}</span>
-                                            {% endif %}
-                                            <i class="fa fa-bell" aria-hidden="true"
-                                               style="line-height: .4em; margin-top: 10px"></i>
-                                        </a>
-                                    </li>
                                     <li id="user-menu" class="dropdown">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{ user.first_name }} <i class="fa fa-user" aria-hidden="true"></i>
@@ -144,7 +134,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     {#                                                    (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> {% trans "items" context 'cart items' %})#}
                                                     </div>
 
-                                                    <span class="label label-danger simpleCart_quantity"></span>
+                                                    <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
                                                 </h5>
                                             </a>
                                             <a href="javascript:;" class="empty-cart" data-toggle="modal"
@@ -186,9 +176,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="nav-container">
                                 <ul class="nav navbar-nav">
-{#                                <li>#}
+                                <li>
 {#                                    <a href="{% url 'shopping:menu' %}">{% trans "Notre carte" %}</a>#}
-{#                                </li>#}
+                                </li>
                                 {% for menu in menu_list %}
                                     {% if menu.appear_in_menu %}
                                         <li class="{{ menu.slug }}">
@@ -387,7 +377,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </div>
             </div>
-            <div class="copy-section">
+            <div class="copy-section" style="background: #330104;">
                 <div class="container">
                     <div class="copy-left">
                         <p>&copy; {{ year }} <a href="{{ service.url}}" style="text-decoration: none"><strong>{{ config.company_name }}</strong></a>.
