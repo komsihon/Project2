@@ -349,7 +349,7 @@
                     var $packageItem = $('.cart-item.packing');
                     $packageItem.find('.item_quantity span').text(itemsPackingQty);
                     totalPackingCost = itemsPackingCost + deliveryPackingCost;
-                    $packageItem.find('.subtotal').html(currency + ' ' + itemsPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
+                    $packageItem.find('.subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     if (totalPackingCost > 0) {
                         $packageItem.show();
                         $('#buy-packing').val('yes')
@@ -392,15 +392,17 @@
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
                     deliveryPackingCost = parseFloat($(this).data('packing-cost'));
+                    totalPackingCost = itemsPackingCost + deliveryPackingCost;
+                    $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     if (delOptType === 'HomeDelivery') {
-                        total += itemsPackingCost + deliveryPackingCost;
+                        total += totalPackingCost;
                         $('#check-packing').prop({'checked': true, 'disabled': true});
                         $('#buy-packing').val('yes');
                         $('.cart-item.packing').removeClass('no');
                     } else {
                         $('#check-packing').prop('disabled', false);
                         var buyPacking = $('#check-packing').prop('checked');
-                        if (buyPacking) total += itemsPackingCost + deliveryPackingCost;
+                        if (buyPacking) total += totalPackingCost;
                     }
                     $('div#delivery .price .currency').html(simpleCart.currency().symbol);
                     $('div#delivery .price .val').text(deliveryCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
