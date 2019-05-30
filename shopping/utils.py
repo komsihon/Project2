@@ -28,7 +28,8 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOL
 
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
-from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT
+from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT, \
+    LOW_MAIL_LIMIT
 
 logger = logging.getLogger('ikwen.crons')
 
@@ -151,7 +152,8 @@ def parse_order_info(request):
         order.tags += ' ' + product.name
 
     order.coupon = coupon
-    order.packing_cost += delivery_option.packing_cost
+    if buy_packing:
+        order.packing_cost += delivery_option.packing_cost
     order.total_cost = order.items_cost + order.packing_cost + delivery_option.cost
     order.delivery_address = address
     return order
@@ -169,7 +171,7 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
 
     with transaction.atomic(using=WALLETS_DB_ALIAS):
         balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
-        if 0 < balance.mail_count < LOW_SMS_LIMIT:
+        if 0 < balance.mail_count < LOW_MAIL_LIMIT:
             try:
                 notify_for_low_messaging_credit(service, balance)
             except:
