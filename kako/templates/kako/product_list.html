@@ -69,20 +69,22 @@
                         {% endif %}
                     </div>
                 </form>
-                {% if not settings.IS_BANK %}
-                    <a href="javascript:;" class="btn btn-sm btn-success cta add pull-right action"
-                            data-toggle="modal" data-target="#modal-add-product" title="{% trans "Add new product" %}">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span class="hidden-xs">{% trans "Add" %}</span>
-                    </a>
-                {% endif %}
-                {% if settings.IS_BANK %}
-                    <button class="btn btn-sm btn-success cta pull-right action" style="border-color: #18bc9c; min-width: 90px"
-                            data-toggle="modal" data-target="#load-product">
-                        <i class="glyphicon glyphicon-import"></i>
-                        {% trans "Import" %}
-                    </button>
-                {% endif %}
+                <div id="admin-tools-actions">
+                    {% if not settings.IS_BANK %}
+                        <a href="javascript:;" class="btn btn-sm btn-success cta add pull-right action"
+                                data-toggle="modal" data-target="#modal-add-product" title="{% trans "Add new product" %}">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span class="hidden-xs">{% trans "Add" %}</span>
+                        </a>
+                    {% endif %}
+                    {% if settings.IS_BANK %}
+                        <button class="btn btn-sm btn-success cta pull-right action" style="border-color: #18bc9c; min-width: 90px"
+                                data-toggle="modal" data-target="#load-product">
+                            <i class="glyphicon glyphicon-import"></i>
+                            {% trans "Import" %}
+                        </button>
+                    {% endif %}
+                </div>
             </div>
             <div id="results">
                 {% include 'core/snippets/spinner.html' %}
