@@ -4,7 +4,7 @@ import shutil
 import string
 import subprocess
 from datetime import datetime, timedelta
-from random import random
+import random
 from threading import Thread
 
 from django import forms
@@ -45,7 +45,8 @@ else:
     CLOUD_HOME = '/home/ikwen/Cloud/'
 
 CLOUD_FOLDER = CLOUD_HOME + 'Kakocase/'
-SMS_API_URL = 'http://websms.mobinawa.com/http_api?action=sendsms&username=675187705&password=depotguinness&from=$label&to=$recipient&msg=$text'
+# SMS_API_URL = 'http://websms.mobinawa.com/http_api?action=sendsms&username=675187705&password=depotguinness&from=$label&to=$recipient&msg=$text'
+SMS_API_URL = 'https://sms.etech-keys.com/ss/api.php?login=675187705&password=oi7s362&sender_id=$label&destinataire=$recipient&message=$text'
 
 
 # from captcha.fields import ReCaptchaField
@@ -282,7 +283,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     if bundle:  # Tsunami bundle
         token = ''.join([random.SystemRandom().choice(string.digits) for i in range(6)])
         expiry = now + timedelta(days=bundle.support_bundle.duration)
-        SupportCode.objects.using(UMBRELLA).create(service=service, type=bundle.support_bundle.type,
+        SupportCode.objects.using(UMBRELLA).create(service=service, bundle=bundle.support_bundle,
                                                    token=token, expiry=expiry)
         Balance.objects.using('wallets').create(service_id=service.id)
 
@@ -313,8 +314,9 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
                                                   short_description=_("Max. 72H after order"), cost=500, max_delay=72)
 
     # Apache Server cloud_setup
-    go_apache_tpl = get_template('kakocase/cloud_setup/apache.conf.local.html')
-    apache_context = Context({'is_naked_domain': is_naked_domain, 'domain': domain, 'ikwen_name': ikwen_name})
+    go_apache_tpl = get_template('core/cloud_setup/apache.conf.local.html')
+    apache_context = Context({'is_naked_domain': is_naked_domain, 'domain': domain,
+                              'home_folder': website_home_folder, 'ikwen_name': ikwen_name})
     if is_naked_domain:
         apache_tpl = get_template('kakocase/cloud_setup/apache.conf.html')
         fh = open(website_home_folder + '/apache.conf', 'w')
@@ -337,8 +339,8 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     invoice_total = 0
     for entry in invoice_entries:
         invoice_total += entry.item.amount * entry.quantity
-    invoice = Invoice(subscription=service, amount=invoice_total, number=number, due_date=expiry, last_reminder=now,
-                      reminders_sent=1, is_one_off=True, entries=invoice_entries,
+    invoice = Invoice(subscription=service, member=member, amount=invoice_total, number=number, due_date=expiry,
+                      last_reminder=now, reminders_sent=1, is_one_off=True, entries=invoice_entries,
                       months_count=billing_plan.setup_months_count)
     invoice.save(using=UMBRELLA)
     vendor = get_service_instance()
