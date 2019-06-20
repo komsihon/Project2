@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-02 17:39+0100\n"
-"PO-Revision-Date: 2019-05-02 20:56+0100\n"
+"POT-Creation-Date: 2019-06-19 14:37+0100\n"
+"PO-Revision-Date: 2019-06-19 14:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -89,9 +89,9 @@ msgstr "Oui, utilisez le"
 
 #: cci/templates/cci/snippets/modals.html:17
 #: cci/templates/cci/snippets/modals.html:57
-#: kako/templates/kako/product_list.html:107
-#: kako/templates/kako/product_list.html:129
-#: kako/templates/kako/product_list.html:167
+#: kako/templates/kako/product_list.html:109
+#: kako/templates/kako/product_list.html:131
+#: kako/templates/kako/product_list.html:169
 #: kakocase/templates/kakocase/tsunami/successful_deployment.html:182
 #: shopping/templates/shopping/choose_deal.html:109
 #: shopping/templates/shopping/choose_deal.html:153
@@ -385,7 +385,7 @@ msgstr "Aucune Slide"
 #: commarketing/templates/commarketing/banner_list.html:265
 #: commarketing/templates/commarketing/smart_category_list.html:80
 #: kako/templates/kako/category_list.html:108
-#: kako/templates/kako/product_list.html:76
+#: kako/templates/kako/product_list.html:77
 #: kako/templates/kako/snippets/product_list_results.html:114
 #: sales/templates/sales/promo_code_list.html:34
 #: sales/templates/sales/promotion_list.html:44
@@ -811,40 +811,40 @@ msgstr "Rechercher un produit"
 msgid "All"
 msgstr "Tout"
 
-#: kako/templates/kako/product_list.html:74
+#: kako/templates/kako/product_list.html:75
 msgid "Add new product"
 msgstr "Ajouter un nouveau produit"
 
-#: kako/templates/kako/product_list.html:83
+#: kako/templates/kako/product_list.html:84
 msgid "Import"
 msgstr "Importer"
 
-#: kako/templates/kako/product_list.html:97
+#: kako/templates/kako/product_list.html:99
 #: kako/templates/kako/snippets/product_list_results.html:60
 #: kako/templates/kako/snippets/product_list_results.html:99
 msgid "Update stock"
 msgstr "Mettre à jourle stock"
 
-#: kako/templates/kako/product_list.html:103
-#: kako/templates/kako/product_list.html:125
+#: kako/templates/kako/product_list.html:105
+#: kako/templates/kako/product_list.html:127
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: kako/templates/kako/product_list.html:119
+#: kako/templates/kako/product_list.html:121
 #: kako/templates/kako/snippets/product_list_results.html:63
 #: kako/templates/kako/snippets/product_list_results.html:101
 msgid "Update retail price"
 msgstr "Mettre à jour le prix de détail"
 
-#: kako/templates/kako/product_list.html:141
+#: kako/templates/kako/product_list.html:143
 msgid "Import product"
 msgstr "Importer le produit"
 
-#: kako/templates/kako/product_list.html:146
+#: kako/templates/kako/product_list.html:148
 msgid "Product URL (Eg. http://www.partnerstore.cm/tv/samsung-led-32)"
 msgstr "URL du produit (Exemple. http//www.partnerstore.cm/tv/samsung-led-32)."
 
-#: kako/templates/kako/product_list.html:186
+#: kako/templates/kako/product_list.html:188
 msgid ""
 "\n"
 "                            <p>Type a product name in the <em style=\"color: "
@@ -860,7 +860,7 @@ msgstr ""
 "de l'ajouter.</p>\n"
 "                        "
 
-#: kako/templates/kako/product_list.html:198
+#: kako/templates/kako/product_list.html:200
 msgid "Got it !"
 msgstr "Compris !"
 
@@ -984,24 +984,24 @@ msgstr ""
 "L' AUTH CODE est invalide, s'il vous plaît vérifiez. Si le problème "
 "persiste, veuillez contacter %s pour avoir le bon."
 
-#: kakocase/cloud_setup.py:309 kakocase/models.py:204
+#: kakocase/cloud_setup.py:310 kakocase/models.py:204
 #: shopping/templates/shopping/mails/order_notice.html:87
 msgid "Pick up in store"
 msgstr "Récupérer sur place"
 
-#: kakocase/cloud_setup.py:310
+#: kakocase/cloud_setup.py:311
 msgid "2H after order"
 msgstr "2H après avoir commandé"
 
-#: kakocase/cloud_setup.py:312 kakocase/models.py:205
+#: kakocase/cloud_setup.py:313 kakocase/models.py:205
 msgid "Home delivery"
 msgstr "Livraison à domicile"
 
-#: kakocase/cloud_setup.py:313
+#: kakocase/cloud_setup.py:314
 msgid "Max. 72H after order"
 msgstr "Maximum 72H après avoir commander"
 
-#: kakocase/cloud_setup.py:369
+#: kakocase/cloud_setup.py:371
 #, python-format
 msgid "Your website %s was created"
 msgstr "Votre site internet %s a été crée"
@@ -1910,7 +1910,7 @@ msgid "Deploy"
 msgstr "Déployer"
 
 #: kakocase/templates/kakocase/tsunami/successful_deployment.html:47
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "\t\t\t\t\t\t\t<h1 class=\"media-heading\">Congratulations %(client_name)s !</"
@@ -1925,7 +1925,7 @@ msgid ""
 "style=\"color: #ef7000\">support code.</span></p>\n"
 "                            <a href=\"%(invoice_url)s\" target=\"_blank\" "
 "class=\"btn btn-outline-primary mobile-adjust\" style=\"min-width: 200px;"
-"\">Buy</a>\n"
+"\">Pay now</a>\n"
 "\t\t\t\t\t\t"
 msgstr ""
 "\n"
@@ -2279,7 +2279,7 @@ msgstr "Pourcentage"
 msgid "To"
 msgstr "À"
 
-#: shopping/manual_payment.py:24 shopping/views.py:664
+#: shopping/manual_payment.py:24 shopping/views.py:669
 msgid "Order successful"
 msgstr "Commande réussie"
 
@@ -2296,20 +2296,20 @@ msgstr ""
 "Votre RCC est %(rcc)s\n"
 "Merci."
 
-#: shopping/views.py:518
+#: shopping/views.py:523
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:760
+#: shopping/views.py:765
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:819
+#: shopping/views.py:824
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:833
+#: shopping/views.py:838
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2424,7 +2424,7 @@ msgstr "Sélectionnez une taille SVP."
 #: shopping/templates/shopping/optimum/base.html:536
 #: shopping/templates/shopping/optimum/cart.html:222
 #: templates/tchopetyamo/shopping/optimum/base.html:479
-#: templates/tchopetyamo/shopping/optimum/cart.html:212
+#: templates/tchopetyamo/shopping/optimum/cart.html:260
 msgid "Available stock limit reached."
 msgstr "Limite de stock disponible atteinte."
 
@@ -2465,13 +2465,13 @@ msgstr "Panier"
 
 #: shopping/templates/shopping/cart.html:22
 #: shopping/templates/shopping/optimum/cart.html:23
-#: templates/tchopetyamo/shopping/optimum/cart.html:21
+#: templates/tchopetyamo/shopping/optimum/cart.html:23
 msgid "My Shopping Bag"
 msgstr "Mon Panier"
 
 #: shopping/templates/shopping/cart.html:28
 #: shopping/templates/shopping/optimum/cart.html:29
-#: templates/tchopetyamo/shopping/optimum/cart.html:27
+#: templates/tchopetyamo/shopping/optimum/cart.html:34
 #, python-format
 msgid ""
 "\n"
@@ -2488,7 +2488,7 @@ msgstr ""
 #: shopping/templates/shopping/optimum/product_list.html:51
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:17
 #: shopping/templates/shopping/snippets/product_list_results.html:12
-#: templates/tchopetyamo/shopping/optimum/cart.html:54
+#: templates/tchopetyamo/shopping/optimum/cart.html:61
 #: trade/templates/trade/snippets/order_details.html:34
 msgid "Price"
 msgstr "Prix"
@@ -2498,11 +2498,11 @@ msgstr "Prix"
 #: shopping/templates/shopping/optimum/cart.html:59
 #: shopping/templates/shopping/optimum/cart.html:105
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:20
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:74
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:71
 #: shopping/templates/shopping/snippets/modal_preview.html:35
 #: shopping/templates/shopping/snippets/product_size_qty.html:15
-#: templates/tchopetyamo/shopping/optimum/cart.html:57
-#: templates/tchopetyamo/shopping/optimum/cart.html:103
+#: templates/tchopetyamo/shopping/optimum/cart.html:64
+#: templates/tchopetyamo/shopping/optimum/cart.html:110
 msgid "Quantity"
 msgstr "Quantité"
 
@@ -2515,21 +2515,20 @@ msgstr "Quantité"
 #: shopping/templates/shopping/optimum/cart.html:127
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:23
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:46
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:77
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:96
-#: templates/tchopetyamo/shopping/optimum/cart.html:60
-#: templates/tchopetyamo/shopping/optimum/cart.html:79
-#: templates/tchopetyamo/shopping/optimum/cart.html:106
-#: templates/tchopetyamo/shopping/optimum/cart.html:125
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:74
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:93
+#: templates/tchopetyamo/shopping/optimum/cart.html:67
+#: templates/tchopetyamo/shopping/optimum/cart.html:86
+#: templates/tchopetyamo/shopping/optimum/cart.html:113
+#: templates/tchopetyamo/shopping/optimum/cart.html:132
 msgid "Subtotal"
 msgstr "Sous-total"
 
 #: shopping/templates/shopping/cart.html:85
 #: shopping/templates/shopping/optimum/cart.html:85
 #: shopping/templates/shopping/optimum/cart.html:131
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:100
-#: templates/tchopetyamo/shopping/optimum/cart.html:83
-#: templates/tchopetyamo/shopping/optimum/cart.html:129
+#: templates/tchopetyamo/shopping/optimum/cart.html:90
+#: templates/tchopetyamo/shopping/optimum/cart.html:136
 msgid "Sorry, we had to adjust your quantity to currently available stock."
 msgstr ""
 "Désolé, nous avons du ajuster votre quantité au stock actuellement "
@@ -2538,16 +2537,15 @@ msgstr ""
 #: shopping/templates/shopping/cart.html:86
 #: shopping/templates/shopping/optimum/cart.html:86
 #: shopping/templates/shopping/optimum/cart.html:132
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:101
-#: templates/tchopetyamo/shopping/optimum/cart.html:84
-#: templates/tchopetyamo/shopping/optimum/cart.html:130
+#: templates/tchopetyamo/shopping/optimum/cart.html:91
+#: templates/tchopetyamo/shopping/optimum/cart.html:137
 msgid "Sorry, unfortunately this product went out of stock meanwhile."
 msgstr ""
 "Désolé, malheureusement ce produit est entré en rupture de stock entre-temps."
 
 #: shopping/templates/shopping/cart.html:114
 #: shopping/templates/shopping/optimum/cart.html:166
-#: templates/tchopetyamo/shopping/optimum/cart.html:164
+#: templates/tchopetyamo/shopping/optimum/cart.html:171
 msgid ""
 "\n"
 "                        <strong>CashFlex</strong> payment allows you to pay "
@@ -2568,7 +2566,7 @@ msgstr ""
 
 #: shopping/templates/shopping/cart.html:121
 #: shopping/templates/shopping/optimum/cart.html:173
-#: templates/tchopetyamo/shopping/optimum/cart.html:171
+#: templates/tchopetyamo/shopping/optimum/cart.html:178
 msgid ""
 "\n"
 "                        <a href=\"#\" class=\"btn btn-success connect"
@@ -3259,20 +3257,19 @@ msgid "Do you like this theme ?"
 msgstr "Aimez vous ce thème ?"
 
 #: shopping/templates/shopping/optimum/cart.html:98
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:67
-#: templates/tchopetyamo/shopping/optimum/cart.html:96
+#: shopping/templates/shopping/snippets/cart_products_confirmed.html:66
+#: templates/tchopetyamo/shopping/optimum/cart.html:103
 #: trade/templates/trade/snippets/order_details.html:31
 msgid "Packing"
 msgstr "Emballage"
 
 #: shopping/templates/shopping/optimum/cart.html:137
-#: shopping/templates/shopping/snippets/cart_products_confirmed.html:106
-#: templates/tchopetyamo/shopping/optimum/cart.html:135
+#: templates/tchopetyamo/shopping/optimum/cart.html:142
 msgid "No I don't want packing"
 msgstr "Non, je ne veux pas d'emballage"
 
-#: shopping/templates/shopping/optimum/cart.html:414
-#: templates/tchopetyamo/shopping/optimum/cart.html:400
+#: shopping/templates/shopping/optimum/cart.html:416
+#: templates/tchopetyamo/shopping/optimum/cart.html:448
 msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
 
@@ -3778,33 +3775,25 @@ msgstr "Posts"
 msgid "Comments"
 msgstr "Commentaires"
 
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#: templates/tchopetyamo/shopping/optimum/base.html:147
-#, fuzzy
-msgctxt "cart items"
-msgid ""
-msgstr ""
-"Project-Id-Version: Francais\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-27 20:55+0100\n"
-"PO-Revision-Date: 2017-12-07 14:51+0100\n"
-"Language: fr_FR\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.0.4\n"
-
 #: templates/tchopetyamo/shopping/optimum/base.html:350
 #: templates/tchopetyamo/webnode/improve/base.html:309
 msgid "Admin Panel"
 msgstr "Panneau Admin"
+
+#: templates/tchopetyamo/shopping/optimum/cart.html:25
+#, fuzzy
+msgid "You have some free coupons"
+msgstr "Vous n'avez pas assez de coupons"
+
+#: templates/tchopetyamo/shopping/optimum/cart.html:26
+#, fuzzy
+msgid "Clic here to use your reward"
+msgstr "Réclamez votre récompense"
+
+#: templates/tchopetyamo/shopping/optimum/cart.html:211
+#: templates/tchopetyamo/webnode/improve/home.html:124
+msgid "Claim your reward"
+msgstr "Réclamez votre récompense"
 
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:76
 msgid "Pick Up"
@@ -3831,10 +3820,6 @@ msgstr "Notre Carte"
 #: templates/tchopetyamo/webnode/improve/home.html:71
 msgid "Collect our free coupon and get wonderfull gift!"
 msgstr "Collectionnez nos coupons gratuits et recevez de superbes cadeaux !"
-
-#: templates/tchopetyamo/webnode/improve/home.html:124
-msgid "Claim your reward"
-msgstr "Réclamez votre récompense"
 
 #: templates/tchopetyamo/webnode/improve/home.html:140
 #, python-format
@@ -4407,20 +4392,42 @@ msgstr "RCC"
 msgid "Package details"
 msgstr "Détails du paquet"
 
-msgid "Men"
-msgstr "Hommes"
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+#~ msgctxt "cart items"
+#~ msgid ""
+#~ msgstr ""
+#~ "Project-Id-Version: Francais\n"
+#~ "Report-Msgid-Bugs-To: \n"
+#~ "POT-Creation-Date: 2017-11-27 20:55+0100\n"
+#~ "PO-Revision-Date: 2017-12-07 14:51+0100\n"
+#~ "Language: fr_FR\n"
+#~ "MIME-Version: 1.0\n"
+#~ "Content-Type: text/plain; charset=UTF-8\n"
+#~ "Content-Transfer-Encoding: 8bit\n"
+#~ "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#~ "Last-Translator: \n"
+#~ "Language-Team: \n"
+#~ "X-Generator: Poedit 2.0.4\n"
 
-msgid "Women"
-msgstr "Femmes"
+#~ msgid "Men"
+#~ msgstr "Hommes"
 
-msgid "Manage marketing"
-msgstr "Gérer le marketing"
+#~ msgid "Women"
+#~ msgstr "Femmes"
 
-msgid "Manage packaging"
-msgstr "Gérer le packaging"
+#~ msgid "Manage marketing"
+#~ msgstr "Gérer le marketing"
 
-msgid "View dashboard"
-msgstr "Voir le tableau de bord"
+#~ msgid "Manage packaging"
+#~ msgstr "Gérer le packaging"
+
+#~ msgid "View dashboard"
+#~ msgstr "Voir le tableau de bord"
 
 #~ msgid "Your payment was successfully procceded; Thank for your concern"
 #~ msgstr ""
