@@ -125,7 +125,6 @@
                 </div>
             </div>
             <form id="submit-product" class="tab-content admin-form" method="post">{% csrf_token %}
-                {% url 'kako:submit_product' as submit_product_url %}
                 {% if error %}<p class="alert alert-danger">{{ error }}</p>{% endif %}
                 <input type="hidden" name="slug" id="slug" value="{{ product.slug }}" />
                 <input type="hidden" name="photos_ids" id="photos_ids" value="" />
