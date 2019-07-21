@@ -519,12 +519,15 @@ class ChangeProduct(ChangeObjectBase):
     model = Product
     context_object_name = 'product'
 
+    def get_object(self, **kwargs):
+        object_id = kwargs.get('object_id', self.request.GET.get('product_id'))
+        if object_id:
+            return get_object_or_404(Product, pk=object_id)
+
     def get_context_data(self, **kwargs):
         context = super(ChangeProduct, self).get_context_data(**kwargs)
-        object_id = kwargs.get('object_id')
-        if object_id:
-            if self.request.GET.get('duplicate'):
-                context['product'].id = ''
+        if self.request.GET.get('duplicate'):
+            context['product'].id = ''
         return context
 
     @method_decorator(csrf_protect)
