@@ -1,0 +1,168 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens %}
+
+{% block page_title %}
+<title> {% if obj.member.is_ghost %}{{ obj.member.email }}{% else %}{{ obj.member.full_name }}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/css/change-form.css' %}" />
+    <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <style>
+        @media only screen and (max-width: 767px) {
+            .ik-li {
+                padding-left: 0!important;
+                padding-right: 0!important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>
+        {% trans "Customer Journey" %}
+    </li>
+{#    <li>{% if obj.member.is_ghost %}{{ obj.member.email }}{% else %}{{ obj.member.full_name }}{% endif %}</li>#}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div id="stage" style="float: none; margin: auto">
+                {% url 'ikwen:profile' member.id as member_profile_url %}
+                <div>
+                    <div class="text-center">
+                        <span class="welcome-title">
+{#                            href="{{ member_profile_url|ikwenize }}"#}
+                            {% if member.photo.name %}
+                                <img class="img-circle img-thumbnail" src="{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}" style="margin-top: 1vh;width:100px;height:100px">
+                            {% else %}
+                                <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
+                            {% endif %}
+                            {% if member.is_ghost %}
+                                <h4>{{ member.email }}</h4>
+                            {% else %}
+                                <h4>{{ member.full_name }}</h4>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-sm-8 col-sm-offset-2">
+                    <section>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Username' %}</label>
+                            <span class="pull-right">{{ member }}</span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Full name' %}</label>
+                            <span class="pull-right {% if not member.full_name %}text-muted{% endif %}">
+                                {% if member.full_name %}
+                                    {{ member.full_name }}
+                                {% else %}
+                                    &#60;{% trans 'Not set' %}&#62;
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'DOB' %}</label>
+                            <span class="pull-right {% if not member.dob %}text-muted{% endif %}">
+                                {% if member.dob %}
+                                    {{ member.dob }}
+                                {% else %}
+                                    &#60;{% trans 'Not set' %}&#62;
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Phone' %}</label>
+                            <span class="pull-right {% if not member.phone %}text-muted{% endif %}">
+                                {% if member.phone %}
+                                    <a href="tel://{{ member.phone }}">{{ member.phone }}</a>
+                                {% else %}&#60;{% trans 'Not set' %}&#62;{% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Email' %}</label>
+                            <span class="pull-right {% if not member.email %}text-muted{% endif %}">
+                                {% if member.email %}
+                                    <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                                {% else %}
+                                    &#60;{% trans 'Not set' %}&#62;
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Subscribed on' %}</label>
+                            <span class="pull-right">{{ member.date_joined }}</span>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="col-sm-8 col-sm-offset-2" >
+                    <section style="margin:20px 0;">
+                        <h3>{% trans 'Orders' %}</h3>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Count' %}</label>
+                            <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
+                                {% if customer.total_orders_count %}
+                                    {{ customer.total_orders_count }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Amount' %}</label>
+                            <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
+                                {% if customer.total_orders_count %}
+                                    {{ customer.total_turnover }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <label>{% trans 'Last' %}</label>
+                            <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
+                                {% if customer.total_orders_count %}
+                                    {{ customer.last_payment_on }}
+                                {% else %}
+                                    &#60;Never&#62;
+                                {% endif %}
+                            </span>
+                        </div>
+                    </section>
+                    {% if order_history_list|length > 0 %}
+                        <section style="border-top: 1px solid #ddd; padding:0">
+                            <h3 style="padding:20px 0">{% trans "History" %}</h3>
+                            <ul class="object-list list-group">
+                                {% for order in order_history_list %}
+                                {% url 'shopping:cart' order.id as obj_url %}
+                                <li class="ik-li list-group-item" id="{{ order.id }}" data-id="{{ order.id }}" style="padding: 15px">
+                                    <a href="{{ obj_url }}" target="_blank">{{ order|upper }}</a>
+                                    <div class="pull-right text-muted">
+                                        {{ order.created_on|date }}
+                                    </div>
+                                    <div style="margin-top: 15px">
+                                        <span class="pull-left">
+                                            <strong>{{ order.get_products_as_string }}</strong>
+                                        </span>
+                                        <span class="pull-right">
+                                            <span class="text-muted" style="font-size: .8em">{{ order.currency }}</span>
+                                            <strong>{{ order.total_cost|intcomma }}</strong>
+                                        </span>
+                                    </div>
+
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="clearfix"></div>
+                        </section>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

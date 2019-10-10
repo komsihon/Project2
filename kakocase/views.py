@@ -30,8 +30,9 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, Busi
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance
-from ikwen.core.views import AdminHomeBase
+from ikwen.core.views import AdminHomeBase, ChangeObjectBase
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
+from ikwen_kakocase.trade.models import Order
 
 
 class AdminHome(AdminHomeBase):
@@ -400,3 +401,26 @@ class Welcome(TemplateView):
         else:
             context['business_category'] = 'other'
         return context
+
+
+class CustomerJourney(TemplateView):
+    template_name = 'kakocase/customer_journey.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerJourney, self).get_context_data(**kwargs)
+        member_id = kwargs['member_id']
+        member = get_object_or_404(Member, pk=member_id)
+
+        try:
+            customer = member.customer
+            order_history_list = Order.objects.filter(member=member).exclude(
+                                                      status__in=[Order.SHIPPED, Order.PENDING, Order.DELIVERED])
+            context['order_history_list'] = order_history_list
+            context['customer'] = customer
+        except:
+            pass
+
+        context['member'] = member
+
+        return context
+
