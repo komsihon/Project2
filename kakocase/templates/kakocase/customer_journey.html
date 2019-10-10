@@ -108,7 +108,7 @@
                             <label>{% trans 'Count' %}</label>
                             <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
                                 {% if customer.total_orders_count %}
-                                    {{ customer.total_orders_count }}
+                                    {{ customer.total_orders_count|intcomma }}
                                 {% else %}
                                     0
                                 {% endif %}
@@ -118,7 +118,7 @@
                             <label>{% trans 'Amount' %}</label>
                             <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
                                 {% if customer.total_orders_count %}
-                                    {{ customer.total_turnover }}
+                                    {{ customer.total_turnover|intcomma }}
                                 {% else %}
                                     0
                                 {% endif %}
