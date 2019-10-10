@@ -413,7 +413,8 @@ class CustomerJourney(TemplateView):
 
         try:
             customer = member.customer
-            order_history_list = Order.objects.filter(member=member, status__in=[Order.SHIPPED, Order.PENDING, Order.DELIVERED])
+            order_history_list = Order.objects\
+                .filter(member=member, status__in=[Order.SHIPPED, Order.PENDING, Order.DELIVERED]).order_by('-id')
             context['order_history_list'] = order_history_list
             context['customer'] = customer
         except:
