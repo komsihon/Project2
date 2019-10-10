@@ -22,9 +22,11 @@
 
 {% block breadcrumb_location %}
     <li>
+        <a href="{% url 'ikwen:community' %}">{% trans 'Community' %}</a>
+    </li>
+    <li>
         {% trans "Customer Journey" %}
     </li>
-{#    <li>{% if obj.member.is_ghost %}{{ obj.member.email }}{% else %}{{ obj.member.full_name }}{% endif %}</li>#}
 {% endblock %}
 
 {% block admin_content %}
