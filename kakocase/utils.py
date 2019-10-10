@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.utils.translation import gettext as _
-from ikwen.core.models import Application
+from datetime import datetime, timedelta
 
-from ikwen.core.models import ConsoleEventType
+from django.db.models import Q
+from django.utils.translation import gettext as _
+
+from ikwen.core.models import Application, ConsoleEventType
+
+from ikwen_kakocase.trade.models import Order
 
 
 def get_cash_out_requested_message(member):
@@ -49,3 +53,49 @@ def create_console_event_types():
                                     target=ConsoleEventType.BUSINESS, renderer="shopping.views.render_order_event")
     ConsoleEventType.objects.create(app=app, codename=ORDER_SHIPPED_EVENT, title="Your order was shipped",
                                     target=ConsoleEventType.BUSINESS, renderer="shopping.views.render_order_event")
+
+
+class LastOrderFilter(object):
+    title = _('Last order')
+    parameter_name = 'last_order'
+    is_date_filter = True
+
+    def lookups(self):
+        choices = [
+            ('__period__today', _("Today")),
+            ('__period__yesterday', _("Yesterday")),
+            ('__period__last_7_days', _("Last 7 days")),
+            ('__period__last_30_days', _("Last 30 days")),
+        ]
+        return choices
+
+    def queryset(self, request, queryset):
+        value = request.GET.get(self.parameter_name)
+        if not value:
+            return queryset
+
+        now = datetime.now()
+        start_date, end_date = None, now
+        value = value.replace('__period__', '')
+        if value == 'today':
+            start_date = datetime(now.year, now.month, now.day, 0, 0, 0)
+        elif value == 'yesterday':
+            yst = now - timedelta(days=1)
+            start_date = datetime(yst.year, yst.month, yst.day, 0, 0, 0)
+            end_date = datetime(yst.year, yst.month, yst.day, 23, 59, 59)
+        elif value == 'last_7_days':
+            b = now - timedelta(days=7)
+            start_date = datetime(b.year, b.month, b.day, 0, 0, 0)
+        elif value == 'last_30_days':
+            b = now - timedelta(days=30)
+            start_date = datetime(b.year, b.month, b.day, 0, 0, 0)
+        else:
+            start_date, end_date = value.split(',')
+            start_date += ' 00:00:00'
+            end_date += ' 23:59:59'
+        order_qs = Order.objects.select_related('member')\
+            .filter(status__in=[Order.PENDING, Order.SHIPPED, Order.DELIVERED],
+                    created_on__range=(start_date, end_date))
+        member_id_list = [order.member.id for order in order_qs]
+        queryset = queryset.filter(user_id__in=member_id_list)
+        return queryset
