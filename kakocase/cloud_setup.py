@@ -267,13 +267,16 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     OperatorWallet.objects.using('wallets').create(nonrel_id=service.id, provider=ORANGE_MONEY)
     mail_signature = "%s<br>" \
                      "<a href='%s'>%s</a>" % (project_name, 'http://' + domain, domain)
+    invitation_message = _("Hey $client<br>"
+                           "We are inviting you to join our awesome community on ikwen.")
     config = OperatorProfile(service=service, rel_id=wallet.id, media_url=media_url,
                              ikwen_share_fixed=billing_plan.tx_share_fixed, ikwen_share_rate=billing_plan.tx_share_rate,
                              can_manage_delivery_options=can_manage_delivery_options, business_type=business_type,
                              is_pro_version=is_pro_version, theme=theme, currency_code='XAF', currency_symbol='XAF',
                              signature=mail_signature, max_products=billing_plan.max_objects, decimal_precision=0,
                              company_name=project_name, contact_email=member.email, contact_phone=member.phone,
-                             business_category=business_category, bundle=bundle, sms_api_script_url=SMS_API_URL)
+                             business_category=business_category, bundle=bundle, sms_api_script_url=SMS_API_URL,
+                             invitation_message=invitation_message)
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
