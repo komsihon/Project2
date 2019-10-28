@@ -3,7 +3,7 @@ from django.db.utils import DatabaseError
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
 from ikwen.accesscontrol.models import Member
-from ikwen.core.models import Model, AbstractWatchModel, Country
+from ikwen.core.models import Model, AbstractWatchModel, Country, Service
 from ikwen_kakocase.kako.models import Product
 
 
@@ -56,6 +56,7 @@ class Customer(AbstractWatchModel):
     :attr:delivery_addresses : List of delivery addresses subsequently set by client. The last in the list is the current
     """
     member = models.OneToOneField(Member)
+    referrer = models.ForeignKey(Service, blank=True, null=True, related_name='+')
     delivery_addresses = ListField(EmbeddedModelField('shopping.DeliveryAddress'))
     last_payment_on = models.DateTimeField(blank=True, null=True, db_index=True)
 

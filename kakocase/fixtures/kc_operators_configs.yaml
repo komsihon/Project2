@@ -30,7 +30,7 @@
     orders_count_history: [11, 4, 41, 15, 27]
     return_url: http://localhost/kakocase/test_return_url
     media_url: http://media.tecnomobile.com/
-    ikwen_share_rate: 2
+    ikwen_share_rate: 5
 
 - model: kakocase.operatorprofile
   pk: 56922874b37b33706b51f002
@@ -83,7 +83,7 @@
     earnings_history: [33800, 22700, 204150, 40890, 70235]
     orders_count_history: [11, 4, 41, 15, 27]
     return_url: http://localhost/kakocase/test_return_url
-    ikwen_share_rate: 2
+    ikwen_share_rate: 5
 
 - model: kakocase.operatorprofile
   pk: 56922874b37b33706b51f007

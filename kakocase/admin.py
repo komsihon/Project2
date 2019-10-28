@@ -23,7 +23,8 @@ if getattr(settings, 'IS_IKWEN', False):
         (_('Company'), {'fields': ('company_name', 'short_description', 'slogan', 'description')}),
         (_('Business'), {'fields': ('business_category', 'ikwen_share_fixed', 'ikwen_share_rate',
                                     'payment_delay', 'cash_out_min', 'is_certified')}),
-        (_('Platform'), {'fields': ('max_products', 'can_manage_delivery_options', 'is_pro_version', 'can_manage_currencies')}),
+        (_('Platform'), {'fields': ('max_products', 'can_manage_delivery_options', 'is_pro_version',
+                                    'is_standalone', 'can_manage_currencies')}),
         (_('SMS'), {'fields': ('sms_api_script_url', )}),
         (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature',)})
     ]
@@ -37,11 +38,11 @@ else:
         if config.is_pro_version:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices', 'allow_shopping',
                                           'notification_email', 'notification_phone', 'return_url',
-                                          'register_with_dob', 'is_ecommerce_active')}
+                                          'is_ecommerce_active', 'register_with_dob')}
         else:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
                                           'allow_shopping', 'notification_email', 'notification_phone',
-                                          'register_with_dob', 'is_ecommerce_active')}
+                                          'is_ecommerce_active', 'register_with_dob')}
     elif getattr(settings, 'IS_RETAILER', False):
         _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'is_certified',)}
     elif getattr(settings, 'IS_DELIVERY_COMPANY', False):

@@ -40,6 +40,7 @@ urlpatterns = patterns(
     url(r'^sales/', include('ikwen_kakocase.sales.urls', namespace='sales')),
 
     url(r'^echo/', include('echo.urls', namespace='echo')),
+    url(r'^daraja/', include('daraja.urls', namespace='daraja')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^currencies/', include('currencies.urls')),

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -62,6 +63,7 @@ class Order(Model):
 
     # EARNINGS
     retailer_earnings = models.FloatField(default=0)  # Amount retailer is supposed to earn if everything goes well
+    referrer_earnings = models.FloatField(default=0)  # Amount referrer is supposed to earn if everything goes well
     delivery_earnings = models.FloatField(default=0)  # Amount delivery company is supposed to earn at the end
 
     ikwen_order_earnings = models.FloatField(default=0)  # Amount ikwen is supposed to earn from retailer
@@ -123,14 +125,14 @@ class Order(Model):
             i += 1
         return nvp_dict
 
-    def split_into_packages(self):
+    def split_into_packages(self, referrer=None):
         service = get_service_instance()
         logicom = self.delivery_company
         delivery_man_db = logicom.database
         add_database_to_settings(delivery_man_db)
         delivery_man_profile_umbrella = OperatorProfile.objects.using(UMBRELLA).get(service=logicom)
-        total_retailer_charges = 0
         total_provider_charges = 0
+        total_referrer_earnings = 0
         if logicom != service:
             delivery_charges = self.delivery_option.cost * delivery_man_profile_umbrella.ikwen_share_rate / 100
             delivery_charges += delivery_man_profile_umbrella.ikwen_share_fixed
@@ -140,44 +142,40 @@ class Order(Model):
         service = get_service_instance()
         config = service.config
         packages_info = {}
-        total_retailer_earnings = 0
         for entry in self.entries:
             provider = entry.product.provider
             provider_db = provider.database
             retail_cost = entry.count * (entry.product.retail_price + entry.product.packing_price)
-            if service == provider:
-                provider_revenue = entry.count * (entry.product.retail_price + entry.product.packing_price)
-                retailer_revenue = 0
+            provider_revenue = entry.count * (entry.product.retail_price + entry.product.packing_price)
+            if referrer:
+                referrer_earnings = provider_revenue * referrer.share_rate / 100
             else:
-                provider_revenue = entry.count * entry.product.wholesale_price
-                retailer_revenue = entry.count * (entry.product.retail_price + entry.product.packing_price - entry.product.wholesale_price)
-            retailer_charges = retailer_revenue * config.ikwen_share_rate / 100
-            retailer_earnings = retailer_revenue - retailer_charges
-            total_retailer_charges += retailer_charges
-            total_retailer_earnings += retailer_earnings
+                referrer_earnings = 0
+
+            total_referrer_earnings += referrer_earnings
             if packages_info.get(provider_db):
                 package = packages_info[provider_db]['package']
                 provider_profile = packages_info[provider_db]['provider_profile']
                 provider_charges = provider_revenue * provider_profile.ikwen_share_rate / 100
                 total_provider_charges += provider_charges
-                provider_earnings = provider_revenue - provider_charges
+                provider_earnings = provider_revenue - provider_charges - referrer_earnings
                 package.entries.append(entry)
                 package.items_count += entry.count
                 package.provider_revenue += provider_revenue
                 package.retail_cost += retail_cost
                 package.provider_earnings += provider_earnings
-                package.retailer_earnings += retailer_earnings
+                package.referrer_earnings += referrer_earnings
             else:
                 provider_profile_umbrella = OperatorProfile.objects.using(UMBRELLA).get(service=provider)
                 provider_charges = provider_revenue * provider_profile_umbrella.ikwen_share_rate / 100
                 provider_charges += provider_profile_umbrella.ikwen_share_fixed
                 total_provider_charges += provider_charges
-                provider_earnings = provider_revenue - provider_charges
+                provider_earnings = provider_revenue - provider_charges - referrer_earnings
                 ppc = generate_tx_code(self.id, provider.config.rel_id)
                 packages_info[provider_db] = {
                     'package': Package(order=self, provider=provider, ppc=ppc, items_count=entry.count,
                                        retail_cost=retail_cost, provider_revenue=provider_revenue, entries=[entry],
-                                       provider_earnings=provider_earnings, retailer_earnings=retailer_earnings,
+                                       provider_earnings=provider_earnings, referrer_earnings=referrer_earnings,
                                        delivery_expected_on=self.delivery_expected_on,
                                        delivery_company=self.delivery_company),
                     'provider_profile': provider_profile_umbrella
@@ -189,17 +187,15 @@ class Order(Model):
         else:
             self.anonymous_buyer.save(using=delivery_man_db)
 
-        if total_retailer_earnings > config.ikwen_share_fixed:
-            total_retailer_earnings -= config.ikwen_share_fixed
-        else:
-            total_retailer_earnings = 0
-        self.retailer_earnings = total_retailer_earnings
-        order_charges = total_retailer_charges + config.ikwen_share_fixed + total_provider_charges
+        self.referrer_earnings = total_referrer_earnings
+        total_provider_charges += delivery_charges
+        if getattr(settings, 'IS_RETAILER', False):
+            total_provider_charges += config.ikwen_share_fixed
         eshop_partner = service.retailer
         eshop_partner_earnings = 0
         if eshop_partner:
             eshop_retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(partner=eshop_partner, app=service.app)
-            eshop_partner_earnings = order_charges * (100 - eshop_retail_config.ikwen_tx_share_rate) / 100
+            eshop_partner_earnings = total_provider_charges * (100 - eshop_retail_config.ikwen_tx_share_rate) / 100
 
         if service != logicom:
             logicom_partner = self.delivery_company.retailer
@@ -211,9 +207,9 @@ class Order(Model):
             self.ikwen_delivery_earnings = delivery_charges - logicom_partner_earnings
 
         self.eshop_partner_earnings = eshop_partner_earnings
-        self.ikwen_order_earnings = order_charges - eshop_partner_earnings
-        self.save()  # Causes retailer_earnings to be updated
+        self.ikwen_order_earnings = total_provider_charges - eshop_partner_earnings
         self.save(using=delivery_man_db)  # Copy to DeliveryMan DB to rebuild FK
+        self.save(using='default')  # Causes retailer_earnings to be updated
 
         for db in packages_info.keys():
             add_database_to_settings(db)
@@ -277,6 +273,7 @@ class Package(Model):
     status = models.CharField(max_length=15, default=Order.PENDING)
     provider_earnings = models.FloatField(default=0)
     retailer_earnings = models.FloatField(default=0)
+    referrer_earnings = models.FloatField(default=0)
     delivery_expected_on = models.DateTimeField(blank=True, null=True)
     delivery_company = models.ForeignKey(Service, related_name='+')
 

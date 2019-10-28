@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import logging
+import random
+import string
 from datetime import datetime, timedelta
 from threading import Thread
 
@@ -19,13 +21,16 @@ from django.shortcuts import get_object_or_404, render
 from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language, activate
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import SUDO, Member, COMMUNITY
-from ikwen.billing.models import PaymentMean, BankAccount
+from ikwen.billing.models import PaymentMean, BankAccount, MoMoTransaction
+from ikwen.billing.mtnmomo.views import MTN_MOMO
 from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
 from ikwen.core.views import HybridListView
@@ -33,6 +38,7 @@ from ikwen.flatpages.models import FlatPage
 from ikwen.rewarding.models import Reward
 from ikwen.rewarding.utils import reward_member
 from ikwen.revival.models import ProfileTag, MemberProfile
+
 from ikwen_kakocase.commarketing.models import SmartCategory, CATEGORIES, PRODUCTS, Banner, SLIDE, TILES, POPUP, \
     FULL_WIDTH_SECTION, \
     FULL_SCREEN_POPUP
@@ -48,6 +54,7 @@ from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmat
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 from ikwen_kakocase.trade.utils import generate_tx_code
 from permission_backend_nonrel.models import UserPermissionList
+from daraja.models import Dara
 
 logger = logging.getLogger('ikwen')
 
@@ -381,6 +388,11 @@ class ProductDetail(TemplateSelector, TemplateView):
                 Review.objects.get(member=member, product=product)
             except Review.DoesNotExist:
                 context['can_review'] = True
+            try:
+                Dara.objects.get(member=member)
+                context['is_dara'] = True
+            except Dara.DoesNotExist:
+                pass
         return render(request, self.get_template_names(), context)
 
 
@@ -405,6 +417,20 @@ class Cart(TemplateSelector, TemplateView):
                 if diff.total_seconds() >= 3600:
                     order.is_more_than_one_hour_old = True
                 context['order'] = order
+
+            self.request.session.modified = True
+            try:
+                del self.request.session['promo_code_id']
+            except:
+                pass
+            try:
+                del self.request.session['promo_code']
+            except:
+                pass
+            try:
+                del self.request.session['promo_rate']
+            except:
+                pass
         return context
 
 
@@ -618,20 +644,90 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
 
     order.rcc = generate_tx_code(order.id, config.rel_id)
     order.save()
-
-    request.session['amount'] = order.total_cost
-    request.session['model_name'] = 'trade.Order'
+    signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(16)])
     request.session['object_id'] = order.id
+    request.session['signature'] = signature
 
-    request.session['notif_url'] = service.url + reverse('shopping:home')  # Orange Money only
-    request.session['cancel_url'] = service.url + reverse('shopping:cancel')  # Orange Money only
-    request.session['return_url'] = service.url + reverse('shopping:cart', args=(order.id, ))
+    lang = get_language()
+    amount = order.total_cost
+    model_name = 'trade.Order'
+    mean = request.GET.get('mean', MTN_MOMO)
+    tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS)\
+        .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A', model=model_name,
+                object_id=order.id, task_id=signature, wallet=mean, username=request.user.username, is_running=True)
+    notification_url = reverse('shopping:confirm_checkout', args=(tx.id, signature, lang))
+    cancel_url = request.META.get('HTTP_REFERER', reverse('shopping:checkout'))
+    return_url = reverse('shopping:cart', args=(order.id, ))
+    if getattr(settings, 'UNIT_TESTING', False):
+        return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'https://payment.ikwen.com/v1')
+    endpoint = gateway_url + '/request_payment'
+    params = {
+        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
+        'amount': order.total_cost,
+        'merchant_name': config.company_name,
+        'notification_url': service.url + notification_url,
+        'return_url': return_url,
+        'cancel_url': cancel_url,
+        'user_id': request.user.username
+    }
+    try:
+        r = requests.get(endpoint, params)
+        resp = r.json()
+        token = resp.get('token')
+        if token:
+            next_url = gateway_url + '/checkoutnow/' + resp['token'] + '?mean=' + mean
+        else:
+            messages.error(request, resp['errors'])
+            next_url = cancel_url
+    except:
+        logger.error("%s - Init payment flow failed with URL %s." % (service.project_name, r.url), exc_info=True)
+        next_url = cancel_url
+    return HttpResponseRedirect(next_url)
 
 
 def confirm_checkout(request, *args, **kwargs):
-    order_id = request.POST.get('order_id')
-    if not order_id:
-        order_id = request.session['object_id']
+    order_id = request.POST.get('order_id', request.session.get('object_id'))
+    if order_id:
+        signature = request.session['signature']
+    else:
+        status = request.GET['status']
+        message = request.GET['message']
+        operator_tx_id = request.GET['operator_tx_id']
+        phone = request.GET['phone']
+        tx_id = kwargs['tx_id']
+        lang = kwargs['lang']
+        activate(lang)
+        try:
+            tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS).get(pk=tx_id)
+            if not getattr(settings, 'DEBUG', False):
+                tx_timeout = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_TIMEOUT', 15) * 60
+                expiry = tx.created_on + timedelta(seconds=tx_timeout)
+                if datetime.now() > expiry:
+                    return HttpResponse("Transaction %s timed out." % tx_id)
+        except:
+            raise Http404("Transaction %s not found" % tx_id)
+        if status != MoMoTransaction.SUCCESS:
+            return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
+
+        tx.status = status
+        tx.message = message
+        tx.processor_tx_id = operator_tx_id
+        tx.phone = phone
+        tx.is_running = False
+        tx.save()
+        order_id = tx.object_id
+        signature = tx.task_id
+
+    callback_signature = kwargs.get('signature')
+    no_check_signature = request.GET.get('ncs')
+    if getattr(settings, 'DEBUG', False):
+        if not no_check_signature:
+            if callback_signature != signature:
+                return HttpResponse('Invalid transaction signature')
+    else:
+        if callback_signature != signature:
+            return HttpResponse('Invalid transaction signature')
 
     order = get_object_or_404(Order, pk=order_id)
 
@@ -643,28 +739,12 @@ def confirm_checkout(request, *args, **kwargs):
 
     order.status = Order.PENDING
     order.save()
-    member = request.user
-
-    signature = kwargs.get('signature')
-    no_check_signature = request.GET.get('ncs')
-    if getattr(settings, 'DEBUG', False):
-        if not no_check_signature:
-            if signature != request.session['signature']:
-                return HttpResponse('Invalid transaction signature')
-    else:
-        if signature != request.session['signature']:
-            return HttpResponse('Invalid transaction signature')
 
     after_order_confirmation(order)
-
-    if member.is_authenticated():
-        buyer_name = member.full_name
-        buyer_email = order.delivery_address.email
-        buyer_phone = order.delivery_address.phone
-    else:
-        buyer_name = order.anonymous_buyer.name
-        buyer_email = order.anonymous_buyer.email
-        buyer_phone = order.anonymous_buyer.phone
+    member = order.member
+    buyer_name = member.full_name
+    buyer_email = order.delivery_address.email
+    buyer_phone = order.delivery_address.phone
 
     subject = _("Order successful")
     reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
@@ -675,21 +755,7 @@ def confirm_checkout(request, *args, **kwargs):
     else:
         Thread(target=send_order_confirmation_sms, args=(buyer_name, buyer_phone, order)).start()
 
-    request.session.modified = True
-    try:
-        del request.session['promo_code_id']
-    except:
-        pass
-    try:
-        del request.session['promo_code']
-    except:
-        pass
-    try:
-        del request.session['promo_rate']
-    except:
-        pass
-
-    return HttpResponseRedirect(request.session['return_url'])
+    return HttpResponse("Notification received")
 
 
 def review_product(request, product_id, *args, **kwargs):

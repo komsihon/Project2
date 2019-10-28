@@ -407,11 +407,7 @@ class OperatorProfile(AbstractConfig):
         umbrella_obj.save(using=UMBRELLA)
 
     def save(self, *args, **kwargs):
-        using = kwargs.get('using')
-        if using:
-            del(kwargs['using'])
-        else:
-            using = 'default'
+        using = kwargs.pop('using', 'default')
         if getattr(settings, 'IS_IKWEN', False):
             db = self.service.database
             add_database_to_settings(db)

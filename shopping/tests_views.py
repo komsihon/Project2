@@ -1,6 +1,5 @@
 import json
-from datetime import timedelta, time
-from time import sleep
+from datetime import timedelta
 
 from django.core.cache import cache
 from django.core.management import call_command
@@ -20,8 +19,10 @@ from ikwen.core.utils import get_service_instance, add_database_to_settings
 from ikwen_kakocase.kako.models import Product, ProductCategory
 from ikwen_kakocase.kako.tests_views import wipe_test_data
 from ikwen_kakocase.kakocase.models import OperatorProfile
-from ikwen_kakocase.shopping.models import Review, AnonymousBuyer
+from ikwen_kakocase.shopping.models import Review, Customer
 from ikwen_kakocase.trade.models import Order, Package
+
+from daraja.models import Dara
 
 
 class ShoppingViewsTestCase(unittest.TestCase):
@@ -31,37 +32,33 @@ class ShoppingViewsTestCase(unittest.TestCase):
     will be achieved manually by a custom implementation of setUp()
     """
     fixtures = ['kc_setup_data.yaml', 'kc_operators_configs.yaml', 'kc_basic_configs.yaml', 'kc_members.yaml',
-                'kc_profiles.yaml', 'categories.yaml', 'products.yaml', 'kc_promotions', 'kc_promocode']
+                'kc_profiles.yaml', 'categories.yaml', 'products.yaml', 'kc_promotions', 'kc_promocode',
+                'drj_setup_data.yaml']
 
     def setUp(self):
         self.client = Client()
-        add_database_to_settings('test_kc_tecnomobile')
-        add_database_to_settings('test_kc_sabc')
+        add_database_to_settings('test_kc_referrer')
         add_database_to_settings('test_kc_ems')
         add_database_to_settings('test_kc_partner_jumbo')
         add_database_to_settings('test_kc_afic')
         wipe_test_data()
-        wipe_test_data('test_kc_tecnomobile')
-        wipe_test_data('test_kc_sabc')
+        wipe_test_data('test_kc_referrer')
         wipe_test_data('test_kc_ems')
         wipe_test_data('test_kc_partner_jumbo')
         wipe_test_data('test_kc_afic')
         wipe_test_data(UMBRELLA)
         for fixture in self.fixtures:
             call_command('loaddata', fixture)
-            call_command('loaddata', fixture, database='test_kc_tecnomobile')
-            call_command('loaddata', fixture, database='test_kc_sabc')
+            call_command('loaddata', fixture, database='test_kc_referrer')
             call_command('loaddata', fixture, database='test_kc_ems')
             call_command('loaddata', fixture, database='test_kc_afic')
             call_command('loaddata', fixture, database=UMBRELLA)
 
     def tearDown(self):
-        add_database_to_settings('test_kc_tecnomobile')
         add_database_to_settings('test_kc_sabc')
         add_database_to_settings('test_kc_ems')
         add_database_to_settings('test_kc_afic')
         wipe_test_data()
-        wipe_test_data('test_kc_tecnomobile')
         wipe_test_data('test_kc_sabc')
         wipe_test_data('test_kc_ems')
         wipe_test_data('test_kc_partner_jumbo')
@@ -147,23 +144,31 @@ class ShoppingViewsTestCase(unittest.TestCase):
         """
         Checkout view must return HTTP 200
         """
+        self.client.login(username='member4', password='admin')
         response = self.client.get(reverse('shopping:checkout'), {'delivery_option_id': '55d1feb9b37b301e070604d3',
                                                                   'pay_with': 'paypal'})
         self.assertEqual(response.status_code, 200)
 
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103', IS_RETAILER=True,
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
                        EMAIL_FILE_PATH='test_emails/shopping/',
                        UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
-    def test_confirm_checkout_with_anonymous_user(self):
+    def test_confirm_checkout_with_buyer_having_referrer(self):
         """
-        Saves order, splits it into packages, updates counters and sets order AOTC
+        Saves order, splits it into packages, updates counters and sets order RCC.
+        Since buyer has a referrer, his earnings must be correctly set
         """
         yesterday = timezone.now() - timedelta(days=1)
-        for db in ('default', 'test_kc_tecnomobile', 'test_kc_sabc'):
+        for db in ('default', 'test_kc_referrer'):
+            for service in Service.objects.using(db).all():
+                service.counters_reset_on = yesterday
+                service.save()
             for profile in OperatorProfile.objects.using(db).all():
                 profile.counters_reset_on = yesterday
                 profile.save()
+            for dara in Dara.objects.using(db).all():
+                dara.counters_reset_on = yesterday
+                dara.save()
             for category in ProductCategory.objects.using(db).all():
                 category.counters_reset_on = yesterday
                 category.save()
@@ -171,128 +176,94 @@ class ShoppingViewsTestCase(unittest.TestCase):
                 product.counters_reset_on = yesterday
                 product.save()
 
+        referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
+        Customer.objects.filter(member='56eb6d04b37b3379b531e014').update(referrer=referrer)
+        self.client.login(username='member4', password='admin')
         response = self.client.post(reverse('shopping:paypal_set_checkout'),
-                                   {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
-                                    'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
-                                    'delivery_option_id': '55d1feb9b37b301e070604d3'})
+                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
+                                     'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
         json_resp = json.loads(response.content)
         self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
 
         order = Order.objects.all()[0]
-        self.assertIsNone(order.member)
-        self.assertIsNotNone(order.aotc)
-        buyer = AnonymousBuyer.objects.get(phone='655003321')
-        self.assertEqual(len(buyer.delivery_addresses), 1)
-        pack1 = Package.objects.using('test_kc_tecnomobile').all()[0]
-        pack2 = Package.objects.using('test_kc_sabc').all()[0]
-        self.assertEqual(Package.objects.using('test_kc_tecnomobile').all().count(), 1)
-        self.assertEqual(Package.objects.using('test_kc_sabc').all().count(), 1)
-        self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 2)
+        pack1 = Package.objects.all()[0]
+        self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 1)
         self.assertEqual(pack1.entries[0].product.id, '55d1fa8feb60008099bd4151')
-        self.assertEqual(pack2.entries[0].product.id, '55d1fa8feb60008099bd4153')
 
-        ab = AnonymousBuyer.objects
-        self.assertEqual(ab.using('default').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
-        self.assertEqual(ab.using('test_kc_tecnomobile').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
-        self.assertEqual(ab.using('test_kc_sabc').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
-        self.assertEqual(ab.using('test_kc_ems').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
-
-        # Assuming IKWEN collects 2% on revenue of provider and one of retailer
-        self.assertEqual(pack1.provider_revenue, 430000)
-        self.assertEqual(pack1.provider_earnings, 421400)
-        self.assertEqual(pack1.retailer_earnings, 49000)
-        self.assertEqual(pack2.provider_revenue, 2760)
-        self.assertEqual(pack2.provider_earnings, 2704.8)
-        self.assertEqual(pack2.retailer_earnings, 529.2)
-        self.assertEqual(order.retailer_earnings, 49529.2)
-        self.assertEqual(order.delivery_earnings, 2940)
-        self.assertEqual(order.ikwen_order_earnings, 9666)
-        self.assertEqual(order.ikwen_delivery_earnings, 60)
+        # Assuming IKWEN collects 5% on revenue of website and referrer gets 10%
+        self.assertEqual(pack1.provider_revenue, 540000)
+        self.assertEqual(pack1.provider_earnings, 459000)
+        self.assertEqual(pack1.referrer_earnings, 54000)
+        self.assertEqual(order.referrer_earnings, 54000)
+        self.assertEqual(order.delivery_earnings, 2850)
+        self.assertEqual(order.ikwen_order_earnings, 27150)
+        self.assertEqual(order.ikwen_delivery_earnings, 150)
 
         # Check counters
         cache.clear()
-        retailer_profile = get_service_instance().config
-        self.assertEqual(retailer_profile.items_traded_history, [18, 9, 57, 23, 46, 7.0])
-        self.assertEqual(retailer_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(retailer_profile.earnings_history, [4150, 1900, 36608, 3040, 9175, 49529.2])
-        self.assertEqual(retailer_profile.turnover_history, [33800, 22700, 204150, 40890, 70235, 483300.0])
+        merchant = get_service_instance()
+        merchant_profile = merchant.config
+        self.assertEqual(merchant_profile.items_traded_history, [18, 9, 57, 23, 46, 7.0])
+        self.assertEqual(merchant_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        self.assertEqual(merchant_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
+        self.assertEqual(merchant_profile.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
 
-        tecno_profile = OperatorProfile.objects.get(pk='56922874b37b33706b51f001')
-        self.assertEqual(tecno_profile.items_traded_history, [18, 9, 57, 23, 46, 1.0])
-        self.assertEqual(tecno_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(tecno_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 49000.0])
+        dara = Dara.objects.get(pk='58a9658b4fc0c25ddbeca241')
+        self.assertEqual(dara.items_traded_history, [18, 9, 57, 23, 46, 7.0])
+        self.assertEqual(dara.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        self.assertEqual(dara.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
+        self.assertEqual(dara.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
 
-        sabc_profile = OperatorProfile.objects.get(pk='56922874b37b33706b51f002')
-        self.assertEqual(sabc_profile.items_traded_history, [18, 9, 57, 23, 46, 6.0])
-        self.assertEqual(sabc_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(sabc_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 529.2])
-
-        tecno_profile_original = OperatorProfile.objects.using('test_kc_tecnomobile').get(pk='56922874b37b33706b51f001')
-        self.assertEqual(tecno_profile_original.items_traded_history, [18, 9, 57, 23, 46, 1.0])
-        self.assertEqual(tecno_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(tecno_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 421400.0])
+        dara_service_original = Service.objects.using('test_kc_referrer').get(pk='58aab5ca4fc0c21cb231e582')
+        self.assertEqual(dara_service_original.transaction_count_history, [1.0])
+        self.assertEqual(dara_service_original.earnings_history, [54000.0])
 
         tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
-        self.assertEqual(tecno_wallet.balance, 421400)
+        self.assertEqual(tecno_wallet.balance, 459000)
 
-        retailer_profile_mirror1 = retailer_profile.get_from('test_kc_tecnomobile')
-        self.assertEqual(retailer_profile_mirror1.items_traded_history, [18, 9, 57, 23, 46, 1.0])
-        self.assertEqual(retailer_profile_mirror1.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(retailer_profile_mirror1.earnings_history, [4150, 1900, 36608, 3040, 9175, 421400.0])
-
-        sabc_profile_original = OperatorProfile.objects.using('test_kc_sabc').get(pk='56922874b37b33706b51f002')
-        self.assertEqual(sabc_profile_original.items_traded_history, [18, 9, 57, 23, 46, 6.0])
-        self.assertEqual(sabc_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(sabc_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2704.8])
-
-        sabc_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='paypal')
-        self.assertEqual(sabc_wallet.balance, 2704.8)
+        merchant_mirror = Service.objects.using('test_kc_referrer').get(pk='56eb6d04b37b3379b531b101')
+        self.assertEqual(merchant_mirror.transaction_count_history, [1.0])
+        self.assertEqual(merchant_mirror.earnings_history, [54000.0])
 
         ems_profile_original = OperatorProfile.objects.using('test_kc_ems').get(pk='56922874b37b33706b51f005')
         self.assertEqual(ems_profile_original.items_traded_history, [18, 9, 57, 23, 46, 7])
         self.assertEqual(ems_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1])
-        self.assertEqual(ems_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2940])
-
-        retailer_profile_mirror2 = retailer_profile.get_from('test_kc_sabc')
-        self.assertEqual(retailer_profile_mirror2.items_traded_history, [18, 9, 57, 23, 46, 6.0])
-        self.assertEqual(retailer_profile_mirror2.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(retailer_profile_mirror2.earnings_history, [4150, 1900, 36608, 3040, 9175, 2704.8])
+        self.assertEqual(ems_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2850.0])
 
         category1 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b51')
-        self.assertListEqual(category1.items_traded_history, [18, 9, 57, 23, 46, 1])
+        self.assertListEqual(category1.items_traded_history, [18, 9, 57, 23, 46, 7])
         self.assertListEqual(category1.orders_count_history, [11, 4, 41, 15, 27, 1])
-        self.assertListEqual(category1.earnings_history, [4150, 1900, 36608, 3040, 9175, 49000])
+        self.assertListEqual(category1.earnings_history, [4150, 1900, 36608, 3040, 9175, 459000.0])
 
-        category2 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b52')
-        self.assertListEqual(category2.items_traded_history, [30, 16, 52, 78, 31, 6])
-        self.assertListEqual(category2.orders_count_history, [11, 4, 27, 41, 15, 1])
-        self.assertListEqual(category2.earnings_history, [4150, 3040, 9175, 1900, 36608, 529.2])
+        product = Product.objects.get(pk='55d1fa8feb60008099bd4151')
+        self.assertListEqual(product.units_sold_history, [30, 14, 48, 45, 1])
+        self.assertEqual(product.total_units_sold, 138)
+        self.assertEqual(product.stock, 44)
 
-        category1_mirror = ProductCategory.objects.using('test_kc_tecnomobile').get(pk='569228a9b37b3301e0706b51')
-        self.assertListEqual(category1_mirror.items_traded_history, [18, 9, 57, 23, 46, 1])
-        self.assertListEqual(category1_mirror.orders_count_history, [11, 4, 41, 15, 27, 1])
-        self.assertListEqual(category1_mirror.earnings_history, [4150, 1900, 36608, 3040, 9175, 421400])
+        product = Product.objects.get(pk='5805d1fa008099bd4151feb6')
+        self.assertListEqual(product.units_sold_history, [30, 14, 48, 84, 6])
+        self.assertEqual(product.total_units_sold, 143)
+        self.assertEqual(product.stock, 39)
 
-        category2_mirror = ProductCategory.objects.using('test_kc_sabc').get(pk='569228a9b37b3301e0706b52')
-        self.assertListEqual(category2_mirror.items_traded_history, [30, 16, 52, 78, 31, 6])
-        self.assertListEqual(category2_mirror.orders_count_history, [11, 4, 27, 41, 15, 1])
-        self.assertListEqual(category2_mirror.earnings_history, [4150, 3040, 9175, 1900, 36608, 2704.8])
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=False,
+                       IS_PROVIDER=True, IS_DELIVERY_MAN=False,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_register_with_visitor_coming_from_dara_referral_link(self):
+        dara_share_link = reverse('shopping:product_detail', args=('food', 'coca-cola')) + '?referrer=56eb6d04b37b3379b531eda1'
+        self.client.get(dara_share_link)
+        origin = reverse('ikwen:register')
+        self.client.post(origin, {'username': 'Test.User1@domain.com', 'password': 'secret', 'password2': 'secret',
+                                  'phone': '655000001', 'first_name': 'Sah', 'last_name': 'Fogaing'}, follow=True)
+        m = Member.objects.get(username='test.user1@domain.com')
+        dara_service = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
+        self.assertEqual(m.customer.referrer, dara_service)
 
-        product1_original = Product.objects.using('test_kc_tecnomobile').get(pk='55d1fa8feb60008099bd4151')
-        self.assertEqual(product1_original.stock, 44)
-
-        product1 = Product.objects.get(pk='55d1fa8feb60008099bd4151')
-        self.assertListEqual(product1.units_sold_history, [30, 14, 48, 45, 1])
-        self.assertEqual(product1.total_units_sold, 138)
-        self.assertEqual(product1.stock, 44)
-
-        product2 = Product.objects.get(pk='55d1fa8feb60008099bd4153')
-        self.assertListEqual(product2.units_sold_history, [74, 51, 35, 89, 6])
-        self.assertEqual(product2.total_units_sold, 255)
-
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103', IS_RETAILER=True,
-                       IS_PROVIDER=False, IS_DELIVERY_MAN=False,
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=False,
+                       IS_PROVIDER=True, IS_DELIVERY_MAN=False,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
                        EMAIL_FILE_PATH='test_emails/shopping/',
                        UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
@@ -317,82 +288,76 @@ class ShoppingViewsTestCase(unittest.TestCase):
         logicom_service.save()
 
         yesterday = timezone.now() - timedelta(days=1)
-        for db in ('default', UMBRELLA, 'test_kc_tecnomobile', 'test_kc_sabc'):
+        for db in ('default', UMBRELLA):
             for profile in OperatorProfile.objects.using(db).all():
                 profile.counters_reset_on = yesterday
                 profile.ikwen_share_fixed = 100   # ikwen collects 100F per transaction
                 profile.save(using=db)
 
         cache.clear()
+        self.client.login(username='member4', password='admin')
         response = self.client.post(reverse('shopping:paypal_set_checkout'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
+                                    'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
         json_resp = json.loads(response.content)
         self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
 
         order = Order.objects.all()[0]
-        pack1 = Package.objects.using('test_kc_tecnomobile').all()[0]
-        pack2 = Package.objects.using('test_kc_sabc').all()[0]
+        pack1 = Package.objects.all()[0]
 
-        # Assuming IKWEN collects 2% on revenue of provider and one of retailer
-        self.assertEqual(pack1.provider_revenue, 430000)
-        self.assertEqual(pack1.provider_earnings, 421300)
-        self.assertEqual(pack1.retailer_earnings, 49000)
-        self.assertEqual(pack2.provider_revenue, 2760)
-        self.assertEqual(pack2.provider_earnings, 2604.8)
-        self.assertEqual(pack2.retailer_earnings, 529.2)
-        self.assertEqual(order.retailer_earnings, 49429.2)
-        self.assertEqual(order.delivery_earnings, 2840)
-        self.assertEqual(round(order.ikwen_order_earnings, 1), 3986.4)
-        self.assertEqual(order.ikwen_delivery_earnings, 64)
-        self.assertEqual(order.eshop_partner_earnings, 5979.6)
-        self.assertEqual(order.logicom_partner_earnings, 96)
+        # Assuming IKWEN collects 5% on revenue of provider and one of retailer
+        self.assertEqual(pack1.provider_revenue, 540000)
+        self.assertEqual(pack1.provider_earnings, 512900)
+        self.assertEqual(order.delivery_earnings, 2750)
+        self.assertEqual(round(order.ikwen_order_earnings, 1), 10940)
+        self.assertEqual(order.ikwen_delivery_earnings, 100)
+        self.assertEqual(order.eshop_partner_earnings, 16410)
+        self.assertEqual(order.logicom_partner_earnings, 150)
 
         # Check counters for ikwen and partner
         cache.clear()
         service_umbrella = get_service_instance(UMBRELLA)
-        self.assertEqual(service_umbrella.turnover_history, [483300])
-        self.assertEqual(round(service_umbrella.earnings_history[0], 1), 3986.4)
+        self.assertEqual(service_umbrella.turnover_history, [540000])
+        self.assertEqual(round(service_umbrella.earnings_history[0], 1), 10940)
         self.assertEqual(service_umbrella.transaction_count_history, [1])
-        self.assertEqual(round(service_umbrella.transaction_earnings_history[0], 1), 3986.4)
+        self.assertEqual(round(service_umbrella.transaction_earnings_history[0], 1), 10940)
 
         app_umbrella = service_umbrella.app
-        self.assertEqual(app_umbrella.turnover_history, [483300])
-        self.assertEqual(round(app_umbrella.earnings_history[0], 1), 3986.4)
+        self.assertEqual(app_umbrella.turnover_history, [540000])
+        self.assertEqual(round(app_umbrella.earnings_history[0], 1), 10940)
         self.assertEqual(app_umbrella.transaction_count_history, [1])
-        self.assertEqual(round(app_umbrella.transaction_earnings_history[0], 1), 3986.4)
+        self.assertEqual(round(app_umbrella.transaction_earnings_history[0], 1), 10940)
 
         logicom_service_umbrella = Service.objects.using(UMBRELLA).get(pk='56eb6d04b37b3379b531b105')
         self.assertEqual(logicom_service_umbrella.turnover_history, [3000])
-        self.assertEqual(logicom_service_umbrella.earnings_history, [64])
+        self.assertEqual(logicom_service_umbrella.earnings_history, [100])
         self.assertEqual(logicom_service_umbrella.transaction_count_history, [1])
-        self.assertEqual(logicom_service_umbrella.transaction_earnings_history, [64])
+        self.assertEqual(logicom_service_umbrella.transaction_earnings_history, [100])
 
         logicom_app_umbrella = logicom_service_umbrella.app
         self.assertEqual(logicom_app_umbrella.turnover_history, [3000])
-        self.assertEqual(logicom_app_umbrella.earnings_history, [64])
+        self.assertEqual(logicom_app_umbrella.earnings_history, [100])
         self.assertEqual(logicom_app_umbrella.transaction_count_history, [1])
-        self.assertEqual(logicom_app_umbrella.transaction_earnings_history, [64])
+        self.assertEqual(logicom_app_umbrella.transaction_earnings_history, [100])
 
         service_mirror_partner = Service.objects.using('test_kc_partner_jumbo').get(pk=service_umbrella.id)
-        self.assertEqual(service_mirror_partner.turnover_history, [483300])
-        self.assertEqual(service_mirror_partner.earnings_history, [5979.6])
+        self.assertEqual(service_mirror_partner.turnover_history, [540000])
+        self.assertEqual(service_mirror_partner.earnings_history, [16410])
         self.assertEqual(service_mirror_partner.transaction_count_history, [1])
-        self.assertEqual(service_mirror_partner.transaction_earnings_history, [5979.6])
+        self.assertEqual(service_mirror_partner.transaction_earnings_history, [16410])
 
         app_mirror_partner = service_mirror_partner.app
-        self.assertEqual(app_mirror_partner.turnover_history, [483300])
-        self.assertEqual(app_mirror_partner.earnings_history, [5979.6])
+        self.assertEqual(app_mirror_partner.turnover_history, [540000])
+        self.assertEqual(app_mirror_partner.earnings_history, [16410])
         self.assertEqual(app_mirror_partner.transaction_count_history, [1])
-        self.assertEqual(app_mirror_partner.transaction_earnings_history, [5979.6])
+        self.assertEqual(app_mirror_partner.transaction_earnings_history, [16410])
 
         partner_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b9b531b10537b331')
         partner_profile_original = PartnerProfile.objects.using('test_kc_partner_jumbo').get(pk='56922a3bb37b33da18d02fb1')
         partner_profile_umbrella = PartnerProfile.objects.using(UMBRELLA).get(pk='56922a3bb37b33da18d02fb1')
-        self.assertEqual(partner_wallet.balance, 6075.6)
-
+        self.assertEqual(partner_wallet.balance, 16560)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -406,7 +371,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.post(reverse('shopping:paypal_set_checkout'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
+                                    'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
         json_resp = json.loads(response.content)
@@ -415,7 +380,6 @@ class ShoppingViewsTestCase(unittest.TestCase):
         order = Order.objects.all()[0]
         self.assertIsNone(order.aotc)
         self.assertIsNotNone(order.member)
-
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_PROVIDER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -437,7 +401,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
 
         order = Order.objects.all()[0]
-        pack = Package.objects.using('test_kc_tecnomobile').all()[0]
+        pack = Package.objects.all()[0]
 
         self.assertEqual(pack.provider_earnings, 479700)
         self.assertEqual(order.delivery_earnings, 3000)
@@ -445,7 +409,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
 
         # Check counters for ikwen and partner
         cache.clear()
-        profile = get_service_instance('test_kc_tecnomobile').config
+        profile = get_service_instance().config
         self.assertEqual(profile.turnover_history[-1], 483000)
         self.assertEqual(profile.earnings_history[-1], 482700)
         self.assertEqual(profile.orders_count_history[-1], 1)
@@ -465,7 +429,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.client.login(username='member4', password='admin')
         response = self.client.post(reverse('shopping:paypal_set_checkout'),
                                    {'phone': '', 'email': '', 'country_iso2': '', 'city': '', 'address': '',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
+                                    'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                     'previous_address_index': '0', 'delivery_option_id': '55d1feb9b37b301e070604d3'})
         json_resp = json.loads(response.content)
         response = self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
@@ -476,30 +440,30 @@ class ShoppingViewsTestCase(unittest.TestCase):
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
-                       EMAIL_FILE_PATH='test_emails/shopping/', DEBUG=True, UNIT_TESTING=True)
+                       EMAIL_FILE_PATH='test_emails/shopping/', UNIT_TESTING=True)
     def test_confirm_checkout_with_momo_payment(self):
         """
         Checking out with Mobile Money should work well too
         """
+        member = Member.objects.get(username='member4')
         self.client.login(username='member4', password='admin')
         response = self.client.post(reverse('billing:momo_set_checkout'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
+                                    'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
-        response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
         json_resp = json.loads(response.content)
-        tx_id = json_resp['tx_id']
-        sleep(1)  # Wait for the transaction to complete before querying status
-        response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
-        json_resp = json.loads(response.content)
-        order = Order.objects.all()[0]
-        self.assertTrue(json_resp['success'])
+        notification_url = json_resp['notification_url']
+        response = self.client.get(notification_url, data={'status': 'Success', 'phone': '655003321',
+                                                           'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
+        self.assertEqual(response.status_code, 200)
+        order = Order.objects.filter(member=member)[0]
+        self.assertEqual(order.status, Order.PENDING)
 
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b102', IS_PROVIDER=True,
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_PROVIDER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
-                       EMAIL_FILE_PATH='test_emails/shopping/', DEBUG=True, UNIT_TESTING=True)
+                       EMAIL_FILE_PATH='test_emails/shopping/', UNIT_TESTING=True)
     def test_confirm_checkout_with_paid_packaging(self):
         """
         Packaging cost must be included in order cost if Product has packaging cost
@@ -512,23 +476,21 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                     'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': 'yes',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
-        response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
         json_resp = json.loads(response.content)
-        tx_id = json_resp['tx_id']
-        sleep(1)  # Wait for the transaction to complete before querying status
-        response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
-        json_resp = json.loads(response.content)
+        notification_url = json_resp['notification_url']
+        response = self.client.get(notification_url, data={'status': 'Success', 'phone': '677003321',
+                                                           'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
+        self.assertEqual(response.status_code, 200)
         order = Order.objects.all()[0]
         self.assertEqual(order.packing_cost, 1000)
         self.assertEqual(order.total_cost, 14000)
 
-        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')
-        self.assertEqual(service_wallet.balance, 10780)
-        self.assertTrue(json_resp['success'])
+        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
+        self.assertEqual(service_wallet.balance, 10450)
 
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b102', IS_PROVIDER=True,
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_PROVIDER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
-                       EMAIL_FILE_PATH='test_emails/shopping/', DEBUG=True, UNIT_TESTING=True)
+                       EMAIL_FILE_PATH='test_emails/shopping/', UNIT_TESTING=True)
     def test_confirm_checkout_with_unpaid_packaging(self):
         """
         Packaging cost must be ignored if Product has packaging cost
@@ -541,19 +503,17 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                     'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': '',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')})
-        response = self.client.get(reverse('billing:init_momo_transaction'), data={'phone': '677003321'})
         json_resp = json.loads(response.content)
-        tx_id = json_resp['tx_id']
-        sleep(1)  # Wait for the transaction to complete before querying status
-        response = self.client.get(reverse('billing:check_momo_transaction_status'), data={'tx_id': tx_id})
-        json_resp = json.loads(response.content)
+        notification_url = json_resp['notification_url']
+        response = self.client.get(notification_url, data={'status': 'Success', 'phone': '655003321',
+                                                           'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
+        self.assertEqual(response.status_code, 200)
         order = Order.objects.all()[0]
         self.assertEqual(order.packing_cost, 0)
         self.assertEqual(order.total_cost, 13000)
 
-        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='mtn-momo')
-        self.assertEqual(service_wallet.balance, 9800)
-        self.assertTrue(json_resp['success'])
+        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
+        self.assertEqual(service_wallet.balance, 9500)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -570,11 +530,11 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.post(reverse('shopping:choose_deal'),
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
-                                    'entries': '55d1fa8feb60008099bd4151:1,55d1fa8feb60008099bd4153:6',
+                                    'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')}, follow=True)
         self.assertTrue(response.status_code, 200)
-        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id, 'account_number': '000111'})
+        self.client.post(reverse('shopping:confirm_checkout') + '?ncs=yes', data={'bank_id': bank_id, 'account_number': '000111'})
 
         order = Order.objects.filter(status=Order.PENDING_FOR_APPROVAL)[0]  # Order was saved as PendingForApproval
         self.assertEqual(order.deal.bank, bank)
@@ -588,7 +548,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         """
         CasFlex payment submits order for approval by the target bank.
         Terms payment indicates that user choose a deal offered by the bank.
-        Terms payment is avaible for one single item at a time in an order
+        Terms payment is available for one single item at a time in an order
         """
         # call_command('loaddata', 'kc_setup_data.yaml', database='test_kc_afic')
         call_command('loaddata', 'kc_deals.yaml', database='test_kc_afic')
@@ -603,8 +563,8 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
                                     'success_url': reverse('shopping:checkout')}, follow=True)
         self.assertTrue(response.status_code, 200)
-        self.client.post(reverse('shopping:confirm_checkout'), data={'bank_id': bank_id, 'deal_id': deal_id,
-                                                                     'account_number': '000111'})
+        self.client.post(reverse('shopping:confirm_checkout') + '?ncs=yes', data={'bank_id': bank_id, 'deal_id': deal_id,
+                                                                                  'account_number': '000111'})
 
         order = Order.objects.filter(status=Order.PENDING_FOR_APPROVAL)[0]  # Order was saved as PendingForApproval
         self.assertEqual(order.deal.id, deal_id)

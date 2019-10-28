@@ -31,6 +31,8 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, ORDE
 from ikwen_kakocase.trade.models import Package, Order
 from ikwen_kakocase.trade.views import KakocaseDashboardBase
 
+from daraja.models import DarajaConfig, Dara
+
 logger = logging.getLogger('ikwen')
 
 
@@ -333,6 +335,19 @@ class ProviderDashboard(KakocaseDashboardBase):
             'last_28_days': rank_watch_objects(customers_last_28_days, 'turnover_history', 28)
         }
         context['customers_report'] = customers_report
+        try:
+            service = get_service_instance()
+            DarajaConfig.objects.using(UMBRELLA).get(service=service, referrer_share__gt=0)
+            daras_list = slice_watch_objects(Dara, 28, time_field='last_transaction_on')
+            daras_report = {
+                'today': rank_watch_objects(daras_list, 'turnover_history'),
+                'yesterday': rank_watch_objects(daras_list, 'turnover_history', 1),
+                'last_week': rank_watch_objects(daras_list, 'turnover_history', 7),
+                'last_28_days': rank_watch_objects(daras_list, 'turnover_history', 28)
+            }
+            context['daras_report'] = daras_report
+        except:
+            pass
         return context
 
 

@@ -1,38 +1,53 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from threading import Thread
 
-from django.db.models import Q
 from django.utils.translation import gettext as _
 
-from ikwen.core.models import Application, ConsoleEventType
+from ikwen.core.utils import *
+from ikwen.core.models import Application, Service, ConsoleEventType
 
+from ikwen_kakocase.shopping.models import Customer
 from ikwen_kakocase.trade.models import Order
+from daraja.models import DARAJA, REFEREE_JOINED_EVENT
 
 
-def get_cash_out_requested_message(member):
+def set_customer_dara(service, referrer, member):
     """
-    Returns a tuple (mail subject, mail body, sms text) to send to
-    member upon generation of an invoice
-    @param invoice: Invoice object
+    Binds referrer to member referred.
+    :param service: Referred Service
+    :param referrer: Member who referred (The Dara)
+    :param member: Referred Member
+    :return:
     """
-    subject = _("Cash-out requested by %s" % member.full_name)
-    message = _("Dear %(member_name)s,<br><br>"
-                "This is a notice that an invoice has been generated on %(date_issued)s.<br><br>"
-                "<strong style='font-size: 1.2em'>Invoice #%(invoice_number)s</strong><br>"
-                "Amount: %(amount).2f %(currency)s<br>"
-                "Due Date:  %(due_date)s<br><br>"
-                "<strong>Invoice items:</strong><br>"
-                "<span style='color: #111'>%(invoice_description)s</span><br><br>"
-                "Thank you for your business with "
-                "%(company_name)s." % {'member_name': member.first_name,
-                                       'company_name': config.company_name,
-                                       'invoice_number': invoice.number,
-                                       'amount': invoice.amount,
-                                       'currency': invoicing_config.currency,
-                                       'date_issued': invoice.date_issued.strftime('%B %d, %Y'),
-                                       'due_date': invoice.due_date.strftime('%B %d, %Y'),
-                                       'invoice_description': invoice.subscription.details})
-    return subject, message
+    try:
+        db = service.database
+        add_database(db)
+        app = Application.objects.using(db).get(slug=DARAJA)
+        dara_service = Service.objects.using(db).get(app=app, member=referrer)
+        customer, change = Customer.objects.using(db).get_or_create(member=member)
+        customer.referrer = dara_service
+        customer.save()
+
+        dara_db = dara_service.database
+        add_database(dara_db)
+        member.save(using=dara_db)
+        customer.save(using=dara_db)
+        service_mirror = Service.objects.using(dara_db).get(pk=service.id)
+        set_counters(service_mirror)
+        increment_history_field(service_mirror, 'community_history')
+
+        add_event(service, REFEREE_JOINED_EVENT, member)
+
+        sender = "%s via ikwen <no-reply@ikwen.com>" % member.full_name
+        subject = _("I just joined %s !" % service.project_name)
+        html_content = get_mail_content(subject, template_name='daraja/mails/referee_joined.html',
+                                        extra_context={'referred_service_name': service.project_name, 'referee': member,
+                                                       'referred_service_url': service.url})
+        msg = XEmailMessage(subject, html_content, sender, [referrer.email])
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg, )).start()
+    except:
+        logger.error("%s - Error while setting Customer Dara", exc_info=True)
 
 
 def create_console_event_types():
@@ -66,6 +81,7 @@ class LastOrderFilter(object):
             ('__period__yesterday', _("Yesterday")),
             ('__period__last_7_days', _("Last 7 days")),
             ('__period__last_30_days', _("Last 30 days")),
+            ('__period__never', _("Never since 60 days")),
         ]
         return choices
 
@@ -77,6 +93,13 @@ class LastOrderFilter(object):
         now = datetime.now()
         start_date, end_date = None, now
         value = value.replace('__period__', '')
+        if value == 'never':
+            start_date = now - timedelta(days=60)
+            order_qs = Order.objects.select_related('member')\
+                .filter(status__in=[Order.PENDING, Order.SHIPPED, Order.DELIVERED],
+                        created_on__range=(start_date, end_date))
+            member_id_list = [order.member.id for order in order_qs]
+            return queryset.exclude(user_id__in=member_id_list)
         if value == 'today':
             start_date = datetime(now.year, now.month, now.day, 0, 0, 0)
         elif value == 'yesterday':

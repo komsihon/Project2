@@ -2,6 +2,10 @@
   fields:
     name: Sudo
 
+- model: auth.group
+  fields:
+    name: Community
+
 - model: core.country
   pk: 56ec6d04b37b3379b7446c01
   fields:
@@ -53,7 +57,7 @@
     project_name_slug: tecnomobile
     domain: tecnomobile.ikwen.com
     url: http://tecnomobile.ikwen.com
-    database: test_kc_tecnomobile
+    database: test_kakocase_001_tpl
     api_signature: api-signature1
     monthly_cost: 6000
     version: Full

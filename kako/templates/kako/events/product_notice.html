@@ -1,4 +1,4 @@
-{% load currency i18n humanize %}
+{% load currency i18n humanize url_utils %}
 {% with event_type=event.event_type %}
     <h4 class="text-primary col-xs-12">{{ product.name }}</h4>
     {% if product.image.name %}
@@ -28,7 +28,8 @@
             <strong class="pull-right">{{ CURRENCY.symbol }} {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
         </p>
         <div class="col-xs-8 col-xs-offset-2 col-sm-offset-3 col-sm-6" style="margin-top: 15px">
-            <a href="{{ event.service.url }}{% url 'shopping:product_detail' product.category.slug product.slug %}"
+            {% url 'shopping:product_detail' product.category.slug product.slug as product_uri %}
+            <a href="{{ event.service.url }}{{ product_uri|strip_base_alias }}"
                target="_blank" class="btn btn-warning btn-sm btn-block">{% trans "Buy now" %}</a>
         </div>
     {% endif %}

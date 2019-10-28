@@ -20,6 +20,25 @@
 #    min_quantity: 10
 
 - model: kako.product
+  pk: 5805d1fa008099bd4151feb6
+  fields:
+    provider: 56eb6d04b37b3379b531b101
+    category: 569228a9b37b3301e0706b51
+    name: iPhone Luxury Case
+    slug: iphone-luxury-case
+    tags: iphone case
+    photos:
+      - id: 56eb6d04b3779b33b531e091
+        image: kako/photos/samsung-galaxy-s7.jpg
+    wholesale_price: 8000
+    retail_price: 10000
+    max_price: 12000
+    retail_price_is_modifiable: Yes
+    total_units_sold: 137
+    units_sold_history: [30, 14, 48, 84]
+    stock: 45
+
+- model: kako.product
   pk: 55d1fa8feb60008099bd4152
   fields:
     provider: 56eb6d04b37b3379b531b102
@@ -63,7 +82,7 @@
 - model: kako.product
   pk: 55d1fa8feb60008099bd4154
   fields:
-    provider: 56eb6d04b37b3379b531b102
+    provider: 56eb6d04b37b3379b531b101
     category: 569228a9b37b3301e0706b52
     name: Breaded fish
     slug: breaded-fish

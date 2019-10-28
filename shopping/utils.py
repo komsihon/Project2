@@ -8,23 +8,25 @@ from currencies.context_processors import currencies
 from currencies.models import Currency
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from ikwen.conf.settings import WALLETS_DB_ALIAS
-from ikwen.accesscontrol.models import SUDO
+from ikwen.accesscontrol.models import SUDO, Member
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Country, Service
 from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event, send_sms, XEmailMessage
+    add_database, add_event, send_sms, XEmailMessage, set_counters_many
 
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
 from ikwen_kakocase.sales.models import PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
-from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOLD_OUT_EVENT, NEW_ORDER_EVENT
+from ikwen_kakocase.kakocase.models import OperatorProfile, SOLD_OUT_EVENT, NEW_ORDER_EVENT
+from ikwen_kakocase.kakocase.utils import set_customer_dara
 
 from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
@@ -87,7 +89,7 @@ def parse_order_info(request):
             if not previous_address_index:
                 for obj in customer.delivery_addresses:
                     if obj.country == country and obj.city == city and \
-                       obj.details == details and obj.phone == phone and obj.email == email:
+                            obj.details == details and obj.phone == phone and obj.email == email:
                         break
                 else:
                     customer.delivery_addresses.append(address)
@@ -110,7 +112,7 @@ def parse_order_info(request):
             try:
                 last_address = anonymous_buyer.delivery_addresses[-1]
                 if last_address.country != country or last_address.city != city or \
-                   last_address.details != details or last_address.phone != phone or last_address.email != email:
+                        last_address.details != details or last_address.phone != phone or last_address.email != email:
                     anonymous_buyer.delivery_addresses.append(address)
             except IndexError:
                 anonymous_buyer.delivery_addresses.append(address)
@@ -144,7 +146,7 @@ def parse_order_info(request):
             product.retail_price = product.retail_price * (100 - rate) / 100
             # product.packing_price = product.packing_price * (100 - rate) / 100
 
-        order_entry = OrderEntry(product=product,  count=count)
+        order_entry = OrderEntry(product=product, count=count)
         order.entries.append(order_entry)
         order.items_count += count
         order.items_cost += product.retail_price * count
@@ -159,7 +161,8 @@ def parse_order_info(request):
     return order
 
 
-def send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, message=None, reward_pack_list=None):
+def send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, message=None,
+                                  reward_pack_list=None):
     service = get_service_instance()
     coupon_count = 0
     if reward_pack_list:
@@ -196,7 +199,44 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
         if not getattr(settings, 'UNIT_TESTING', False):
             balance.mail_count -= len(msg.bcc) + 1
         balance.save()
-        Thread(target=lambda m: m.send(), args=(msg, )).start()
+        Thread(target=lambda m: m.send(), args=(msg,)).start()
+
+
+def send_dara_notification_email(dara_service, order):
+    service = get_service_instance()
+    config = service.config
+    template_name = 'daraja/mails/new_transaction.html'
+
+    with transaction.atomic(using=WALLETS_DB_ALIAS):
+        balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
+        if 0 < balance.mail_count < LOW_MAIL_LIMIT:
+            try:
+                notify_for_low_messaging_credit(service, balance)
+            except:
+                logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
+        if balance.mail_count == 0 and not getattr(settings, 'UNIT_TESTING', False):
+            try:
+                notify_for_empty_messaging_credit(service, balance)
+            except:
+                logger.error("Failed to notify %s for empty messaging credit." % service, exc_info=True)
+            return
+        subject = _("New transaction on %s" % config.company_name)
+        try:
+            dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard').replace('daraja/', '')
+            html_content = get_mail_content(subject, template_name=template_name,
+                                            extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
+                                                           'dara_earnings': order.referrer_earnings,
+                                                           'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
+                                                           'account_balance': dara_service.balance,
+                                                           'dashboard_url': dashboard_url})
+            sender = 'ikwen Daraja <no-reply@ikwen.com>'
+            msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
+            if not getattr(settings, 'UNIT_TESTING', False):
+                balance.mail_count -= 1
+            balance.save()
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            logger.error("Failed to notify %s Dara after follower purchase." % service, exc_info=True)
 
 
 def send_order_confirmation_sms(buyer_name, buyer_phone, order):
@@ -360,7 +400,8 @@ def set_ikwen_earnings_and_stats(order):
         increment_history_field(delcom_partner_app_umbrella, 'turnover_history', order.delivery_option.cost)
         increment_history_field(delcom_partner_app_umbrella, 'earnings_history', order.ikwen_delivery_earnings)
         increment_history_field(delcom_partner_app_umbrella, 'transaction_count_history')
-        increment_history_field(delcom_partner_app_umbrella, 'transaction_earnings_history', order.ikwen_delivery_earnings)
+        increment_history_field(delcom_partner_app_umbrella, 'transaction_earnings_history',
+                                order.ikwen_delivery_earnings)
 
 
 def set_logicom_earnings_and_stats(order):
@@ -369,7 +410,7 @@ def set_logicom_earnings_and_stats(order):
     delcom_profile_original = delcom_original.config
     provider = order.get_providers()[0]
     provider_profile_mirror = Service.objects.using(delcom.database).get(pk=provider.id).config
-    
+
     set_counters(delcom_profile_original)
     increment_history_field(delcom_profile_original, 'items_traded_history', order.items_count)
     increment_history_field(delcom_profile_original, 'turnover_history', order.delivery_option.cost)
@@ -389,69 +430,48 @@ def set_logicom_earnings_and_stats(order):
 def after_order_confirmation(order, update_stock=True):
     member = order.member
     service = get_service_instance()
-    retailer_profile = service.config
-    retailer_profile_umbrella = get_service_instance(UMBRELLA).config
+    config = service.config
     delcom = order.delivery_option.company
     delcom_db = delcom.database
     add_database(delcom_db)
     delcom_profile_original = OperatorProfile.objects.using(delcom_db).get(pk=delcom.config.id)
+    dara, dara_service_original, provider_mirror = None, None, None
     sudo_group = Group.objects.get(name=SUDO)
+    customer = member.customer
+    referrer = customer.referrer
+    referrer_share_rate = 0
+    if referrer:
+        from daraja.models import Dara
+        referrer_db = referrer.database
+        add_database(referrer_db)
+        try:
+            dara_service_original = Service.objects.using(referrer_db).get(pk=referrer.id)
+        except Dara.DoesNotExist:
+            logging.error("Dara service not found in %s database for %s" % (referrer_db, referrer.project_name))
+            return
+        dara = Dara.objects.get(member=referrer.member)
+        try:
+            provider_mirror = Service.objects.using(referrer_db).get(pk=service.id)
+        except OperatorProfile.DoesNotExist:
+            logging.error("Provider Service not found in %s database for %s" % (referrer_db, referrer.project_name))
 
-    packages_info = order.split_into_packages()
+    packages_info = order.split_into_packages(dara)
     set_ikwen_earnings_and_stats(order)
 
     if delcom != service:
         set_logicom_earnings_and_stats(order)
 
-    if getattr(settings, 'IS_RETAILER', False):
-        set_counters(retailer_profile)
-        increment_history_field(retailer_profile, 'items_traded_history', order.items_count)
-        increment_history_field(retailer_profile, 'orders_count_history')
-        increment_history_field(retailer_profile, 'turnover_history', order.items_cost)
-        increment_history_field(retailer_profile, 'earnings_history', order.retailer_earnings)
-        retailer_profile.report_counters_to_umbrella()
-
-    if member:
-        customer = member.customer
-        set_counters(customer)
-        customer.last_payment_on = datetime.now()
-        increment_history_field(customer, 'orders_count_history')
-        increment_history_field(customer, 'items_purchased_history', order.items_count)
-        increment_history_field(customer, 'turnover_history', order.items_cost)
-        increment_history_field(customer, 'earnings_history', order.retailer_earnings)
-
     for provider_db in packages_info.keys():
         package = packages_info[provider_db]['package']
         provider_earnings = package.provider_earnings
-        provider_revenue = package.provider_revenue
+        raw_provider_revenue = package.provider_revenue
+        provider_revenue = raw_provider_revenue
         if package.provider == delcom:
             provider_earnings += order.delivery_earnings
             provider_revenue += order.delivery_earnings
         provider_profile_umbrella = packages_info[provider_db]['provider_profile']
         provider_profile_original = provider_profile_umbrella.get_from(provider_db)
         provider_original = provider_profile_original.service
-        provider_profile = provider_profile_umbrella.get_from('default')
-        retailer_profile_mirror = OperatorProfile.objects.using(provider_db).get(pk=retailer_profile.id)
-
-        if getattr(settings, 'IS_RETAILER', False):
-            set_counters(provider_profile)
-            increment_history_field(provider_profile, 'orders_count_history')
-            increment_history_field(provider_profile, 'earnings_history', package.retailer_earnings)
-            increment_history_field(provider_profile, 'items_traded_history', package.items_count)
-            increment_history_field(provider_profile, 'turnover_history', package.retail_cost)
-
-            set_counters(retailer_profile_mirror)
-            increment_history_field(retailer_profile_mirror, 'orders_count_history')
-            increment_history_field(retailer_profile_mirror, 'earnings_history', provider_earnings)
-            increment_history_field(retailer_profile_mirror, 'items_traded_history', package.items_count)
-            increment_history_field(retailer_profile_mirror, 'turnover_history', provider_revenue)
-
-        set_counters(provider_profile_original)
-        increment_history_field(provider_profile_original, 'orders_count_history')
-        increment_history_field(provider_profile_original, 'earnings_history', provider_earnings)
-        increment_history_field(provider_profile_original, 'items_traded_history', package.items_count)
-        increment_history_field(provider_profile_original, 'turnover_history', provider_revenue)
-        provider_profile_original.report_counters_to_umbrella()
 
         if delcom == service:
             provider_original.raise_balance(provider_earnings, provider=order.payment_mean.slug)
@@ -468,55 +488,94 @@ def after_order_confirmation(order, update_stock=True):
             Thread(target=lambda url, data: requests.post(url, data=data),
                    args=(provider_profile_original.return_url, nvp_dict)).start()
 
-    delivery_fees_accounted = False
+    set_counters(config)
+    increment_history_field(config, 'orders_count_history')
+    increment_history_field(config, 'items_traded_history', order.items_count)
+    increment_history_field(config, 'turnover_history', provider_revenue)
+    increment_history_field(config, 'earnings_history', provider_earnings)
+
+    set_counters(customer)
+    customer.last_payment_on = datetime.now()
+    increment_history_field(customer, 'orders_count_history')
+    increment_history_field(customer, 'items_purchased_history', order.items_count)
+    increment_history_field(customer, 'turnover_history', provider_revenue)
+    increment_history_field(customer, 'earnings_history', provider_earnings)
+
+    if dara:
+        referrer_share_rate = dara.share_rate
+        dara_service_original.raise_balance(order.referrer_earnings, provider=order.payment_mean.slug)
+        send_dara_notification_email(dara_service_original, order)
+
+        set_counters_many(dara, dara_service_original, provider_mirror)
+        dara.last_transaction_on = datetime.now()
+
+        increment_history_field(dara, 'orders_count_history')
+        increment_history_field(dara, 'items_traded_history', order.items_count)
+        increment_history_field(dara, 'turnover_history', provider_revenue)
+        increment_history_field(dara, 'earnings_history', provider_earnings)
+
+        increment_history_field(dara_service_original, 'transaction_count_history')
+        increment_history_field(dara_service_original, 'turnover_history', raw_provider_revenue)
+        increment_history_field(dara_service_original, 'earnings_history', order.referrer_earnings)
+
+        increment_history_field(provider_mirror, 'transaction_count_history')
+        increment_history_field(provider_mirror, 'turnover_history', raw_provider_revenue)
+        increment_history_field(provider_mirror, 'earnings_history', order.referrer_earnings)
+
+        try:
+            member_ref = Member.objects.using(referrer_db).get(pk=member.id)
+        except Member.DoesNotExist:
+            member.save(using=referrer_db)
+            member_ref = Member.objects.using(referrer_db).get(pk=member.id)
+            member.customer.save(using=referrer_db)
+        customer_ref = member_ref.customer
+        set_counters(customer_ref)
+        customer_ref.last_payment_on = datetime.now()
+        increment_history_field(customer_ref, 'orders_count_history')
+        increment_history_field(customer_ref, 'items_purchased_history', order.items_count)
+        increment_history_field(customer_ref, 'turnover_history', raw_provider_revenue)
+        increment_history_field(customer_ref, 'earnings_history', order.retailer_earnings)
+
+    category_list = []
     for entry in order.entries:
-        product = entry.product
+        product = Product.objects.get(pk=entry.product.id)
         provider_service = product.provider
-        provider_db = provider_service.database
         provider_profile_umbrella = OperatorProfile.objects.using(UMBRELLA).get(service=provider_service)
-        product_original = Product.objects.using(provider_db).get(pk=product.id)
         category = product.category
-        category_original = ProductCategory.objects.using(provider_db).get(pk=category.id)
 
         turnover = entry.count * product.retail_price
         set_counters(category)
-        if service == provider_service:
-            provider_turnover = turnover
-            provider_earnings = provider_turnover * (100 - provider_profile_umbrella.ikwen_share_rate) / 100
-            if service == delcom and not delivery_fees_accounted:
-                turnover += order.delivery_earnings
-                provider_earnings += order.delivery_earnings
-                delivery_fees_accounted = True
-            increment_history_field(category, 'earnings_history', provider_earnings)
-            increment_history_field(category, 'turnover_history', turnover)
-        else:
-            provider_turnover = entry.count * product.wholesale_price
-            provider_earnings = provider_turnover * (100 - provider_profile_umbrella.ikwen_share_rate) / 100
-            profit = turnover - provider_turnover
-            retailer_earnings = profit * (100 - retailer_profile_umbrella.ikwen_share_rate) / 100
-            increment_history_field(category, 'earnings_history', retailer_earnings)
-            increment_history_field(category, 'turnover_history', provider_turnover)
-
-            set_counters(category_original)
-            increment_history_field(category_original, 'orders_count_history')
-            increment_history_field(category_original, 'earnings_history', provider_earnings)
-            increment_history_field(category_original, 'items_traded_history', entry.count)
-            increment_history_field(category_original, 'turnover_history', provider_turnover)
-
-        increment_history_field(category, 'orders_count_history')
+        provider_earnings = turnover * (100 - referrer_share_rate - provider_profile_umbrella.ikwen_share_rate) / 100
+        increment_history_field(category, 'earnings_history', provider_earnings)
+        increment_history_field(category, 'turnover_history', turnover)
         increment_history_field(category, 'items_traded_history', entry.count)
-        category.report_counters_to_umbrella()
+        if category not in category_list:
+            increment_history_field(category, 'orders_count_history')
+            category_list.append(category)
 
         if update_stock:
-            product_original.stock -= entry.count
-            if product_original.stock == 0:
-                add_event(service, SOLD_OUT_EVENT, group_id=sudo_group.id, object_id=product_original.id)
+            product.stock -= entry.count
+            if product.stock == 0:
+                add_event(service, SOLD_OUT_EVENT, group_id=sudo_group.id, object_id=product.id)
                 mark_duplicates(product)
-        product_original.save()
-        product_original.save(using='default')  # Causes the stock to be updated in the local database
+        product.save()
         set_counters(product)
         increment_history_field(product, 'units_sold_history', entry.count)
 
-        set_counters(product_original)
-        increment_history_field(product_original, 'units_sold_history', entry.count)
     add_event(service, NEW_ORDER_EVENT, group_id=sudo_group.id, object_id=order.id)
+
+
+def referee_registration_callback(request, *args, **kwargs):
+    """
+    This function should run upon registration. This is achieved
+    by adding its path to the IKWEN_REGISTER_EVENTS in settings file.
+    This does necessary operations to bind a Dara to the Member newly login in.
+    """
+    referrer = request.session.get('referrer')
+    if referrer:
+        try:
+            service = get_service_instance()
+            dara_member = Member.objects.get(pk=referrer)
+            set_customer_dara(service, dara_member, request.user)
+        except:
+            pass

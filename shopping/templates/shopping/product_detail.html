@@ -143,9 +143,10 @@
                                     <p class="alert alert-danger">{% trans 'SOLD OUT' %}</p>
                                 {% endif %}
                                 <div class="social-icon">
-                                    <div class="fb-share-button" data-href="{{ service.url }}{{ product_url }}" data-layout="button" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php">{% trans "Share" %}</a></div>
-                                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}" data-size="small">Tweet</a>
-                                    <div class="g-plus" data-action="share" data-href="{{ service.url }}{{ product_url }}" data-annotation="bubble" ></div>
+                                    <div class="fb-share-button" data-href="{{ service.url }}{{ product_url }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-layout="button" data-mobile-iframe="true">
+                                        <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php">{% trans "Share" %}</a>
+                                    </div>
+                                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-size="small">Tweet</a>
                                 </div>
                             </div>
                             <div class="clearfix"> </div>
@@ -333,7 +334,6 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="{% static 'ikwen/swiper/js/swiper.jquery.js' %}"></script>
     {% if not request|is_mobile %}
         <script defer src="{% static 'kakocase/js/imagezoom.js' %}"></script>

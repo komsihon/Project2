@@ -85,11 +85,11 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         except Service.DoesNotExist:
             ikwen_name = pname
             break
-    api_signature = generate_random_key(30)
+    api_signature = generate_random_key(30, alpha_num=True)
     while True:
         try:
             Service.objects.using(UMBRELLA).get(api_signature=api_signature)
-            api_signature = generate_random_key(30)
+            api_signature = generate_random_key(30, alpha_num=True)
         except Service.DoesNotExist:
             break
     database = ikwen_name
@@ -125,7 +125,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     elif not os.path.exists(media_root):
         os.makedirs(media_root)
         logger.debug("Media folder '%s' successfully created empty" % media_root)
-    favicons_folder = media_root + 'favicons'
+    favicons_folder = media_root + 'icons'
     if not os.path.exists(favicons_folder):
         os.makedirs(favicons_folder)
     if os.path.exists(website_home_folder):
@@ -253,8 +253,10 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         th.save(using=database)
     logger.debug("Template and theme successfully bound for service: %s" % pname)
 
-    FlatPage.objects.using(database).create(url=FlatPage.AGREEMENT, title=FlatPage.AGREEMENT)
-    FlatPage.objects.using(database).create(url=FlatPage.LEGAL_MENTIONS, title=FlatPage.LEGAL_MENTIONS)
+    FlatPage.objects.using(database).get_or_create(url=FlatPage.AGREEMENT, title=FlatPage.AGREEMENT.capitalize(),
+                                                   content=_('Agreement goes here'))
+    FlatPage.objects.using(database).get_or_create(url=FlatPage.LEGAL_MENTIONS, title=FlatPage.LEGAL_MENTIONS.capitalize(),
+                                                   content=_('Legal mentions go here'))
 
     # Add member to SUDO Group
     obj_list, created = UserPermissionList.objects.using(database).get_or_create(user=member)

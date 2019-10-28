@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import string
+import logging
 
 import requests
 import json
@@ -26,6 +27,8 @@ from ikwen_kakocase.shopping.utils import parse_order_info
 from ikwen_kakocase.shopping.views import confirm_checkout
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.trade.utils import generate_tx_code
+
+logger = logging.getLogger('ikwen')
 
 
 class SetExpressCheckout(TemplateView):
@@ -124,6 +127,7 @@ class SetExpressCheckout(TemplateView):
                     context['paypal_error'] = urlunquote(result['L_LONGMESSAGE0'])
                 return render(request, 'shopping/paypal/cancel.html', context)
         except Exception as e:
+            logger.error("%s - PayPal error." % service.project_name, exc_info=True)
             if getattr(settings, 'DEBUG', False):
                 raise e
             context = self.get_context_data(**kwargs)
@@ -135,6 +139,7 @@ class GetExpressCheckoutDetails(TemplateView):
     template_name = 'shopping/paypal/confirmation.html'
 
     def get(self, request, *args, **kwargs):
+        service = get_service_instance()
         paypal = json.loads(PaymentMean.objects.get(slug='paypal').credentials)
         paypal_token = request.GET['token']
         ec_data = {
@@ -167,6 +172,7 @@ class GetExpressCheckoutDetails(TemplateView):
                     context['paypal_error'] = urlunquote(result['L_LONGMESSAGE0'])
                 return render(request, 'shopping/paypal/cancel.html', context)
         except Exception as e:
+            logger.error("%s - PayPal error." % service.project_name, exc_info=True)
             if getattr(settings, 'DEBUG', False):
                 raise e
             context = self.get_context_data(**kwargs)
@@ -255,6 +261,7 @@ class DoExpressCheckout(TemplateView):
                         context['paypal_error'] = urlunquote(result['L_LONGMESSAGE0'])
                     return render(request, 'shopping/paypal/cancel.html', context)
             except Exception as e:
+                logger.error("%s - PayPal error. Order ID: %s" % (service.project_name, order.id), exc_info=True)
                 context = self.get_context_data(**kwargs)
                 context['server_error'] = 'Could not proceed transaction due to server error. Contact administrator.'
                 return render(request, 'shopping/paypal/cancel.html', context)

@@ -13,7 +13,7 @@ urlpatterns = patterns(
     url(r'^contact/$', Contact.as_view(), name='contact'),
     url(r'^cart/$', Cart.as_view(), name='cart'),
     url(r'^cart/(?P<order_id>[-\w]+)/$', Cart.as_view(), name='cart'),
-    url(r'^checkout/$', Checkout.as_view(), name='checkout'),
+    url(r'^checkout/$', login_required(Checkout.as_view()), name='checkout'),
     url(r'^check_stock$', check_stock, name='check_stock'),
     url(r'^check_stock_single$', check_stock_single, name='check_stock_single'),
     url(r'^load_checkout_summary$', load_checkout_summary, name='load_checkout_summary'),
@@ -24,8 +24,9 @@ urlpatterns = patterns(
     url(r'^paypal/cancel/$', PayPalCancel.as_view(), name='paypal_cancel'),
 
     url(r'^test_return_url$', test_return_url, name='test_return_url'),
-    url(r'^chooseDeal/$', login_required()(ChooseDeal.as_view()), name='choose_deal'),
+    url(r'^chooseDeal/$', login_required(ChooseDeal.as_view()), name='choose_deal'),
     url(r'^confirm_checkout$', confirm_checkout, name='confirm_checkout'),
+    url(r'^confirm_checkout/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)/(?P<lang>[-\w]+)$', confirm_checkout, name='confirm_checkout'),
     url(r'^cancel$', Cancel.as_view(), name='cancel'),
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),

@@ -12,6 +12,9 @@
 
 {% block content %}
     <div id="content" class="checkout-content">
+        {% if messages %}
+            {% for msg in messages %}<p class="msg-tag {{ msg.tags }}" style="font-size: 1em; padding: 9px">{{ msg }}</p>{% endfor %}
+        {% endif %}
         <h2 class="checkout-header">{% trans "Checkout" %}</h2>
         <div class="container subtle-shade stage">
             <div class="row">

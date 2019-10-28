@@ -110,6 +110,14 @@ def set_session_data(request, *args, **kwargs):
             manage_drivy = True
     request.session['manage_packages'] = manage_packages
     request.session['manage_drivy'] = manage_drivy
+    try:
+        from daraja.models import DARAJA
+        app = Application.objects.get(slug=DARAJA)
+        if request.user.is_authenticated():
+            Service.objects.get(app=app, member=request.user)
+            request.session['is_dara'] = True
+    except:
+        pass
 
 
 class DeployCloud(VerifiedEmailTemplateView):

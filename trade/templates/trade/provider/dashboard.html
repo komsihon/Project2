@@ -279,5 +279,92 @@
                 <div class="clear"></div>
             </div>
         </div>
+        {% if daras_resport %}
+        <div class="col-sm-6">
+            <div>
+                <header>
+                    <h5>{% trans "Top daras" %}</h5>
+                    <a href="javascript:;" class="show-details">{% trans "Details" %}</a>
+                    <div class="clear"></div>
+                </header>
+                <div class="th">
+                    <span style="float: left">{% trans "Dara" %}</span>
+                    <span title="Estimated earnings" style="float: right">
+                        {% trans "Earnings" %}
+                        <span class="text-muted" style="font-weight: 400">({{ CRNCY.code }})</span>
+                    </span>
+                </div>
+                <ul class="report ranking today">
+                    {% if daras_report.today and daras_report.today.0.total > 0 %}
+                        {% for dara in daras_report.today|slice:"5" %}
+                            {% if dara.total > 0 %}
+                                {% with member=dara.member %}
+                                <li>
+                                    {% url 'ikwen:profile' member.id as member_url %}
+                                    <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                    <span>{{ dara.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking yesterday tpl">
+                    {% if daras_report.yesterday and daras_report.yesterday.0.total > 0 %}
+                        {% for dara in daras_report.yesterday|slice:"5" %}
+                            {% if dara.total > 0 %}
+                                {% with member=dara.member %}
+                                <li>
+                                    {% url 'ikwen:profile' member.id as member_url %}
+                                    <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                    <span>{{ dara.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_week tpl">
+                    {% if daras_report.last_week and daras_report.last_week.0.total > 0 %}
+                        {% for dara in daras_report.last_week|slice:"5" %}
+                            {% if dara.total > 0 %}
+                                {% with member=dara.member %}
+                                <li>
+                                    {% url 'ikwen:profile' member.id as member_url %}
+                                    <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                    <span>{{ dara.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <ul class="report ranking last_28_days tpl">
+                    {% if daras_report.last_28_days and daras_report.last_28_days.0.total > 0 %}
+                        {% for dara in daras_report.last_28_days|slice:"5" %}
+                            {% if dara.total > 0 %}
+                                {% with member=dara.member %}
+                                <li>
+                                    {% url 'ikwen:profile' member.id as member_url %}
+                                    <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                    <span>{{ dara.total|floatformat:CRNCY.precision|intcomma }}</span>
+                                </li>
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <li class="empty">Not enough data</li>
+                    {% endif %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

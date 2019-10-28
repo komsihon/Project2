@@ -29,6 +29,7 @@ def wipe_test_data(db='default'):
     import ikwen_kakocase.commarketing.models
     import ikwen.core.models
     import ikwen.revival.models
+    import daraja.models
     if db != 'default':
         add_database_to_settings(db)
     for name in ('Customer', 'AnonymousBuyer', ):
@@ -58,6 +59,9 @@ def wipe_test_data(db='default'):
     for name in ('Product', 'Payment', 'Invoice', 'Subscription', 'InvoicingConfig',
                  'PaymentMean', 'MoMoTransaction', 'SupportBundle', 'SupportCode'):
         model = getattr(ikwen.billing.models, name)
+        model.objects.using(db).all().delete()
+    for name in ('DarajaConfig', 'DaraRequest', 'Dara', 'AbuseReport'):
+        model = getattr(daraja.models, name)
         model.objects.using(db).all().delete()
 
 
