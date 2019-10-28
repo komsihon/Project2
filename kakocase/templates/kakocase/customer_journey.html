@@ -138,6 +138,31 @@
                         </div>
                     </section>
                     {% if order_history_list|length > 0 %}
+                        <section style="margin:20px 0;">
+                            <h3>{% trans 'Delivery Addresses' %}</h3>
+                            <div style="margin-top: 15px;">
+                                <ul class="object-list list-group">
+                                    {% for address in customer.delivery_addresses %}
+                                    <li class="ik-li list-group-item" id="{{ order.id }}" data-id="{{ order.id }}" style="padding: 15px">
+                                        <div>
+                                            <div>
+                                                {{ address.details }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                {% if address.postal_code %}
+                                                    {% trans 'P.O BOX:' %} &nbsp;{{ address.postal_code }}
+                                                {% endif %}
+                                            </div>
+                                            <div style="font-weight: bold;">
+                                                {{ address.city }}, {{ address.country }}
+                                            </div>
+                                            <div class="text-muted">
+                                                {{ address.email }}, {{ address.phone }}
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </section>
                         <section style="border-top: 1px solid #ddd; padding:0">
                             <h3 style="padding:20px 0">{% trans "History" %}</h3>
                             <ul class="object-list list-group">
@@ -148,6 +173,7 @@
                                     <div class="pull-right text-muted">
                                         {{ order.created_on|date }}
                                     </div>
+
                                     <div style="margin-top: 15px">
                                         <span class="pull-left">
                                             <strong>{{ order.get_products_as_string }}</strong>
@@ -157,7 +183,6 @@
                                             <strong>{{ order.total_cost|intcomma }}</strong>
                                         </span>
                                     </div>
-
                                 </li>
                                 {% endfor %}
                             </ul>
