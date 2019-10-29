@@ -656,7 +656,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A', model=model_name,
                 object_id=order.id, task_id=signature, wallet=mean, username=request.user.username, is_running=True)
     notification_url = reverse('shopping:confirm_checkout', args=(tx.id, signature, lang))
-    cancel_url = request.META.get('HTTP_REFERER', reverse('shopping:checkout'))
+    cancel_url = reverse('shopping:cart')
     return_url = reverse('shopping:cart', args=(order.id, ))
     if getattr(settings, 'UNIT_TESTING', False):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
@@ -667,8 +667,8 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         'amount': order.total_cost,
         'merchant_name': config.company_name,
         'notification_url': service.url + notification_url,
-        'return_url': return_url,
-        'cancel_url': cancel_url,
+        'return_url': service.url + return_url,
+        'cancel_url': service.url + cancel_url,
         'user_id': request.user.username
     }
     try:
@@ -678,10 +678,11 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         if token:
             next_url = gateway_url + '/checkoutnow/' + resp['token'] + '?mean=' + mean
         else:
+            logger.error("%s - Init payment flow failed with URL %s and message %s" % (service.project_name, r.url, resp['errors']))
             messages.error(request, resp['errors'])
             next_url = cancel_url
     except:
-        logger.error("%s - Init payment flow failed with URL %s." % (service.project_name, r.url), exc_info=True)
+        logger.error("%s - Init payment flow failed with URL." % service.project_name, exc_info=True)
         next_url = cancel_url
     return HttpResponseRedirect(next_url)
 
@@ -705,17 +706,17 @@ def confirm_checkout(request, *args, **kwargs):
                 expiry = tx.created_on + timedelta(seconds=tx_timeout)
                 if datetime.now() > expiry:
                     return HttpResponse("Transaction %s timed out." % tx_id)
+
+            tx.status = status
+            tx.message = 'OK' if status == MoMoTransaction.SUCCESS else message
+            tx.processor_tx_id = operator_tx_id
+            tx.phone = phone
+            tx.is_running = False
+            tx.save()
         except:
             raise Http404("Transaction %s not found" % tx_id)
         if status != MoMoTransaction.SUCCESS:
             return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
-
-        tx.status = status
-        tx.message = message
-        tx.processor_tx_id = operator_tx_id
-        tx.phone = phone
-        tx.is_running = False
-        tx.save()
         order_id = tx.object_id
         signature = tx.task_id
 
