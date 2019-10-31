@@ -82,7 +82,7 @@
         function drawTopCategoriesChart(){
             let values, data, chart;
             {% for period, data in categories_report.items %}
-                 values = ['Category name', 'Earnings'];
+                 values = [['Category name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for category in data|slice:"5" %}
                         {% if category.total > 0 %}
@@ -90,8 +90,8 @@
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
-                    chart.draw(data, options);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-categories-chart'));
+                    chart.draw(data);
                 {% endif %}
             {% endfor %}
         }
@@ -99,7 +99,7 @@
         function drawTopProductsChart(){
             let values, data, chart;
             {% for period, data in products_report.items %}
-                 values = ['Product name', 'Units ordered'];
+                 values = [['Product name', 'Units ordered']];
                 {% if data and data.0.total > 0 %}
                     {% for product in data|slice:"5" %}
                         {% if product.total > 0 %}
@@ -107,8 +107,8 @@
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
-                    chart.draw(data, options);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-products-chart'));
+                    chart.draw(data);
                 {% endif %}
             {% endfor %}
         }
@@ -116,7 +116,7 @@
         function drawTopCustomersChart() {
             let values, data, chart;
             {% for period, data in customers_report.items %}
-                 values = ['Customer name', 'Earnings'];
+                 values = [['Customer name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for customer in data|slice:"5" %}
                         {% if customer.total > 0 %}
@@ -125,14 +125,14 @@
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
                     chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
-                    chart.draw(data, options);
+                    chart.draw(data);
                 {% endif %}
             {% endfor %}
         }
         function drawTopDarasChart(){
             let values, data, chart;
             {% for period, data in daras_report.items %}
-                values = ['Dara name', 'Earnings'];
+                values = [['Dara name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for dara in data|slice:"5" %}
                         {% if dara.total > 0 %}
@@ -141,7 +141,7 @@
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
                     chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-daras-chart'));
-                    chart.draw(data, options);
+                    chart.draw(data);
                 {% endif %}
             {% endfor %}
         }
@@ -183,7 +183,7 @@
                         <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
                     </div>
                     <div id="orders-chart" style="width: 100%; height: inherit;"></div>
-                </div>
+         </div>
             </div>
         </div>
         <div class="col-sm-6">
@@ -201,7 +201,7 @@
                         <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                     </div>
                     <div id="aepo-chart" style="width: 100%; height: inherit;"></div>
-                </div>
+         </div>
 
             </div>
         </div>
@@ -236,7 +236,7 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-categories-chart" style="width: 100%; height: inherit;"></div>
+                        <div id="{{ period }}-top-categories-chart" style="width: 100%; height: 200px;"></div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
@@ -269,8 +269,8 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-products-chart" style="width: 100%; height: inherit;"></div>
-                    {% endif %}
+                        <div id="{{ period }}-top-products-chart" style="width: 100%; height: 200px;"></div>
+             {% endif %}
                 {% endfor %}
                 <div class="clearfix"></div>
 
@@ -311,8 +311,8 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-customers-chart" style="width: 100%; height: inherit;"></div>
-                    {% endif %}
+                        <div id="{{ period }}-top-customers-chart" style="width: 100%; height: 200px;"></div>
+             {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
             </div>
@@ -351,7 +351,7 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-daras-chart" style="width: 100%; height: inherit;"></div>
+                        <div id="{{ period }}-top-daras-chart" style="width: 100%; height: 200px;"></div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
