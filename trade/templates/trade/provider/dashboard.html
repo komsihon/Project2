@@ -14,8 +14,8 @@
         google.charts.setOnLoadCallback(drawTopProductsChart);
         google.charts.setOnLoadCallback(drawTopDarasChart);
 
-        let earnings_history = {{ earnings_history|safe }},
-            transaction_count_history = {{ transactions_count_history|safe }};
+        let earningsHistory = {{ earnings_history|safe }},
+            transactionsCountHistory = {{ transactions_count_history|safe }};
 
 
         function drawTrendChart(){
@@ -24,8 +24,8 @@
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Earnings' %}");
 
-            for (let i=0; i<earnings_history.length; i ++) {
-                values.push([i, earnings_history[i]])
+            for (let i=0; i<earningsHistory.length; i ++) {
+                values.push([i, earningsHistory[i]])
             }
             data.addRows(values);
             let options = {
@@ -46,8 +46,8 @@
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Orders' %}");
 
-            for (let i=0; i<transaction_count_history.length; i ++) {
-                values.push([i, transaction_count_history[i]]);
+            for (let i=0; i<transactionsCountHistory.length; i ++) {
+                values.push([i, transactionsCountHistory[i]]);
             }
             data.addRows(values);
             let options = {
@@ -65,8 +65,8 @@
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'AEPO' %}");
 
-            for (let i=0; i<earnings_history.length; i ++) {
-                let avg = earnings_history[i]/transaction_count_history[i];
+            for (let i=0; i<earningsHistory.length; i ++) {
+                let avg = earningsHistory[i]/transactionsCountHistory[i];
                 values.push([i, Number(avg.toFixed(2))]);
             }
             data.addRows(values);
@@ -103,7 +103,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for product in data|slice:"5" %}
                         {% if product.total > 0 %}
-                            values.push(["{{ product.name }}"+ "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
+                            values.push(["{{ product.name }}" + "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -136,7 +136,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for dara in data|slice:"5" %}
                         {% if dara.total > 0 %}
-                            values.push(['{{ dara.member.full_name }}', {{ dara.total }}]);
+                            values.push(["{{ dara.member.full_name }}", {{ dara.total }}]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -182,8 +182,8 @@
                         <em class="report last_week tpl">{{ orders_report.last_week.count|intcomma }}</em>
                         <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
                     </div>
-                    <div id="orders-chart" style="width: 100%; height: inherit;"></div>
-         </div>
+                    <div id="orders-chart" class="line-chart"></div>
+                </div>
             </div>
         </div>
         <div class="col-sm-6">
@@ -200,9 +200,8 @@
                         <em class="report last_week tpl">{{ CRNCY.symbol }} {{ orders_report.last_week.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                         <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                     </div>
-                    <div id="aepo-chart" style="width: 100%; height: inherit;"></div>
-         </div>
-
+                    <div id="aepo-chart" class="line-chart"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -236,7 +235,7 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-categories-chart" style="width: 100%; height: 200px;"></div>
+                        <div id="{{ period }}-top-categories-chart" class="pie-chart  {{ period }}-pie-chart {% if period != 'today' %}{% endif %}"></div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
@@ -269,11 +268,10 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-products-chart" style="width: 100%; height: 200px;"></div>
-             {% endif %}
+                        <div id="{{ period }}-top-products-chart" class="pie-chart {{ period }}-pie-chart {% if period != 'today' %}tpl{% endif %}"></div>
+                    {% endif %}
                 {% endfor %}
                 <div class="clearfix"></div>
-
             </div>
         </div>
     </div>
@@ -311,8 +309,8 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-customers-chart" style="width: 100%; height: 200px;"></div>
-             {% endif %}
+                        <div id="{{ period }}-top-customers-chart" class="pie-chart {{ period }}-pie-chart {% if period != 'today' %}tpl{% endif %}"></div>
+                    {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
             </div>
@@ -351,7 +349,7 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-daras-chart" style="width: 100%; height: 200px;"></div>
+                        <div id="{{ period }}-top-daras-chart" class="pie-chart {{ period }}-pie-chart {% if period != 'today' %}tpl{% endif %}"></div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
@@ -360,3 +358,4 @@
         {% endif %}
     </div>
 {% endblock %}
+
