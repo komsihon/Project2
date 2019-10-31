@@ -1,6 +1,152 @@
 {% extends 'core/dashboard_base.html' %}
 {% load i18n humanize staticfiles auth_tokens %}
 
+{% block head_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['line', 'corechart']});
+        google.charts.setOnLoadCallback(drawTrendChart);
+        google.charts.setOnLoadCallback(drawOrdersChart);
+        google.charts.setOnLoadCallback(drawAepoChart);
+        google.charts.setOnLoadCallback(drawTopCategoriesChart);
+        google.charts.setOnLoadCallback(drawTopCustomersChart);
+        google.charts.setOnLoadCallback(drawTopProductsChart);
+        google.charts.setOnLoadCallback(drawTopDarasChart);
+
+        let earnings_history = {{ earnings_history|safe }},
+            transaction_count_history = {{ transactions_count_history|safe }};
+
+
+        function drawTrendChart(){
+            let data = new google.visualization.DataTable(),
+                values = [];
+            data.addColumn('number', "{% trans 'Day' %}");
+            data.addColumn('number', "{% trans 'Earnings' %}");
+
+            for (let i=0; i<earnings_history.length; i ++) {
+                values.push([i, earnings_history[i]])
+            }
+            data.addRows(values);
+            let options = {
+                title: "{% trans 'Trend' %}",
+                hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}},
+                vAxis: {minValue: 0}
+            };
+            if ($(window).width() < 1201){
+                options.legend = {position: 'none'};
+            }
+            let chart = new google.charts.Line(document.getElementById('trend-chart'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+
+        function drawOrdersChart() {
+            let data = new google.visualization.DataTable(),
+                values = [];
+            data.addColumn('number', "{% trans 'Day' %}");
+            data.addColumn('number', "{% trans 'Orders' %}");
+
+            for (let i=0; i<transaction_count_history.length; i ++) {
+                values.push([i, transaction_count_history[i]]);
+            }
+            data.addRows(values);
+            let options = {
+                hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}},
+                vAxis: {minValue: 0},
+                legend: {position: 'none'}
+            };
+            let chart = new google.charts.Line(document.getElementById('orders-chart'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+
+        function drawAepoChart(){
+            let data = new google.visualization.DataTable(),
+                values = [];
+            data.addColumn('number', "{% trans 'Day' %}");
+            data.addColumn('number', "{% trans 'AEPO' %}");
+
+            for (let i=0; i<earnings_history.length; i ++) {
+                let avg = earnings_history[i]/transaction_count_history[i];
+                values.push([i, Number(avg.toFixed(2))]);
+            }
+            data.addRows(values);
+            let options = {
+                hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}},
+                vAxis: {minValue: 0},
+                legend: {position: 'none'}
+            };
+            let chart = new google.charts.Line(document.getElementById('aepo-chart'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+
+        function drawTopCategoriesChart(){
+            let values, data, chart;
+            {% for period, data in categories_report.items %}
+                 values = ['Category name', 'Earnings'];
+                {% if data and data.0.total > 0 %}
+                    {% for category in data|slice:"5" %}
+                        {% if category.total > 0 %}
+                            values.push(["{{ category.name }}", {{ category.total }}]);
+                        {% endif %}
+                    {% endfor %}
+                    data = google.visualization.arrayToDataTable(values);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
+                    chart.draw(data, options);
+                {% endif %}
+            {% endfor %}
+        }
+
+        function drawTopProductsChart(){
+            let values, data, chart;
+            {% for period, data in products_report.items %}
+                 values = ['Product name', 'Units ordered'];
+                {% if data and data.0.total > 0 %}
+                    {% for product in data|slice:"5" %}
+                        {% if product.total > 0 %}
+                            values.push(["{{ product.name }}"+ "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
+                        {% endif %}
+                    {% endfor %}
+                    data = google.visualization.arrayToDataTable(values);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
+                    chart.draw(data, options);
+                {% endif %}
+            {% endfor %}
+        }
+
+        function drawTopCustomersChart() {
+            let values, data, chart;
+            {% for period, data in customers_report.items %}
+                 values = ['Customer name', 'Earnings'];
+                {% if data and data.0.total > 0 %}
+                    {% for customer in data|slice:"5" %}
+                        {% if customer.total > 0 %}
+                            values.push(["{{ customer.member.full_name }}", {{ customer.total }}]);
+                        {% endif %}
+                    {% endfor %}
+                    data = google.visualization.arrayToDataTable(values);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
+                    chart.draw(data, options);
+                {% endif %}
+            {% endfor %}
+        }
+        function drawTopDarasChart(){
+            let values, data, chart;
+            {% for period, data in daras_report.items %}
+                values = ['Dara name', 'Earnings'];
+                {% if data and data.0.total > 0 %}
+                    {% for dara in data|slice:"5" %}
+                        {% if dara.total > 0 %}
+                            values.push(['{{ dara.member.full_name }}', {{ dara.total }}]);
+                        {% endif %}
+                    {% endfor %}
+                    data = google.visualization.arrayToDataTable(values);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-daras-chart'));
+                    chart.draw(data, options);
+                {% endif %}
+            {% endfor %}
+        }
+    </script>
+{% endblock %}
 
 {% block performances %}
     <h5 class="section-title perf">
