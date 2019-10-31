@@ -103,7 +103,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for product in data|slice:"5" %}
                         {% if product.total > 0 %}
-                            values.push(["{{ product.name }}"+ "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
+                            values.push(["{{ product.name }}" + "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -136,7 +136,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for dara in data|slice:"5" %}
                         {% if dara.total > 0 %}
-                            values.push(['{{ dara.member.full_name }}', {{ dara.total }}]);
+                            values.push(["{{ dara.member.full_name }}", {{ dara.total }}]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -183,7 +183,7 @@
                         <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
                     </div>
                     <div id="orders-chart" style="width: 100%; height: inherit;"></div>
-         </div>
+                </div>
             </div>
         </div>
         <div class="col-sm-6">
@@ -201,8 +201,7 @@
                         <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                     </div>
                     <div id="aepo-chart" style="width: 100%; height: inherit;"></div>
-         </div>
-
+                </div>
             </div>
         </div>
     </div>
@@ -270,10 +269,9 @@
                     </ul>
                     {% if data and data.0.total > 0 %}
                         <div id="{{ period }}-top-products-chart" style="width: 100%; height: 200px;"></div>
-             {% endif %}
+                    {% endif %}
                 {% endfor %}
                 <div class="clearfix"></div>
-
             </div>
         </div>
     </div>
@@ -312,7 +310,7 @@
                     </ul>
                     {% if data and data.0.total > 0 %}
                         <div id="{{ period }}-top-customers-chart" style="width: 100%; height: 200px;"></div>
-             {% endif %}
+                    {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
             </div>
