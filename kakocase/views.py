@@ -12,6 +12,7 @@ from django.utils.text import slugify
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView
+from django.utils.translation import gettext as _
 
 from ikwen.partnership.models import ApplicationRetailConfig
 
@@ -23,16 +24,16 @@ from ikwen.billing.models import IkwenInvoiceItem, InvoiceEntry, CloudBillingPla
 
 from ikwen.core.models import Service, Application
 
-from django.utils.translation import gettext as _
 
 from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, BusinessCategory, TsunamiBundle
 
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance
-from ikwen.core.views import AdminHomeBase, ChangeObjectBase
+from ikwen.core.views import AdminHomeBase
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 from ikwen_kakocase.trade.models import Order
+from ikwen_kakocase.shopping.models import Customer
 
 
 class AdminHome(AdminHomeBase):
@@ -113,8 +114,13 @@ def set_session_data(request, *args, **kwargs):
     try:
         from daraja.models import DARAJA
         app = Application.objects.get(slug=DARAJA)
-        if request.user.is_authenticated():
-            Service.objects.get(app=app, member=request.user)
+        member = request.user
+        if member.is_authenticated():
+            Service.objects.get(app=app, member=member)
+            customer, change = Customer.objects.get_or_create(member=member)
+            if not customer.referrer:
+                customer.referrer = member
+                customer.save()
             request.session['is_dara'] = True
     except:
         pass

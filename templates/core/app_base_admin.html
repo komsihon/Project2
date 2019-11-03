@@ -188,6 +188,12 @@
                         {% endif %}
                         {% endif %}
                     {% endif %}
+                    <div class="divider"></div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" class="email-log">
+                            <a href="{% url 'ikwen:sent_email_log' %}">{% trans "Email Log" %}</a>
+                        </li>
+                    </ul>
                     {% if perms.accesscontrol.sudo %}
                         <div class="divider"></div>
                         <ul class="nav nav-pills nav-stacked">

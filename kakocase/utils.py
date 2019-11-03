@@ -25,6 +25,9 @@ def set_customer_dara(service, referrer, member):
         app = Application.objects.using(db).get(slug=DARAJA)
         dara_service = Service.objects.using(db).get(app=app, member=referrer)
         customer, change = Customer.objects.using(db).get_or_create(member=member)
+        if customer.referrer:
+            return
+
         customer.referrer = dara_service
         customer.save()
 
@@ -38,8 +41,12 @@ def set_customer_dara(service, referrer, member):
 
         add_event(service, REFEREE_JOINED_EVENT, member)
 
+        diff = datetime.now() - member.date_joined
         sender = "%s via ikwen <no-reply@ikwen.com>" % member.full_name
-        subject = _("I just joined %s !" % service.project_name)
+        if diff.days > 1:
+            subject = _("I'm back on %s !" % service.project_name)
+        else:
+            subject = _("I just joined %s !" % service.project_name)
         html_content = get_mail_content(subject, template_name='daraja/mails/referee_joined.html',
                                         extra_context={'referred_service_name': service.project_name, 'referee': member,
                                                        'referred_service_url': service.url})
