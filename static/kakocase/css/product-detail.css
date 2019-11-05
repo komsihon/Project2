@@ -52,6 +52,7 @@ label sup {color: #ff0000}
 .bank-notice {float: left; line-height: 30px; margin-top: 20px; width: 60%}
 .open-bank-account {clear: both; float: right; font-size: 14px; margin-top: 15px}
 .toggle-fullscreen {margin: 5px 0; text-align: center}
+.product-social-share {color: #fff; width: 100%!important;}
 
 @media (max-width: 375px) {
     #reviews input[type="submit"] {
