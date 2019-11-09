@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 
 from ikwen.core.utils import get_service_instance
 from ikwen.core.urls import SIGN_IN, DO_SIGN_IN, LOGOUT
+from ikwen_kakocase.shopping.utils import referee_registration_callback
 
 
 class LandingPageMiddleware(object):
@@ -34,3 +35,12 @@ class LandingPageMiddleware(object):
             if not service.config.is_ecommerce_active:
                 if not member.is_superuser:
                     return HttpResponseRedirect(next_url)
+
+
+class BindDaraMiddleware(object):
+    """
+    Bind Dara to a user already logged in
+    """
+    def process_request(self, request):
+        if request.user.is_authenticated():
+            referee_registration_callback(request)

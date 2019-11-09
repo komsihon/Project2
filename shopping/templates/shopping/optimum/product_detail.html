@@ -21,7 +21,7 @@
 
 {% block head_js %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'kakocase/css/product-detail.css' %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static 'kakocase/css/product-detail.css' %}?v=19.11.5" type="text/css" media="screen" />
     <link rel="stylesheet" href="{% static 'ikwen/swiper/css/swiper.min.css' %}" type="text/css" media="screen" />
 {% endblock %}
 
@@ -163,7 +163,7 @@
                                 {% else %}
                                     <p class="alert alert-danger">{% trans 'SOLD OUT' %}</p>
                                 {% endif %}
-                                <div class="social-icon visible-sm">
+                                <div class="social-icon hidden-xs">
                                     <div class="fb-share-button" data-href="{{ service.url }}{{ product_url }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-layout="button" data-mobile-iframe="true">
                                         <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php">{% trans "Share" %}</a>
                                     </div>
@@ -176,7 +176,7 @@
                                         </a>
                                     </div>
                                     <div class="col-sm-4 col-xs-4">
-                                        <a class="product-social-share btn btn-block" data-toggle="modal" data-target="#twitter-share" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" style="background: #1da1f2;">
+                                        <a class="product-social-share btn btn-block" data-toggle="modal" data-target="#twitter-share" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_url }}{% if is_dara %}%3Freferrer={{ user.id }}{% endif %}" style="background: #1da1f2;">
                                             <i class="fab fa-twitter"></i>
                                         </a>
                                     </div>
@@ -383,6 +383,15 @@
                     <h4 class="modal-title">{% trans "Share on WhatsApp" %}</h4>
                 </div>
                 <div class="modal-body text-center">
+                    <form onclick="return false" class="form-horizontal">
+                        <div class="form-group row">
+                            <label for="whatsapp-share-msg" class="col-sm-5 col-md-4">{% trans "Message" %}</label>
+                            <div class="col-sm-7 col-md-8">
+                                <textarea id="whatsapp-share-msg" style="height: 120px"
+                                          class="form-control input-sm">{% blocktrans %}Hello, I found this and thought you might like it. You can buy it online and you will be delivered where you want.{% endblocktrans %}</textarea>
+                            </div>
+                        </div>
+                    </form>
                     <div class="actions">
                         <div class="col-xs-12 col-sm-4 col-md-3 pull-right action">
                             <button class="btn btn-success btn-block btn-sm ok"
@@ -506,11 +515,12 @@
                 var reviewsCount = parseInt($('#reviews-tab .count').text());
                 $('#reviews-tab .count').text(reviewsCount+1);
                 return false
-            })
+            });
+            {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
             $('body').on('click', '#whatsapp-share .btn.ok', () => {
                 let msg = $('#whatsapp-share-msg').val(),
                     url = '{{ service.url }}{{ product_url }}{% if is_dara %}?referrer={{ user.id }}{% endif %}';
-                window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A';
+                window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A' + msg;
             });
         })
     </script>
