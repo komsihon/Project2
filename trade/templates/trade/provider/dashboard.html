@@ -16,7 +16,7 @@
             google.charts.setOnLoadCallback(drawTopProductsChart);
             google.charts.setOnLoadCallback(drawTopDarasChart)
         });
-        $(window).on('resize', () => {
+        $(window).resize(ikwen.debouncer(function (e) {
             google.charts.setOnLoadCallback(drawTrendChart);
             google.charts.setOnLoadCallback(drawOrdersChart);
             google.charts.setOnLoadCallback(drawAepoChart);
@@ -24,11 +24,11 @@
             google.charts.setOnLoadCallback(drawTopCustomersChart);
             google.charts.setOnLoadCallback(drawTopProductsChart);
             google.charts.setOnLoadCallback(drawTopDarasChart);
-        });
+        }));
 
 
         let earningsHistory = {{ earnings_history|safe }},
-            transactionsCountHistory = {{ transactions_count_history|safe }};
+            transactionCountHistory = {{ transaction_count_history|safe }};
 
 
         function drawTrendChart(){
@@ -63,8 +63,8 @@
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Orders' %}");
 
-            for (let i=0; i<transactionsCountHistory.length; i ++) {
-                values.push([i, transactionsCountHistory[i]]);
+            for (let i=0; i<transactionCountHistory.length; i ++) {
+                values.push([i, transactionCountHistory[i]]);
             }
             data.addRows(values);
             let options = {
@@ -85,7 +85,7 @@
             data.addColumn('number', "{% trans 'AEPO' %}");
 
             for (let i=0; i<earningsHistory.length; i ++) {
-                let avg = earningsHistory[i]/transactionsCountHistory[i];
+                let avg = earningsHistory[i]/transactionCountHistory[i];
                 values.push([i, Number(avg.toFixed(2))]);
             }
             data.addRows(values);
@@ -260,7 +260,7 @@
                         {% endif %}
                     </ul>
                     {% if data and data.0.total > 0 %}
-                        <div id="{{ period }}-top-categories-chart" class="pie-chart  {{ period }}-pie-chart {% if period != 'today' %}{% endif %}"></div>
+                        <div id="{{ period }}-top-categories-chart" class="pie-chart {{ period }}-pie-chart{% if period != 'today' %} tpl{% endif %}"></div>
                     {% endif %}
                 {% endfor %}
                 <div class="clear"></div>
@@ -342,7 +342,7 @@
                 <div class="clear"></div>
             </div>
         </div>
-        {% if daras_resport %}
+        {% if daras_report %}
         <div class="col-sm-6">
             <div>
                 <header>
