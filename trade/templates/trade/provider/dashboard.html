@@ -62,7 +62,6 @@
         function drawOrdersChart() {
             let data = new google.visualization.DataTable(),
             values = [];
-            colors = ['rgb(255, 153, 0)'];
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Orders' %}");
 
@@ -74,6 +73,7 @@
                 {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
                 hAxis: {title: ""},
                 vAxis: {minValue: 0},
+                colors : ['rgb(255, 153, 0)'],
                 legend: {position: 'none'},
                 explorer: {axis: 'horizontal'}
             };
@@ -84,7 +84,6 @@
         function drawAepoChart(){
             let data = new google.visualization.DataTable(),
             values = [];
-            colors = ['rgb(153, 0, 153)'];
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'AEPO' %}");
 
@@ -97,6 +96,7 @@
                 {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
                 hAxis: {title: ""},
                 vAxis: {minValue: 0},
+                colors : ['rgb(153, 0, 153)'],
                 legend: {position: 'none'},
                 explorer: {axis: 'horizontal'}
             };
