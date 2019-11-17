@@ -28,6 +28,7 @@
 
 
         let earningsHistory = {{ earnings_history|safe }},
+            earningsHistoryForMonthBeforeTheLastOne = {{ earnings_history_for_month_before_the_last_one|safe }},
             transactionCountHistory = {{ transaction_count_history|safe }};
 
 
@@ -36,9 +37,10 @@
             values = [];
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Earnings' %}");
+            data.addColumn('number', "{% trans 'Earnings for month before the last one' %}");
 
             for (let i=0; i<earningsHistory.length; i ++) {
-                values.push([i, earningsHistory[i]])
+                values.push([i, earningsHistory[i], earningsHistoryForMonthBeforeTheLastOne[i]]);
             }
             data.addRows(values);
             let options = {
@@ -60,6 +62,7 @@
         function drawOrdersChart() {
             let data = new google.visualization.DataTable(),
             values = [];
+            colors = ['rgb(255, 153, 0)'];
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'Orders' %}");
 
@@ -81,6 +84,7 @@
         function drawAepoChart(){
             let data = new google.visualization.DataTable(),
             values = [];
+            colors = ['rgb(153, 0, 153)'];
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'AEPO' %}");
 
@@ -135,24 +139,20 @@
         }
 
         function drawTopCustomersChart() {
-            $(window).ready( () => {
-                $(window).resize(() => {
-                    let values, data, chart;
-                    {% for period, data in customers_report.items %}
-                         values = [['Customer name', 'Earnings']];
-                        {% if data and data.0.total > 0 %}
-                            {% for customer in data|slice:"5" %}
-                                {% if customer.total > 0 %}
-                                    values.push(["{{ customer.member.full_name }}", {{ customer.total }}]);
-                                {% endif %}
-                            {% endfor %}
-                            data = google.visualization.arrayToDataTable(values);
-                            chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
-                            chart.draw(data);
+            let values, data, chart;
+            {% for period, data in customers_report.items %}
+                 values = [['Customer name', 'Earnings']];
+                {% if data and data.0.total > 0 %}
+                    {% for customer in data|slice:"5" %}
+                        {% if customer.total > 0 %}
+                            values.push(["{{ customer.member.full_name }}", {{ customer.total }}]);
                         {% endif %}
                     {% endfor %}
-                });
-            });
+                    data = google.visualization.arrayToDataTable(values);
+                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
+                    chart.draw(data);
+                {% endif %}
+            {% endfor %}
         }
         function drawTopDarasChart(){
             let values, data, chart;
@@ -246,7 +246,7 @@
                     </span>
                 </div>
                 {% for period, data in categories_report.items %}
-                    <ul class="report ranking {{ period }}{% if forloop.counter >= 2 %} tpl{% endif %}">
+                    <ul class="report ranking {{ period }}{% if period != 'today' %} tpl{% endif %}">
                         {% if data and data.0.total > 0 %}
                             {% for category in data|slice:"5" %}
                                 {% if category.total > 0 %}
@@ -278,9 +278,9 @@
                     <span title="Estimated earnings" style="float: right">{% trans "Units ordered" %}</span>
                 </div>
                 {% for period, data in products_report.items %}
-                    <ul class="report ranking {{ period }}{% if forloop.counter >= 2 %} tpl{% endif %}">
+                    <ul class="report ranking {{ period }}{% if period != 'today' %} tpl{% endif %}">
                         {% if data and data.0.total > 0 %}
-                            {% for product in products_report.today|slice:"5" %}
+                            {% for product in data|slice:"5" %}
                                 {% if product.total > 0 %}
                                     <li>
                                         <span>{{ product.name }}{% if product.size %}({{ product.size }}){% endif %}</span>
@@ -317,7 +317,7 @@
                     </span>
                 </div>
                 {% for period, data in customers_report.items %}
-                    <ul class="report ranking {{ period }}{% if forloop.counter >= 2 %} tpl{% endif %}">
+                    <ul class="report ranking {{ period }}{% if period != 'today' %} tpl{% endif %}">
                         {% if data and data.0.total > 0 %}
                             {% for customer in data|slice:"5" %}
                                 {% if customer.total > 0 %}
@@ -358,7 +358,7 @@
                     </span>
                 </div>
                 {% for period, data in daras_report.items %}
-                    <ul class="report ranking {{ period }}{% if forloop.counter >= 2 %} tpl{% endif %}">
+                    <ul class="report ranking {{ period }}{% if period != 'today' %} tpl{% endif %}">
                         {% if data and data.0.total > 0 %}
                             {% for dara in data|slice:"5" %}
                                 {% if dara.total > 0 %}
@@ -386,4 +386,3 @@
         {% endif %}
     </div>
 {% endblock %}
-
