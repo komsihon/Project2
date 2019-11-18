@@ -5,9 +5,9 @@
         {% with member=order.member %}
             {% if member %}
                 {% if settings.MEMBER_DETAIL_VIEW %}
-                    {% url settings.MEMBER_DETAIL_VIEW user.id as member_url %}
+                    {% url settings.MEMBER_DETAIL_VIEW member.id as member_url %}
                 {% else %}
-                    {% url 'ikwen:profile' user.id as member_url %}
+                    {% url 'ikwen:profile' member.id as member_url %}
                 {% endif %}
                 <a href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}" class="image rounded"
                    style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
