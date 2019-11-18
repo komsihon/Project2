@@ -322,9 +322,14 @@
                             {% for customer in data|slice:"5" %}
                                 {% if customer.total > 0 %}
                                      {% with member=customer.member %}
+                                    {% if settings.MEMBER_DETAIL_VIEW %}
+                                        {% url settings.MEMBER_DETAIL_VIEW user.id as member_url %}
+                                    {% else %}
+                                        {% url 'ikwen:profile' user.id as member_url %}
+                                    {% endif %}
                                         <li>
                                             {% url 'ikwen:profile' member.id as member_url %}
-                                            <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                            <a href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}">{{ member.full_name }}</a>
                                             <span>{{ customer.total|floatformat:CRNCY.precision|intcomma }}</span>
                                         </li>
                                     {% endwith %}
@@ -364,8 +369,8 @@
                                 {% if dara.total > 0 %}
                                     {% with member=dara.member %}
                                     <li>
-                                        {% url 'ikwen:profile' member.id as member_url %}
-                                        <a href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                                        {% url 'daraja:view_profile' dara.uname as profile_url %}
+                                        <a href="https://ikwen.com{{ profile_url }}">{{ member.full_name }}</a>
                                         <span>{{ dara.total|floatformat:CRNCY.precision|intcomma }}</span>
                                     </li>
                                     {% endwith %}
@@ -386,3 +391,4 @@
         {% endif %}
     </div>
 {% endblock %}
+

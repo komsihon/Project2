@@ -336,8 +336,13 @@ class ProviderDashboard(KakocaseDashboardBase):
         }
         context['customers_report'] = customers_report
         try:
+            if getattr(settings, 'DEBUG', False):
+                _umbrella_db = 'ikwen_umbrella'
+            else:
+                _umbrella_db = 'ikwen_umbrella_prod'  # Force the umbrella Alias to point the real umbrella DB
+            add_database_to_settings(_umbrella_db)
             service = get_service_instance()
-            DarajaConfig.objects.using(UMBRELLA).get(service=service, referrer_share__gt=0)
+            DarajaConfig.objects.using(_umbrella_db).get(service=service, referrer_share_rate__gt=0)
             daras_list = slice_watch_objects(Dara, 28, time_field='last_transaction_on')
             daras_report = {
                 'today': rank_watch_objects(daras_list, 'turnover_history'),

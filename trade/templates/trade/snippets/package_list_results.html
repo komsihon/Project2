@@ -4,15 +4,19 @@
     {% with order=package.order member=package.order.member provider=package.provider delivery_company=package.delivery_company %}
         <li class="ik-li order {{ package.status|lower }}" id="{{ package.id }}" data-id="{{ package.id }}" data-order-id="{{ order.id }}">
             {% if member %}
-                {% url 'ikwen:profile' member.id as member_url %}
-                <a href="{{ member_url|ikwenize }}" class="image rounded"
+                {% if settings.MEMBER_DETAIL_VIEW %}
+                    {% url settings.MEMBER_DETAIL_VIEW user.id as member_url %}
+                {% else %}
+                    {% url 'ikwen:profile' user.id as member_url %}
+                {% endif %}
+                <a href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}" class="image rounded"
                    style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
             {% else %}
                 <a class="image rounded" style="background-image: url({% static settings.MEMBER_AVATAR %})"></a>
             {% endif %}
             <div class="info">
                 {% if member %}
-                    <a class="name" href="{{ member_url|ikwenize }}">{{ member.full_name }}</a>
+                    <a class="name" href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}">{{ member.full_name }}</a>
                 {% else %}
                     <span class="name">{{ package.anonymous_buyer.name }}</span>
                 {% endif %}

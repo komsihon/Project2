@@ -4,15 +4,19 @@
     <li class="ik-li order {{ order.status|lower }}" id="{{ order.id }}" data-id="{{ order.id }}">
         {% with member=order.member %}
             {% if member %}
-                {% url 'ikwen:profile' member.id as member_url %}
-                <a href="{{ member_url|ikwenize }}" class="image rounded"
+                {% if settings.MEMBER_DETAIL_VIEW %}
+                    {% url settings.MEMBER_DETAIL_VIEW user.id as member_url %}
+                {% else %}
+                    {% url 'ikwen:profile' user.id as member_url %}
+                {% endif %}
+                <a href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}" class="image rounded"
                    style="background-image: url({% if member.photo.name %}{{ settings.IKWEN_MEDIA_URL }}{{ member.photo.small_name }}{% else %}{% static settings.MEMBER_AVATAR %}{% endif %})"></a>
             {% else %}
                 <a class="image rounded" style="background-image: url({% static settings.MEMBER_AVATAR %})"></a>
             {% endif %}
             <div class="info">
                 {% if member %}
-                    <a class="name" href="{{ member_url|ikwenize }}">
+                    <a class="name" href="{% if settings.MEMBER_DETAIL_VIEW %}{{ member_url }}{% else %}{{ member_url|ikwenize }}{% endif %}">
                         {{ member.full_name }}
                         {% if settings.IS_BANK %}<span class="account-number">({{ order.account_number }})</span>{% endif %}
                     </a>
