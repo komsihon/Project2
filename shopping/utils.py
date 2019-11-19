@@ -179,7 +179,7 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
                 notify_for_low_messaging_credit(service, balance)
             except:
                 logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
-        if balance.mail_count == 0 and not getattr(settings, 'UNIT_TESTING', False):
+        if balance.mail_count <= 0 and not getattr(settings, 'UNIT_TESTING', False):
             try:
                 notify_for_empty_messaging_credit(service, balance)
             except:
@@ -214,7 +214,7 @@ def send_dara_notification_email(dara_service, order):
                 notify_for_low_messaging_credit(service, balance)
             except:
                 logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
-        if balance.mail_count == 0 and not getattr(settings, 'UNIT_TESTING', False):
+        if balance.mail_count <= 0 and not getattr(settings, 'UNIT_TESTING', False):
             try:
                 notify_for_empty_messaging_credit(service, balance)
             except:
