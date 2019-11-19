@@ -16,7 +16,7 @@
             google.charts.setOnLoadCallback(drawTopProductsChart);
             google.charts.setOnLoadCallback(drawTopDarasChart)
         });
-        $(window).resize(ikwen.debouncer(function (e) {
+        $(window).resize('resize', () => {
             google.charts.setOnLoadCallback(drawTrendChart);
             google.charts.setOnLoadCallback(drawOrdersChart);
             google.charts.setOnLoadCallback(drawAepoChart);
@@ -24,7 +24,7 @@
             google.charts.setOnLoadCallback(drawTopCustomersChart);
             google.charts.setOnLoadCallback(drawTopProductsChart);
             google.charts.setOnLoadCallback(drawTopDarasChart);
-        }));
+        });
 
 
         let earningsHistory = {{ earnings_history|safe }},
