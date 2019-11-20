@@ -17,6 +17,7 @@
 
 {% block head_style %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'kakocase/css/home_content.css' %}">
     <style>
         .core-slider_item .slide {
             background: center no-repeat;
@@ -28,6 +29,11 @@
             .core-slider_item .cta {
                 position: absolute;
                 margin-top: -55px
+            }
+        }
+        @media (max-width: 767px) {
+            .app-name {
+                display: none;
             }
         }
         .core-slider_list .button1 {display: block; margin: auto; text-align: center; width: 225px}

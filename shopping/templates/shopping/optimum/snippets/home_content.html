@@ -81,25 +81,20 @@
                             {% for product in row %}
                                 {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
                                 {% if config.theme.display == 'Comfortable' %}
-                                    <div class="col-md-6 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-6 col-sm-6 comfortable-display arrival-grid simpleCart_shelfItem">
                                 {% elif config.theme.display == 'Cozy'  %}
-                                    <div class="col-md-4 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-4 col-sm-4 cozy-display arrival-grid simpleCart_shelfItem">
                                 {% else %}
-                                    <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-3 other-display arrival-grid simpleCart_shelfItem">
                                 {% endif %}
-
                                     <div class="product-tile">
                                         <div class="product-img">
                                             <figure>
                                                 <a href="{{ product_url }}">
                                                     {% for photo in product.photos|slice:"1:2" %}
-                                                        <div class="grid-img">
-                                                            <img src="{{ photo.image|from_provider:product.provider }}" class="img-responsive" alt="">
-                                                        </div>
+                                                        <div style="background-image: url({{ photo.image|from_provider:product.provider }});" class="item-view"></div>
                                                     {% endfor %}
-                                                    <div class="grid-img">
-                                                        <img src="{{ product.image|from_provider:product.provider }}" class="img-responsive" alt="">
-                                                    </div>
+                                                    <div style="background-image: url({{ product.image|from_provider:product.provider }});" class="item-view"></div>
                                                 </a>
                                             </figure>
                                         </div>
@@ -221,26 +216,20 @@
                             {% for product in row %}
                                 {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
                                 {% if config.theme.display == 'Comfortable' %}
-                                    <div class="col-md-6 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-6 col-sm-6 comfortable-display arrival-grid simpleCart_shelfItem">
                                 {% elif config.theme.display == 'Cozy'  %}
-                                    <div class="col-md-4 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-4 col-sm-4 cozy-display arrival-grid simpleCart_shelfItem">
                                 {% else %}
-                                    <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-3 other-display arrival-grid simpleCart_shelfItem">
                                 {% endif %}
                                     <div class="product-tile">
                                         <div  class="product-img">
                                             <figure>
                                                 <a href="{{ product_url }}">
                                                     {% for photo in product.photos|slice:"1:2" %}
-                                                        <div class="grid-img">
-                                                            <img src="{{ photo.image|from_provider:product.provider }}"
-                                                                 class="img-responsive" alt="">
-                                                        </div>
+                                                        <div style="background-image: url({{ photo.image|from_provider:product.provider }});" class="item-view"></div>
                                                     {% endfor %}
-                                                    <div class="grid-img">
-                                                        <img src="{{ product.image|from_provider:product.provider }}"
-                                                             class="img-responsive" alt="">
-                                                    </div>
+                                                    <div style="background-image: url({{ product.image|from_provider:product.provider }});" class="item-view"></div>
                                                 </a>
                                             </figure>
                                         </div>
@@ -309,26 +298,28 @@
                         {% for product in row %}
                             {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
                                 {% if config.theme.display == 'Comfortable' %}
-                                    <div class="col-md-6 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-6 col-sm-6 comfortable-display arrival-grid simpleCart_shelfItem">
                                 {% elif config.theme.display == 'Cozy'  %}
-                                    <div class="col-md-4 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-4 col-sm-4 cozy-display arrival-grid simpleCart_shelfItem">
                                 {% else %}
-                                    <div class="col-md-3 arrival-grid simpleCart_shelfItem">
+                                    <div class="col-md-3 other-displayarrival-grid simpleCart_shelfItem">
                                 {% endif %}
                                 <div class="product-tile">
                                     <div  class="product-img">
                                         <figure>
                                             <a href="{{ product_url }}">
                                                 {% for photo in product.photos|slice:"1:2" %}
-                                                    <div class="grid-img">
-                                                        <img src="{{ photo.image|from_provider:product.provider }}"
-                                                             class="img-responsive" alt="">
-                                                    </div>
+{#                                                    <div class="grid-img">#}
+{#                                                        <img src="{{ photo.image|from_provider:product.provider }}"#}
+{#                                                             class="img-responsive" alt="">#}
+{#                                                    </div>#}
+                                                    <div style="background-image: url({{ photo.image|from_provider:product.provider }});" class="item-view"></div>
                                                 {% endfor %}
-                                                <div class="grid-img">
-                                                    <img src="{{ product.image|from_provider:product.provider }}"
-                                                         class="img-responsive" alt="">
-                                                </div>
+{#                                                <div class="grid-img">#}
+{#                                                    <img src="{{ product.image|from_provider:product.provider }}"#}
+{#                                                         class="img-responsive" alt="">#}
+{#                                                </div>#}
+                                                <div style="background-image: url({{ product.image|from_provider:product.provider }});" class="item-view"></div>
                                             </a>
                                         </figure>
                                     </div>

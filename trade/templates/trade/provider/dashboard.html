@@ -27,8 +27,8 @@
         });
 
 
-        let earningsHistory = {{ earnings_history|safe }},
-            earningsHistoryForMonthBeforeTheLastOne = {{ earnings_history_for_month_before_the_last_one|safe }},
+        let earningsHistoryCurrentMonth = {{ earnings_history_current_month|safe }},
+            earningsHistoryPreviousMonth = {{ earnings_history_previous_month|safe }},
             transactionCountHistory = {{ transaction_count_history|safe }};
 
 
@@ -36,15 +36,15 @@
             let data = new google.visualization.DataTable(),
             values = [];
             data.addColumn('number', "{% trans 'Day' %}");
-            data.addColumn('number', "{% trans 'Earnings' %}");
-            data.addColumn('number', "{% trans 'Earnings for month before the last one' %}");
+            data.addColumn('number', "{% trans 'This month' %}");
+            data.addColumn('number', "{% trans 'Previous Month' %}");
 
-            for (let i=0; i<earningsHistory.length; i ++) {
-                values.push([i, earningsHistory[i], earningsHistoryForMonthBeforeTheLastOne[i]]);
+            for (let i=0; i<earningsHistoryCurrentMonth.length; i ++) {
+                values.push([i, earningsHistoryCurrentMonth[i], earningsHistoryPreviousMonth[i]]);
             }
             data.addRows(values);
             let options = {
-                title: "{% trans 'Trend' %}",
+                title: "{% trans 'Earnings (XAF)' %}",
                 {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
                 hAxis: {title: ""},
                 vAxis: {minValue: 0},
@@ -87,8 +87,8 @@
             data.addColumn('number', "{% trans 'Day' %}");
             data.addColumn('number', "{% trans 'AEPO' %}");
 
-            for (let i=0; i<earningsHistory.length; i ++) {
-                let avg = earningsHistory[i]/transactionCountHistory[i];
+            for (let i=0; i<earningsHistoryCurrentMonth.length; i ++) {
+                let avg = earningsHistoryCurrentMonth[i]/transactionCountHistory[i];
                 values.push([i, Number(avg.toFixed(2))]);
             }
             data.addRows(values);
@@ -111,7 +111,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for category in data|slice:"5" %}
                         {% if category.total > 0 %}
-                            values.push(["{{ category.name }}", {{ category.total }}]);
+                            values.push(["{{ category.name }}", '{{ category.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -128,7 +128,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for product in data|slice:"5" %}
                         {% if product.total > 0 %}
-                            values.push(["{{ product.name }}" + "{% if product.size %}({{ product.size }}){% endif %}", {{ product.total }}]);
+                            values.push(["{{ product.name }}" + "{% if product.size %}('{{ product.size }}'){% endif %}", {{ product.total }}]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -145,7 +145,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for customer in data|slice:"5" %}
                         {% if customer.total > 0 %}
-                            values.push(["{{ customer.member.full_name }}", {{ customer.total }}]);
+                            values.push(["{{ customer.member.full_name }}", '{{ customer.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -161,7 +161,7 @@
                 {% if data and data.0.total > 0 %}
                     {% for dara in data|slice:"5" %}
                         {% if dara.total > 0 %}
-                            values.push(["{{ dara.member.full_name }}", {{ dara.total }}]);
+                            values.push(["{{ dara.member.full_name }}", '{{ dara.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
