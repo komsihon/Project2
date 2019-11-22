@@ -3,11 +3,6 @@
     background-position: center;
     background-repeat: no-repeat;
     width: auto;
-}
-.comfortable-display .item-view, .cozy-display .item-view {
-    height: 272px;
-}
-.other-display .item-view {
     height: 269px;
 }
 @media (max-width: 320px){

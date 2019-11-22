@@ -105,13 +105,14 @@
         }
 
         function drawTopCategoriesChart(){
-            let values, data, chart;
+            let values, data, chart, category_total;
             {% for period, data in categories_report.items %}
                  values = [['Category name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for category in data|slice:"5" %}
                         {% if category.total > 0 %}
-                            values.push(["{{ category.name }}", '{{ category.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
+                            category_total = "{{ category.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                            values.push(["{{ category.name }}", parseFloat(category_total)]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -139,13 +140,14 @@
         }
 
         function drawTopCustomersChart() {
-            let values, data, chart;
+            let values, data, chart, customer_total;
             {% for period, data in customers_report.items %}
                  values = [['Customer name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for customer in data|slice:"5" %}
                         {% if customer.total > 0 %}
-                            values.push(["{{ customer.member.full_name }}", '{{ customer.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
+                            customer_total = "{{ customer.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                            values.push(["{{ customer.member.full_name }}", parseFloat(customer_total)]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -155,13 +157,14 @@
             {% endfor %}
         }
         function drawTopDarasChart(){
-            let values, data, chart;
+            let values, data, chart, dara_total;
             {% for period, data in daras_report.items %}
                 values = [['Dara name', 'Earnings']];
                 {% if data and data.0.total > 0 %}
                     {% for dara in data|slice:"5" %}
                         {% if dara.total > 0 %}
-                            values.push(["{{ dara.member.full_name }}", '{{ dara.total }}'.replace('{{ settings.DECIMAL_SEPARATOR }}', '.')]);
+                            dara_total = "{{ dara.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                            values.push(["{{ dara.member.full_name }}", parseFloat(dara_total)]);
                         {% endif %}
                     {% endfor %}
                     data = google.visualization.arrayToDataTable(values);
@@ -390,4 +393,3 @@
         {% endif %}
     </div>
 {% endblock %}
-
