@@ -194,8 +194,11 @@ class Order(Model):
         eshop_partner = service.retailer
         eshop_partner_earnings = 0
         if eshop_partner:
-            eshop_retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(partner=eshop_partner, app=service.app)
-            eshop_partner_earnings = total_provider_charges * (100 - eshop_retail_config.ikwen_tx_share_rate) / 100
+            try:
+                eshop_retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(partner=eshop_partner, app=service.app)
+                eshop_partner_earnings = total_provider_charges * (100 - eshop_retail_config.ikwen_tx_share_rate) / 100
+            except:
+                pass
 
         if service != logicom:
             logicom_partner = self.delivery_company.retailer

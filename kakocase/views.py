@@ -34,6 +34,7 @@ from ikwen.core.views import AdminHomeBase
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.shopping.models import Customer
+from daraja.models import DARAJA
 
 
 class AdminHome(AdminHomeBase):
@@ -330,15 +331,19 @@ class Go(VerifiedEmailTemplateView):
     def post(self, request, *args, **kwargs):
         form = DeploymentForm(request.POST)
         if form.is_valid():
-            app_id = form.cleaned_data.get('app_id')
             project_name = form.cleaned_data.get('project_name')
+            # try:
+            #     service = Service.objects.using(UMBRELLA).get(project_name=project_name)
+            # except:
+            #     pass
+            app_id = form.cleaned_data.get('app_id')
             business_type = form.cleaned_data.get('business_type')
             billing_cycle = form.cleaned_data.get('billing_cycle')
             business_category_id = form.cleaned_data.get('business_category_id')
             bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
             theme_id = form.cleaned_data.get('theme_id')
-            partner_id = form.cleaned_data.get('partner_id')
+            partner_id = request.session.get('referrer')
             app = Application.objects.using(UMBRELLA).get(pk=app_id)
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
             business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
@@ -349,7 +354,13 @@ class Go(VerifiedEmailTemplateView):
             setup_cost = billing_plan.setup_cost
             monthly_cost = billing_plan.monthly_cost
 
-            partner = Service.objects.using(UMBRELLA).get(pk=partner_id) if partner_id else None
+            try:
+                partner = Service.objects.using(UMBRELLA).get(pk=partner_id) if partner_id else None
+                if partner.app.slug == DARAJA:
+                    partner = None
+            except:
+                partner = None
+
             invoice_entries = []
             domain_name = IkwenInvoiceItem(label='Domain name')
             domain_name_entry = InvoiceEntry(item=domain_name, short_description=domain)
