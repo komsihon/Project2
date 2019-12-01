@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-05 16:23+0100\n"
-"PO-Revision-Date: 2019-11-05 16:33+0100\n"
+"POT-Creation-Date: 2019-11-20 11:19+0100\n"
+"PO-Revision-Date: 2019-11-20 11:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -542,14 +542,6 @@ msgstr "Partager cette bannière"
 msgid "Banner URL"
 msgstr "URL de la bannière"
 
-#: conf/settings.py:144
-msgid "English"
-msgstr "Anglais"
-
-#: conf/settings.py:145
-msgid "French"
-msgstr "Français"
-
 #: kako/models.py:15
 msgid "Your wholesale price. Retailers may set their own price."
 msgstr "Votre prix de gros. Les détaillants peuvent fixer le leur."
@@ -934,8 +926,8 @@ msgstr ""
 #: sales/templates/sales/snippets/promo_code_list_results.html:81
 #: sales/templates/sales/snippets/promotion_list_results.html:81
 #: shopping/templates/shopping/snippets/product_list_results.html:22
-#: trade/templates/trade/snippets/order_list_results.html:78
-#: trade/templates/trade/snippets/package_list_results.html:81
+#: trade/templates/trade/snippets/order_list_results.html:82
+#: trade/templates/trade/snippets/package_list_results.html:85
 #, python-format
 msgid "%(count)s results"
 msgstr "%(count)s résultats"
@@ -988,7 +980,7 @@ msgstr ""
 
 #: kakocase/cloud_setup.py:257
 msgid "Agreement goes here"
-msgstr ""
+msgstr "L'accord va ici"
 
 #: kakocase/cloud_setup.py:259
 msgid "Legal mentions go here"
@@ -1266,22 +1258,6 @@ msgstr "URL de création du compte bancaire"
 #: kakocase/models.py:384
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
-
-#: kakocase/scripts.py:67
-msgid "Manage Profiles"
-msgstr "Gérer les profils"
-
-#: kakocase/scripts.py:71
-msgid "Manage Revivals"
-msgstr "Gérer les Relances"
-
-#: kakocase/scripts.py:75
-msgid "Manage Daraja"
-msgstr "Gérer Daraja"
-
-#: kakocase/scripts.py:80
-msgid "Manage Continuous Rewarding"
-msgstr "Gérer le Continuous Rewarding"
 
 #: kakocase/utils.py:47
 #, python-format
@@ -1806,7 +1782,7 @@ msgstr "Enregistré le"
 #: trade/templates/trade/order_list.html:17
 #: trade/templates/trade/bank/dashboard.html:27
 #: trade/templates/trade/logicom/dashboard.html:27
-#: trade/templates/trade/provider/dashboard.html:64
+#: trade/templates/trade/provider/dashboard.html:66
 #: trade/templates/trade/provider/dashboard.html:199
 #: trade/templates/trade/retailer/dashboard.html:113
 msgid "Orders"
@@ -2382,8 +2358,8 @@ msgid "Promo codes"
 msgstr "Codes promo"
 
 #: sales/templates/sales/snippets/email_list_results.html:33
-#: trade/templates/trade/snippets/order_list_results.html:75
-#: trade/templates/trade/snippets/package_list_results.html:78
+#: trade/templates/trade/snippets/order_list_results.html:79
+#: trade/templates/trade/snippets/package_list_results.html:82
 #, python-format
 msgid ""
 "\n"
@@ -2400,10 +2376,6 @@ msgstr "Pourcentage"
 #: sales/templates/sales/snippets/promotion_list_results.html:44
 msgid "To"
 msgstr "À"
-
-#: shopping/manual_payment.py:24 shopping/views.py:750
-msgid "Order successful"
-msgstr "Commande réussie"
 
 #: shopping/utils.py:223
 #, python-format
@@ -2426,6 +2398,10 @@ msgstr ""
 #: shopping/views.py:549
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
+
+#: shopping/views.py:750
+msgid "Order successful"
+msgstr "Commande réussie"
 
 #: shopping/views.py:832
 msgid "Error setting up Deals selection page"
@@ -2964,9 +2940,9 @@ msgstr "Effacer"
 #: shopping/templates/shopping/home.html:434
 #: shopping/templates/shopping/product_detail.html:143
 #: shopping/templates/shopping/optimum/product_detail.html:164
-#: shopping/templates/shopping/optimum/snippets/home_content.html:108
-#: shopping/templates/shopping/optimum/snippets/home_content.html:249
-#: shopping/templates/shopping/optimum/snippets/home_content.html:337
+#: shopping/templates/shopping/optimum/snippets/home_content.html:141
+#: shopping/templates/shopping/optimum/snippets/home_content.html:298
+#: shopping/templates/shopping/optimum/snippets/home_content.html:388
 #: shopping/templates/shopping/snippets/product_list_results.html:54
 msgid "SOLD OUT"
 msgstr "ÉPUISÉ"
@@ -2974,9 +2950,9 @@ msgstr "ÉPUISÉ"
 #: shopping/templates/shopping/home.html:223
 #: shopping/templates/shopping/home.html:354
 #: shopping/templates/shopping/home.html:444
-#: shopping/templates/shopping/optimum/snippets/home_content.html:118
-#: shopping/templates/shopping/optimum/snippets/home_content.html:259
-#: shopping/templates/shopping/optimum/snippets/home_content.html:347
+#: shopping/templates/shopping/optimum/snippets/home_content.html:151
+#: shopping/templates/shopping/optimum/snippets/home_content.html:308
+#: shopping/templates/shopping/optimum/snippets/home_content.html:398
 #: shopping/templates/shopping/snippets/product_list_results.html:64
 msgctxt "Sale on a product"
 msgid "SALE"
@@ -2985,8 +2961,8 @@ msgstr "SOLDE"
 #: shopping/templates/shopping/home.html:248
 #: shopping/templates/shopping/home.html:379
 #: shopping/templates/shopping/home.html:469
-#: shopping/templates/shopping/optimum/snippets/home_content.html:151
-#: shopping/templates/shopping/optimum/snippets/home_content.html:372
+#: shopping/templates/shopping/optimum/snippets/home_content.html:184
+#: shopping/templates/shopping/optimum/snippets/home_content.html:423
 #: shopping/templates/shopping/snippets/product_list_results.html:97
 #: shopping/templates/shopping/snippets/product_size_qty.html:16
 msgid "Min. order"
@@ -3000,12 +2976,12 @@ msgstr "Achat min"
 #: shopping/templates/shopping/home.html:477
 #: shopping/templates/shopping/product_detail.html:139
 #: shopping/templates/shopping/optimum/product_detail.html:158
-#: shopping/templates/shopping/optimum/snippets/home_content.html:156
-#: shopping/templates/shopping/optimum/snippets/home_content.html:159
-#: shopping/templates/shopping/optimum/snippets/home_content.html:284
-#: shopping/templates/shopping/optimum/snippets/home_content.html:287
-#: shopping/templates/shopping/optimum/snippets/home_content.html:377
-#: shopping/templates/shopping/optimum/snippets/home_content.html:380
+#: shopping/templates/shopping/optimum/snippets/home_content.html:189
+#: shopping/templates/shopping/optimum/snippets/home_content.html:192
+#: shopping/templates/shopping/optimum/snippets/home_content.html:333
+#: shopping/templates/shopping/optimum/snippets/home_content.html:336
+#: shopping/templates/shopping/optimum/snippets/home_content.html:428
+#: shopping/templates/shopping/optimum/snippets/home_content.html:431
 #: shopping/templates/shopping/snippets/product_list_results.html:102
 #: shopping/templates/shopping/snippets/product_list_results.html:105
 msgid "Add To Cart"
@@ -3157,15 +3133,15 @@ msgstr "Les plus populaires"
 #: trade/templates/trade/provider/dashboard.html:238
 #: trade/templates/trade/provider/dashboard.html:273
 #: trade/templates/trade/provider/dashboard.html:309
-#: trade/templates/trade/provider/dashboard.html:350
+#: trade/templates/trade/provider/dashboard.html:354
 #: trade/templates/trade/retailer/dashboard.html:45
 #: trade/templates/trade/retailer/dashboard.html:114
 #: trade/templates/trade/retailer/dashboard.html:126
 #: trade/templates/trade/retailer/dashboard.html:140
 #: trade/templates/trade/retailer/dashboard.html:168
 #: trade/templates/trade/snippets/deal_list_results.html:107
-#: trade/templates/trade/snippets/order_list_results.html:29
-#: trade/templates/trade/snippets/package_list_results.html:21
+#: trade/templates/trade/snippets/order_list_results.html:33
+#: trade/templates/trade/snippets/package_list_results.html:25
 msgid "Details"
 msgstr "Détails"
 
@@ -3395,7 +3371,7 @@ msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
 
 #: shopping/templates/shopping/optimum/product_detail.html:144
-#: shopping/templates/shopping/optimum/snippets/home_content.html:144
+#: shopping/templates/shopping/optimum/snippets/home_content.html:177
 #: shopping/templates/shopping/snippets/product_list_results.html:90
 msgid "Avail."
 msgstr "Dispo."
@@ -3972,9 +3948,9 @@ msgstr "Gérer les commandes"
 msgid "Manage packages"
 msgstr "Gérer les packets"
 
-#: trade/models.py:331 trade/templates/trade/provider/dashboard.html:37
-#: trade/templates/trade/provider/dashboard.html:63
-#: trade/templates/trade/provider/dashboard.html:84
+#: trade/models.py:331 trade/templates/trade/provider/dashboard.html:38
+#: trade/templates/trade/provider/dashboard.html:65
+#: trade/templates/trade/provider/dashboard.html:87
 msgid "Day"
 msgstr "Jour"
 
@@ -3990,31 +3966,31 @@ msgstr "Mois"
 msgid "Manage issues"
 msgstr "Gérer les problèmes"
 
-#: trade/views.py:466
+#: trade/views.py:467
 #, python-format
 msgid "%s successfully added."
 msgstr "%s ajouté avec succès."
 
-#: trade/views.py:523
+#: trade/views.py:524
 #, python-format
 msgid "Deals for %s successfully saved."
 msgstr "Les deals pour %s ont été enregistrés avec succès ."
 
-#: trade/views.py:568 trade/views.py:596
+#: trade/views.py:569 trade/views.py:597
 #, python-format
 msgid "Your order on %s was approved"
 msgstr "Votre commande sur %s a été validée"
 
-#: trade/views.py:571 trade/views.py:599
+#: trade/views.py:572 trade/views.py:600
 #, python-format
 msgid "Your order on %s was rejected"
 msgstr "Votre commande sur %s a été rejetée"
 
-#: trade/views.py:608
+#: trade/views.py:609
 msgid "No Order found with this ID"
 msgstr "Aucune Commande trouvé avec cet ID"
 
-#: trade/views.py:611
+#: trade/views.py:612
 msgid "Unknown error occurred"
 msgstr "Erreur inconnue survenue"
 
@@ -4155,7 +4131,7 @@ msgstr "28 derniers jours"
 
 #: trade/templates/trade/bank/dashboard.html:42
 #: trade/templates/trade/logicom/dashboard.html:42
-#: trade/templates/trade/provider/dashboard.html:85
+#: trade/templates/trade/provider/dashboard.html:88
 #: trade/templates/trade/provider/dashboard.html:217
 #: trade/templates/trade/retailer/dashboard.html:125
 msgid "AEPO"
@@ -4173,10 +4149,9 @@ msgstr "Partenaire"
 
 #: trade/templates/trade/bank/dashboard.html:66
 #: trade/templates/trade/logicom/dashboard.html:66
-#: trade/templates/trade/provider/dashboard.html:38
 #: trade/templates/trade/provider/dashboard.html:244
 #: trade/templates/trade/provider/dashboard.html:315
-#: trade/templates/trade/provider/dashboard.html:356
+#: trade/templates/trade/provider/dashboard.html:360
 #: trade/templates/trade/retailer/dashboard.html:44
 #: trade/templates/trade/retailer/dashboard.html:145
 #: trade/templates/trade/retailer/dashboard.html:173
@@ -4307,9 +4282,17 @@ msgstr "Contactez-nous pour plus d'information"
 msgid "Close"
 msgstr "Fermer"
 
-#: trade/templates/trade/provider/dashboard.html:45
-msgid "Trend"
-msgstr "Tendance"
+#: trade/templates/trade/provider/dashboard.html:39
+msgid "This month"
+msgstr "Ce mois"
+
+#: trade/templates/trade/provider/dashboard.html:40
+msgid "Previous Month"
+msgstr "Mois passé"
+
+#: trade/templates/trade/provider/dashboard.html:47
+msgid "Earnings (XAF)"
+msgstr "Revenus (XAF)"
 
 #: trade/templates/trade/provider/dashboard.html:217
 msgid "Avg. Earning Per Order"
@@ -4322,8 +4305,8 @@ msgstr "Top catégories"
 
 #: trade/templates/trade/provider/dashboard.html:259
 #: trade/templates/trade/provider/dashboard.html:292
-#: trade/templates/trade/provider/dashboard.html:334
-#: trade/templates/trade/provider/dashboard.html:375
+#: trade/templates/trade/provider/dashboard.html:338
+#: trade/templates/trade/provider/dashboard.html:379
 msgid "Not enough data"
 msgstr "Pas assez de données"
 
@@ -4343,11 +4326,11 @@ msgstr "Top clients"
 msgid "Customer"
 msgstr "Client"
 
-#: trade/templates/trade/provider/dashboard.html:349
+#: trade/templates/trade/provider/dashboard.html:353
 msgid "Top daras"
 msgstr "Meilleurs Daras"
 
-#: trade/templates/trade/provider/dashboard.html:354
+#: trade/templates/trade/provider/dashboard.html:358
 msgid "Dara"
 msgstr ""
 
@@ -4394,8 +4377,8 @@ msgstr "Assuré par"
 #: trade/templates/trade/provider/package_list.html:84
 #: trade/templates/trade/snippets/deal_list_results.html:62
 #: trade/templates/trade/snippets/deal_list_results.html:125
-#: trade/templates/trade/snippets/order_list_results.html:40
-#: trade/templates/trade/snippets/package_list_results.html:45
+#: trade/templates/trade/snippets/order_list_results.html:44
+#: trade/templates/trade/snippets/package_list_results.html:49
 msgid "From"
 msgstr "Du"
 
@@ -4441,27 +4424,27 @@ msgid "Provider"
 msgstr "Fournisseur"
 
 #: trade/templates/trade/snippets/deal_list_results.html:112
-#: trade/templates/trade/snippets/order_list_results.html:25
-#: trade/templates/trade/snippets/order_list_results.html:33
-#: trade/templates/trade/snippets/package_list_results.html:26
+#: trade/templates/trade/snippets/order_list_results.html:29
+#: trade/templates/trade/snippets/order_list_results.html:37
+#: trade/templates/trade/snippets/package_list_results.html:30
 msgid "Cost"
 msgstr "Coût"
 
 #: trade/templates/trade/snippets/deal_list_results.html:115
 #: trade/templates/trade/snippets/deal_list_results.html:130
-#: trade/templates/trade/snippets/package_list_results.html:29
-#: trade/templates/trade/snippets/package_list_results.html:39
+#: trade/templates/trade/snippets/package_list_results.html:33
+#: trade/templates/trade/snippets/package_list_results.html:43
 msgid "PPC"
 msgstr "PPC"
 
 #: trade/templates/trade/snippets/deal_list_results.html:118
-#: trade/templates/trade/snippets/package_list_results.html:32
+#: trade/templates/trade/snippets/package_list_results.html:36
 msgid "Del"
 msgstr "Liv."
 
 #: trade/templates/trade/snippets/deal_list_results.html:133
-#: trade/templates/trade/snippets/order_list_results.html:34
-#: trade/templates/trade/snippets/package_list_results.html:42
+#: trade/templates/trade/snippets/order_list_results.html:38
+#: trade/templates/trade/snippets/package_list_results.html:46
 msgid "Delivery fees"
 msgstr "Frais de livraison"
 
@@ -4513,13 +4496,40 @@ msgstr "Confirmé le"
 msgid "By"
 msgstr "Par"
 
-#: trade/templates/trade/snippets/order_list_results.html:37
+#: trade/templates/trade/snippets/order_list_results.html:41
 msgid "RCC"
 msgstr "RCC"
 
 #: trade/templates/trade/snippets/package_details.html:2
 msgid "Package details"
 msgstr "Détails du paquet"
+
+#~ msgid "Current month Earnings"
+#~ msgstr "Revenus courants"
+
+#~ msgid "Trend"
+#~ msgstr "Tendance"
+
+#~ msgid "Earnings for month before the last one"
+#~ msgstr "Revenus du mois surpassé"
+
+#~ msgid "English"
+#~ msgstr "Anglais"
+
+#~ msgid "French"
+#~ msgstr "Français"
+
+#~ msgid "Manage Profiles"
+#~ msgstr "Gérer les profils"
+
+#~ msgid "Manage Revivals"
+#~ msgstr "Gérer les Relances"
+
+#~ msgid "Manage Daraja"
+#~ msgstr "Gérer Daraja"
+
+#~ msgid "Manage Continuous Rewarding"
+#~ msgstr "Gérer le Continuous Rewarding"
 
 #~ msgid "Cash-out requested by %s"
 #~ msgstr "Retrait demandé par %s"

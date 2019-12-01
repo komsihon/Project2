@@ -338,8 +338,8 @@ class KakocaseDashboardBase(DashboardBase):
         context['orders_report'] = orders_report
         context['categories_report'] = categories_report
         context['products_report'] = products_report
-        context['earnings_history'] = operator_profile.earnings_history[-30:]
-        context['earnings_history_for_month_before_the_last_one'] = operator_profile.earnings_history[-60:-31]
+        context['earnings_history_current_month'] = operator_profile.earnings_history[-30:]
+        context['earnings_history_previous_month'] = operator_profile.earnings_history[-60:-30]
         context['transaction_count_history'] = operator_profile.orders_count_history[-30:]
         return context
 
