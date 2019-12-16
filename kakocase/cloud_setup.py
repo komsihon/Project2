@@ -6,6 +6,7 @@ import subprocess
 from datetime import datetime, timedelta
 import random
 from threading import Thread
+import logging
 
 from django import forms
 from django.conf import settings
@@ -34,8 +35,8 @@ from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
 
 from echo.models import Balance
+from daraja.models import DARAJA
 
-import logging
 logger = logging.getLogger('ikwen')
 
 
@@ -206,8 +207,6 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         add_database_to_settings(db)
         collaborates_on_fk_list = member.collaborates_on_fk_list + [service.id]
         customer_on_fk_list = member.customer_on_fk_list + [service.id]
-        if partner_retailer and partner_retailer.id not in customer_on_fk_list:
-            customer_on_fk_list += [partner_retailer.id]
         group_fk_list = member.group_fk_list + [new_sudo_group.id]
         Member.objects.using(db).filter(pk=member.id).update(collaborates_on_fk_list=collaborates_on_fk_list,
                                                              customer_on_fk_list=customer_on_fk_list,
@@ -352,7 +351,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
 
     if member != vendor.member:
         add_event(vendor, SERVICE_DEPLOYED, member=member, object_id=invoice.id)
-    if partner_retailer:
+    if partner_retailer and partner_retailer.app.slug != DARAJA:
         partner_profile = PartnerProfile.objects.using(UMBRELLA).get(service=partner_retailer)
         try:
             Member.objects.get(pk=member.id)

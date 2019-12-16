@@ -352,6 +352,9 @@ class ProductDetail(TemplateSelector, TemplateView):
         product = apply_promotion_discount([current_product])[0]
         category = product.category
         context['product'] = product
+        product_uri = reverse('shopping:product_detail', args=(category.slug, product.slug))
+        product_uri = product_uri.replace(getattr(settings, 'WSGI_SCRIPT_ALIAS', ''), '')
+        context['product_uri'] = product_uri
         base_queryset = Product.objects.exclude(pk=product.id).filter(visible=True, is_duplicate=False)
         suggestions = base_queryset.filter(category=category, brand=product.brand).order_by('-updated_on')[:6]
         if suggestions.count() < 6:

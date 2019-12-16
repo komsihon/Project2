@@ -222,7 +222,7 @@ def send_dara_notification_email(dara_service, order):
             return
         subject = _("New transaction on %s" % config.company_name)
         try:
-            dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard').replace('daraja/', '')
+            dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
             html_content = get_mail_content(subject, template_name=template_name,
                                             extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
                                                            'dara_earnings': order.referrer_earnings,
@@ -231,6 +231,7 @@ def send_dara_notification_email(dara_service, order):
                                                            'dashboard_url': dashboard_url})
             sender = 'ikwen Daraja <no-reply@ikwen.com>'
             msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
+            msg.content_subtype = "html"
             if not getattr(settings, 'UNIT_TESTING', False):
                 balance.mail_count -= 1
             balance.save()

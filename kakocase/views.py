@@ -356,8 +356,6 @@ class Go(VerifiedEmailTemplateView):
 
             try:
                 partner = Service.objects.using(UMBRELLA).get(pk=partner_id) if partner_id else None
-                if partner.app.slug == DARAJA:
-                    partner = None
             except:
                 partner = None
 
