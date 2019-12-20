@@ -446,15 +446,17 @@ def after_order_confirmation(order, update_stock=True):
         referrer_db = referrer.database
         add_database(referrer_db)
         try:
+            dara = Dara.objects.get(member=referrer.member)
+        except Dara.DoesNotExist:
+            logging.error("%s - Dara %s not found" % (service.project_name, member.username))
+        try:
             dara_service_original = Service.objects.using(referrer_db).get(pk=referrer.id)
         except Dara.DoesNotExist:
-            logging.error("Dara service not found in %s database for %s" % (referrer_db, referrer.project_name))
-            return
-        dara = Dara.objects.get(member=referrer.member)
+            logging.error("%s - Dara service not found in %s database for %s" % (service.project_name, referrer_db, referrer.project_name))
         try:
             provider_mirror = Service.objects.using(referrer_db).get(pk=service.id)
-        except OperatorProfile.DoesNotExist:
-            logging.error("Provider Service not found in %s database for %s" % (referrer_db, referrer.project_name))
+        except Service.DoesNotExist:
+            logging.error("%s - Provider Service not found in %s database for %s" % (service.project_name, referrer_db, referrer.project_name))
 
     packages_info = order.split_into_packages(dara)
     set_ikwen_earnings_and_stats(order)
@@ -507,7 +509,7 @@ def after_order_confirmation(order, update_stock=True):
         dara_service_original.raise_balance(order.referrer_earnings, provider=order.payment_mean.slug)
         send_dara_notification_email(dara_service_original, order)
 
-        set_counters_many(dara, dara_service_original, provider_mirror)
+        set_counters(dara)
         dara.last_transaction_on = datetime.now()
 
         increment_history_field(dara, 'orders_count_history')
@@ -515,13 +517,17 @@ def after_order_confirmation(order, update_stock=True):
         increment_history_field(dara, 'turnover_history', provider_revenue)
         increment_history_field(dara, 'earnings_history', provider_earnings)
 
-        increment_history_field(dara_service_original, 'transaction_count_history')
-        increment_history_field(dara_service_original, 'turnover_history', raw_provider_revenue)
-        increment_history_field(dara_service_original, 'earnings_history', order.referrer_earnings)
+        if dara_service_original:
+            set_counters(dara_service_original)
+            increment_history_field(dara_service_original, 'transaction_count_history')
+            increment_history_field(dara_service_original, 'turnover_history', raw_provider_revenue)
+            increment_history_field(dara_service_original, 'earnings_history', order.referrer_earnings)
 
-        increment_history_field(provider_mirror, 'transaction_count_history')
-        increment_history_field(provider_mirror, 'turnover_history', raw_provider_revenue)
-        increment_history_field(provider_mirror, 'earnings_history', order.referrer_earnings)
+        if dara_service_original:
+            set_counters(provider_mirror)
+            increment_history_field(provider_mirror, 'transaction_count_history')
+            increment_history_field(provider_mirror, 'turnover_history', raw_provider_revenue)
+            increment_history_field(provider_mirror, 'earnings_history', order.referrer_earnings)
 
         try:
             member_ref = Member.objects.using(referrer_db).get(pk=member.id)

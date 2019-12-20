@@ -34,7 +34,7 @@ from ikwen.core.views import AdminHomeBase
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.shopping.models import Customer
-from daraja.models import DARAJA
+from ikwen.billing.utils import get_months_count_billing_cycle
 
 
 class AdminHome(AdminHomeBase):
@@ -338,7 +338,6 @@ class Go(VerifiedEmailTemplateView):
             #     pass
             app_id = form.cleaned_data.get('app_id')
             business_type = form.cleaned_data.get('business_type')
-            billing_cycle = form.cleaned_data.get('billing_cycle')
             business_category_id = form.cleaned_data.get('business_category_id')
             bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
@@ -349,6 +348,7 @@ class Go(VerifiedEmailTemplateView):
             business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)
             bundle = TsunamiBundle.objects.using(UMBRELLA).get(pk=bundle_id)
             billing_plan = bundle.billing_plan
+            billing_cycle = get_months_count_billing_cycle(billing_plan.setup_months_count)
 
             customer = Member.objects.using(UMBRELLA).get(pk=request.user.id)
             setup_cost = billing_plan.setup_cost

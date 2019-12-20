@@ -188,43 +188,6 @@
                 })
             });
 
-            $('#admin-content').on('change', '.status', function() {
-                $('#context-search').val('');
-                loadResults();
-            }).on('click', '.pagination li', function() {
-                $('.pagination li').removeClass('active');
-                $(this).addClass('active');
-                loadResults();
-            }).on('submit', '#admin-tools-form', function() {
-                loadResults();
-                return false
-            }).on('click', '.action.export', function() {
-                var status = $('#order-status').val();
-                window.location = window.location + '?action=export&status=' + status
-            });
-
-            function loadResults() {
-                var search = $('#context-search').val();
-                if (search) {
-                    var params = 'q=' + search;
-                } else {
-                    var status = $('div#admin-tools .status').val();
-                    var params = 'status=' + status;
-                }
-
-                var currentPage = $('.pagination li.active').data('val');
-                params += '&page=' + currentPage + '&format=html_results';
-
-                var query = '{{ request.META.QUERY_STRING|safe }}' ;
-                if (query) query += '&' + params;
-                else query = params;
-
-                $('div#admin-content > .spinner').fadeIn();
-                $('#results').load('{{ request.path }}', query, function() {
-                    $('div#admin-content > .spinner').fadeOut();
-                })
-            }
-
             function rejectOrder() {
             }
         })()
