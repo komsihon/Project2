@@ -87,9 +87,9 @@ button { min-width: 200px }
 
     .error-report {font-size: 3vw !important;}
 
-	h1.mobile-adjust { font-size: 5.5vw !important; padding-bottom: 2vh !important; padding-top: 5vh !important; }
+	/*h1.mobile-adjust { font-size: 5.5vw !important; padding-bottom: 2vh !important; padding-top: 5vh !important; }*/
 
-	label.mobile-adjust { font-size: 3.5vw !important }
+	/*label.mobile-adjust { font-size: 3.5vw !important }*/
 
 	.form-control-custom { height: 6vh !important; font-size: 3vw !important;}
 
@@ -104,8 +104,8 @@ button { min-width: 200px }
 
 	.form-control-custom { font-size: 1.5vw !important; height: 7vh !important; }
 
-	h1.mobile-adjust { font-size: 4.5vw !important; padding-bottom: 2vh !important; }
+	/*h1.mobile-adjust { font-size: 4.5vw !important; padding-bottom: 2vh !important; }*/
 
-	label.mobile-adjust { font-size: 1.8vw }
+	/*label.mobile-adjust { font-size: 1.8vw }*/
 
 }
