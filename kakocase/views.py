@@ -342,7 +342,7 @@ class Go(VerifiedEmailTemplateView):
             bundle_id = form.cleaned_data.get('bundle_id')
             domain = form.cleaned_data.get('domain')
             theme_id = form.cleaned_data.get('theme_id')
-            partner_id = request.session.get('referrer')
+            partner_id = request.COOKIES.get('referrer')
             app = Application.objects.using(UMBRELLA).get(pk=app_id)
             theme = Theme.objects.using(UMBRELLA).get(pk=theme_id)
             business_category = BusinessCategory.objects.using(UMBRELLA).get(pk=business_category_id)

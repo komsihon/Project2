@@ -207,37 +207,21 @@ def send_dara_notification_email(dara_service, order):
     config = service.config
     template_name = 'daraja/mails/new_transaction.html'
 
-    with transaction.atomic(using=WALLETS_DB_ALIAS):
-        balance, update = Balance.objects.using(WALLETS_DB_ALIAS).get_or_create(service_id=service.id)
-        if 0 < balance.mail_count < LOW_MAIL_LIMIT:
-            try:
-                notify_for_low_messaging_credit(service, balance)
-            except:
-                logger.error("Failed to notify %s for low messaging credit." % service, exc_info=True)
-        if balance.mail_count <= 0 and not getattr(settings, 'UNIT_TESTING', False):
-            try:
-                notify_for_empty_messaging_credit(service, balance)
-            except:
-                logger.error("Failed to notify %s for empty messaging credit." % service, exc_info=True)
-            return
-        subject = _("New transaction on %s" % config.company_name)
-        try:
-            dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
-            html_content = get_mail_content(subject, template_name=template_name,
-                                            extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
-                                                           'dara_earnings': order.referrer_earnings,
-                                                           'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
-                                                           'account_balance': dara_service.balance,
-                                                           'dashboard_url': dashboard_url})
-            sender = 'ikwen Daraja <no-reply@ikwen.com>'
-            msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
-            msg.content_subtype = "html"
-            if not getattr(settings, 'UNIT_TESTING', False):
-                balance.mail_count -= 1
-            balance.save()
-            Thread(target=lambda m: m.send(), args=(msg,)).start()
-        except:
-            logger.error("Failed to notify %s Dara after follower purchase." % service, exc_info=True)
+    subject = _("New transaction on %s" % config.company_name)
+    try:
+        dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
+        html_content = get_mail_content(subject, template_name=template_name,
+                                        extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
+                                                       'dara_earnings': order.referrer_earnings,
+                                                       'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
+                                                       'account_balance': dara_service.balance,
+                                                       'dashboard_url': dashboard_url})
+        sender = 'ikwen Daraja <no-reply@ikwen.com>'
+        msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg,)).start()
+    except:
+        logger.error("Failed to notify %s Dara after follower purchase." % service, exc_info=True)
 
 
 def send_order_confirmation_sms(buyer_name, buyer_phone, order):
@@ -578,7 +562,7 @@ def referee_registration_callback(request, *args, **kwargs):
     by adding its path to the IKWEN_REGISTER_EVENTS in settings file.
     This does necessary operations to bind a Dara to the Member newly login in.
     """
-    referrer = request.session.get('referrer')
+    referrer = request.COOKIES.get('referrer')
     if referrer:
         try:
             service = get_service_instance()
