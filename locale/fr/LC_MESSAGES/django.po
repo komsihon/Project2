@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-20 11:19+0100\n"
+"POT-Creation-Date: 2019-12-31 12:35+0100\n"
 "PO-Revision-Date: 2019-11-20 11:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -542,6 +542,14 @@ msgstr "Partager cette bannière"
 msgid "Banner URL"
 msgstr "URL de la bannière"
 
+#: conf/settings.py:145
+msgid "English"
+msgstr "Anglais"
+
+#: conf/settings.py:146
+msgid "French"
+msgstr "Français"
+
 #: kako/models.py:15
 msgid "Your wholesale price. Retailers may set their own price."
 msgstr "Votre prix de gros. Les détaillants peuvent fixer le leur."
@@ -656,7 +664,7 @@ msgid "Wow ! Seize this opportunity on %s"
 msgstr "Waouh! Saisissez cette opportunité sur %s"
 
 #: kako/views.py:213 templates/tchopetyamo/core/app_base_admin.html:7
-#: trade/templates/trade/provider/dashboard.html:242
+#: trade/templates/trade/provider/dashboard.html:245
 #: trade/templates/trade/retailer/dashboard.html:144
 msgid "Category"
 msgstr "Catégorie"
@@ -978,39 +986,39 @@ msgstr ""
 "L' AUTH CODE est invalide, s'il vous plaît vérifiez. Si le problème "
 "persiste, veuillez contacter %s pour avoir le bon."
 
-#: kakocase/cloud_setup.py:257
+#: kakocase/cloud_setup.py:256
 msgid "Agreement goes here"
 msgstr "L'accord va ici"
 
-#: kakocase/cloud_setup.py:259
+#: kakocase/cloud_setup.py:258
 msgid "Legal mentions go here"
 msgstr "Les Mentions légales vont ici"
 
-#: kakocase/cloud_setup.py:272
+#: kakocase/cloud_setup.py:271
 msgid ""
 "Hey $client<br>We are inviting you to join our awesome community on ikwen."
 msgstr ""
 "Salut $client<br>Nous vous invitons à rejoindre notre incroyable communauté "
 "sur ikwen."
 
-#: kakocase/cloud_setup.py:315 kakocase/models.py:204
+#: kakocase/cloud_setup.py:323 kakocase/models.py:204
 #: shopping/templates/shopping/mails/order_notice.html:87
 msgid "Pick up in store"
 msgstr "Récupérer sur place"
 
-#: kakocase/cloud_setup.py:316
+#: kakocase/cloud_setup.py:324
 msgid "2H after order"
 msgstr "2H après avoir commandé"
 
-#: kakocase/cloud_setup.py:318 kakocase/models.py:205
+#: kakocase/cloud_setup.py:326 kakocase/models.py:205
 msgid "Home delivery"
 msgstr "Livraison à domicile"
 
-#: kakocase/cloud_setup.py:319
+#: kakocase/cloud_setup.py:327
 msgid "Max. 72H after order"
 msgstr "Maximum 72H après avoir commander"
 
-#: kakocase/cloud_setup.py:376
+#: kakocase/cloud_setup.py:384
 #, python-format
 msgid "Your website %s was created"
 msgstr "Votre site internet %s a été crée"
@@ -1259,6 +1267,22 @@ msgstr "URL de création du compte bancaire"
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
 
+#: kakocase/scripts.py:67
+msgid "Manage Profiles"
+msgstr "Gérer les profils"
+
+#: kakocase/scripts.py:71
+msgid "Manage Revivals"
+msgstr "Gérer les Relances"
+
+#: kakocase/scripts.py:75
+msgid "Manage Daraja"
+msgstr "Gérer Daraja"
+
+#: kakocase/scripts.py:80
+msgid "Manage Continuous Rewarding"
+msgstr "Gérer le Continuous Rewarding"
+
 #: kakocase/utils.py:47
 #, python-format
 msgid "I'm back on %s !"
@@ -1278,8 +1302,8 @@ msgstr "Dernière commande"
 #: trade/templates/trade/logicom/dashboard.html:10
 #: trade/templates/trade/logicom/dashboard.html:14
 #: trade/templates/trade/provider/ccm_dashboard.html:74
-#: trade/templates/trade/provider/dashboard.html:182
-#: trade/templates/trade/provider/dashboard.html:186
+#: trade/templates/trade/provider/dashboard.html:185
+#: trade/templates/trade/provider/dashboard.html:189
 #: trade/templates/trade/provider/package_list.html:67
 #: trade/templates/trade/retailer/dashboard.html:49
 #: trade/templates/trade/snippets/deal_list_results.html:45
@@ -1289,7 +1313,7 @@ msgstr "Aujourd'hui"
 #: kakocase/utils.py:88 trade/templates/trade/bank/dashboard.html:15
 #: trade/templates/trade/logicom/dashboard.html:15
 #: trade/templates/trade/provider/ccm_dashboard.html:80
-#: trade/templates/trade/provider/dashboard.html:187
+#: trade/templates/trade/provider/dashboard.html:190
 #: trade/templates/trade/retailer/dashboard.html:56
 msgid "Yesterday"
 msgstr "Hier"
@@ -1306,11 +1330,11 @@ msgstr "30 derniers jours"
 msgid "Never since 60 days"
 msgstr "Jamais depuis 60 jours"
 
-#: kakocase/views.py:58
+#: kakocase/views.py:59
 msgid "Delivery Option"
 msgstr "Option de livraison"
 
-#: kakocase/views.py:83
+#: kakocase/views.py:84
 msgid "Yourself"
 msgstr "Vous même"
 
@@ -1783,7 +1807,7 @@ msgstr "Enregistré le"
 #: trade/templates/trade/bank/dashboard.html:27
 #: trade/templates/trade/logicom/dashboard.html:27
 #: trade/templates/trade/provider/dashboard.html:66
-#: trade/templates/trade/provider/dashboard.html:199
+#: trade/templates/trade/provider/dashboard.html:202
 #: trade/templates/trade/retailer/dashboard.html:113
 msgid "Orders"
 msgstr "Commandes"
@@ -2377,12 +2401,16 @@ msgstr "Pourcentage"
 msgid "To"
 msgstr "À"
 
-#: shopping/utils.py:223
+#: shopping/manual_payment.py:24 shopping/views.py:753
+msgid "Order successful"
+msgstr "Commande réussie"
+
+#: shopping/utils.py:210
 #, python-format
 msgid "New transaction on %s"
 msgstr "Nouvelle transaction sur %s"
 
-#: shopping/utils.py:256
+#: shopping/utils.py:241
 #, python-format
 msgid ""
 "Order successful:\n"
@@ -2395,24 +2423,20 @@ msgstr ""
 "Votre RCC est %(rcc)s\n"
 "Merci."
 
-#: shopping/views.py:549
+#: shopping/views.py:552
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:750
-msgid "Order successful"
-msgstr "Commande réussie"
-
-#: shopping/views.py:832
+#: shopping/views.py:835
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:891
+#: shopping/views.py:894
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:905
+#: shopping/views.py:908
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2940,9 +2964,9 @@ msgstr "Effacer"
 #: shopping/templates/shopping/home.html:434
 #: shopping/templates/shopping/product_detail.html:143
 #: shopping/templates/shopping/optimum/product_detail.html:164
-#: shopping/templates/shopping/optimum/snippets/home_content.html:141
-#: shopping/templates/shopping/optimum/snippets/home_content.html:298
-#: shopping/templates/shopping/optimum/snippets/home_content.html:388
+#: shopping/templates/shopping/optimum/snippets/home_content.html:103
+#: shopping/templates/shopping/optimum/snippets/home_content.html:238
+#: shopping/templates/shopping/optimum/snippets/home_content.html:328
 #: shopping/templates/shopping/snippets/product_list_results.html:54
 msgid "SOLD OUT"
 msgstr "ÉPUISÉ"
@@ -2950,9 +2974,9 @@ msgstr "ÉPUISÉ"
 #: shopping/templates/shopping/home.html:223
 #: shopping/templates/shopping/home.html:354
 #: shopping/templates/shopping/home.html:444
-#: shopping/templates/shopping/optimum/snippets/home_content.html:151
-#: shopping/templates/shopping/optimum/snippets/home_content.html:308
-#: shopping/templates/shopping/optimum/snippets/home_content.html:398
+#: shopping/templates/shopping/optimum/snippets/home_content.html:113
+#: shopping/templates/shopping/optimum/snippets/home_content.html:248
+#: shopping/templates/shopping/optimum/snippets/home_content.html:338
 #: shopping/templates/shopping/snippets/product_list_results.html:64
 msgctxt "Sale on a product"
 msgid "SALE"
@@ -2961,8 +2985,8 @@ msgstr "SOLDE"
 #: shopping/templates/shopping/home.html:248
 #: shopping/templates/shopping/home.html:379
 #: shopping/templates/shopping/home.html:469
-#: shopping/templates/shopping/optimum/snippets/home_content.html:184
-#: shopping/templates/shopping/optimum/snippets/home_content.html:423
+#: shopping/templates/shopping/optimum/snippets/home_content.html:146
+#: shopping/templates/shopping/optimum/snippets/home_content.html:363
 #: shopping/templates/shopping/snippets/product_list_results.html:97
 #: shopping/templates/shopping/snippets/product_size_qty.html:16
 msgid "Min. order"
@@ -2976,12 +3000,12 @@ msgstr "Achat min"
 #: shopping/templates/shopping/home.html:477
 #: shopping/templates/shopping/product_detail.html:139
 #: shopping/templates/shopping/optimum/product_detail.html:158
-#: shopping/templates/shopping/optimum/snippets/home_content.html:189
-#: shopping/templates/shopping/optimum/snippets/home_content.html:192
-#: shopping/templates/shopping/optimum/snippets/home_content.html:333
-#: shopping/templates/shopping/optimum/snippets/home_content.html:336
-#: shopping/templates/shopping/optimum/snippets/home_content.html:428
-#: shopping/templates/shopping/optimum/snippets/home_content.html:431
+#: shopping/templates/shopping/optimum/snippets/home_content.html:151
+#: shopping/templates/shopping/optimum/snippets/home_content.html:154
+#: shopping/templates/shopping/optimum/snippets/home_content.html:273
+#: shopping/templates/shopping/optimum/snippets/home_content.html:276
+#: shopping/templates/shopping/optimum/snippets/home_content.html:368
+#: shopping/templates/shopping/optimum/snippets/home_content.html:371
 #: shopping/templates/shopping/snippets/product_list_results.html:102
 #: shopping/templates/shopping/snippets/product_list_results.html:105
 msgid "Add To Cart"
@@ -3127,13 +3151,13 @@ msgstr "Les plus populaires"
 #: trade/templates/trade/logicom/dashboard.html:28
 #: trade/templates/trade/logicom/dashboard.html:43
 #: trade/templates/trade/logicom/dashboard.html:60
-#: trade/templates/trade/provider/dashboard.html:193
-#: trade/templates/trade/provider/dashboard.html:200
-#: trade/templates/trade/provider/dashboard.html:218
-#: trade/templates/trade/provider/dashboard.html:238
-#: trade/templates/trade/provider/dashboard.html:273
-#: trade/templates/trade/provider/dashboard.html:309
-#: trade/templates/trade/provider/dashboard.html:354
+#: trade/templates/trade/provider/dashboard.html:196
+#: trade/templates/trade/provider/dashboard.html:203
+#: trade/templates/trade/provider/dashboard.html:221
+#: trade/templates/trade/provider/dashboard.html:241
+#: trade/templates/trade/provider/dashboard.html:276
+#: trade/templates/trade/provider/dashboard.html:312
+#: trade/templates/trade/provider/dashboard.html:357
 #: trade/templates/trade/retailer/dashboard.html:45
 #: trade/templates/trade/retailer/dashboard.html:114
 #: trade/templates/trade/retailer/dashboard.html:126
@@ -3371,7 +3395,7 @@ msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
 
 #: shopping/templates/shopping/optimum/product_detail.html:144
-#: shopping/templates/shopping/optimum/snippets/home_content.html:177
+#: shopping/templates/shopping/optimum/snippets/home_content.html:139
 #: shopping/templates/shopping/snippets/product_list_results.html:90
 msgid "Avail."
 msgstr "Dispo."
@@ -3843,7 +3867,7 @@ msgid "Oops! An error occurred. Check your internet."
 msgstr "Oups! Une erreur est survenue. Vérifiez votre connection internet."
 
 #: templates/tchopetyamo/core/app_base_admin.html:6
-#: trade/templates/trade/provider/dashboard.html:277
+#: trade/templates/trade/provider/dashboard.html:280
 msgid "Product"
 msgstr "Produits"
 
@@ -3944,25 +3968,25 @@ msgstr "Voir le rapport du tableau de bord"
 msgid "Manage orders"
 msgstr "Gérer les commandes"
 
-#: trade/models.py:282
+#: trade/models.py:285
 msgid "Manage packages"
 msgstr "Gérer les packets"
 
-#: trade/models.py:331 trade/templates/trade/provider/dashboard.html:38
+#: trade/models.py:334 trade/templates/trade/provider/dashboard.html:38
 #: trade/templates/trade/provider/dashboard.html:65
 #: trade/templates/trade/provider/dashboard.html:87
 msgid "Day"
 msgstr "Jour"
 
-#: trade/models.py:332
+#: trade/models.py:335
 msgid "Week"
 msgstr "Semaine"
 
-#: trade/models.py:333
+#: trade/models.py:336
 msgid "Month"
 msgstr "Mois"
 
-#: trade/models.py:365
+#: trade/models.py:368
 msgid "Manage issues"
 msgstr "Gérer les problèmes"
 
@@ -4109,14 +4133,14 @@ msgstr "Rechercher partenaire"
 
 #: trade/templates/trade/bank/dashboard.html:7
 #: trade/templates/trade/logicom/dashboard.html:7
-#: trade/templates/trade/provider/dashboard.html:179
+#: trade/templates/trade/provider/dashboard.html:182
 msgid "Performances"
 msgstr "Performances"
 
 #: trade/templates/trade/bank/dashboard.html:16
 #: trade/templates/trade/logicom/dashboard.html:16
 #: trade/templates/trade/provider/ccm_dashboard.html:101
-#: trade/templates/trade/provider/dashboard.html:188
+#: trade/templates/trade/provider/dashboard.html:191
 #: trade/templates/trade/retailer/dashboard.html:66
 msgid "Last week"
 msgstr "Semaine dernière"
@@ -4124,7 +4148,7 @@ msgstr "Semaine dernière"
 #: trade/templates/trade/bank/dashboard.html:17
 #: trade/templates/trade/logicom/dashboard.html:17
 #: trade/templates/trade/provider/ccm_dashboard.html:122
-#: trade/templates/trade/provider/dashboard.html:189
+#: trade/templates/trade/provider/dashboard.html:192
 #: trade/templates/trade/retailer/dashboard.html:76
 msgid "Last 28 days"
 msgstr "28 derniers jours"
@@ -4132,7 +4156,7 @@ msgstr "28 derniers jours"
 #: trade/templates/trade/bank/dashboard.html:42
 #: trade/templates/trade/logicom/dashboard.html:42
 #: trade/templates/trade/provider/dashboard.html:88
-#: trade/templates/trade/provider/dashboard.html:217
+#: trade/templates/trade/provider/dashboard.html:220
 #: trade/templates/trade/retailer/dashboard.html:125
 msgid "AEPO"
 msgstr "RMPC"
@@ -4149,9 +4173,9 @@ msgstr "Partenaire"
 
 #: trade/templates/trade/bank/dashboard.html:66
 #: trade/templates/trade/logicom/dashboard.html:66
-#: trade/templates/trade/provider/dashboard.html:244
-#: trade/templates/trade/provider/dashboard.html:315
-#: trade/templates/trade/provider/dashboard.html:360
+#: trade/templates/trade/provider/dashboard.html:247
+#: trade/templates/trade/provider/dashboard.html:318
+#: trade/templates/trade/provider/dashboard.html:363
 #: trade/templates/trade/retailer/dashboard.html:44
 #: trade/templates/trade/retailer/dashboard.html:145
 #: trade/templates/trade/retailer/dashboard.html:173
@@ -4294,43 +4318,43 @@ msgstr "Mois passé"
 msgid "Earnings (XAF)"
 msgstr "Revenus (XAF)"
 
-#: trade/templates/trade/provider/dashboard.html:217
+#: trade/templates/trade/provider/dashboard.html:220
 msgid "Avg. Earning Per Order"
 msgstr "Revenu Moy. Par Cmde"
 
-#: trade/templates/trade/provider/dashboard.html:237
+#: trade/templates/trade/provider/dashboard.html:240
 #: trade/templates/trade/retailer/dashboard.html:139
 msgid "Top categories"
 msgstr "Top catégories"
 
-#: trade/templates/trade/provider/dashboard.html:259
-#: trade/templates/trade/provider/dashboard.html:292
-#: trade/templates/trade/provider/dashboard.html:338
-#: trade/templates/trade/provider/dashboard.html:379
+#: trade/templates/trade/provider/dashboard.html:262
+#: trade/templates/trade/provider/dashboard.html:295
+#: trade/templates/trade/provider/dashboard.html:341
+#: trade/templates/trade/provider/dashboard.html:382
 msgid "Not enough data"
 msgstr "Pas assez de données"
 
-#: trade/templates/trade/provider/dashboard.html:272
+#: trade/templates/trade/provider/dashboard.html:275
 msgid "Top products"
 msgstr "Top produits"
 
-#: trade/templates/trade/provider/dashboard.html:278
+#: trade/templates/trade/provider/dashboard.html:281
 msgid "Units ordered"
 msgstr "Unités commandées"
 
-#: trade/templates/trade/provider/dashboard.html:308
+#: trade/templates/trade/provider/dashboard.html:311
 msgid "Top customers"
 msgstr "Top clients"
 
-#: trade/templates/trade/provider/dashboard.html:313
+#: trade/templates/trade/provider/dashboard.html:316
 msgid "Customer"
 msgstr "Client"
 
-#: trade/templates/trade/provider/dashboard.html:353
+#: trade/templates/trade/provider/dashboard.html:356
 msgid "Top daras"
 msgstr "Meilleurs Daras"
 
-#: trade/templates/trade/provider/dashboard.html:358
+#: trade/templates/trade/provider/dashboard.html:361
 msgid "Dara"
 msgstr ""
 
@@ -4512,24 +4536,6 @@ msgstr "Détails du paquet"
 
 #~ msgid "Earnings for month before the last one"
 #~ msgstr "Revenus du mois surpassé"
-
-#~ msgid "English"
-#~ msgstr "Anglais"
-
-#~ msgid "French"
-#~ msgstr "Français"
-
-#~ msgid "Manage Profiles"
-#~ msgstr "Gérer les profils"
-
-#~ msgid "Manage Revivals"
-#~ msgstr "Gérer les Relances"
-
-#~ msgid "Manage Daraja"
-#~ msgstr "Gérer Daraja"
-
-#~ msgid "Manage Continuous Rewarding"
-#~ msgstr "Gérer le Continuous Rewarding"
 
 #~ msgid "Cash-out requested by %s"
 #~ msgstr "Retrait demandé par %s"
