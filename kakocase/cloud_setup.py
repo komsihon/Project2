@@ -29,7 +29,7 @@ from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, CLUSTER_MEDIA_ROOT, CLU
 from ikwen.core.models import Service, OperatorWallet, SERVICE_DEPLOYED
 from ikwen.core.tools import generate_django_secret_key, generate_random_key, reload_server
 from ikwen.core.utils import add_database_to_settings, add_event, get_mail_content, \
-    get_service_instance
+    get_service_instance, set_counters, increment_history_field
 from ikwen.flatpages.models import FlatPage
 from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
@@ -283,6 +283,15 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     base_config.save(using=UMBRELLA)
     if partner_retailer:
         partner_retailer.save(using=database)
+        try:
+            if partner_retailer.app.slug == DARAJA:
+                partner_db = partner_retailer.database
+                add_database_to_settings(partner_db)
+                ikwen_service_partner = Service.objects.using(partner_db).get(project_name_slug='ikwen')
+                set_counters(ikwen_service_partner)
+                increment_history_field(ikwen_service_partner, 'community_history')
+        except:
+            logger.error("Could not set Followers count upon Service deployment", exc_info=True)
 
     if bundle:  # Tsunami bundle
         token = ''.join([random.SystemRandom().choice(string.digits) for i in range(6)])
