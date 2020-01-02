@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from threading import Thread
 
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, activate
 
 from ikwen.core.utils import *
 from ikwen.core.models import Application, Service, ConsoleEventType
@@ -42,6 +42,8 @@ def set_customer_dara(service, referrer, member):
         add_event(service, REFEREE_JOINED_EVENT, member)
 
         diff = datetime.now() - member.date_joined
+
+        activate(referrer.language)
         sender = "%s via ikwen <no-reply@ikwen.com>" % member.full_name
         if diff.days > 1:
             subject = _("I'm back on %s !" % service.project_name)

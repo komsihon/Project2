@@ -26,7 +26,7 @@ urlpatterns = patterns(
     url(r'^test_return_url$', test_return_url, name='test_return_url'),
     url(r'^chooseDeal/$', login_required(ChooseDeal.as_view()), name='choose_deal'),
     url(r'^confirm_checkout$', confirm_checkout, name='confirm_checkout'),
-    url(r'^confirm_checkout/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)/(?P<lang>[-\w]+)$', confirm_checkout, name='confirm_checkout'),
+    url(r'^confirm_checkout/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)$', confirm_checkout, name='confirm_checkout'),
     url(r'^cancel$', Cancel.as_view(), name='cancel'),
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),

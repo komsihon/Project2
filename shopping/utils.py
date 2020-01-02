@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.template.defaultfilters import slugify
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, activate
 
 from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.models import SUDO, Member
@@ -207,6 +207,7 @@ def send_dara_notification_email(dara_service, order):
     config = service.config
     template_name = 'daraja/mails/new_transaction.html'
 
+    activate(dara_service.member.language)
     subject = _("New transaction on %s" % config.company_name)
     try:
         dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')

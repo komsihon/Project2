@@ -21,7 +21,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from django.utils.translation import gettext as _, get_language, activate
+from django.utils.translation import gettext as _, activate
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -651,14 +651,13 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
     request.session['object_id'] = order.id
     request.session['signature'] = signature
 
-    lang = get_language()
     amount = order.total_cost
     model_name = 'trade.Order'
     mean = request.GET.get('mean', MTN_MOMO)
     tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS)\
         .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A', model=model_name,
                 object_id=order.id, task_id=signature, wallet=mean, username=request.user.username, is_running=True)
-    notification_url = reverse('shopping:confirm_checkout', args=(tx.id, signature, lang))
+    notification_url = reverse('shopping:confirm_checkout', args=(tx.id, signature))
     cancel_url = reverse('shopping:cart')
     return_url = reverse('shopping:cart', args=(order.id, ))
     if getattr(settings, 'UNIT_TESTING', False):
@@ -700,8 +699,6 @@ def confirm_checkout(request, *args, **kwargs):
         operator_tx_id = request.GET['operator_tx_id']
         phone = request.GET['phone']
         tx_id = kwargs['tx_id']
-        lang = kwargs['lang']
-        activate(lang)
         try:
             tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS).get(pk=tx_id)
             if not getattr(settings, 'DEBUG', False):
@@ -750,6 +747,7 @@ def confirm_checkout(request, *args, **kwargs):
     buyer_email = order.delivery_address.email
     buyer_phone = order.delivery_address.phone
 
+    activate(member.language)
     subject = _("Order successful")
     reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
                                                    amount=order.items_cost, model_name='trade.Order')
