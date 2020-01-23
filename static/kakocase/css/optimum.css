@@ -722,7 +722,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     #tile-view .ribben2:after {right: 89%;border-top: 14px solid #04448C;top: 93%;}
     .ribben2 {left: -2%;width: 50%;}
      #tile-view .ribben2 {left: -2%;width: 50%;}
-    .arrival-grid {float: left;/* width: 25%; */}
+    .arrival-grid {float: left; width: 50%;}
     .latest-grid {float: left; width: 33.3%}
     .product-tab-grid {float: left; padding: 0 7px; width: 33.3%;}
     .new-grid1 {float: left; width: 40%}
