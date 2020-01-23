@@ -529,8 +529,9 @@ p.price {font-size: 1.8em;margin: 1em 0 .5em;color: #c10023;font-weight: bold;}
 .choose-size label {color: #777; font-weight: 700}
 .product-about span {font-size: 1em;color: #777;display: block;}
 .single-grid1 h3 {font-size: 2.5em;text-align: center; color: #1f1137; margin-bottom: 0.5em;}
+.item-left { margin-bottom: 1em; margin-top: 2em}
 .recent-left {float: left;width: 25%;clear: both;}
-.recent-right {float: right;width: 68%;margin-top: 3em;}
+.recent-right {float: right;width: 68%;}
 span.price-in1 {font-size: 1.2em; color: #c10023; font-weight: bold; margin-top: 0.5em; display: block;}
 .best2 a {font-size: 1.5em;text-decoration: none;display: block;margin-bottom: 0.5em;text-transform: capitalize;}
 .nav-tabs {border-bottom: 1px solid #fff;}

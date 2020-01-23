@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.04.1.19.59" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
