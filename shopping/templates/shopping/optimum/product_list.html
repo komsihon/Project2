@@ -88,7 +88,7 @@
                             <h3>{% trans "Most popular" %}</h3>
                             {% for product in top_products %}
                                 {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
-                                <div class="item-left">
+                                <div style="margin-bottom: 20px">
                                     <div class="recent-left">
                                         <a href="{{ product_url }}">
                                             <img class="img-responsive " src="{{ product.image.small_url|from_provider:product.provider }}" alt="{{ product.name }}">
