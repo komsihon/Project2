@@ -79,7 +79,7 @@
                                 <ul class="dropdown-menu6">
                                     <li>
                                         <div id="price-range1" style="margin-top: 2em"></div>
-                                        <input type="text" id="amount1" style="border: 0; color: #ffffff; font-weight: normal;" />
+                                        <input type="text" id="amount1" style="border: 0; color: #ffffff; font-weight: normal;"/>
                                     </li>
                                 </ul>
                             </div>
@@ -88,7 +88,7 @@
                             <h3>{% trans "Most popular" %}</h3>
                             {% for product in top_products %}
                                 {% url 'shopping:product_detail' product.category.slug product.slug as product_url %}
-                                <div style="margin-bottom: 20px">
+                                <div class="item-left">
                                     <div class="recent-left">
                                         <a href="{{ product_url }}">
                                             <img class="img-responsive " src="{{ product.image.small_url|from_provider:product.provider }}" alt="{{ product.name }}">
