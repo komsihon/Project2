@@ -19,7 +19,7 @@ from ikwen.accesscontrol.models import SUDO, Member
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Country, Service
 from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event, send_sms, XEmailMessage, set_counters_many
+    add_database, add_event, send_sms, XEmailMessage
 
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
@@ -32,6 +32,7 @@ from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
 from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT, \
     LOW_MAIL_LIMIT
+from daraja.models import Dara, Follower
 
 logger = logging.getLogger('ikwen.crons')
 
@@ -427,7 +428,6 @@ def after_order_confirmation(order, update_stock=True):
     referrer = customer.referrer
     referrer_share_rate = 0
     if referrer:
-        from daraja.models import Dara
         referrer_db = referrer.database
         add_database(referrer_db)
         try:
@@ -519,14 +519,13 @@ def after_order_confirmation(order, update_stock=True):
         except Member.DoesNotExist:
             member.save(using=referrer_db)
             member_ref = Member.objects.using(referrer_db).get(pk=member.id)
-            member.customer.save(using=referrer_db)
-        customer_ref = member_ref.customer
-        set_counters(customer_ref)
-        customer_ref.last_payment_on = datetime.now()
-        increment_history_field(customer_ref, 'orders_count_history')
-        increment_history_field(customer_ref, 'items_purchased_history', order.items_count)
-        increment_history_field(customer_ref, 'turnover_history', raw_provider_revenue)
-        increment_history_field(customer_ref, 'earnings_history', order.retailer_earnings)
+        follower_ref, update = Follower.objects.using(referrer_db).get_or_create(member=member_ref)
+        set_counters(follower_ref)
+        follower_ref.last_payment_on = datetime.now()
+        increment_history_field(follower_ref, 'orders_count_history')
+        increment_history_field(follower_ref, 'items_purchased_history', order.items_count)
+        increment_history_field(follower_ref, 'turnover_history', raw_provider_revenue)
+        increment_history_field(follower_ref, 'earnings_history', order.retailer_earnings)
 
     category_list = []
     for entry in order.entries:

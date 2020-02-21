@@ -180,7 +180,7 @@ class ProductList(TemplateSelector, HybridListView):
 
     search_field = 'tags'
     ordering = ('id', )
-    queryset = Product.objects.exclude(Q(retail_price__isnull=True) & Q(retail_price=0))\
+    queryset = Product.objects.select_related('provider').exclude(Q(retail_price__isnull=True) & Q(retail_price=0))\
         .filter(visible=True, is_duplicate=False)
 
     context_object_name = 'product_list'
@@ -349,7 +349,7 @@ class ProductDetail(TemplateSelector, TemplateView):
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
         try:
-            current_product = Product.objects.filter(category=category, slug=product_slug)[0]
+            current_product = Product.objects.select_related('provider').filter(category=category, slug=product_slug)[0]
         except IndexError:
             raise Http404('No product matches the given query.')
         product = apply_promotion_discount([current_product])[0]
@@ -358,7 +358,8 @@ class ProductDetail(TemplateSelector, TemplateView):
         product_uri = reverse('shopping:product_detail', args=(category.slug, product.slug))
         product_uri = product_uri.replace(getattr(settings, 'WSGI_SCRIPT_ALIAS', ''), '')
         context['product_uri'] = product_uri
-        base_queryset = Product.objects.exclude(pk=product.id).filter(visible=True, is_duplicate=False)
+        base_queryset = Product.objects.select_related('provider')\
+            .exclude(pk=product.id).filter(visible=True, is_duplicate=False)
         suggestions = base_queryset.filter(category=category, brand=product.brand).order_by('-updated_on')[:6]
         if suggestions.count() < 6:
             additional = 6 - suggestions.count()
