@@ -22,7 +22,7 @@ from ikwen_kakocase.kakocase.models import OperatorProfile
 from ikwen_kakocase.shopping.models import Review, Customer
 from ikwen_kakocase.trade.models import Order, Package
 
-from daraja.models import Dara
+from daraja.models import Dara, BonusWallet
 
 
 class ShoppingViewsTestCase(unittest.TestCase):
@@ -148,119 +148,6 @@ class ShoppingViewsTestCase(unittest.TestCase):
         response = self.client.get(reverse('shopping:checkout'), {'delivery_option_id': '55d1feb9b37b301e070604d3',
                                                                   'pay_with': 'paypal'})
         self.assertEqual(response.status_code, 200)
-
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
-                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
-                       EMAIL_FILE_PATH='test_emails/shopping/',
-                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
-    def test_confirm_checkout_with_buyer_having_referrer(self):
-        """
-        Saves order, splits it into packages, updates counters and sets order RCC.
-        Since buyer has a referrer, his earnings must be correctly set
-        """
-        yesterday = timezone.now() - timedelta(days=1)
-        for db in ('default', 'test_kc_referrer'):
-            for service in Service.objects.using(db).all():
-                service.counters_reset_on = yesterday
-                service.save()
-            for profile in OperatorProfile.objects.using(db).all():
-                profile.counters_reset_on = yesterday
-                profile.save()
-            for dara in Dara.objects.using(db).all():
-                dara.counters_reset_on = yesterday
-                dara.save()
-            for category in ProductCategory.objects.using(db).all():
-                category.counters_reset_on = yesterday
-                category.save()
-            for product in Product.objects.using(db).all():
-                product.counters_reset_on = yesterday
-                product.save()
-
-        referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
-        Customer.objects.filter(member='56eb6d04b37b3379b531e014').update(referrer=referrer)
-        self.client.login(username='member4', password='admin')
-        response = self.client.post(reverse('shopping:paypal_set_checkout'),
-                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
-                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
-                                     'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
-                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
-        json_resp = json.loads(response.content)
-        self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
-
-        order = Order.objects.all()[0]
-        pack1 = Package.objects.all()[0]
-        self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 1)
-        self.assertEqual(pack1.entries[0].product.id, '55d1fa8feb60008099bd4151')
-
-        # Assuming IKWEN collects 5% on revenue of website and referrer gets 10%
-        self.assertEqual(pack1.provider_revenue, 540000)
-        self.assertEqual(pack1.provider_earnings, 459000)
-        self.assertEqual(pack1.referrer_earnings, 54000)
-        self.assertEqual(order.referrer_earnings, 54000)
-        self.assertEqual(order.delivery_earnings, 2850)
-        self.assertEqual(order.ikwen_order_earnings, 27150)
-        self.assertEqual(order.ikwen_delivery_earnings, 150)
-
-        # Check counters
-        cache.clear()
-        merchant = get_service_instance()
-        merchant_profile = merchant.config
-        self.assertEqual(merchant_profile.items_traded_history, [18, 9, 57, 23, 46, 7.0])
-        self.assertEqual(merchant_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(merchant_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
-        self.assertEqual(merchant_profile.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
-
-        dara = Dara.objects.get(pk='58a9658b4fc0c25ddbeca241')
-        self.assertEqual(dara.items_traded_history, [18, 9, 57, 23, 46, 7.0])
-        self.assertEqual(dara.orders_count_history, [11, 4, 41, 15, 27, 1.0])
-        self.assertEqual(dara.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
-        self.assertEqual(dara.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
-
-        dara_service_original = Service.objects.using('test_kc_referrer').get(pk='58aab5ca4fc0c21cb231e582')
-        self.assertEqual(dara_service_original.transaction_count_history, [1.0])
-        self.assertEqual(dara_service_original.earnings_history, [54000.0])
-
-        tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
-        self.assertEqual(tecno_wallet.balance, 459000)
-
-        merchant_mirror = Service.objects.using('test_kc_referrer').get(pk='56eb6d04b37b3379b531b101')
-        self.assertEqual(merchant_mirror.transaction_count_history, [1.0])
-        self.assertEqual(merchant_mirror.earnings_history, [54000.0])
-
-        ems_profile_original = OperatorProfile.objects.using('test_kc_ems').get(pk='56922874b37b33706b51f005')
-        self.assertEqual(ems_profile_original.items_traded_history, [18, 9, 57, 23, 46, 7])
-        self.assertEqual(ems_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1])
-        self.assertEqual(ems_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2850.0])
-
-        category1 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b51')
-        self.assertListEqual(category1.items_traded_history, [18, 9, 57, 23, 46, 7])
-        self.assertListEqual(category1.orders_count_history, [11, 4, 41, 15, 27, 1])
-        self.assertListEqual(category1.earnings_history, [4150, 1900, 36608, 3040, 9175, 459000.0])
-
-        product = Product.objects.get(pk='55d1fa8feb60008099bd4151')
-        self.assertListEqual(product.units_sold_history, [30, 14, 48, 45, 1])
-        self.assertEqual(product.total_units_sold, 138)
-        self.assertEqual(product.stock, 44)
-
-        product = Product.objects.get(pk='5805d1fa008099bd4151feb6')
-        self.assertListEqual(product.units_sold_history, [30, 14, 48, 84, 6])
-        self.assertEqual(product.total_units_sold, 143)
-        self.assertEqual(product.stock, 39)
-
-    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=False,
-                       IS_PROVIDER=True, IS_DELIVERY_MAN=False,
-                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
-                       EMAIL_FILE_PATH='test_emails/shopping/',
-                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
-    def test_register_with_visitor_coming_from_dara_referral_link(self):
-        dara_share_link = reverse('shopping:product_detail', args=('food', 'coca-cola')) + '?referrer=56eb6d04b37b3379b531eda1'
-        self.client.get(dara_share_link)
-        origin = reverse('ikwen:register')
-        self.client.post(origin, {'username': 'Test.User1@domain.com', 'password': 'secret', 'password2': 'secret',
-                                  'phone': '655000001', 'first_name': 'Sah', 'last_name': 'Fogaing'}, follow=True)
-        m = Member.objects.get(username='test.user1@domain.com')
-        dara_service = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
-        self.assertEqual(m.customer.referrer, dara_service)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=False,
                        IS_PROVIDER=True, IS_DELIVERY_MAN=False,
@@ -570,6 +457,171 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(order.deal.id, deal_id)
         copy = Order.objects.using('test_kc_afic').filter(status=Order.PENDING_FOR_APPROVAL)[0]
         member = Member.objects.using('test_kc_afic').get(username='member4')
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=False,
+                       IS_PROVIDER=True, IS_DELIVERY_MAN=False,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_register_with_visitor_coming_from_dara_referral_link(self):
+        """
+        Registration using a Dara referral link ads the Dara
+        as referrer of the newly registered Member
+        """
+        dara_share_link = reverse('shopping:product_detail', args=('food', 'coca-cola')) + '?referrer=56eb6d04b37b3379b531eda1'
+        self.client.get(dara_share_link)
+        origin = reverse('ikwen:register')
+        self.client.post(origin, {'username': 'Test.User1@domain.com', 'password': 'secret', 'password2': 'secret',
+                                  'phone': '655000001', 'first_name': 'Sah', 'last_name': 'Fogaing'}, follow=True)
+        m = Member.objects.get(username='test.user1@domain.com')
+        dara_service = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
+        self.assertEqual(m.customer.referrer, dara_service)
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_confirm_checkout_with_buyer_having_referrer(self):
+        """
+        Saves order, splits it into packages, updates counters and sets order RCC.
+        Since buyer has a referrer, his earnings must be correctly set
+        """
+        yesterday = timezone.now() - timedelta(days=1)
+        for db in ('default', 'test_kc_referrer'):
+            for service in Service.objects.using(db).all():
+                service.counters_reset_on = yesterday
+                service.save()
+            for profile in OperatorProfile.objects.using(db).all():
+                profile.counters_reset_on = yesterday
+                profile.save()
+            for dara in Dara.objects.using(db).all():
+                dara.counters_reset_on = yesterday
+                dara.save()
+            for category in ProductCategory.objects.using(db).all():
+                category.counters_reset_on = yesterday
+                category.save()
+            for product in Product.objects.using(db).all():
+                product.counters_reset_on = yesterday
+                product.save()
+
+        referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
+        Customer.objects.filter(member='56eb6d04b37b3379b531e014').update(referrer=referrer)
+        self.client.login(username='member4', password='admin')
+        response = self.client.post(reverse('shopping:paypal_set_checkout'),
+                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
+                                     'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
+        json_resp = json.loads(response.content)
+        self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
+
+        order = Order.objects.all()[0]
+        pack1 = Package.objects.all()[0]
+        self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 1)
+        self.assertEqual(pack1.entries[0].product.id, '55d1fa8feb60008099bd4151')
+
+        # Assuming IKWEN collects 5% on revenue of website and referrer gets 10%
+        self.assertEqual(pack1.provider_revenue, 540000)
+        self.assertEqual(pack1.provider_earnings, 459000)
+        self.assertEqual(pack1.referrer_earnings, 54000)
+        self.assertEqual(order.referrer_earnings, 54000)
+        self.assertEqual(order.delivery_earnings, 2850)
+        self.assertEqual(order.ikwen_order_earnings, 27150)
+        self.assertEqual(order.ikwen_delivery_earnings, 150)
+
+        # Check counters
+        cache.clear()
+        merchant = get_service_instance()
+        merchant_profile = merchant.config
+        self.assertEqual(merchant_profile.items_traded_history, [18, 9, 57, 23, 46, 7.0])
+        self.assertEqual(merchant_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        self.assertEqual(merchant_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
+        self.assertEqual(merchant_profile.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
+
+        dara = Dara.objects.get(pk='58a9658b4fc0c25ddbeca241')
+        self.assertEqual(dara.items_traded_history, [18, 9, 57, 23, 46, 7.0])
+        self.assertEqual(dara.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        self.assertEqual(dara.earnings_history, [33800, 22700, 204150, 40890, 70235, 459000.0])
+        self.assertEqual(dara.turnover_history, [33800, 22700, 204150, 40890, 70235, 540000.0])
+
+        dara_service_original = Service.objects.using('test_kc_referrer').get(pk='58aab5ca4fc0c21cb231e582')
+        self.assertEqual(dara_service_original.transaction_count_history, [1.0])
+        self.assertEqual(dara_service_original.earnings_history, [54000.0])
+
+        tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
+        self.assertEqual(tecno_wallet.balance, 459000)
+
+        merchant_mirror = Service.objects.using('test_kc_referrer').get(pk='56eb6d04b37b3379b531b101')
+        self.assertEqual(merchant_mirror.transaction_count_history, [1.0])
+        self.assertEqual(merchant_mirror.earnings_history, [54000.0])
+
+        ems_profile_original = OperatorProfile.objects.using('test_kc_ems').get(pk='56922874b37b33706b51f005')
+        self.assertEqual(ems_profile_original.items_traded_history, [18, 9, 57, 23, 46, 7])
+        self.assertEqual(ems_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1])
+        self.assertEqual(ems_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2850.0])
+
+        category1 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b51')
+        self.assertListEqual(category1.items_traded_history, [18, 9, 57, 23, 46, 7])
+        self.assertListEqual(category1.orders_count_history, [11, 4, 41, 15, 27, 1])
+        self.assertListEqual(category1.earnings_history, [4150, 1900, 36608, 3040, 9175, 459000.0])
+
+        product = Product.objects.get(pk='55d1fa8feb60008099bd4151')
+        self.assertListEqual(product.units_sold_history, [30, 14, 48, 45, 1])
+        self.assertEqual(product.total_units_sold, 138)
+        self.assertEqual(product.stock, 44)
+
+        product = Product.objects.get(pk='5805d1fa008099bd4151feb6')
+        self.assertListEqual(product.units_sold_history, [30, 14, 48, 84, 6])
+        self.assertEqual(product.total_units_sold, 143)
+        self.assertEqual(product.stock, 39)
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_confirm_checkout_with_dara_cash_and_insufficient_balance(self):
+        """
+        confirm_checkout fails if balance is insufficient
+        """
+        BonusWallet.objects.using('wallets').filter(dara_id='58a9658b4fc0c25ddbeca241').update(cash=0)
+        self.client.login(username='armelsikati', password='admin')
+        response = self.client.post(reverse('billing:momo_set_checkout') + '?mean=dara-cash',
+                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
+                                     'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3'}, follow=True)
+        final = response.redirect_chain[-1]
+        self.assertEqual(final, '/cart/')
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_confirm_checkout_with_dara_cash(self):
+        """
+        Saves order, splits it into packages, updates counters and sets order RCC.
+        Since buyer has a referrer, his earnings must be correctly set
+        """
+        BonusWallet.objects.using('wallets').create(dara_id='58a9658b4fc0c25ddbeca241', cash=600000)
+        referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
+        Customer.objects.filter(member='56eb6d04b37b3379b531eda1').update(referrer=referrer)
+        self.client.login(username='armelsikati', password='admin')
+        response = self.client.post(reverse('billing:momo_set_checkout') + '?mean=dara-cash',
+                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
+                                     'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
+        self.assertEqual(response.status_code, 302)
+
+        tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
+        self.assertEqual(tecno_wallet.balance, 513000)
+
+        ems_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b105',
+                                                                        provider='mtn-momo')
+        self.assertEqual(ems_wallet.balance, 2850)
+
+        dara_bonus_wallet = BonusWallet.objects.using(WALLETS_DB_ALIAS).get(dara_id='58a9658b4fc0c25ddbeca241')
+        self.assertEqual(dara_bonus_wallet.cash, 57000)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_review_product_with_anonymous_user(self):

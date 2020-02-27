@@ -7,7 +7,7 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link href="{% static 'kakocase/css/checkout.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'kakocase/css/checkout.css' %}?v=20.2.27" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             {% for msg in messages %}<p class="msg-tag {{ msg.tags }}" style="font-size: 1em; padding: 9px">{{ msg }}</p>{% endfor %}
         {% endif %}
         <h2 class="checkout-header">{% trans "Checkout" %}</h2>
-        <div class="container subtle-shade stage">
+        <div class="container stage">
             <div class="row">
                 <form id="do-checkout" method="post" class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
                     {% csrf_token %}
@@ -40,9 +40,11 @@
                                         <div>
                                             <div class="col-sm-8">
                                                 <p>{{ address.details }}</p>
+                                                {% if address.city and address.country %}
                                                 <p class="country-city">
                                                     {{ address.city }}, {{ address.country }}
                                                 </p>
+                                                {% endif %}
                                                 <p class="details">
                                                     {{ address.email }}
                                                 </p>
@@ -57,7 +59,7 @@
                                                     <img src="{{ payment_mean_list.0.button_img_url }}" alt="{{ payment_mean_list.0.name }} Checkout" class="payment-btn-img">
                                                 </button>
                                             {% else %}
-                                                <button type="button" class="btn btn-warning cta" style="width: 180px"
+                                                <button type="button" class="btn btn-warning show-payment-methods" style="width: 180px"
                                                         data-toggle="modal" data-target="#payment-methods">
                                                     {% trans "Pay" %}
                                                 </button>
@@ -203,7 +205,7 @@
                 else $('.previous-address').removeClass('selected');
             });
 
-            var entries = [];
+            let entries = [];
             simpleCart.load();
             simpleCart.each(function(item) {
                 entries.push(item.id() + ':' + item.quantity());
@@ -222,12 +224,12 @@
             });
 
             $('#do-checkout').submit(function () {
-                var previousAddressIndex = $('.previous-address.selected').data('index');
+                let previousAddressIndex = $('.previous-address.selected').data('index');
                 if (previousAddressIndex >= 0) {
                     $('#previous-address-index').val(previousAddressIndex);
                     return true;
                 }
-                var check = true;
+                let check = true;
                 $('form#do-checkout .required').each(function() {
                     if (!$(this).val()) {
                         $(this).parents('.form-group').addClass('has-error');
@@ -238,7 +240,8 @@
                 return check;
             });
             $('.submit-checkout, .payment-method').click(function() {
-                var actionURL = $(this).data('action-url');
+                let actionURL = $(this).data('action-url');
+                $('#payment-methods .spinner').show();
                 $('form#do-checkout').prop('action', actionURL).submit()
             });
         })()

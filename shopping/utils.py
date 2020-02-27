@@ -20,6 +20,7 @@ from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Country, Service
 from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
     add_database, add_event, send_sms, XEmailMessage
+from ikwen.billing.mtnmomo.views import MTN_MOMO
 
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kako.utils import mark_duplicates
@@ -32,7 +33,7 @@ from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
 from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT, \
     LOW_MAIL_LIMIT
-from daraja.models import Dara, Follower
+from daraja.models import Dara, Follower, DARA_CASH
 
 logger = logging.getLogger('ikwen.crons')
 
@@ -298,6 +299,10 @@ def set_ikwen_earnings_and_stats(order):
     service_delcom_umbrella = Service.objects.using(UMBRELLA).get(pk=delcom.id)
     app_delcom_umbrella = service_delcom_umbrella.app
 
+    payment_mean_slug = order.payment_mean.slug
+    if payment_mean_slug == DARA_CASH:
+        payment_mean_slug = MTN_MOMO
+
     # IKWEN STATS
     set_counters(service_umbrella)
     increment_history_field(service_umbrella, 'turnover_history', order.items_cost)
@@ -342,7 +347,7 @@ def set_ikwen_earnings_and_stats(order):
         increment_history_field(app_partner, 'transaction_count_history')
         increment_history_field(app_partner, 'transaction_earnings_history', order.eshop_partner_earnings)
 
-        partner.raise_balance(order.eshop_partner_earnings)
+        partner.raise_balance(order.eshop_partner_earnings, payment_mean_slug)
 
         set_counters(partner_umbrella)
         increment_history_field(partner_umbrella, 'turnover_history', order.items_cost)
@@ -375,7 +380,7 @@ def set_ikwen_earnings_and_stats(order):
         increment_history_field(app_delcom_partner, 'transaction_count_history')
         increment_history_field(app_delcom_partner, 'transaction_earnings_history', order.logicom_partner_earnings)
 
-        delcom_partner.raise_balance(order.logicom_partner_earnings)
+        delcom_partner.raise_balance(order.logicom_partner_earnings, payment_mean_slug)
 
         set_counters(delcom_partner_umbrella)
         increment_history_field(delcom_partner_umbrella, 'turnover_history', order.delivery_option.cost)
@@ -397,6 +402,9 @@ def set_logicom_earnings_and_stats(order):
     delcom_profile_original = delcom_original.config
     provider = order.get_providers()[0]
     provider_profile_mirror = Service.objects.using(delcom.database).get(pk=provider.id).config
+    payment_mean_slug = order.payment_mean.slug
+    if payment_mean_slug == DARA_CASH:
+        payment_mean_slug = MTN_MOMO
 
     set_counters(delcom_profile_original)
     increment_history_field(delcom_profile_original, 'items_traded_history', order.items_count)
@@ -405,7 +413,7 @@ def set_logicom_earnings_and_stats(order):
     increment_history_field(delcom_profile_original, 'earnings_history', order.delivery_earnings)
     delcom_profile_original.report_counters_to_umbrella()
 
-    delcom_original.raise_balance(order.delivery_earnings)
+    delcom_original.raise_balance(order.delivery_earnings, payment_mean_slug)
 
     set_counters(provider_profile_mirror)
     increment_history_field(provider_profile_mirror, 'items_traded_history', order.items_count)
@@ -427,6 +435,9 @@ def after_order_confirmation(order, update_stock=True):
     customer = member.customer
     referrer = customer.referrer
     referrer_share_rate = 0
+    payment_mean_slug = order.payment_mean.slug
+    if payment_mean_slug == DARA_CASH:
+        payment_mean_slug = MTN_MOMO
     if referrer:
         referrer_db = referrer.database
         add_database(referrer_db)
@@ -462,7 +473,7 @@ def after_order_confirmation(order, update_stock=True):
         provider_original = provider_profile_original.service
 
         if delcom == service:
-            provider_original.raise_balance(provider_earnings, provider=order.payment_mean.slug)
+            provider_original.raise_balance(provider_earnings, provider=payment_mean_slug)
         else:
             if delcom_profile_original.return_url:
                 nvp_dict = package.get_nvp_api_dict()
@@ -470,7 +481,7 @@ def after_order_confirmation(order, update_stock=True):
                        args=(delcom_profile_original.return_url, nvp_dict)).start()
             if provider_profile_original.payment_delay == OperatorProfile.STRAIGHT:
                 if package.provider_earnings > 0:
-                    provider_original.raise_balance(provider_earnings, provider=order.payment_mean.slug)
+                    provider_original.raise_balance(provider_earnings, provider=payment_mean_slug)
         if provider_profile_original.return_url:
             nvp_dict = package.get_nvp_api_dict()
             Thread(target=lambda url, data: requests.post(url, data=data),
@@ -491,7 +502,8 @@ def after_order_confirmation(order, update_stock=True):
 
     if dara:
         referrer_share_rate = dara.share_rate
-        dara_service_original.raise_balance(order.referrer_earnings, provider=order.payment_mean.slug)
+        if order.payment_mean.slug != DARA_CASH:
+            dara_service_original.raise_balance(order.referrer_earnings, provider=order.payment_mean.slug)
         send_dara_notification_email(dara_service_original, order)
 
         set_counters(dara)

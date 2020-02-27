@@ -22,6 +22,7 @@
         <div id="checkout-min" class="hidden">{{ checkout_min }}</div>
         <h2 class="checkout-header">{% trans "My Shopping Bag" %}</h2>
         <div class="container" style="overflow: hidden; padding: 2em 0">
+            {% for msg in messages %}<p class="alert alert-danger">{{ msg|safe }}</p>{% endfor %}
             {% if order %}
                 {% include 'shopping/snippets/checkout_confirmation.html' %}
             {% else %}

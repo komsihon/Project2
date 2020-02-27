@@ -12,6 +12,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -54,7 +55,7 @@ from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmat
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 from ikwen_kakocase.trade.utils import generate_tx_code
 from permission_backend_nonrel.models import UserPermissionList
-from daraja.models import Dara
+from daraja.models import Dara, DARA_CASH
 
 logger = logging.getLogger('ikwen')
 
@@ -658,12 +659,40 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
     amount = order.total_cost
     model_name = 'trade.Order'
     mean = request.GET.get('mean', MTN_MOMO)
+    cancel_url = reverse('shopping:cart')
+
+    if mean == DARA_CASH:
+        try:
+            dara = Dara.objects.using(UMBRELLA).get(member=request.user)
+            if dara.bonus_cash < order.total_cost:
+                messages.error(request, "Insufficient balance. You have only <strong>%s XAF</strong> "
+                                        "in your DaraCash account." % intcomma(dara.bonus_cash))
+                return HttpResponseRedirect(cancel_url)
+        except Dara.DoesNotExist:
+            messages.error(request, "Only Dara can use this mean of payment.")
+            return HttpResponseRedirect(cancel_url)
+
     tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS)\
         .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A', model=model_name,
                 object_id=order.id, task_id=signature, wallet=mean, username=request.user.username, is_running=True)
+
     notification_url = reverse('shopping:confirm_checkout', args=(tx.id, signature))
-    cancel_url = reverse('shopping:cart')
     return_url = reverse('shopping:cart', args=(order.id, ))
+    if mean == DARA_CASH:
+        try:
+            tx.status = MoMoTransaction.SUCCESS
+            tx.message = 'OK'
+            tx.processor_tx_id = tx.id
+            tx.phone = request.user.phone
+            tx.is_running = False
+            tx.save()
+            dara.lower_bonus_cash(order.total_cost)
+            confirm_checkout(request, signature=signature)
+            return HttpResponseRedirect(return_url)
+        except:
+            messages.error(request, "Unknown Server Error.")
+            return HttpResponseRedirect(cancel_url)
+
     if getattr(settings, 'UNIT_TESTING', False):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
     gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.ikwen.com/v1')
