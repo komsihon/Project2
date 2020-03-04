@@ -34,7 +34,6 @@ from ikwen.flatpages.models import FlatPage
 from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
 
-from echo.models import Balance
 from daraja.models import DARAJA
 
 logger = logging.getLogger('ikwen')
@@ -294,6 +293,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
             logger.error("Could not set Followers count upon Service deployment", exc_info=True)
 
     if bundle:  # Tsunami bundle
+        from echo.models import Balance
         token = ''.join([random.SystemRandom().choice(string.digits) for i in range(6)])
         expiry = now + timedelta(days=bundle.support_bundle.duration)
         SupportCode.objects.using(UMBRELLA).create(service=service, bundle=bundle.support_bundle,
