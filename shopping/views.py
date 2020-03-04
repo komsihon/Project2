@@ -663,9 +663,14 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
 
     if mean == DARA_CASH:
         try:
-            dara = Dara.objects.using(UMBRELLA).get(member=request.user)
+            if getattr(settings, 'DEBUG', False):
+                _umbrella_db = 'ikwen_umbrella'
+            else:
+                _umbrella_db = 'ikwen_umbrella_prod'
+            add_database(_umbrella_db)
+            dara = Dara.objects.using(_umbrella_db).get(member=request.user)
             if dara.bonus_cash < order.total_cost:
-                messages.error(request, "Insufficient balance. You have only <strong>%s XAF</strong> "
+                messages.error(request, "Insufficient balance. You have only <strong>XAF %s</strong> "
                                         "in your DaraCash account." % intcomma(dara.bonus_cash))
                 return HttpResponseRedirect(cancel_url)
         except Dara.DoesNotExist:
