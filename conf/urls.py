@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 from django.contrib.auth.decorators import permission_required, user_passes_test
+
+from ikwen.core.views import Offline
 from ikwen.accesscontrol.views import SignIn
 from ikwen.accesscontrol.utils import is_staff
 from ikwen_kakocase.shopping.views import Home, FlatPageView
@@ -57,6 +59,7 @@ urlpatterns = patterns(
     url(r'^welcome/$', Welcome.as_view(), name='welcome'),
     url(r'^page/(?P<url>[-\w]+)/$', FlatPageView.as_view(), name='flatpage'),
     url(r'^$', LandingPage.as_view(), name='home'),
+    url(r'^offline.html$', Offline.as_view(), name='offline'),
     url(r'^', include('ikwen_kakocase.shopping.urls', namespace='shopping')),
 )
 

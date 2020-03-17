@@ -80,6 +80,21 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 #auth.top-right ul {margin: 0 0 -6px;}
 #auth.top-right .label-danger {margin-left: 17px;position: absolute;z-index: 10;margin-top: 10px;}
 
+#modal-generic-notice .modal-content.modal-info {padding: 15px;}
+#modal-generic-notice .modal-header {border-bottom: none}
+#modal-generic-notice .illustration img {margin: auto}
+#modal-generic-notice .illustration.cover {background: no-repeat center; background-size: cover; border-top-left-radius: 5px;
+    border-top-right-radius: 5px; height: 270px; margin: -15px -15px}
+#modal-generic-notice .success {background: no-repeat center url(../img/green-tick.gif);background-size: cover;height: 270px;border: none;margin: -15px;}
+#modal-generic-notice .illustration.cover {background: no-repeat center; background-size: cover; border-top-left-radius: 5px;
+    border-top-right-radius: 5px; height: 270px; margin: -15px -15px}
+#modal-generic-notice h4 {font-weight: 600; margin-top: 20px; margin-bottom: 30px;}
+#modal-generic-notice .message {color: #616675; margin-bottom: 30px;}
+.btn-deep-blue {color: #fff;background: #007bff;border-color: #007bff;font-weight: 700;}
+.btn-deep-blue:hover {background: #006ee4;border-color: #007bff;}
+.btn-deep-blue:hover:active {background: #006ee4;border-color: #007bff;}
+
+
 .header-bottom {background: #FFFFFF;/* box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1); */}
 .header-bottom.fixed {background: #FFFFFF;min-height: 75px;padding: .3em 0 0;position: fixed;top: -90px;width: 100%;z-index: 10;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);}
 .header-bottom.fixed .cd-header-buttons {top: 45px }

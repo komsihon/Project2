@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-31 12:35+0100\n"
-"PO-Revision-Date: 2019-11-20 11:21+0100\n"
+"POT-Creation-Date: 2020-03-09 15:22+0100\n"
+"PO-Revision-Date: 2020-03-09 15:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -115,6 +115,7 @@ msgstr "Vous n'avez pas assez de coupons"
 #: cci/templates/cci/snippets/modals.html:35
 #: cci/templates/cci/snippets/modals.html:76
 #: shopping/templates/shopping/choose_deal.html:149
+#: shopping/templates/shopping/optimum/base.html:489
 #: trade/templates/trade/order_list.html:87
 #: trade/templates/trade/order_list.html:112
 msgid "OK"
@@ -499,7 +500,7 @@ msgstr "Smart Catégorie sauvegardée avec succès."
 #: kako/templates/kako/change_product.html:277
 #: sales/templates/sales/change_promo_code.html:116
 #: sales/templates/sales/change_promotion.html:114
-#: shopping/templates/shopping/optimum/checkout.html:237
+#: shopping/templates/shopping/optimum/checkout.html:239
 msgid "Missing information. Please check."
 msgstr "Information manquante. Vérifiez s'il vous plaît."
 
@@ -541,14 +542,6 @@ msgstr "Partager cette bannière"
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:17
 msgid "Banner URL"
 msgstr "URL de la bannière"
-
-#: conf/settings.py:145
-msgid "English"
-msgstr "Anglais"
-
-#: conf/settings.py:146
-msgid "French"
-msgstr "Français"
 
 #: kako/models.py:15
 msgid "Your wholesale price. Retailers may set their own price."
@@ -863,6 +856,7 @@ msgstr ""
 "                        "
 
 #: kako/templates/kako/product_list.html:200
+#: shopping/templates/shopping/optimum/base.html:518
 msgid "Got it !"
 msgstr "Compris !"
 
@@ -933,7 +927,7 @@ msgstr ""
 #: sales/templates/sales/snippets/email_list_results.html:36
 #: sales/templates/sales/snippets/promo_code_list_results.html:81
 #: sales/templates/sales/snippets/promotion_list_results.html:81
-#: shopping/templates/shopping/snippets/product_list_results.html:22
+#: shopping/templates/shopping/snippets/product_list_results.html:32
 #: trade/templates/trade/snippets/order_list_results.html:82
 #: trade/templates/trade/snippets/package_list_results.html:85
 #, python-format
@@ -986,15 +980,15 @@ msgstr ""
 "L' AUTH CODE est invalide, s'il vous plaît vérifiez. Si le problème "
 "persiste, veuillez contacter %s pour avoir le bon."
 
-#: kakocase/cloud_setup.py:256
+#: kakocase/cloud_setup.py:255
 msgid "Agreement goes here"
 msgstr "L'accord va ici"
 
-#: kakocase/cloud_setup.py:258
+#: kakocase/cloud_setup.py:257
 msgid "Legal mentions go here"
 msgstr "Les Mentions légales vont ici"
 
-#: kakocase/cloud_setup.py:271
+#: kakocase/cloud_setup.py:270
 msgid ""
 "Hey $client<br>We are inviting you to join our awesome community on ikwen."
 msgstr ""
@@ -1267,37 +1261,21 @@ msgstr "URL de création du compte bancaire"
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
 
-#: kakocase/scripts.py:67
-msgid "Manage Profiles"
-msgstr "Gérer les profils"
-
-#: kakocase/scripts.py:71
-msgid "Manage Revivals"
-msgstr "Gérer les Relances"
-
-#: kakocase/scripts.py:75
-msgid "Manage Daraja"
-msgstr "Gérer Daraja"
-
-#: kakocase/scripts.py:80
-msgid "Manage Continuous Rewarding"
-msgstr "Gérer le Continuous Rewarding"
-
-#: kakocase/utils.py:47
+#: kakocase/utils.py:49
 #, python-format
 msgid "I'm back on %s !"
 msgstr "Je suis de retour sur %s !"
 
-#: kakocase/utils.py:49
+#: kakocase/utils.py:51
 #, python-format
 msgid "I just joined %s !"
 msgstr "Je viens de m'inscrire sur %s !"
 
-#: kakocase/utils.py:81
+#: kakocase/utils.py:83
 msgid "Last order"
 msgstr "Dernière commande"
 
-#: kakocase/utils.py:87 trade/templates/trade/bank/dashboard.html:10
+#: kakocase/utils.py:89 trade/templates/trade/bank/dashboard.html:10
 #: trade/templates/trade/bank/dashboard.html:14
 #: trade/templates/trade/logicom/dashboard.html:10
 #: trade/templates/trade/logicom/dashboard.html:14
@@ -1310,7 +1288,7 @@ msgstr "Dernière commande"
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: kakocase/utils.py:88 trade/templates/trade/bank/dashboard.html:15
+#: kakocase/utils.py:90 trade/templates/trade/bank/dashboard.html:15
 #: trade/templates/trade/logicom/dashboard.html:15
 #: trade/templates/trade/provider/ccm_dashboard.html:80
 #: trade/templates/trade/provider/dashboard.html:190
@@ -1318,15 +1296,15 @@ msgstr "Aujourd'hui"
 msgid "Yesterday"
 msgstr "Hier"
 
-#: kakocase/utils.py:89
+#: kakocase/utils.py:91
 msgid "Last 7 days"
 msgstr "7 derniers jours"
 
-#: kakocase/utils.py:90
+#: kakocase/utils.py:92
 msgid "Last 30 days"
 msgstr "30 derniers jours"
 
-#: kakocase/utils.py:91
+#: kakocase/utils.py:93
 msgid "Never since 60 days"
 msgstr "Jamais depuis 60 jours"
 
@@ -1785,7 +1763,7 @@ msgstr "DDN"
 #: kakocase/templates/kakocase/customer_journey.html:82
 #: shopping/templates/shopping/checkout.html:150
 #: shopping/templates/shopping/contact.html:22
-#: shopping/templates/shopping/optimum/checkout.html:136
+#: shopping/templates/shopping/optimum/checkout.html:138
 #: shopping/templates/shopping/optimum/contact.html:22
 msgid "Phone"
 msgstr "Téléphone"
@@ -2401,16 +2379,12 @@ msgstr "Pourcentage"
 msgid "To"
 msgstr "À"
 
-#: shopping/manual_payment.py:24 shopping/views.py:753
-msgid "Order successful"
-msgstr "Commande réussie"
-
-#: shopping/utils.py:210
+#: shopping/utils.py:213
 #, python-format
 msgid "New transaction on %s"
 msgstr "Nouvelle transaction sur %s"
 
-#: shopping/utils.py:241
+#: shopping/utils.py:244
 #, python-format
 msgid ""
 "Order successful:\n"
@@ -2423,20 +2397,24 @@ msgstr ""
 "Votre RCC est %(rcc)s\n"
 "Merci."
 
-#: shopping/views.py:552
+#: shopping/views.py:557
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:835
+#: shopping/views.py:789
+msgid "Order successful"
+msgstr "Commande réussie"
+
+#: shopping/views.py:871
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:894
+#: shopping/views.py:930
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:908
+#: shopping/views.py:944
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2539,8 +2517,8 @@ msgstr "Mentions légales"
 
 #: shopping/templates/shopping/base.html:425
 #: shopping/templates/shopping/base.html:525
-#: shopping/templates/shopping/optimum/base.html:516
-#: shopping/templates/shopping/optimum/base.html:612
+#: shopping/templates/shopping/optimum/base.html:558
+#: shopping/templates/shopping/optimum/base.html:654
 #: templates/tchopetyamo/shopping/optimum/base.html:459
 #: templates/tchopetyamo/shopping/optimum/base.html:555
 msgid "Please select a size."
@@ -2548,8 +2526,8 @@ msgstr "Sélectionnez une taille SVP."
 
 #: shopping/templates/shopping/base.html:445
 #: shopping/templates/shopping/cart.html:164
-#: shopping/templates/shopping/optimum/base.html:536
-#: shopping/templates/shopping/optimum/cart.html:222
+#: shopping/templates/shopping/optimum/base.html:578
+#: shopping/templates/shopping/optimum/cart.html:223
 #: templates/tchopetyamo/shopping/optimum/base.html:479
 #: templates/tchopetyamo/shopping/optimum/cart.html:260
 msgid "Available stock limit reached."
@@ -2597,7 +2575,7 @@ msgid "My Shopping Bag"
 msgstr "Mon Panier"
 
 #: shopping/templates/shopping/cart.html:28
-#: shopping/templates/shopping/optimum/cart.html:29
+#: shopping/templates/shopping/optimum/cart.html:30
 #: templates/tchopetyamo/shopping/optimum/cart.html:34
 #, python-format
 msgid ""
@@ -2611,10 +2589,10 @@ msgstr ""
 
 #: shopping/templates/shopping/cart.html:55
 #: shopping/templates/shopping/mails/order_notice.html:108
-#: shopping/templates/shopping/optimum/cart.html:56
+#: shopping/templates/shopping/optimum/cart.html:57
 #: shopping/templates/shopping/optimum/product_list.html:51
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:17
-#: shopping/templates/shopping/snippets/product_list_results.html:12
+#: shopping/templates/shopping/snippets/product_list_results.html:22
 #: templates/tchopetyamo/shopping/optimum/cart.html:61
 #: trade/templates/trade/snippets/order_details.html:34
 msgid "Price"
@@ -2622,8 +2600,8 @@ msgstr "Prix"
 
 #: shopping/templates/shopping/cart.html:58
 #: shopping/templates/shopping/mails/order_notice.html:112
-#: shopping/templates/shopping/optimum/cart.html:59
-#: shopping/templates/shopping/optimum/cart.html:105
+#: shopping/templates/shopping/optimum/cart.html:60
+#: shopping/templates/shopping/optimum/cart.html:106
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:20
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:71
 #: shopping/templates/shopping/snippets/modal_preview.html:35
@@ -2636,10 +2614,10 @@ msgstr "Quantité"
 #: shopping/templates/shopping/cart.html:61
 #: shopping/templates/shopping/cart.html:80
 #: shopping/templates/shopping/mails/order_notice.html:115
-#: shopping/templates/shopping/optimum/cart.html:62
-#: shopping/templates/shopping/optimum/cart.html:81
-#: shopping/templates/shopping/optimum/cart.html:108
-#: shopping/templates/shopping/optimum/cart.html:127
+#: shopping/templates/shopping/optimum/cart.html:63
+#: shopping/templates/shopping/optimum/cart.html:82
+#: shopping/templates/shopping/optimum/cart.html:109
+#: shopping/templates/shopping/optimum/cart.html:128
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:23
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:46
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:74
@@ -2652,8 +2630,8 @@ msgid "Subtotal"
 msgstr "Sous-total"
 
 #: shopping/templates/shopping/cart.html:85
-#: shopping/templates/shopping/optimum/cart.html:85
-#: shopping/templates/shopping/optimum/cart.html:131
+#: shopping/templates/shopping/optimum/cart.html:86
+#: shopping/templates/shopping/optimum/cart.html:132
 #: templates/tchopetyamo/shopping/optimum/cart.html:90
 #: templates/tchopetyamo/shopping/optimum/cart.html:136
 msgid "Sorry, we had to adjust your quantity to currently available stock."
@@ -2662,8 +2640,8 @@ msgstr ""
 "disponible."
 
 #: shopping/templates/shopping/cart.html:86
-#: shopping/templates/shopping/optimum/cart.html:86
-#: shopping/templates/shopping/optimum/cart.html:132
+#: shopping/templates/shopping/optimum/cart.html:87
+#: shopping/templates/shopping/optimum/cart.html:133
 #: templates/tchopetyamo/shopping/optimum/cart.html:91
 #: templates/tchopetyamo/shopping/optimum/cart.html:137
 msgid "Sorry, unfortunately this product went out of stock meanwhile."
@@ -2671,7 +2649,7 @@ msgstr ""
 "Désolé, malheureusement ce produit est entré en rupture de stock entre-temps."
 
 #: shopping/templates/shopping/cart.html:114
-#: shopping/templates/shopping/optimum/cart.html:166
+#: shopping/templates/shopping/optimum/cart.html:167
 #: templates/tchopetyamo/shopping/optimum/cart.html:171
 msgid ""
 "\n"
@@ -2692,7 +2670,7 @@ msgstr ""
 "                    "
 
 #: shopping/templates/shopping/cart.html:121
-#: shopping/templates/shopping/optimum/cart.html:173
+#: shopping/templates/shopping/optimum/cart.html:174
 #: templates/tchopetyamo/shopping/optimum/cart.html:178
 msgid ""
 "\n"
@@ -2710,7 +2688,7 @@ msgstr ""
 "                    "
 
 #: shopping/templates/shopping/cart.html:127
-#: shopping/templates/shopping/optimum/cart.html:179
+#: shopping/templates/shopping/optimum/cart.html:180
 msgid ""
 "\n"
 "                        <a href=\"#\" class=\"turn-down\">No, thanks</a> I "
@@ -2729,20 +2707,20 @@ msgstr "Bien vouloir choisir une option de livraison. "
 #: shopping/templates/shopping/checkout.html:48
 #: shopping/templates/shopping/checkout.html:213
 #: shopping/templates/shopping/optimum/checkout.html:36
-#: shopping/templates/shopping/optimum/checkout.html:201
+#: shopping/templates/shopping/optimum/checkout.html:203
 msgid "Click on a previous address below to use it."
 msgstr "Cliquez sur une des adresses précédentes ci-dessous pour l'utiliser."
 
 #: shopping/templates/shopping/checkout.html:76
 #: shopping/templates/shopping/checkout.html:181
-#: shopping/templates/shopping/optimum/checkout.html:62
-#: shopping/templates/shopping/optimum/checkout.html:167
+#: shopping/templates/shopping/optimum/checkout.html:64
+#: shopping/templates/shopping/optimum/checkout.html:169
 #: shopping/templates/shopping/paypal/confirmation.html:22
 msgid "Pay"
 msgstr "Payer"
 
 #: shopping/templates/shopping/checkout.html:87
-#: shopping/templates/shopping/optimum/checkout.html:73
+#: shopping/templates/shopping/optimum/checkout.html:75
 msgid ""
 "\n"
 "                            No thanks, I want to\n"
@@ -2765,7 +2743,7 @@ msgstr ""
 "                        "
 
 #: shopping/templates/shopping/checkout.html:98
-#: shopping/templates/shopping/optimum/checkout.html:84
+#: shopping/templates/shopping/optimum/checkout.html:86
 msgid ""
 "\n"
 "                                Please hold on a second while <strong>we are "
@@ -2776,7 +2754,7 @@ msgstr ""
 "que <strong>nous essayons de vous localiser</strong> "
 
 #: shopping/templates/shopping/checkout.html:101
-#: shopping/templates/shopping/optimum/checkout.html:87
+#: shopping/templates/shopping/optimum/checkout.html:89
 msgid ""
 "\n"
 "                                Sorry, we couldn't locate you. "
@@ -2787,44 +2765,44 @@ msgstr ""
 "<strong>Veuillez entrer votre position manuellement.</strong> "
 
 #: shopping/templates/shopping/checkout.html:109
-#: shopping/templates/shopping/optimum/checkout.html:95
+#: shopping/templates/shopping/optimum/checkout.html:97
 msgid "Please, give us your address"
 msgstr "S'il vous plaît donnez-nous votre adresse"
 
 #: shopping/templates/shopping/checkout.html:111
-#: shopping/templates/shopping/optimum/checkout.html:97
+#: shopping/templates/shopping/optimum/checkout.html:99
 msgid "New delivery address"
 msgstr "Nouvelle adresse de livraison"
 
 #: shopping/templates/shopping/checkout.html:117
-#: shopping/templates/shopping/optimum/checkout.html:103
+#: shopping/templates/shopping/optimum/checkout.html:105
 msgid "Country"
 msgstr "Pays"
 
 #: shopping/templates/shopping/checkout.html:127
-#: shopping/templates/shopping/optimum/checkout.html:113
+#: shopping/templates/shopping/optimum/checkout.html:115
 msgid "City"
 msgstr "Ville"
 
 #: shopping/templates/shopping/checkout.html:133
 #: shopping/templates/shopping/contact.html:17
-#: shopping/templates/shopping/optimum/checkout.html:119
+#: shopping/templates/shopping/optimum/checkout.html:121
 #: shopping/templates/shopping/optimum/contact.html:17
 msgid "Address"
 msgstr "Adresse"
 
 #: shopping/templates/shopping/checkout.html:141
-#: shopping/templates/shopping/optimum/checkout.html:127
+#: shopping/templates/shopping/optimum/checkout.html:129
 msgid "Postal Code"
 msgstr "Code postal"
 
 #: shopping/templates/shopping/checkout.html:163
-#: shopping/templates/shopping/optimum/checkout.html:149
+#: shopping/templates/shopping/optimum/checkout.html:151
 msgid "Your name"
 msgstr "Nom"
 
 #: shopping/templates/shopping/checkout.html:209
-#: shopping/templates/shopping/optimum/checkout.html:197
+#: shopping/templates/shopping/optimum/checkout.html:199
 msgid "Click here to view previous addresses."
 msgstr "Cliquez ici pour voir les adresses précédentes."
 
@@ -2940,7 +2918,7 @@ msgstr "Envoyez nous un email"
 #: shopping/templates/shopping/optimum/product_detail.html:236
 #: shopping/templates/shopping/optimum/product_detail.html:237
 #: shopping/templates/shopping/optimum/product_list.html:49
-#: shopping/templates/shopping/snippets/product_list_results.html:9
+#: shopping/templates/shopping/snippets/product_list_results.html:19
 msgid "Name"
 msgstr "Nom"
 
@@ -2967,7 +2945,7 @@ msgstr "Effacer"
 #: shopping/templates/shopping/optimum/snippets/home_content.html:103
 #: shopping/templates/shopping/optimum/snippets/home_content.html:238
 #: shopping/templates/shopping/optimum/snippets/home_content.html:328
-#: shopping/templates/shopping/snippets/product_list_results.html:54
+#: shopping/templates/shopping/snippets/product_list_results.html:64
 msgid "SOLD OUT"
 msgstr "ÉPUISÉ"
 
@@ -2977,7 +2955,7 @@ msgstr "ÉPUISÉ"
 #: shopping/templates/shopping/optimum/snippets/home_content.html:113
 #: shopping/templates/shopping/optimum/snippets/home_content.html:248
 #: shopping/templates/shopping/optimum/snippets/home_content.html:338
-#: shopping/templates/shopping/snippets/product_list_results.html:64
+#: shopping/templates/shopping/snippets/product_list_results.html:74
 msgctxt "Sale on a product"
 msgid "SALE"
 msgstr "SOLDE"
@@ -2987,7 +2965,7 @@ msgstr "SOLDE"
 #: shopping/templates/shopping/home.html:469
 #: shopping/templates/shopping/optimum/snippets/home_content.html:146
 #: shopping/templates/shopping/optimum/snippets/home_content.html:363
-#: shopping/templates/shopping/snippets/product_list_results.html:97
+#: shopping/templates/shopping/snippets/product_list_results.html:107
 #: shopping/templates/shopping/snippets/product_size_qty.html:16
 msgid "Min. order"
 msgstr "Achat min"
@@ -3006,8 +2984,8 @@ msgstr "Achat min"
 #: shopping/templates/shopping/optimum/snippets/home_content.html:276
 #: shopping/templates/shopping/optimum/snippets/home_content.html:368
 #: shopping/templates/shopping/optimum/snippets/home_content.html:371
-#: shopping/templates/shopping/snippets/product_list_results.html:102
-#: shopping/templates/shopping/snippets/product_list_results.html:105
+#: shopping/templates/shopping/snippets/product_list_results.html:112
+#: shopping/templates/shopping/snippets/product_list_results.html:115
 msgid "Add To Cart"
 msgstr "Ajouter au panier"
 
@@ -3377,26 +3355,38 @@ msgstr "Si vous aimez ce thème, cliquez sur Appliquer pour l'utiliser."
 msgid "Do you like this theme ?"
 msgstr "Aimez vous ce thème ?"
 
-#: shopping/templates/shopping/optimum/cart.html:98
+#: shopping/templates/shopping/optimum/base.html:515
+msgid "Select and send a product to your follower"
+msgstr "Sélectionnez et envoyez un produit à votre follower"
+
+#: shopping/templates/shopping/optimum/base.html:516
+msgid ""
+"Browse and choose a product your follower might like and send him the link "
+"using a Sharing button."
+msgstr ""
+"Parcourez et choisissez un produit que votre follower aimera et envoyez lui "
+"le lien en utilisant un bouton de partage."
+
+#: shopping/templates/shopping/optimum/cart.html:99
 #: shopping/templates/shopping/snippets/cart_products_confirmed.html:66
 #: templates/tchopetyamo/shopping/optimum/cart.html:103
 #: trade/templates/trade/snippets/order_details.html:31
 msgid "Packing"
 msgstr "Emballage"
 
-#: shopping/templates/shopping/optimum/cart.html:137
+#: shopping/templates/shopping/optimum/cart.html:138
 #: templates/tchopetyamo/shopping/optimum/cart.html:142
 msgid "No I don't want packing"
 msgstr "Non, je ne veux pas d'emballage"
 
-#: shopping/templates/shopping/optimum/cart.html:416
+#: shopping/templates/shopping/optimum/cart.html:417
 #: templates/tchopetyamo/shopping/optimum/cart.html:448
 msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
 
 #: shopping/templates/shopping/optimum/product_detail.html:144
 #: shopping/templates/shopping/optimum/snippets/home_content.html:139
-#: shopping/templates/shopping/snippets/product_list_results.html:90
+#: shopping/templates/shopping/snippets/product_list_results.html:100
 msgid "Avail."
 msgstr "Dispo."
 
@@ -3418,7 +3408,7 @@ msgid "Sort"
 msgstr "Ordonner"
 
 #: shopping/templates/shopping/optimum/product_list.html:48
-#: shopping/templates/shopping/snippets/product_list_results.html:8
+#: shopping/templates/shopping/snippets/product_list_results.html:18
 msgid "Most recent"
 msgstr "Plus récents"
 
@@ -3619,11 +3609,11 @@ msgstr "Ajouter au panier"
 msgid "You can start shopping now"
 msgstr "Vous pouvez maintenant commencer votre shopping"
 
-#: shopping/templates/shopping/snippets/product_list_results.html:6
+#: shopping/templates/shopping/snippets/product_list_results.html:16
 msgid "Sorting by"
 msgstr "Tri par"
 
-#: shopping/templates/shopping/snippets/product_list_results.html:19
+#: shopping/templates/shopping/snippets/product_list_results.html:29
 #, python-format
 msgid ""
 "\n"
@@ -4527,6 +4517,24 @@ msgstr "RCC"
 #: trade/templates/trade/snippets/package_details.html:2
 msgid "Package details"
 msgstr "Détails du paquet"
+
+#~ msgid "English"
+#~ msgstr "Anglais"
+
+#~ msgid "French"
+#~ msgstr "Français"
+
+#~ msgid "Manage Profiles"
+#~ msgstr "Gérer les profils"
+
+#~ msgid "Manage Revivals"
+#~ msgstr "Gérer les Relances"
+
+#~ msgid "Manage Daraja"
+#~ msgstr "Gérer Daraja"
+
+#~ msgid "Manage Continuous Rewarding"
+#~ msgstr "Gérer le Continuous Rewarding"
 
 #~ msgid "Current month Earnings"
 #~ msgstr "Revenus courants"

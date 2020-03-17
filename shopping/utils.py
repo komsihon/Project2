@@ -577,7 +577,7 @@ def referee_registration_callback(request, *args, **kwargs):
     referrer = request.COOKIES.get('referrer')
     if referrer:
         try:
-            service = get_service_instance()
+            service = kwargs.get('service', get_service_instance())
             dara_member = Member.objects.get(pk=referrer)
             set_customer_dara(service, dara_member, request.user)
         except:
