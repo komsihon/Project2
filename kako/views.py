@@ -45,8 +45,6 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, BusinessCategory, Pr
 from ikwen_kakocase.kakocase.admin import ProductCategoryAdmin
 from ikwen_kakocase.commarketing.models import SmartCategory, Banner
 
-from echo.models import MailCampaign
-
 
 class ProviderList(HybridListView):
     template_name = 'kako/retailer/provider_list.html'
@@ -287,6 +285,7 @@ class ProductList(HybridListView):
                     pass
         elif self.request.GET.get('campaign'):
             if smart_object_id:
+                from echo.models import MailCampaign
                 try:
                     smart_object = MailCampaign.objects.using(UMBRELLA).get(pk=smart_object_id)
                 except MailCampaign.DoesNotExist:
