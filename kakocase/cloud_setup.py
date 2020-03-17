@@ -34,7 +34,7 @@ from ikwen.flatpages.models import FlatPage
 from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
 
-from daraja.models import DARAJA
+
 
 logger = logging.getLogger('ikwen')
 
@@ -280,6 +280,7 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
     config.save(using=UMBRELLA)
     base_config = config.get_base_config()
     base_config.save(using=UMBRELLA)
+    from daraja.models import DARAJA
     if partner_retailer:
         partner_retailer.save(using=database)
         try:
