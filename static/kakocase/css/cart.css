@@ -49,6 +49,9 @@ body, .header-bottom  {background: #f9f8f8}
 #checkout-confirmation p {margin-bottom: .5em}
 #checkout-confirmation .highlight {background: #f1f6f6; border-radius: 5px; padding: 20px}
 #checkout-confirmation .highlight a {color: #0d59af; text-decoration: underline}
+#checkout-confirmation .check-mark {float: left; width: 15%}
+#checkout-confirmation .order-details {float: left; width: 84%}
+
 .status-bullet.shipped, .status-bullet.delivered {background: #2ab732}
 .promo-code {display: block;font-size: 11px;text-align: right;clear: both;}
 .input-group.promo  {display: none}
@@ -109,4 +112,7 @@ body, .header-bottom  {background: #f9f8f8}
 	.checkout-header {margin-top: 50px}
 	.cart-item-info .subtotal {text-align: right}
 	.include-packing {margin-left: 10px}
+	#checkout-confirmation .check-mark {width: 100%; text-align: center}
+	#checkout-confirmation .check-mark img {width: 60px; display: inline}
+	#checkout-confirmation .order-details {width: 100%; margin-top: 15px}
 }
