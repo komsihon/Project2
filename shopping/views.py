@@ -55,7 +55,6 @@ from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmat
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
 from ikwen_kakocase.trade.utils import generate_tx_code
 from permission_backend_nonrel.models import UserPermissionList
-from daraja.models import Dara, DARA_CASH
 
 logger = logging.getLogger('ikwen')
 
@@ -391,6 +390,7 @@ class ProductDetail(TemplateSelector, TemplateView):
                 continue
         context['deal_list'] = deal_list
         member = request.user
+        from daraja.models import Dara
         if member.is_authenticated():
             try:
                 Review.objects.get(member=member, product=product)
@@ -661,6 +661,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
     mean = request.GET.get('mean', MTN_MOMO)
     cancel_url = reverse('shopping:cart')
 
+    from daraja.models import Dara, DARA_CASH
     if mean == DARA_CASH:
         try:
             if getattr(settings, 'DEBUG', False):
@@ -700,7 +701,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
 
     if getattr(settings, 'UNIT_TESTING', False):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
-    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.ikwen.com/v1')
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'https://payment.ikwen.com/v1')
     endpoint = gateway_url + '/request_payment'
     params = {
         'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
