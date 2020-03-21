@@ -5,10 +5,11 @@ from django.utils.translation import gettext as _, activate
 
 from ikwen.core.utils import *
 from ikwen.core.models import Application, Service, ConsoleEventType
+from ikwen.accesscontrol.backends import UMBRELLA
 
 from ikwen_kakocase.shopping.models import Customer
 from ikwen_kakocase.trade.models import Order
-from daraja.models import DARAJA, REFEREE_JOINED_EVENT
+from daraja.models import DARAJA, REFEREE_JOINED_EVENT, Dara
 
 
 def set_customer_dara(service, referrer, member):
@@ -35,6 +36,16 @@ def set_customer_dara(service, referrer, member):
         add_database(dara_db)
         member.save(using=dara_db)
         customer.save(using=dara_db)
+
+        try:
+            dara_umbrella = Dara.objects.using(UMBRELLA).get(member=referrer)
+            if dara_umbrella.level == 2:
+                if dara_umbrella.xp in [2, 3, 4]:
+                    dara_umbrella.xp += 1
+                    dara_umbrella.save()
+        except:
+            pass
+
         service_mirror = Service.objects.using(dara_db).get(pk=service.id)
         set_counters(service_mirror)
         increment_history_field(service_mirror, 'community_history')

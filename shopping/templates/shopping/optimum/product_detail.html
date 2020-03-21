@@ -164,19 +164,19 @@
                                     <p class="alert alert-danger">{% trans 'SOLD OUT' %}</p>
                                 {% endif %}
                                 <div class="social-icon hidden-xs">
-                                    <div class="fb-share-button" data-href="{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-layout="button" data-mobile-iframe="true">
+                                    <div class="fb-share-button" data-href="{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% elif request.GET.referrer %}?referrer={{ request.GET.referrer }}{% endif %}" data-layout="button" data-mobile-iframe="true">
                                         <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php">{% trans "Share" %}</a>
                                     </div>
-                                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-size="small">Tweet</a>
+                                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% elif request.GET.referrer %}?referrer={{ request.GET.referrer }}{% endif %}" data-size="small">Tweet</a>
                                 </div>
                                 <div class="row visible-xs">
-                                    <div class="col-sm-offset-2 col-sm-4 col-xs-4" data-href="{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% endif %}" data-layout="button" data-mobile-iframe="true">
+                                    <div class="col-sm-offset-2 col-sm-4 col-xs-4" data-href="{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% elif request.GET.referrer %}?referrer={{ request.GET.referrer }}{% endif %}" data-layout="button" data-mobile-iframe="true">
                                         <a class="product-social-share btn btn-block" target="_blank"  href="https://www.facebook.com/sharer/sharer.php?u={{ service.url }}{{ product_uri }}"  style="background: #3b5998;">
                                             <i class="fab fa-facebook"></i>
                                         </a>
                                     </div>
                                     <div class="col-sm-4 col-xs-4">
-                                        <a class="product-social-share btn btn-block" data-toggle="modal" data-target="#twitter-share" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_uri }}{% if is_dara %}%3Freferrer={{ user.id }}{% endif %}" style="background: #1da1f2;">
+                                        <a class="product-social-share btn btn-block" data-toggle="modal" data-target="#twitter-share" href="https://twitter.com/intent/tweet?url={{ service.url }}{{ product_uri }}{% if is_dara %}%3Freferrer={{ user.id }}{% elif request.GET.referrer %}%3Freferrer={{ request.GET.referrer }}{% endif %}" style="background: #1da1f2;">
                                             <i class="fab fa-twitter"></i>
                                         </a>
                                     </div>
@@ -518,7 +518,7 @@
             });
             $('body').on('click', '#whatsapp-share .btn.ok', () => {
                 let msg = $('#whatsapp-share-msg').val(),
-                    url = '{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% endif %}';
+                    url = '{{ service.url }}{{ product_uri }}{% if is_dara %}?referrer={{ user.id }}{% elif request.GET.referrer %}?referrer={{ request.GET.referrer }}{% endif %}';
                 window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A' + msg;
             });
         })

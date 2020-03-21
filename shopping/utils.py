@@ -213,25 +213,17 @@ def send_dara_notification_email(dara_service, order):
     subject = _("New transaction on %s" % config.company_name)
     try:
         dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
+        extra_context = {'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
+                         'dara_earnings': order.referrer_earnings,
+                         'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
+                         'account_balance': dara_service.balance,
+                         'dashboard_url': dashboard_url}
         try:
-            dara = Dara.objects.using(UMBRELLA).get(service=dara_service)
-            html_content = get_mail_content(subject, template_name=template_name,
-                                            extra_context={'currency_symbol': config.currency_symbol,
-                                                           'amount': order.items_cost,
-                                                           'dara_earnings': order.referrer_earnings,
-                                                           'transaction_time': order.updated_on.strftime(
-                                                               '%Y-%m-%d %H:%M:%S'),
-                                                           'account_balance': dara_service.balance,
-                                                           'dashboard_url': dashboard_url,
-                                                           'dara_level': dara.level,
-                                                           'dara_xp': dara.xp})
+            dara = Dara.objects.using(UMBRELLA).get(member=dara_service.member)
+            extra_context['dara'] = dara
         except:
-            html_content = get_mail_content(subject, template_name=template_name,
-                                            extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
-                                                           'dara_earnings': order.referrer_earnings,
-                                                           'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
-                                                           'account_balance': dara_service.balance,
-                                                           'dashboard_url': dashboard_url})
+            pass
+        html_content = get_mail_content(subject, template_name=template_name, extra_context=extra_context)
         sender = 'ikwen Daraja <no-reply@ikwen.com>'
         msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
         msg.content_subtype = "html"
@@ -518,7 +510,15 @@ def after_order_confirmation(order, update_stock=True):
         if order.payment_mean.slug != DARA_CASH:
             dara_service_original.raise_balance(order.referrer_earnings, provider=order.payment_mean.slug)
         send_dara_notification_email(dara_service_original, order)
-
+        try:
+            dara_umbrella = Dara.objects.using(UMBRELLA).get(pk=dara.id)
+            if dara_umbrella.level == 2 and dara_umbrella.xp == 5:
+                dara_umbrella.xp = 0
+                dara_umbrella.level = 3
+                dara.raise_bonus_cash(500)
+                dara_umbrella.save()
+        except:
+            pass
         set_counters(dara)
         dara.last_transaction_on = datetime.now()
 

@@ -11,12 +11,13 @@ import logging
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.template import Context
 from django.template.defaultfilters import slugify
 from django.template.loader import get_template
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, activate
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
 from permission_backend_nonrel.models import UserPermissionList, GroupPermissionList
@@ -29,10 +30,12 @@ from ikwen.conf.settings import STATIC_ROOT, STATIC_URL, CLUSTER_MEDIA_ROOT, CLU
 from ikwen.core.models import Service, OperatorWallet, SERVICE_DEPLOYED
 from ikwen.core.tools import generate_django_secret_key, generate_random_key, reload_server
 from ikwen.core.utils import add_database_to_settings, add_event, get_mail_content, \
-    get_service_instance, set_counters, increment_history_field
+    get_service_instance, set_counters, increment_history_field, add_database, XEmailMessage
 from ikwen.flatpages.models import FlatPage
 from ikwen.partnership.models import PartnerProfile
 from ikwen.theming.models import Template, Theme
+
+from daraja.models import Dara
 
 
 
@@ -377,11 +380,40 @@ def deploy(app, member, business_type, project_name, billing_plan, theme, monthl
         sudo_group = Group.objects.get(name=SUDO)
         ikwen_sudo_gp = Group.objects.using(UMBRELLA).get(name=SUDO)
         add_event(vendor, SERVICE_DEPLOYED, group_id=ikwen_sudo_gp.id, object_id=invoice.id)
+    elif partner_retailer and partner_retailer.app.slug == DARAJA:
+        try:
+            dara_member = partner_retailer.member
+            dara = Dara.objects.get(member=dara_member)
+            dara_earnings = invoice_total * dara.share_rate / 100
+            phone = member.phone
+            if len(phone) == 9 and not phone.startswith('237'):
+                member.phone = '237' + member.phone
+
+            template_name = 'daraja/mails/remind_referrer.html'
+            activate(dara_member.language)
+            subject = _("Congratulations ! %s CFA is waiting for you." % intcomma(dara_earnings))
+            try:
+                extra_context = {'referee': member,
+                                 'amount': dara_earnings,
+                                 'invoice_total': intcomma(invoice_total),
+                                 'deployed_service': service,
+                                 'dara_name': dara_member.full_name}
+                html_content = get_mail_content(subject, template_name=template_name, extra_context=extra_context)
+                sender = 'ikwen Daraja <no-reply@ikwen.com>'
+                msg = EmailMessage(subject, html_content, sender, [dara_member.email])
+                msg.content_subtype = "html"
+                Thread(target=lambda m: m.send(), args=(msg,)).start()
+            except:
+                logger.error("Failed to notify %s Dara after follower deployed Kakocase website." % dara_member.full_name,
+                             exc_info=True)
+        except Dara.DoesNotExist:
+            logging.error("%s - Customer %s has not been referred" % (service.project_name, member.username))
     else:
         sender = 'ikwen Tsunami <no-reply@ikwen.com>'
         sudo_group = Group.objects.using(UMBRELLA).get(name=SUDO)
     add_event(vendor, SERVICE_DEPLOYED, group_id=sudo_group.id, object_id=invoice.id)
     invoice_url = 'http://www.ikwen.com' + reverse('billing:invoice_detail', args=(invoice.id,))
+    activate(member.language)
     subject = _("Your website %s was created" % project_name)
     html_content = get_mail_content(subject, template_name='core/mails/service_deployed.html',
                                     extra_context={'service_activated': service, 'invoice': invoice,
