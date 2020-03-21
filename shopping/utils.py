@@ -213,12 +213,25 @@ def send_dara_notification_email(dara_service, order):
     subject = _("New transaction on %s" % config.company_name)
     try:
         dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
-        html_content = get_mail_content(subject, template_name=template_name,
-                                        extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
-                                                       'dara_earnings': order.referrer_earnings,
-                                                       'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
-                                                       'account_balance': dara_service.balance,
-                                                       'dashboard_url': dashboard_url})
+        try:
+            dara = Dara.objects.using(UMBRELLA).get(service=dara_service)
+            html_content = get_mail_content(subject, template_name=template_name,
+                                            extra_context={'currency_symbol': config.currency_symbol,
+                                                           'amount': order.items_cost,
+                                                           'dara_earnings': order.referrer_earnings,
+                                                           'transaction_time': order.updated_on.strftime(
+                                                               '%Y-%m-%d %H:%M:%S'),
+                                                           'account_balance': dara_service.balance,
+                                                           'dashboard_url': dashboard_url,
+                                                           'dara_level': dara.level,
+                                                           'dara_xp': dara.xp})
+        except:
+            html_content = get_mail_content(subject, template_name=template_name,
+                                            extra_context={'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
+                                                           'dara_earnings': order.referrer_earnings,
+                                                           'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
+                                                           'account_balance': dara_service.balance,
+                                                           'dashboard_url': dashboard_url})
         sender = 'ikwen Daraja <no-reply@ikwen.com>'
         msg = XEmailMessage(subject, html_content, sender, [dara_service.member.email])
         msg.content_subtype = "html"

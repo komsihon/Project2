@@ -1,9 +1,9 @@
 {% load i18n staticfiles humanize auth_tokens %}
 <div id="checkout-confirmation">
-    <div style="float: left; width: 15%">
+    <div class="check-mark">
         <img src="{% static 'kakocase/img/check-mark.png' %}" class="img-responsive" alt="">
     </div>
-    <div style="float: left; width: 84%">
+    <div class="order-details">
         {% with da=order.delivery_address do=order.delivery_option %}
         {% if order.is_more_than_one_hour_old %}
             <h3>Your order No <strong>{{ order.rcc|upper }}</strong></h3>
