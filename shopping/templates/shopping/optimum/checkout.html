@@ -203,6 +203,10 @@
                 $('div#previous-addresses h3').text("{% trans "Click on a previous address below to use it." %}");
                 if ($('.previous-address').length == 1) $('.previous-address').addClass('selected');
                 else $('.previous-address').removeClass('selected');
+            }).on('click', '.submit-checkout, .payment-method:not(.processing)', function() {
+                let actionURL = $(this).data('action-url');
+                $('.payment-method').addClass('processing');
+                $('form#do-checkout').prop('action', actionURL).submit()
             });
 
             let entries = [];
@@ -238,11 +242,6 @@
                 });
                 if (!check) ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
                 return check;
-            });
-            $('.submit-checkout, .payment-method').click(function() {
-                let actionURL = $(this).data('action-url');
-                $('#payment-methods .spinner').show();
-                $('form#do-checkout').prop('action', actionURL).submit()
             });
         })()
     </script>
