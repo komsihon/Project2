@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-09 15:22+0100\n"
-"PO-Revision-Date: 2020-03-09 15:39+0100\n"
+"POT-Creation-Date: 2020-03-22 20:29+0100\n"
+"PO-Revision-Date: 2020-03-22 20:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -96,6 +96,7 @@ msgstr "Oui, utilisez le"
 #: kakocase/templates/kakocase/tsunami/successful_deployment.html:182
 #: shopping/templates/shopping/choose_deal.html:109
 #: shopping/templates/shopping/choose_deal.html:153
+#: shopping/templates/shopping/optimum/base.html:492
 #: shopping/templates/shopping/optimum/product_detail.html:402
 #: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:17
 #: trade/templates/trade/order_list.html:91
@@ -656,60 +657,60 @@ msgstr "Vous allez aimer ces nouveaux produits! Jetez-y un coup d’œil"
 msgid "Wow ! Seize this opportunity on %s"
 msgstr "Waouh! Saisissez cette opportunité sur %s"
 
-#: kako/views.py:213 templates/tchopetyamo/core/app_base_admin.html:7
+#: kako/views.py:211 templates/tchopetyamo/core/app_base_admin.html:7
 #: trade/templates/trade/provider/dashboard.html:245
 #: trade/templates/trade/retailer/dashboard.html:144
 msgid "Category"
 msgstr "Catégorie"
 
-#: kako/views.py:232 kakocase/templates/kakocase/cloud_setup/deploy.html:11
+#: kako/views.py:230 kakocase/templates/kakocase/cloud_setup/deploy.html:11
 msgid "Merchant"
 msgstr "Marchand"
 
-#: kako/views.py:574
+#: kako/views.py:573
 msgid "Retail price cannot be smaller than wholesale price."
 msgstr "Le prix de détail ne peut être inférieur au prix de gros."
 
-#: kako/views.py:582
+#: kako/views.py:581
 msgid "Product already imported by some retailers. Delete and start again."
 msgstr ""
 "Produit déjà importé par quelques détaillants. Supprimer et commencer de "
 "nouveau."
 
-#: kako/views.py:598
+#: kako/views.py:597
 #, python-format
 msgid "Product cannot be added because the limit of %d products is reached."
 msgstr ""
 "Le produit ne peut être ajouté parce que la limite du produit %d est "
 "atteinte."
 
-#: kako/views.py:669
+#: kako/views.py:668
 #, python-format
 msgid "Product %s successfully updated."
 msgstr "Produit %s mis à jour avec succès."
 
-#: kako/views.py:673
+#: kako/views.py:672
 #, python-format
 msgid "Product %s successfully created."
 msgstr "Produit %s créé avec succès."
 
-#: kako/views.py:691
+#: kako/views.py:690
 msgid "Product was not created. One ore more fields were invalid."
 msgstr "Échec. Un ou plusieurs champs étaient invalides."
 
-#: kako/views.py:748
+#: kako/views.py:747
 msgid ""
 "Product already imported by some retailers. Delete and register a new one."
 msgstr ""
 "Produit déjà importé par quelques détaillants. Supprimer et enregistrer un "
 "nouveau."
 
-#: kako/views.py:860
+#: kako/views.py:859
 #, python-format
 msgid "Product taken out by %s"
 msgstr "Produit retiré par %s"
 
-#: kako/views.py:861
+#: kako/views.py:860
 #, python-format
 msgid ""
 "Hi %(member_name)s,<br/> The product below wasremoved by <strong>"
@@ -718,14 +719,14 @@ msgstr ""
 "Salut %(member_name)s,<br/> Le produit ci-dessous a été retiré par <strong>"
 "%(company_name)s.</strong> Il n' apparaîtra plus dans votre site internet."
 
-#: kako/views.py:916
+#: kako/views.py:915
 #, python-format
 msgid "You must add %s as a Partner Merchant to import his products."
 msgstr ""
 "Vous devez ajouter %s comme un Marchand Partenaire pour importer ses "
 "produits."
 
-#: kako/views.py:932
+#: kako/views.py:931
 #, python-format
 msgid "%s successfully added"
 msgstr "%s ajouté avec succès"
@@ -980,39 +981,44 @@ msgstr ""
 "L' AUTH CODE est invalide, s'il vous plaît vérifiez. Si le problème "
 "persiste, veuillez contacter %s pour avoir le bon."
 
-#: kakocase/cloud_setup.py:255
+#: kakocase/cloud_setup.py:258
 msgid "Agreement goes here"
 msgstr "L'accord va ici"
 
-#: kakocase/cloud_setup.py:257
+#: kakocase/cloud_setup.py:260
 msgid "Legal mentions go here"
 msgstr "Les Mentions légales vont ici"
 
-#: kakocase/cloud_setup.py:270
+#: kakocase/cloud_setup.py:273
 msgid ""
 "Hey $client<br>We are inviting you to join our awesome community on ikwen."
 msgstr ""
 "Salut $client<br>Nous vous invitons à rejoindre notre incroyable communauté "
 "sur ikwen."
 
-#: kakocase/cloud_setup.py:323 kakocase/models.py:204
+#: kakocase/cloud_setup.py:327 kakocase/models.py:204
 #: shopping/templates/shopping/mails/order_notice.html:87
 msgid "Pick up in store"
 msgstr "Récupérer sur place"
 
-#: kakocase/cloud_setup.py:324
+#: kakocase/cloud_setup.py:328
 msgid "2H after order"
 msgstr "2H après avoir commandé"
 
-#: kakocase/cloud_setup.py:326 kakocase/models.py:205
+#: kakocase/cloud_setup.py:330 kakocase/models.py:205
 msgid "Home delivery"
 msgstr "Livraison à domicile"
 
-#: kakocase/cloud_setup.py:327
+#: kakocase/cloud_setup.py:331
 msgid "Max. 72H after order"
 msgstr "Maximum 72H après avoir commander"
 
-#: kakocase/cloud_setup.py:384
+#: kakocase/cloud_setup.py:394 kakocase/test_referrer_notification.py:46
+#, python-format
+msgid "Congratulations ! %s CFA is waiting for you."
+msgstr "Mes félicitations ! %s FCFA vous attendent."
+
+#: kakocase/cloud_setup.py:417
 #, python-format
 msgid "Your website %s was created"
 msgstr "Votre site internet %s a été crée"
@@ -1261,21 +1267,21 @@ msgstr "URL de création du compte bancaire"
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
 
-#: kakocase/utils.py:49
+#: kakocase/utils.py:60
 #, python-format
 msgid "I'm back on %s !"
 msgstr "Je suis de retour sur %s !"
 
-#: kakocase/utils.py:51
+#: kakocase/utils.py:62
 #, python-format
 msgid "I just joined %s !"
 msgstr "Je viens de m'inscrire sur %s !"
 
-#: kakocase/utils.py:83
+#: kakocase/utils.py:94
 msgid "Last order"
 msgstr "Dernière commande"
 
-#: kakocase/utils.py:89 trade/templates/trade/bank/dashboard.html:10
+#: kakocase/utils.py:100 trade/templates/trade/bank/dashboard.html:10
 #: trade/templates/trade/bank/dashboard.html:14
 #: trade/templates/trade/logicom/dashboard.html:10
 #: trade/templates/trade/logicom/dashboard.html:14
@@ -1288,7 +1294,7 @@ msgstr "Dernière commande"
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: kakocase/utils.py:90 trade/templates/trade/bank/dashboard.html:15
+#: kakocase/utils.py:101 trade/templates/trade/bank/dashboard.html:15
 #: trade/templates/trade/logicom/dashboard.html:15
 #: trade/templates/trade/provider/ccm_dashboard.html:80
 #: trade/templates/trade/provider/dashboard.html:190
@@ -1296,15 +1302,15 @@ msgstr "Aujourd'hui"
 msgid "Yesterday"
 msgstr "Hier"
 
-#: kakocase/utils.py:91
+#: kakocase/utils.py:102
 msgid "Last 7 days"
 msgstr "7 derniers jours"
 
-#: kakocase/utils.py:92
+#: kakocase/utils.py:103
 msgid "Last 30 days"
 msgstr "30 derniers jours"
 
-#: kakocase/utils.py:93
+#: kakocase/utils.py:104
 msgid "Never since 60 days"
 msgstr "Jamais depuis 60 jours"
 
@@ -2283,7 +2289,7 @@ msgstr "Catégorie à laquelle s'applique la réduction"
 
 #: sales/models.py:25
 msgid "Allow to activate or no the promotion"
-msgstr "Activer la promo ? "
+msgstr "Activer la promo ?"
 
 #: sales/models.py:30
 msgid "Title of the discount coupon"
@@ -2384,7 +2390,7 @@ msgstr "À"
 msgid "New transaction on %s"
 msgstr "Nouvelle transaction sur %s"
 
-#: shopping/utils.py:244
+#: shopping/utils.py:249
 #, python-format
 msgid ""
 "Order successful:\n"
@@ -2401,20 +2407,20 @@ msgstr ""
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:789
+#: shopping/views.py:790
 msgid "Order successful"
 msgstr "Commande réussie"
 
-#: shopping/views.py:871
+#: shopping/views.py:872
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:930
+#: shopping/views.py:931
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:944
+#: shopping/views.py:945
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2517,8 +2523,8 @@ msgstr "Mentions légales"
 
 #: shopping/templates/shopping/base.html:425
 #: shopping/templates/shopping/base.html:525
-#: shopping/templates/shopping/optimum/base.html:558
-#: shopping/templates/shopping/optimum/base.html:654
+#: shopping/templates/shopping/optimum/base.html:556
+#: shopping/templates/shopping/optimum/base.html:652
 #: templates/tchopetyamo/shopping/optimum/base.html:459
 #: templates/tchopetyamo/shopping/optimum/base.html:555
 msgid "Please select a size."
@@ -2526,7 +2532,7 @@ msgstr "Sélectionnez une taille SVP."
 
 #: shopping/templates/shopping/base.html:445
 #: shopping/templates/shopping/cart.html:164
-#: shopping/templates/shopping/optimum/base.html:578
+#: shopping/templates/shopping/optimum/base.html:576
 #: shopping/templates/shopping/optimum/cart.html:223
 #: templates/tchopetyamo/shopping/optimum/base.html:479
 #: templates/tchopetyamo/shopping/optimum/cart.html:260
