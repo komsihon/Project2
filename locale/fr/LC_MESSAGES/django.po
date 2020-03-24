@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-22 20:29+0100\n"
-"PO-Revision-Date: 2020-03-22 20:46+0100\n"
+"POT-Creation-Date: 2020-03-24 17:51+0100\n"
+"PO-Revision-Date: 2020-03-24 17:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -501,7 +501,7 @@ msgstr "Smart Catégorie sauvegardée avec succès."
 #: kako/templates/kako/change_product.html:277
 #: sales/templates/sales/change_promo_code.html:116
 #: sales/templates/sales/change_promotion.html:114
-#: shopping/templates/shopping/optimum/checkout.html:239
+#: shopping/templates/shopping/optimum/checkout.html:243
 msgid "Missing information. Please check."
 msgstr "Information manquante. Vérifiez s'il vous plaît."
 
@@ -2247,8 +2247,12 @@ msgstr "Déconnexion"
 #: kakocase/templates/kakocase/welcome/base.html:170
 #: shopping/templates/shopping/base.html:92
 #: shopping/templates/shopping/base.html:296
+#: shopping/templates/shopping/cart.html:127
+#: shopping/templates/shopping/cart.html:130
 #: shopping/templates/shopping/optimum/base.html:107
 #: shopping/templates/shopping/optimum/base.html:387
+#: shopping/templates/shopping/optimum/cart.html:180
+#: shopping/templates/shopping/optimum/cart.html:183
 #: shopping/templates/shopping/snippets/edge_panel.html:75
 #: templates/admin/login.html:105
 #: templates/tchopetyamo/accesscontrol/sign_in.html:37
@@ -2531,9 +2535,9 @@ msgid "Please select a size."
 msgstr "Sélectionnez une taille SVP."
 
 #: shopping/templates/shopping/base.html:445
-#: shopping/templates/shopping/cart.html:164
+#: shopping/templates/shopping/cart.html:168
 #: shopping/templates/shopping/optimum/base.html:576
-#: shopping/templates/shopping/optimum/cart.html:223
+#: shopping/templates/shopping/optimum/cart.html:227
 #: templates/tchopetyamo/shopping/optimum/base.html:479
 #: templates/tchopetyamo/shopping/optimum/cart.html:260
 msgid "Available stock limit reached."
@@ -2654,8 +2658,13 @@ msgid "Sorry, unfortunately this product went out of stock meanwhile."
 msgstr ""
 "Désolé, malheureusement ce produit est entré en rupture de stock entre-temps."
 
-#: shopping/templates/shopping/cart.html:114
-#: shopping/templates/shopping/optimum/cart.html:167
+#: shopping/templates/shopping/cart.html:111
+#: shopping/templates/shopping/optimum/cart.html:164
+msgid "Login to continue"
+msgstr "Veuillez vous connecter pour continuer"
+
+#: shopping/templates/shopping/cart.html:115
+#: shopping/templates/shopping/optimum/cart.html:168
 #: templates/tchopetyamo/shopping/optimum/cart.html:171
 msgid ""
 "\n"
@@ -2675,38 +2684,29 @@ msgstr ""
 "information.\n"
 "                    "
 
-#: shopping/templates/shopping/cart.html:121
-#: shopping/templates/shopping/optimum/cart.html:174
-#: templates/tchopetyamo/shopping/optimum/cart.html:178
+#: shopping/templates/shopping/cart.html:122
+#: shopping/templates/shopping/optimum/cart.html:175
 msgid ""
 "\n"
-"                        <a href=\"#\" class=\"btn btn-success connect"
-"\">Login</a> to proceed. You can still\n"
-"                        <a href=\"#\" class=\"register\">register</a> if you "
-"don't have an account with us.\n"
+"                        Please login to complete <strong>checkout</strong> "
+"process.\n"
 "                    "
 msgstr ""
 "\n"
-"                        <a href=\"#\" class=\"btn btn-success connect"
-"\">S'identifier</a> pour continuer. Vous pouvez toujours\n"
-"                        <a href=\"#\" class=\"register\">vous enregistrer</"
-"a> si vous n'avez pas de compte chez nous.\n"
+"                        Connectez-vous pour <strong>terminer vos achats</"
+"strong>.\n"
 "                    "
 
-#: shopping/templates/shopping/cart.html:127
-#: shopping/templates/shopping/optimum/cart.html:180
+#: shopping/templates/shopping/cart.html:133
+#: shopping/templates/shopping/optimum/cart.html:186
 msgid ""
-"\n"
-"                        <a href=\"#\" class=\"turn-down\">No, thanks</a> I "
-"will checkout anonymously.\n"
-"                        "
+"You can still, <a href=\"#\" class=\"turn-down register\">register</a> if "
+"you don't have an account with us."
 msgstr ""
-"\n"
-"                        <a href=\"#\" class=\"turn-down\">Non, merci</a> Je "
-"ferai un achat anonyme.\n"
-"                        "
+"Vous pouvez, vous <a href=\"#\" class=\"turn-down register\">inscrire</a> si "
+"vous n'avez pas encore de compte chez nous."
 
-#: shopping/templates/shopping/cart.html:284
+#: shopping/templates/shopping/cart.html:288
 msgid "Please choose a pick-up or home delivery option."
 msgstr "Bien vouloir choisir une option de livraison. "
 
@@ -3385,7 +3385,7 @@ msgstr "Emballage"
 msgid "No I don't want packing"
 msgstr "Non, je ne veux pas d'emballage"
 
-#: shopping/templates/shopping/optimum/cart.html:417
+#: shopping/templates/shopping/optimum/cart.html:421
 #: templates/tchopetyamo/shopping/optimum/cart.html:448
 msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
@@ -3911,6 +3911,22 @@ msgstr "Vous avez quelques coupons gratuits"
 #: templates/tchopetyamo/shopping/optimum/cart.html:26
 msgid "Clic here to use your reward"
 msgstr "Cliquez pour utiliser votre récompense"
+
+#: templates/tchopetyamo/shopping/optimum/cart.html:178
+msgid ""
+"\n"
+"                        <a href=\"#\" class=\"btn btn-success connect"
+"\">Login</a> to proceed. You can still\n"
+"                        <a href=\"#\" class=\"register\">register</a> if you "
+"don't have an account with us.\n"
+"                    "
+msgstr ""
+"\n"
+"                        <a href=\"#\" class=\"btn btn-success connect"
+"\">S'identifier</a> pour continuer. Vous pouvez toujours\n"
+"                        <a href=\"#\" class=\"register\">vous enregistrer</"
+"a> si vous n'avez pas de compte chez nous.\n"
+"                    "
 
 #: templates/tchopetyamo/shopping/optimum/cart.html:211
 #: templates/tchopetyamo/webnode/improve/home.html:124
@@ -4523,6 +4539,29 @@ msgstr "RCC"
 #: trade/templates/trade/snippets/package_details.html:2
 msgid "Package details"
 msgstr "Détails du paquet"
+
+#~ msgid ""
+#~ "\n"
+#~ "                        Please login to continue the <strong>checkout</"
+#~ "strong> process or register if you don't have an account with us.\n"
+#~ "                    "
+#~ msgstr ""
+#~ "\n"
+#~ "                        Connectez-vous pour terminer votre processus d' "
+#~ "<strong>achat</strong> ou inscrivez-vous si vous n'avez pas encore de "
+#~ "compte chez nous.\n"
+#~ "                    "
+
+#~ msgid ""
+#~ "\n"
+#~ "                        <a href=\"#\" class=\"turn-down\">No, thanks</a> "
+#~ "I will checkout anonymously.\n"
+#~ "                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                        <a href=\"#\" class=\"turn-down\">Non, merci</a> "
+#~ "Je ferai un achat anonyme.\n"
+#~ "                        "
 
 #~ msgid "English"
 #~ msgstr "Anglais"
