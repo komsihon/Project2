@@ -62,6 +62,7 @@ def set_customer_dara(service, referrer, member):
             subject = _("I just joined %s !" % service.project_name)
         html_content = get_mail_content(subject, template_name='daraja/mails/referee_joined.html',
                                         extra_context={'referred_service_name': service.project_name, 'referee': member,
+                                                       'dara': dara_umbrella,
                                                        'referred_service_url': service.url})
         msg = XEmailMessage(subject, html_content, sender, [referrer.email])
         msg.content_subtype = "html"
