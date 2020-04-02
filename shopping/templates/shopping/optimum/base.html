@@ -1,6 +1,6 @@
-{% load i18n static auth_tokens media_from_provider cache %}
+{% load i18n static staticfiles auth_tokens media_from_provider cache %}
 <!--
-Author: Roddy Mbogning
+Author: Roddy Mbogning & W1773ND (wilfriedwillend@gmail.com)
 Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.03.9.13.26" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.03.9.21.03" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
@@ -156,9 +156,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                 <h5>
                                                     <div class="total">
                                                         <span class="simpleCart_total"></span>
+    {#                                                    (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> {% trans "items" context 'cart items' %})#}
                                                     </div>
 
-                                                    <span class="label label-danger simpleCart_quantity"></span>
+                                                    <span class="label label-danger simpleCart_quantity">{% trans "" context 'cart items' %}</span>
                                                 </h5>
                                             </a>
                                             <a href="javascript:;" class="empty-cart" data-toggle="modal"
@@ -255,31 +256,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <div class="header-xs visible-xs visible-sm">
                 <div class="container-fluid">
-                    <div class="pull-left left-content">
-                        <button type="button" class="navbar-toggle menu-button">
+                    <div class="pull-left left-content v-align">
+                        <button type="button" class="navbar-toggle menu-button v-align-center">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h3 class="app-name">
+                        <span class="app-name">
                             <a>{{ service.project_name }}</a>
-                        </h3>
+                        </span>
                     </div>
-                    <div class="pull-right" style="margin-right: 6px;">
+                    <div class="pull-right v-align" style="margin-right: 6px;">
 
-                        <a class="cd-search-trigger" href="#cd-search"> <span></span></a>
+{#                        <a class="cd-search-trigger" href="#cd-search"> <span></span></a>#}
                         <div class="xs-nav-container">
-                            <div class="button-hover-handler">
-                                <a class="toggle-menu-appearance action" id="toggle-menu-xs-appearance" aria-haspopup="true" aria-expanded="true">
-                                    <i class="fa fa-th-large"></i>
-                                </a>
-                            </div>
+{#                            <div class="button-hover-handler">#}
+{#                                <a class="toggle-menu-appearance action" id="toggle-menu-xs-appearance" aria-haspopup="true" aria-expanded="true">#}
+{#                                    <i class="fa fa-th-large"></i>#}
+{#                                </a>#}
+{#                            </div>#}
+
+
                             {% if user.is_authenticated %}
                                 <div class="button-hover-handler">
                                     <a class="action" href="{{ settings.IKWEN_CONSOLE_URL }}">
                                         {% if user.get_notice_count > 0 %}
-                                            <span class="badge badge-danger">{{ user.get_notice_count }}</span>
+                                            <span class="badge badge-danger hidden-xs">{{ user.get_notice_count }}</span>
                                         {% endif %}
                                         <i class="fa fa-bell"></i>
                                     </a>
@@ -321,40 +324,86 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </div>
             </div>
-            <div class="visible-xs nav-xs">
-                <!-- Additional required wrapper -->
-                <div class="xs-swiper-container">
-                    <ul class="nav swiper-wrapper">
-                         {% for smart_category in smart_categories_level2 %}
-                             <li class="swiper-slide level2"><a
-                                    href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+            <div class="visible-xs" style="height: 155px">
+                <div class="nav-xs appear animated">
+                    <!-- Additional required wrapper -->
+                    <div class="xs-swiper-container">
+                        <ul class="nav swiper-wrapper">
+                             {% for smart_category in smart_categories_level2 %}
+                             <li class="swiper-slide level2">
+                             {% if smart_category.image.name != '' %}
+                                 <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">
+                                     <img src="{% get_media_prefix %}{{ smart_category.image.name }}" class="img-circle has-shade" style=""  alt="">
+                                     <span class="menu-label">{{ smart_category.title | truncatechars:14  }}</span>
+                                 </a>
                              </li>
-                         {% endfor %}
-                         {% for smart_category in smart_categories_level1 %}
-                             <li class="swiper-slide level1"><a
-                                    href="{% url 'shopping:smart_object_detail' smart_category.slug %}">{{ smart_category.title | truncatechars:14  }}</a>
+                             {% endif %}
+                             {% endfor %}
+                             {% for smart_category in smart_categories_level1 %}
+                             {% if smart_category.image.name != '' %}
+                             <li class="swiper-slide level1">
+                                 <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">
+                                     <img src="{% get_media_prefix %}{{ smart_category.image.name }}" class="img-circle has-shade" style=""  alt="">
+                                     <span class="menu-label">{{ smart_category.title | truncatechars:14  }}</span>
+                                 </a>
                              </li>
-                         {% endfor %}
-                         {% for category in menu_categories %}
+                             {% endif %}
+                             {% endfor %}
+                             {% for category in menu_categories %}
+                             {% if category.image.name != '' %}
                              <li class="swiper-slide">
-                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                                 <a href="{% url 'shopping:product_list' category.slug %}">
+                                     <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
+                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                 </a>
                              </li>
-                         {% endfor %}
-                         {% for category in quick_access_categories %}
+                             {% endif %}
+                             {% endfor %}
+                             {% for category in menu_categories %}
+                             {% if category.image.name != '' %}
                              <li class="swiper-slide">
-                                 <a href="{% url 'shopping:product_list' category.slug %}">{{ category.name | truncatechars:14 }}</a>
+                                 <a href="{% url 'shopping:product_list' category.slug %}">
+                                     <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
+                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                 </a>
                              </li>
-                         {% endfor %}
-                    </ul>
-                {% if config.can_manage_currencies %}
-                    {% include 'shopping/snippets/currency_switcher.html' %}
-                {% endif %}
+                             {% endif %}
+                             {% endfor %}
+                             {% for category in quick_access_categories %}
+                             {% if category.image.name != '' %}
+                             <li class="swiper-slide">
+                                 <a href="{% url 'shopping:product_list' category.slug %}">
+                                     <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
+                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                 </a>
+                             </li>
+                             {% endif %}
+                             {% endfor %}
+                        </ul>
+                    {% if config.can_manage_currencies %}
+                        {% include 'shopping/snippets/currency_switcher.html' %}
+                    {% endif %}
+                    </div>
                 </div>
             </div>
             {% endcache %}
         {% endblock %}
         {% block banner %}{% endblock %}
         {% block content %}{% endblock %}
+
+        <div class="cart-shopping animated hide subtle-shade text-center" data-color="light" style="height: 55px">
+            <div class="icon">
+                <span class="label label-danger simpleCart_quantity"></span>
+                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i>
+                <div class="empty-cart animated hide fadeOutDown" data-toggle="modal" data-target="#confirm-empty-cart">
+                    <i class="fa fa-trash"></i>
+                </div>
+            </div>
+            <a class="text v-align" href="{% url 'shopping:cart' %}">
+                <div class="v-align-center" style="flex: auto"> {% trans "Checkout" %}</div>
+            </a>
+        </div>
+
         {% block footer %}
             {% if request.session.theme %}
                 <div>
@@ -464,7 +513,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_confirm_empty_cart.html' %}
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
         {% include 'shopping/snippets/modal_successful_registration.html' %}
-        {% include 'shopping/snippets/modal_news_letter.html' %}
+        {% include 'shopping/snippets/modal_delivery_location_warning.html' %}
+        {% if not user.is_authenticated %}
+{#        {% include 'shopping/snippets/modal_news_letter.html' %}#}
+        {% endif %}
         <div class="edge-swipe-overlay"></div>
         {# modal BEGIN #}
         <div class="modal fade" id="modal-generic-notice" tabindex="-1" role="dialog">
@@ -504,9 +556,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=20.3.6"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
         <script type="text/javascript">
             (function () {
+                let winWidth = $(window).width();
+                function toggleTrash() {
+                    if ($('.empty-cart.animated').hasClass('fadeInUp')) {
+                        $('.empty-cart.animated').toggleClass('fadeInUp fadeOutDown');
+                        setTimeout(function () {
+                            $('.empty-cart.animated').addClass('hide')
+                        }, 800);
+                    } else {
+                        $('.empty-cart.animated').toggleClass('hide fadeInUp fadeOutDown')
+                    }
+                }
+
                 {% if request.GET.successfulRegistration %}
                     $('#modal-successful-registration').modal('show');
                 {% endif %}
@@ -566,7 +630,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         $('div#added-to-cart .size').text('(' + size + ')');
                     else
                         $('div#added-to-cart .size').text('');
-                    $('#added-to-cart').modal('show');
+                    if (winWidth > 767) {
+                        $('#added-to-cart').modal('show');
+                    }
+
                 });
 
                 $('body').on('click', '.value-plus1', function () {
@@ -583,7 +650,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 }).on('change', '.size-list .item-size-selector', function () {
                     var id =$('option:selected',this).data('id'),
                         price =$('option:selected',this).data('retail_price'),
-                        packagingPrice =$('option:selected',this).data('packaging_price'),
+                        packingPrice =$('option:selected',this).data('packing_price'),
                         priceVerbose =$('option:selected',this).data('retail_price_verbose'),
                         stock =$('option:selected',this).data('stock'),
                         size = $(this).val(),
@@ -594,7 +661,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $(this).parents('.simpleCart_shelfItem').find('.item_id').text(id);
                     $(this).parents('.simpleCart_shelfItem').find('.item-price-verbose').html(currency + ' ' + priceVerbose);
                     $(this).parents('.simpleCart_shelfItem').find('.item_price').text(price);
-                    $(this).parents('.simpleCart_shelfItem').find('.item_packaging_price').text(packagingPrice);
+                    $(this).parents('.simpleCart_shelfItem').find('.item_packing_price').text(packingPrice);
                     $(this).parents('.simpleCart_shelfItem').find('.item_stock').text(stock);
                     if (item) max = stock - item.quantity();
                     if (max === 0) $('.simpleCart_shelfItem .value1').text(0);
@@ -603,6 +670,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 }).on('change', '.currency-switcher select', function() {
                     simpleCart.empty();
                     $(this).parents('.currency-switcher').submit()
+                }).on('click', '.item_add', function () {
+                    if ($('.empty-cart.animated').hasClass('fadeInUp')) { toggleTrash(); }
+                    $('.cart-shopping.animated').removeClass('hide fadeOutDown').addClass('fadeInUp')
+                }).on('click', '.kkc-cart', function () {
+                    toggleTrash()
+                }).on('click', '.simpleCart_empty', function () {
+                    $('.cart-shopping.animated').toggleClass('fadeInUp fadeOutDown')
                 });
                 $('#content').on('click', '.product-tile button.my-cart-b:not(.sold-out)', function () {
                     var id = $(this).data('id'),
@@ -656,26 +730,44 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $('div#product-modal-preview').modal('hide')
                 });
 
-                var headerTopH = $('.header-top').height(),
-                    headerBottomH = $('.header-bottom').height(),
-                    lastScrollTop = 0;
-                $(window).scroll(function (e) {
-                    var winWidth = $(window).width();
-                    var scrollTop = $(this).scrollTop();
-                    $('.toggle-cd-search .open').css('display', 'block');
-                    $('.toggle-cd-search .close2').css('display', 'none');
-                    $('.cd-search').removeClass('is-visible').removeClass('reveal');
-                    if (winWidth < 1000)  $('.cd-search').removeClass('.reveal');
+                {% comment %}// Listening scroll direction : BEGIN
+                $('body').bind('mousewheel', function (e) {
+                    if(e.originalEvent.wheelDelta < 0){
+                        $('.nav-xs.animated').addClass('fadeOutUp')
+                    }
+                    else {
+                        $('.nav-xs.animated').removeClass('fadeOutUp').addClass('fadeInDown')
+                    }
+                });
+                //Firefox specifications
+                $('body').bind('DOMMouseScroll', function (e) {
+                    if(e.originalEvent.detail > 0){
+                        $('.nav-xs.animated').addClass('fadeOutUp')
+                    }
+                    else {
+                        $('.nav-xs.animated').removeClass('fadeOutUp').addClass('fadeInDown')
+                    }
 
+                });
+                // Listening scroll direction : END{% endcomment %}
+
+                //Check simpleCart_items : BEGIN
+                simpleCart.load();
+                if (simpleCart.quantity() > 0) $('.cart-shopping.animated:not(.fadeInUp)').removeClass('hide fadeOutDown').addClass('fadeInUp')
+                //Check simpleCart_items : END
+
+
+                var headerTopH = $('.header-top').height(),
+                        headerBottomH = $('.header-bottom').height(),
+                        lastScrollTop = 0;
+                $(window).scroll(function (e) {
+                    var scrollTop = $(this).scrollTop();
                     if (scrollTop > headerTopH + headerBottomH) {
                         $('.header-bottom:not(.fixed)').addClass('fixed').animate({top: 0});
-                        $('.toggle-cd-search').addClass('is_active');
                         $('#auth').remove().prependTo('.header-right2')
                     } else {
                         $('.header-bottom.fixed').removeClass('fixed');
                         $('.toggle-cd-search').removeClass('is_active');
-                        $('.cd-search input').val('');
-                        $('.cd-search').removeClass('is-visible').removeClass('reveal');
                         $('#auth').remove().insertAfter('.top-left')
                     }
 
@@ -684,33 +776,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         if (st  > lastScrollTop ){
                             if(!($(".header-xs").hasClass('is-up'))){
                                 $(".header-xs").addClass('is-up');
-                                $('.nav-xs').removeClass('appear');
-                                $('.cd-search-trigger').removeClass('search-is-visible');
-                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                                $('.nav-xs.animated').addClass('is-up');
                             }
                         } else {
                             if($(".header-xs").hasClass('is-up')){
                                 $(".header-xs").removeClass('is-up');
-                                $('.nav-xs').removeClass('appear');
-                                $('.cd-search-trigger').removeClass('search-is-visible');
-                                $('.cd-search').removeClass('is-visible').removeClass('reveal')
+                                $('.nav-xs.animated').removeClass('is-up');
                             }
                         }
-                           lastScrollTop = st;
+                        lastScrollTop = st;
                     }
                 });
-                $("#hide-email-modal").click(function() {
+
+                $("#hide-email-modal").click(function(){
                     reInitTopComponent();
                     var showEmailModal = $(this).val();
                     localStorage.removeItem('showEmailModal');
-                    if (showEmailModal === 'on') {
+                    if (showEmailModal === 'on'){
                         localStorage.setItem('showEmailModal', true)
                     }
                     if ($(window).width() < 992) {
                         $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
                     }
-                    $(window).resize(ikwen.debouncer(function (e) {
-                        var winWidth = $(window).width();
+                    $( window ).resize(ikwen.debouncer(function (e) {
+                        {#var winWidth = $(window).width();#}
                         if (winWidth < 768) {
                             if (!$('#navbar-search').is(':visible')) {
                                 $('#navbar-search').prependTo('body');
@@ -728,20 +817,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         }
                     }));
                 });
-                if (("{{ is_in_newsletter }}") === 'False') {
-                    if(!localStorage.getItem('showEmailModal')){
-                        $('#modal-generic-notice .btn-ok, #modal-generic-notice .btn-cancel').click(function () {
-                            setTimeout(function() {
-                                $('#news-letter').modal();
-                            }, 4000);
-                        });
-                    }
-                }
+
                 if ($(window).width() < 992) {
                     $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay')
                 }
                 $( window ).resize(ikwen.debouncer(function (e) {
-                    var winWidth = $(window).width();
                     if (winWidth < 768) {
                         if (!$('#navbar-search').is(':visible')) {
                             $('#navbar-search').prependTo('body');
@@ -758,10 +838,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         $('.edge-panel-left').addClass('has-shade').appendTo('.edge-swipe-overlay');
                     }
                 }));
-                var menuCount = $(".nav.navbar-nav li.horizontal").length,
+                let menuCount = $(".nav.navbar-nav li.horizontal").length,
                     subMenuCount = $(".categories-menu li.vertical").length;
                 if (subMenuCount >= menuCount) $(".dropdown.categories-menu").hide();
-                var ulWidth = $(".navbar-nav").width() + 20;
+                let ulWidth = $(".navbar-nav").width() + 20;
                 $(".nav-container .navbar-nav").css({float: 'none', margin: 'auto', width: ulWidth});
                 $('body').on('click', '.toggle-cd-search .open', function () {
                     $(this).hide();
@@ -773,38 +853,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     $('.toggle-cd-search .open').show();
                     $('.cd-search').removeClass('reveal').show();
                     $('.cd-search input').focus()
-                }).on('click', '#toggle-menu-xs-appearance', function () {
-                    reInitTopComponent();
-                    $('.nav-xs').toggleClass('appear')
                 });
 
 
                 function reInitTopComponent() {
-                    $('.header-xs .nav-xs').removeClass('appear');
-                    $('.header-xs .cd-search-trigger').removeClass('search-is-visible');
-                    $('.header-xs .cd-search').removeClass('is-visible');
                     $('.header-xs .action.dropdown').removeClass('open')
                 }
-                $('body').on('click', '.cd-search-trigger', function () {
-                    if ($('.nav-xs').hasClass('appear')){
-                        $('.nav-xs').removeClass('appear')
-                    }
-                    $('.cd-search input').focus();
-                    $(".button-hover-handler").removeClass('active');
 
-                }).on('click', '#user-menu', function () {
-                    if ($('.nav-xs').hasClass('appear')){
-                        $('.nav-xs').removeClass('appear')
-                    }
-                    if ($('.cd-search-trigger').hasClass('search-is-visible')){
-                        $('.cd-search-trigger').removeClass('search-is-visible')
-                    }
-                    if ($('.cd-search').hasClass('is-visible')){
-                        $('.cd-search').removeClass('is-visible')
-                    }
-
-                });
-                var winWidth = $(window).width();
                 if (winWidth < 768) {
 
                 }
@@ -831,15 +886,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             })()
 		</script>
         <script>
-            var mySwiper = new Swiper ('.xs-swiper-container', {
+            let mySwiper = new Swiper ('.xs-swiper-container', {
                 // Optional parameters
                 direction: 'horizontal',
-                loop: false,
+                loop: true,
                 spaceBetween: 10,
                 slidePosition: 0,
                 freeMode: true,
                 centeredSlides: true,
-    {#            cssWidthAndHeight: false,#}
                 slidesPerView: 'auto',
             })
         </script>

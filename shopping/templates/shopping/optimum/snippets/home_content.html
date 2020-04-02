@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
-<div id="content">
+<div id="content" style="">
     {% if preview_smart_categories  %}
         <section class="product-agile">
             <div class="container">
@@ -148,10 +148,10 @@
                                                 <p class="min-order">&nbsp;</p>
                                             {% endif %}
                                             {% if config.allow_shopping and config.show_prices %}
-                                                <button class="button my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                                <button class="button my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "ADD" %}"
                                                         {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
                                                         data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
-                                                        data-description="{{ product.description }}">{% trans "Add To Cart" %}
+                                                        data-description="{{ product.description }}">{% trans "ADD" %}
                                                     <div class="mask"></div>
                                                 </button>
                                             {% endif %}
@@ -270,10 +270,10 @@
                                                 </p>
                                             {% endif %}
                                             {% if config.allow_shopping and config.show_prices %}
-                                                <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                                <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "ADD" %}"
                                                         {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
                                                         data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
-                                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}
+                                                        data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "ADD" %}
 
                                                     <div class="mask"></div>
                                                 </button>
@@ -365,10 +365,10 @@
                                             <p class="min-order">&nbsp;</p>
                                         {% endif %}
                                         {% if config.allow_shopping and config.show_prices %}
-                                            <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "Add To Cart" %}"
+                                            <button class="my-cart-b{% if product.stock == 0 %} sold-out{% endif %}" data-text="{% trans "ADD" %}"
                                                     {% if product.stock > 0 %}data-toggle="modal" data-target="#product-modal-preview"{% endif %} data-stock="{{ product.stock }}"
                                                     data-id="{{ product.id }}" data-image="{{ product.image|from_provider:product.provider }}" data-name="{{ product.name }}"
-                                                    data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "Add To Cart" %}
+                                                    data-description="{{ product.description }}" data-url="{{ product_url }}">{% trans "ADD" %}
 
                                                 <div class="mask"></div>
                                             </button>

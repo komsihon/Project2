@@ -8,7 +8,16 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link href="{% static 'kakocase/css/cart.css' %}?v=18.03.2020" rel="stylesheet" type="text/css">
+    <link href="{% static 'kakocase/css/cart.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'ikwen/css/console.css' %}" media="screen" rel="stylesheet" type="text/css" />
+    <style>
+        #coupons .progress {margin: 0}
+        #coupons .progress-bar {background-color: #4CAF50;}
+        .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
+        .coupon-count span {font-size: 26px; font-weight: 700}
+        .card-ul .swiper-slide {margin-left: 5px !important}
+        .card-ul .swiper-slide.use-coupon {border: solid 1px #0EBB2A}
+    </style>
     {% if order %}
         <style>
             .cart.box_1 {display: none}
@@ -19,14 +28,53 @@
 {% block content %}
     {% with symbol=CURRENCY.symbol checkout_min=config.checkout_min|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma %}
     <div id="content" class="checkout-content">
-        <div id="checkout-min" class="hidden">{{ checkout_min }}</div>
+        <div id="checkout-min" class="hidden">{{ config.checkout_min }}</div>
         <h2 class="checkout-header">{% trans "My Shopping Bag" %}</h2>
         <div class="container" style="overflow: hidden; padding: 2em 0">
             {% for msg in messages %}<p class="alert alert-danger">{{ msg|safe }}</p>{% endfor %}
+            {% if coupon_list and user.is_authenticated%}
+                <div id="coupons" class="card-ul" style="">
+                    <div class="card">
+                        <h2 class="title center wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">{% trans "Choose and use one of your collected coupons!" %}</h2>
+                    </div>
+                    <div class="row  subtle-shade" style="background: #fff; margin-bottom: 30px; padding: 20px 0">
+                        <div class="row swiper-container" >
+                            <div class="swiper-wrapper" style="">
+                            {% for coupon in coupon_list %}
+                                <div class="col-xs-4 col-sm-3 card-li swiper-slide"  data-coupon-id="{{ coupon.id }}" style="text-align: center; margin: auto">
+                                    <div>
+                                        <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }})">
+                                            {% if user.is_authenticated %}
+                                            <div class="text-has-shade coupon-count">
+                                                <span>{{ coupon.count }}</span>/100
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        {% if user.is_authenticated %}
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{ coupon.ratio|floatformat:"0" }}%">
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <p style="margin-top: 5px">{{ coupon.name }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                            <div class="swiper-button-next has-shade">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                            <div class="swiper-button-prev has-shade">
+                                <i class="fa fa-angle-left"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             {% if order %}
                 {% include 'shopping/snippets/checkout_confirmation.html' %}
             {% else %}
-                <p class="alert alert-danger min-checkout" style="display: none">
+                <p class="alert alert-danger min-checkout hide">
                     {% blocktrans %}
                     Dear customer, please reach a minimum of <strong>{{ symbol }} {{ checkout_min }}</strong> to checkout.{% endblocktrans%}</p>
             {% endif %}
@@ -80,7 +128,7 @@
                                          </div>
                                          <div class="hidden-lg">
                                              <h3 class="col-xs-5" style="margin-top: .8em">{% trans "Subtotal" %}</h3>
-                                             <div class="col-xs-7 subtotal"></div>
+                                             <div class="col-xs-7 subtotal" style="margin-top: .6em; text-align: right"></div>
                                          </div>
                                      </div>
                                      <div class="alert alert-warning">{% trans "Sorry, we had to adjust your quantity to currently available stock." %}</div>
@@ -156,41 +204,13 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="suggest-login" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content modal-info">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-info cashflex" style="display: none">
-                    {% blocktrans %}
-                        <strong>CashFlex</strong> payment allows you to pay with money in your bank
-                        account or by getting a loan from your bank. Thus, you must absolutely login
-                        for us to authenticate your information.
-                    {% endblocktrans %}
-                    </div>
-                    <div>{% url 'shopping:checkout' as checkout_url %}
-                    {% blocktrans %}
-                        <a href="#" class="btn btn-success connect">Login</a> to proceed. You can still
-                        <a href="#" class="register">register</a> if you don't have an account with us.
-                    {% endblocktrans %}
-                    </div>
-                    <div class="anonymous-checkout" style="margin-top: 2em; text-align: right">
-                        {% blocktrans %}
-                        <a href="#" class="turn-down">No, thanks</a> I will checkout anonymously.
-                        {% endblocktrans %}
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include 'shopping/snippets/modal_suggest_login.html' %}
     <form id="start-checkout" action="{% if user.is_authenticated %}{{ checkout_url }}{% endif %}">
         <input type="hidden" id="next" name="next">
         <input type="hidden" id="anonymous-buyer-id" name="anonymous_buyer_id">
         <input type="hidden" id="delivery-option-id" name="delivery_option_id">
         <input type="hidden" id="buy-packing" name="buy_packing">
+        <input type="hidden" id="coupon-id" name="coupon_id">
     </form>
     {% endwith %}
 {% endblock %}
@@ -209,7 +229,7 @@
                 {% endif %}
             {% else %}
                 var currency = simpleCart.currency().symbol,
-                    minCheckout = $('#checkout-min').text(),
+                    minCheckout = parseFloat($('#checkout-min').text()),
                     itemsPackingQty = 0,
                     deliveryPackingCost = {{ max_delivery_packing_cost }},
                     itemsPackingCost = 0,
@@ -273,6 +293,8 @@
 {#                            $('#promo-code').remove()#}
                         }
                     });
+                }).on('click', '#coupons .card-li', function() {
+                    loadCheckoutSummary();
                 }).on('keypress', '.promo input[type=text]',function () {
                     $(".invalid-code").fadeOut().hide()
                 }).on('click', '#check-packing', function() {
@@ -361,13 +383,14 @@
                     loadCheckoutSummary();
                 }
                 function loadCheckoutSummary() {
-                    var itemsCount = simpleCart.quantity(),
+                    let itemsCount = simpleCart.quantity(),
                         itemsCost = simpleCart.total(),
+                        couponId = $('#coupon-id').val(),
                         delOptId = $('.delivery-option.active').data('id'),
-                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packing_cost=' + totalPackingCost,
+                        query = '?items_count=' + itemsCount + '&items_cost=' + itemsCost + '&packing_cost=' + totalPackingCost + '&coupon_id=' + couponId,
                         buyPacking = $('#check-packing').prop('checked');
                     if (buyPacking) query += '&buy_packing=yes';
-                    var url = '{% url 'shopping:load_checkout_summary' %}' + query;
+                    let url = '{% url 'shopping:load_checkout_summary' %}' + query;
                     if (delOptId) url += '&delivery_option_id=' + delOptId;
                     $('div#checkout-summary .spinner').fadeIn();
                     $('div#checkout-summary .content').load(url, function() {
@@ -375,8 +398,9 @@
                         if (promoRate > 0) $('#promo-code').remove()
                     });
                     if (itemsCost < minCheckout) {
-                        $('.alert.min-checkout').show();
+                        $('.alert.min-checkout').removeClass('hide');
                     }
+                    else $('.alert.min-checkout').addClass('hide');
                 }
                 {% if user.is_anonymous %}
                     var anonymousBuyerId = localStorage.getItem('anonymousBuyerId');
@@ -393,6 +417,7 @@
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
                     deliveryPackingCost = parseFloat($(this).data('packing-cost'));
+                    if (isNaN(deliveryPackingCost)) deliveryPackingCost = 0
                     totalPackingCost = itemsPackingCost + deliveryPackingCost;
                     $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     if (delOptType === 'HomeDelivery') {
@@ -414,7 +439,7 @@
                         paymentMeanSlug = $(this).data('slug'),
                         isCashFlex = $(this).data('is_cashflex');
                     if (!deliveryOptionId) {
-                        alert("{% trans "Please choose a delivery option." %}");
+                        $('#warning-delivery-location').modal('show');
                         return false;
                     }
                     if (isCashFlex) {
@@ -462,6 +487,41 @@
                     return false;
                 });
             {% endif %}
+
+            var couponSwiper = new Swiper('#coupons .swiper-container', {
+                slidesPerView: 'auto',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev'
+            });
+
+            $('body').on('click', '.coupon-img', function() {
+                var id = $(this).data('id');
+                {#$.getJSON('http://localhost/tchopetyamo/rewarding/coupon_detail', {id: id}, function(data) {#}
+                $.getJSON('rewarding/coupon_detail', {id: id}, function(data) {
+                    if (data.error) {
+                        ikwen.showFloatingNotice(data.error, '', 6);
+                        return;
+                    }
+                    $('div#coupon-detail .modal-title').text(data.name);
+                    $('div#coupon-detail img').prop('src', data.image_url);
+                    $('div#coupon-detail .description').html(data.description);
+                    $('#coupon-detail').modal('show');
+                })
+            })
+            $('.card-ul .swiper-slide').click(function () {
+                if ($(this).hasClass('use-coupon')){
+                    $(this).removeClass('use-coupon')
+                    $('#coupon-id').val('')
+                } else {
+                    $('.card-ul .swiper-slide').removeClass('use-coupon')
+                    $('#coupon-id').val('')
+                    $(this).addClass('use-coupon')
+                    var couponId = $(this).data('coupon-id')
+                    $('#coupon-id').val(couponId)
+                }
+            })
+
+            $('.cart-shopping').addClass('hide');
         })()
     </script>
 {% endblock %}

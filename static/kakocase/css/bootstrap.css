@@ -362,7 +362,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: inherit;
+  /* font-family: inherit; */
   font-weight: 500;
   line-height: 1.1;
   color: inherit;
@@ -3718,7 +3718,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 10;
 }
 @media (min-width: 768px) {
   .navbar-fixed-top,
@@ -4407,7 +4407,7 @@ a.list-group-item.active > .badge,
   border: 1px solid #ddd;
   border-radius: 4px;
   -webkit-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 .thumbnail > img,
 .thumbnail a > img {
@@ -4421,7 +4421,7 @@ a.thumbnail.active {
 }
 .thumbnail .caption {
   padding: 9px;
-  color: #333;
+  /* color: #333; */
 }
 .alert {
   padding: 15px;

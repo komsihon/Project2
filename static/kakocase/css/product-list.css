@@ -1,0 +1,42 @@
+/**
+    Document   : product-list.css
+    Created on : June 27, 2017, 12:48
+    Author     : Kom Sihon
+    Contributor : W1773ND (wilfriedwillend@gmail.com)
+    Description:
+        Kakocase rules for product detail page
+*/
+
+body {background-color: #fff}
+.product-row {padding-bottom: 3em}
+.smart-category-level2.last, .smart-category-level1.last {
+border-bottom: 1px solid #eee; margin-bottom: .8em; padding-bottom: 1.5em}
+.latest-text {bottom: -60%;background: #150b27b8;}
+.latest-text2 {border-radius: 60px; top: 6%; width: 16%;}
+#product-stage {padding: 0; text-align: center}
+#product-stage .caption {margin-top: 25px}
+#product-stage .caption:first-child {margin-top: 0}
+#product-stage .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%; position: absolute; width: 100%; z-index: 100}
+.top-rates:first-child {padding-top: 0;margin-top: 0em;}
+
+@media (max-width: 767px) {
+    .content { margin-top: 50px !important;}
+    #modal-deal-details .bank-logo {float: none; margin: auto}
+    .nav-xs { background-color: #fff !important;}
+    .bank-notice {width: 100%}
+    .single-wl3 .container {padding: 0 10px}
+    .open-bank-account a {float: left; margin-top: 10px; width: 100%}
+}
+@media (min-width: 768px) {
+    h2.title {padding-top: 1.5em}
+}
+@media (max-width: 991px) {
+    .container {padding: 0 }
+    #menu-panel {padding: 0 5px 0 0}
+    .single-wl3 .container {padding: 0}
+}
+
+@media (min-width: 992px) {
+    h2.title {padding-top: .5em}
+    .latest-grid { float: left;width: 50%;}
+}

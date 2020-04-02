@@ -28,9 +28,10 @@
 {% endblock %}
 
 {% block content %}
+    <div class="clearfix"></div>
     {% cache template_cache_duration product_list_content category.slug smart_object.slug request.GET.q %}
     <div id="content" class="content">
-        <div class="container-fluid visible-xs filter-container">
+        {% comment %}<div class="container-fluid visible-xs filter-container">
             <div class="top-filter">
                 <div class="filter">
                     <i class="fa fa-filter" aria-hidden="true" style="line-height: .4em; margin-top: 10px"></i>
@@ -63,7 +64,7 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
+        </div>{% endcomment %}
         <div class="products-agileinfo">
             <div class="container">
             {% if request.GET.q %}
