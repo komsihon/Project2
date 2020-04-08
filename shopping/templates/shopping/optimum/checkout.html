@@ -10,6 +10,10 @@
     <link href="{% static 'kakocase/css/checkout.css' %}?v=20.2.27" rel="stylesheet" type="text/css">
 {% endblock %}
 
+{% block horizontal_menu %}
+{#    Empty on this page#}
+{% endblock horizontal_menu %}
+
 {% block content %}
     <div id="content" class="checkout-content">
         {% if messages %}
@@ -182,6 +186,11 @@
         {% include 'billing/snippets/modal_payment_options.html' %}
     {% endwith %}
 {% endblock %}
+
+{% block cart_shopping %}
+{#    Empty on this page#}
+{% endblock cart_shopping %}
+
 {% block js %}
     {{ block.super }}
     <script>

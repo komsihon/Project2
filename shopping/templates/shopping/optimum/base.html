@@ -18,7 +18,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.03.9.21.03" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.04.08.11.00" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
@@ -324,6 +324,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </div>
             </div>
+            {% block horizontal_menu %}
             <div class="visible-xs" style="height: 155px">
                 <div class="nav-xs appear animated">
                     <!-- Additional required wrapper -->
@@ -386,11 +387,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </div>
             </div>
+            {% endblock horizontal_menu %}
             {% endcache %}
         {% endblock %}
         {% block banner %}{% endblock %}
         {% block content %}{% endblock %}
 
+        {% block cart_shopping %}
         <div class="cart-shopping animated hide subtle-shade text-center" data-color="light" style="height: 55px">
             <div class="icon">
                 <span class="label label-danger simpleCart_quantity"></span>
@@ -403,6 +406,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="v-align-center" style="flex: auto"> {% trans "Checkout" %}</div>
             </a>
         </div>
+        {% endblock cart_shopping %}
 
         {% block footer %}
             {% if request.session.theme %}
@@ -753,7 +757,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                 //Check simpleCart_items : BEGIN
                 simpleCart.load();
-                if (simpleCart.quantity() > 0) $('.cart-shopping.animated:not(.fadeInUp)').removeClass('hide fadeOutDown').addClass('fadeInUp')
+                if (simpleCart.quantity() > 0) {
+                    $('.cart-shopping.animated:not(.fadeInUp)').removeClass('hide fadeOutDown').addClass('fadeInUp');
+                    $('.simpleCart_quantity').text(simpleCart.quantity())
+                }
                 //Check simpleCart_items : END
 
 

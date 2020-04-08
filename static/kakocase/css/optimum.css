@@ -271,7 +271,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
   width: var(--badge-size);
 }
 
-.cart-shopping .icon{background-color: #5f0000;background-size: contain;width: calc( var(--badge-size) / 5);z-index: 5;}
+.cart-shopping .icon{background-color: #1f1137;background-size: contain;width: calc( var(--badge-size) / 5);z-index: 5;}
 
 .cart-shopping .text{background-color: var(--color-orange); color: #FFF; font-weight: 700; text-transform: uppercase; line-height: 1; text-align: center !important; width: calc( 4 * var(--badge-size)/5); }
 
