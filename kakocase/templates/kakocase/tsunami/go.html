@@ -9,6 +9,11 @@
     {{ block.super }}
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/tsunami/tsunami_deploy.css' %}?V=20.04.08">
+    <style>
+        @media (max-width: 767px) {
+            .container {margin-left: 0; margin-right: 0}
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
