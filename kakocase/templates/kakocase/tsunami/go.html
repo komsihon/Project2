@@ -13,14 +13,15 @@
 
 {% block content %}
     <div class="container desktop-landscape">
-        <div class="col-lg-5 col-sm-5 col-xs-5 col-lg-offset-7 col-sm-offset-7 col-xs-offset-7">
-            <h1 class="mobile-adjust" style="padding-bottom: 2vh">{% trans "Deploy now" %}</h1>
+        <div class="col-lg-5 col-sm-5 col-lg-offset-7 col-sm-offset-7">
+            <h1 class="hidden-xs" style="padding-bottom: 2vh">{% trans "Deploy now" %}</h1>
+            <h3 class="visible-xs" style="padding-bottom: 2vh">{% trans "Deploy now" %}</h3>
             {% if error %}
             <div class="error-report">
                 {{ error }}
             </div>
             {% endif %}
-            <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
+            <form action="{% url 'kakocase:go' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="app_id" value="{{ app.id }}">
                 <input type="hidden" name="customer_id" value="{{ user.id }}">
@@ -30,11 +31,11 @@
                 <input type="hidden" name="bundle_id" value="{{ request.GET.bundle_id }}">
                 <input type="hidden" name="theme_id" value="{{ theme.id }}">
                 <div class="form-group"> <!-- Brand name -->
-                    <label for="project_name_id" class="control-label mobile-adjust">{% trans 'Your brand name' %}</label>
+                    <label for="project_name_id" class="control-label">{% trans 'Your brand name' %}</label>
                     <input type="text" class="form-control form-control-custom" id="project_name_id" name="project_name" placeholder="Enter the name of your activity">
                 </div>
                 <div class="form-group"> <!-- Business selection -->
-                    <label for="business_category_id" class="control-label mobile-adjust">{% trans 'Business type' context "Secteur d'activité" %}</label>
+                    <label for="business_category_id" class="control-label">{% trans 'Business type' context "Secteur d'activité" %}</label>
                     <select class="form-control form-control-custom" id="business_category_id" name="business_category_id">
                         {% for business_category in business_category_list %}
                             <option value="{{ business_category.id }}">{% trans business_category.name %}</option>
@@ -52,49 +53,6 @@
             </div>
             {% endif %}
             <div class="clearfix"></div>
-        </div>
-    </div>
-    <div class="container mobile-portrait" style="display: none">
-        <div class="col-sm-10 col-xs-12 col-sm-offset-1">
-            <h1 class="mobile-adjust" style="padding-bottom: 2vh; text-align: center">Deploy now</h1>
-            {% if error %}
-            <div class="error-report">
-                {{ error }}
-            </div>
-            {% endif %}
-            <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="app_id" value="{{ app.id }}">
-                <input type="hidden" name="customer_id" value="{{ user.id }}">
-                <input type="hidden" name="business_type" value="Provider">
-                <input type="hidden" name="billing_cycle" value="Quarterly">
-                <input type="hidden" name="billing_plan_id" value="{{ billing_plan.id }}">
-                <input type="hidden" name="bundle_id" value="{{ request.GET.bundle_id }}">
-                <input type="hidden" name="theme_id" value="{{ theme.id }}">
-                <input type="hidden" name="next" value="tsunami:successful_deployment">
-                <div class="form-group"> <!-- Brand name -->
-                    <label for="project_name" class="control-label mobile-adjust">{% trans 'Your brand name' %}</label>
-                    <input type="text" class="form-control form-control-custom" id="project_name" name="project_name" placeholder="Enter the name of your activity">
-                </div>
-                <div class="form-group"> <!-- Business selection -->
-                    <label for="business_category_id" class="control-label mobile-adjust">{% trans 'Business type' context "Secteur d'activité" %}</label>
-                    <select class="form-control form-control-custom" id="business_category" name="business_category_id">
-                        {% for business_category in business_category_list %}
-                            <option value="{{ business_category.id }}">{% trans business_category.name %}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="form-group text-center"> <!-- Submit Button -->
-                    <button type="submit" class="btn btn-outline-primary mobile-adjust">{% trans "Deploy" %}</button>
-                </div>
-                <div class="clearfix"></div>
-            </form>
-            {% if form.errors %}
-            <div class="error-report">
-                {{ form.errors }}
-            </div>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
