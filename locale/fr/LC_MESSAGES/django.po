@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-07 16:40+0100\n"
-"PO-Revision-Date: 2020-04-07 16:53+0100\n"
+"POT-Creation-Date: 2020-04-09 19:27+0100\n"
+"PO-Revision-Date: 2020-04-09 19:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -96,7 +96,7 @@ msgstr "Oui, utilisez le"
 #: kakocase/templates/kakocase/tsunami/successful_deployment.html:182
 #: shopping/templates/shopping/choose_deal.html:109
 #: shopping/templates/shopping/choose_deal.html:153
-#: shopping/templates/shopping/optimum/base.html:544
+#: shopping/templates/shopping/optimum/base.html:546
 #: shopping/templates/shopping/optimum/product_detail.html:402
 #: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:17
 #: trade/templates/trade/order_list.html:91
@@ -116,7 +116,7 @@ msgstr "Vous n'avez pas assez de coupons"
 #: cci/templates/cci/snippets/modals.html:35
 #: cci/templates/cci/snippets/modals.html:76
 #: shopping/templates/shopping/choose_deal.html:149
-#: shopping/templates/shopping/optimum/base.html:541
+#: shopping/templates/shopping/optimum/base.html:543
 #: trade/templates/trade/order_list.html:87
 #: trade/templates/trade/order_list.html:112
 msgid "OK"
@@ -335,7 +335,6 @@ msgstr "Lier les Produits"
 #: commarketing/templates/commarketing/smart_category_list.html:53
 #: kako/templates/kako/category_list.html:63
 #: kako/templates/kako/category_list.html:94
-#: sales/templates/sales/snippets/promo_code_list_results.html:27
 #: sales/templates/sales/snippets/promotion_list_results.html:25
 msgid "Deactivate"
 msgstr "Désactiver"
@@ -344,7 +343,6 @@ msgstr "Désactiver"
 #: commarketing/templates/commarketing/banner_list.html:158
 #: commarketing/templates/commarketing/smart_category_list.html:55
 #: kako/templates/kako/category_list.html:65
-#: sales/templates/sales/snippets/promo_code_list_results.html:29
 #: sales/templates/sales/snippets/promotion_list_results.html:27
 msgid "Activate"
 msgstr "Activer"
@@ -370,8 +368,6 @@ msgstr "Éditer l'élément"
 #: kako/templates/kako/category_list.html:96
 #: kako/templates/kako/snippets/product_list_results.html:65
 #: kako/templates/kako/snippets/product_list_results.html:103
-#: sales/templates/sales/snippets/promo_code_list_results.html:31
-#: sales/templates/sales/snippets/promo_code_list_results.html:49
 #: sales/templates/sales/snippets/promotion_list_results.html:29
 #: sales/templates/sales/snippets/promotion_list_results.html:49
 msgid "Delete item"
@@ -391,9 +387,7 @@ msgstr "Aucune Slide"
 #: kako/templates/kako/category_list.html:108
 #: kako/templates/kako/product_list.html:77
 #: kako/templates/kako/snippets/product_list_results.html:114
-#: sales/templates/sales/promo_code_list.html:34
 #: sales/templates/sales/promotion_list.html:44
-#: sales/templates/sales/snippets/promo_code_list_results.html:59
 #: sales/templates/sales/snippets/promotion_list_results.html:59
 #: trade/templates/trade/partner_list.html:49
 #: trade/templates/trade/bank/deal_list.html:108
@@ -446,8 +440,8 @@ msgstr "Smart Catégories"
 #: kako/templates/kako/change_category.html:32
 #: kako/templates/kako/change_product.html:97
 #: kako/templates/kako/change_product.html:389
-#: sales/templates/sales/change_promo_code.html:34
-#: sales/templates/sales/change_promotion.html:34
+#: sales/templates/sales/change_promocode1.html:34
+#: sales/templates/sales/change_promotion.html:28
 msgid "New"
 msgstr "Nouveau"
 
@@ -485,8 +479,8 @@ msgstr "Ajouter les produits"
 #: kako/templates/kako/change_product.html:161
 #: kako/templates/kako/change_product.html:170
 #: kako/templates/kako/change_product.html:179
-#: sales/templates/sales/change_promo_code.html:48
-#: sales/templates/sales/change_promotion.html:48
+#: sales/templates/sales/change_promocode1.html:48
+#: sales/templates/sales/change_promotion.html:42
 #: trade/templates/trade/bank/deal_list.html:105
 msgid "Save"
 msgstr "Sauvergarder"
@@ -499,9 +493,9 @@ msgstr "Smart Catégorie sauvegardée avec succès."
 #: commarketing/templates/commarketing/change_smart_object.html:151
 #: kako/templates/kako/change_category.html:104
 #: kako/templates/kako/change_product.html:277
-#: sales/templates/sales/change_promo_code.html:116
-#: sales/templates/sales/change_promotion.html:114
-#: shopping/templates/shopping/optimum/checkout.html:243
+#: sales/templates/sales/change_promocode1.html:116
+#: sales/templates/sales/change_promotion.html:108
+#: shopping/templates/shopping/optimum/checkout.html:252
 msgid "Missing information. Please check."
 msgstr "Information manquante. Vérifiez s'il vous plaît."
 
@@ -543,6 +537,14 @@ msgstr "Partager cette bannière"
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:17
 msgid "Banner URL"
 msgstr "URL de la bannière"
+
+#: conf/settings.py:145
+msgid "English"
+msgstr "Anglais"
+
+#: conf/settings.py:146
+msgid "French"
+msgstr "Français"
 
 #: kako/models.py:15
 msgid "Your wholesale price. Retailers may set their own price."
@@ -857,7 +859,7 @@ msgstr ""
 "                        "
 
 #: kako/templates/kako/product_list.html:200
-#: shopping/templates/shopping/optimum/base.html:582
+#: shopping/templates/shopping/optimum/base.html:584
 msgid "Got it !"
 msgstr "Compris !"
 
@@ -908,13 +910,11 @@ msgid "Duplicate"
 msgstr "Dupliquer"
 
 #: kako/templates/kako/snippets/product_list_results.html:109
-#: sales/templates/sales/snippets/promo_code_list_results.html:54
 #: sales/templates/sales/snippets/promotion_list_results.html:54
 msgid "Not found"
 msgstr "Pas trouvé"
 
 #: kako/templates/kako/snippets/product_list_results.html:133
-#: sales/templates/sales/snippets/promo_code_list_results.html:78
 #: sales/templates/sales/snippets/promotion_list_results.html:78
 #, python-format
 msgid ""
@@ -926,7 +926,6 @@ msgstr ""
 
 #: kako/templates/kako/snippets/product_list_results.html:136
 #: sales/templates/sales/snippets/email_list_results.html:36
-#: sales/templates/sales/snippets/promo_code_list_results.html:81
 #: sales/templates/sales/snippets/promotion_list_results.html:81
 #: shopping/templates/shopping/snippets/product_list_results.html:32
 #: trade/templates/trade/snippets/order_list_results.html:82
@@ -964,7 +963,7 @@ msgstr "Site internet"
 msgid "Address & Contact"
 msgstr "Adresse et Contact"
 
-#: kakocase/admin.py:57
+#: kakocase/admin.py:57 shopping/templates/shopping/base.html:311
 msgid "Social"
 msgstr "Réseaux sociaux"
 
@@ -1267,6 +1266,22 @@ msgstr "URL de création du compte bancaire"
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
 
+#: kakocase/scripts.py:67
+msgid "Manage Profiles"
+msgstr "Gérer les profils"
+
+#: kakocase/scripts.py:71
+msgid "Manage Revivals"
+msgstr "Gérer les Relances"
+
+#: kakocase/scripts.py:75
+msgid "Manage Daraja"
+msgstr "Gérer Daraja"
+
+#: kakocase/scripts.py:80
+msgid "Manage Continuous Rewarding"
+msgstr "Gérer le Continuous Rewarding"
+
 #: kakocase/utils.py:60
 #, python-format
 msgid "I'm back on %s !"
@@ -1327,7 +1342,7 @@ msgstr "Vous même"
 #: kakocase/templates/kakocase/welcome/base.html:135
 #: shopping/templates/shopping/base.html:285
 #: shopping/templates/shopping/contact.html:6
-#: shopping/templates/shopping/optimum/base.html:421
+#: shopping/templates/shopping/optimum/base.html:423
 #: shopping/templates/shopping/optimum/contact.html:6
 #: shopping/templates/shopping/snippets/edge_panel.html:67
 #: templates/admin/base.html:49 templates/admin/change_list.html:40
@@ -1649,7 +1664,7 @@ msgid "Create coupons"
 msgstr "Créer des coupons"
 
 #: kakocase/templates/kakocase/admin_home.html:255
-#: sales/templates/sales/change_promotion.html:29
+#: sales/templates/sales/change_promotion.html:23
 #: sales/templates/sales/promotion_list.html:5
 #: sales/templates/sales/promotion_list.html:38
 #: templates/core/app_base_admin.html:94
@@ -1769,7 +1784,7 @@ msgstr "DDN"
 #: kakocase/templates/kakocase/customer_journey.html:82
 #: shopping/templates/shopping/checkout.html:150
 #: shopping/templates/shopping/contact.html:22
-#: shopping/templates/shopping/optimum/checkout.html:138
+#: shopping/templates/shopping/optimum/checkout.html:142
 #: shopping/templates/shopping/optimum/contact.html:22
 msgid "Phone"
 msgstr "Téléphone"
@@ -1993,23 +2008,21 @@ msgstr "Logistique"
 msgid "Deploy Tsunami"
 msgstr "Déployer Tsunami"
 
-#: kakocase/templates/kakocase/tsunami/go.html:17
+#: kakocase/templates/kakocase/tsunami/go.html:22
+#: kakocase/templates/kakocase/tsunami/go.html:23
 msgid "Deploy now"
 msgstr "Déployer"
 
-#: kakocase/templates/kakocase/tsunami/go.html:33
-#: kakocase/templates/kakocase/tsunami/go.html:76
+#: kakocase/templates/kakocase/tsunami/go.html:39
 msgid "Your brand name"
 msgstr "Nom de votre marque"
 
-#: kakocase/templates/kakocase/tsunami/go.html:37
-#: kakocase/templates/kakocase/tsunami/go.html:80
+#: kakocase/templates/kakocase/tsunami/go.html:43
 msgctxt "Secteur d'activité"
 msgid "Business type"
 msgstr "Type de business"
 
-#: kakocase/templates/kakocase/tsunami/go.html:45
-#: kakocase/templates/kakocase/tsunami/go.html:89
+#: kakocase/templates/kakocase/tsunami/go.html:51
 msgid "Deploy"
 msgstr "Déployer"
 
@@ -2220,7 +2233,7 @@ msgstr ""
 #: shopping/templates/shopping/base.html:84
 #: shopping/templates/shopping/base.html:255
 #: shopping/templates/shopping/optimum/base.html:99
-#: shopping/templates/shopping/optimum/base.html:305
+#: shopping/templates/shopping/optimum/base.html:303
 #: templates/tchopetyamo/shopping/optimum/base.html:84
 #: templates/tchopetyamo/shopping/optimum/base.html:269
 #: templates/tchopetyamo/webnode/improve/base.html:177
@@ -2233,7 +2246,7 @@ msgstr "Infos compte"
 #: shopping/templates/shopping/base.html:86
 #: shopping/templates/shopping/base.html:257
 #: shopping/templates/shopping/optimum/base.html:101
-#: shopping/templates/shopping/optimum/base.html:307
+#: shopping/templates/shopping/optimum/base.html:305
 #: templates/tchopetyamo/shopping/optimum/base.html:86
 #: templates/tchopetyamo/shopping/optimum/base.html:271
 #: templates/tchopetyamo/shopping/optimum/base.html:348
@@ -2250,7 +2263,7 @@ msgstr "Déconnexion"
 #: shopping/templates/shopping/cart.html:127
 #: shopping/templates/shopping/cart.html:130
 #: shopping/templates/shopping/optimum/base.html:107
-#: shopping/templates/shopping/optimum/base.html:436
+#: shopping/templates/shopping/optimum/base.html:438
 #: shopping/templates/shopping/snippets/edge_panel.html:75
 #: templates/admin/login.html:105
 #: templates/tchopetyamo/accesscontrol/sign_in.html:37
@@ -2313,33 +2326,21 @@ msgstr "Pourcentage de réduction"
 msgid "Allow to activate or no the promo code"
 msgstr "Activer le coupon ? "
 
-#: sales/views.py:118
-#, python-format
-msgid "Coupon %s successfully updated."
-msgstr "Le coupon %s mis à jour avec succès."
-
-#: sales/views.py:120
-#, python-format
-msgid "Coupon %s successfully created."
-msgstr "Le coupon %s créé avec succès."
-
-#: sales/views.py:190
+#: sales/views.py:119
 #, python-format
 msgid "Promotion %s successfully updated."
 msgstr "Promotion %s mise à jour avec succès."
 
-#: sales/views.py:192
+#: sales/views.py:121
 #, python-format
 msgid "Promotion %s successfully created."
 msgstr "Promotion %s créée avec succès."
 
-#: sales/templates/sales/change_promo_code.html:5
+#: sales/templates/sales/change_promocode1.html:5
 msgid "New promo_code"
 msgstr "Nouveau code promo"
 
-#: sales/templates/sales/change_promo_code.html:29
-#: sales/templates/sales/promo_code_list.html:28
-#: templates/core/app_base_admin.html:97
+#: sales/templates/sales/change_promocode1.html:29
 #: templates/tchopetyamo/core/app_base_admin.html:141
 msgid "Coupons"
 msgstr "Coupons"
@@ -2363,10 +2364,6 @@ msgstr "Exporter comme une Feuille de calcul"
 msgid "Export"
 msgstr "Exporter"
 
-#: sales/templates/sales/promo_code_list.html:5
-msgid "Promo codes"
-msgstr "Codes promo"
-
 #: sales/templates/sales/snippets/email_list_results.html:33
 #: trade/templates/trade/snippets/order_list_results.html:79
 #: trade/templates/trade/snippets/package_list_results.html:82
@@ -2378,7 +2375,6 @@ msgstr ""
 "\n"
 "                %(start)s – %(end)s de %(count)s résultats"
 
-#: sales/templates/sales/snippets/promo_code_list_results.html:16
 #: sales/templates/sales/snippets/promotion_list_results.html:14
 msgid "Rate"
 msgstr "Pourcentage"
@@ -2386,6 +2382,10 @@ msgstr "Pourcentage"
 #: sales/templates/sales/snippets/promotion_list_results.html:44
 msgid "To"
 msgstr "À"
+
+#: shopping/manual_payment.py:24 shopping/views.py:781
+msgid "Order successful"
+msgstr "Commande réussie"
 
 #: shopping/utils.py:213
 #, python-format
@@ -2405,24 +2405,20 @@ msgstr ""
 "Votre RCC est %(rcc)s\n"
 "Merci."
 
-#: shopping/views.py:557
+#: shopping/views.py:548
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:790
-msgid "Order successful"
-msgstr "Commande réussie"
-
-#: shopping/views.py:872
+#: shopping/views.py:863
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:931
+#: shopping/views.py:922
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:945
+#: shopping/views.py:936
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2443,8 +2439,8 @@ msgstr "Créer un compte"
 #: shopping/templates/shopping/base.html:160
 #: shopping/templates/shopping/base.html:268
 #: shopping/templates/shopping/product_list.html:56
-#: shopping/templates/shopping/optimum/base.html:253
-#: shopping/templates/shopping/optimum/base.html:322
+#: shopping/templates/shopping/optimum/base.html:251
+#: shopping/templates/shopping/optimum/base.html:320
 #: shopping/templates/shopping/optimum/product_list.html:72
 #: templates/admin/search_form.html:7
 #: templates/tchopetyamo/shopping/optimum/base.html:217
@@ -2459,7 +2455,7 @@ msgid "items"
 msgstr "articles"
 
 #: shopping/templates/shopping/base.html:179
-#: shopping/templates/shopping/optimum/base.html:167
+#: shopping/templates/shopping/optimum/base.html:165
 #: shopping/templates/shopping/snippets/edge_panel.html:59
 #: templates/tchopetyamo/shopping/optimum/base.html:152
 #: templates/tchopetyamo/shopping/snippets/edge_panel.html:56
@@ -2469,10 +2465,10 @@ msgstr "Vider"
 #: shopping/templates/shopping/base.html:287
 #: shopping/templates/shopping/checkout.html:5
 #: shopping/templates/shopping/checkout.html:30
-#: shopping/templates/shopping/optimum/base.html:403
-#: shopping/templates/shopping/optimum/base.html:423
+#: shopping/templates/shopping/optimum/base.html:404
+#: shopping/templates/shopping/optimum/base.html:425
 #: shopping/templates/shopping/optimum/checkout.html:5
-#: shopping/templates/shopping/optimum/checkout.html:18
+#: shopping/templates/shopping/optimum/checkout.html:22
 #: shopping/templates/shopping/paypal/cancel.html:10
 #: shopping/templates/shopping/paypal/confirmation.html:10
 #: shopping/templates/shopping/snippets/checkout_summary.html:61
@@ -2490,35 +2486,25 @@ msgid "Checkout"
 msgstr "Terminer les achats"
 
 #: shopping/templates/shopping/base.html:300
-#: shopping/templates/shopping/optimum/base.html:441
+#: shopping/templates/shopping/optimum/base.html:443
 msgid "Quick access"
 msgstr "Accès Rapide"
 
-#: shopping/templates/shopping/base.html:311
-#: shopping/templates/shopping/optimum/base.html:452
-#: templates/tchopetyamo/shopping/optimum/base.html:340
-#: templates/tchopetyamo/shopping/optimum/base.html:359
-#: templates/tchopetyamo/webnode/improve/base.html:321
-#: trade/templates/trade/bank/deal_list.html:83
-#: trade/templates/trade/bank/deal_list.html:146
-msgid "About"
-msgstr "À propos"
-
 #: shopping/templates/shopping/base.html:329
-#: shopping/templates/shopping/optimum/base.html:470
+#: shopping/templates/shopping/optimum/base.html:472
 #: templates/tchopetyamo/shopping/optimum/base.html:377
 msgid "Contacts"
 msgstr "Contacts"
 
 #: shopping/templates/shopping/base.html:346
-#: shopping/templates/shopping/optimum/base.html:487
+#: shopping/templates/shopping/optimum/base.html:489
 #: templates/tchopetyamo/shopping/optimum/base.html:394
 #: templates/tchopetyamo/webnode/improve/base.html:365
 msgid "All rights reserved"
 msgstr "Tous droits reservés"
 
 #: shopping/templates/shopping/base.html:347
-#: shopping/templates/shopping/optimum/base.html:488
+#: shopping/templates/shopping/optimum/base.html:490
 #: templates/tchopetyamo/shopping/optimum/base.html:395
 #: templates/tchopetyamo/webnode/improve/base.html:366
 msgid "Legal mentions"
@@ -2526,8 +2512,8 @@ msgstr "Mentions légales"
 
 #: shopping/templates/shopping/base.html:425
 #: shopping/templates/shopping/base.html:525
-#: shopping/templates/shopping/optimum/base.html:620
-#: shopping/templates/shopping/optimum/base.html:726
+#: shopping/templates/shopping/optimum/base.html:622
+#: shopping/templates/shopping/optimum/base.html:728
 #: templates/tchopetyamo/shopping/optimum/base.html:459
 #: templates/tchopetyamo/shopping/optimum/base.html:555
 msgid "Please select a size."
@@ -2535,7 +2521,7 @@ msgstr "Sélectionnez une taille SVP."
 
 #: shopping/templates/shopping/base.html:445
 #: shopping/templates/shopping/cart.html:168
-#: shopping/templates/shopping/optimum/base.html:643
+#: shopping/templates/shopping/optimum/base.html:645
 #: shopping/templates/shopping/optimum/cart.html:243
 #: templates/tchopetyamo/shopping/optimum/base.html:479
 #: templates/tchopetyamo/shopping/optimum/cart.html:260
@@ -2706,21 +2692,21 @@ msgstr "Bien vouloir choisir une option de livraison. "
 
 #: shopping/templates/shopping/checkout.html:48
 #: shopping/templates/shopping/checkout.html:213
-#: shopping/templates/shopping/optimum/checkout.html:36
-#: shopping/templates/shopping/optimum/checkout.html:203
+#: shopping/templates/shopping/optimum/checkout.html:40
+#: shopping/templates/shopping/optimum/checkout.html:212
 msgid "Click on a previous address below to use it."
 msgstr "Cliquez sur une des adresses précédentes ci-dessous pour l'utiliser."
 
 #: shopping/templates/shopping/checkout.html:76
 #: shopping/templates/shopping/checkout.html:181
-#: shopping/templates/shopping/optimum/checkout.html:64
-#: shopping/templates/shopping/optimum/checkout.html:169
+#: shopping/templates/shopping/optimum/checkout.html:68
+#: shopping/templates/shopping/optimum/checkout.html:173
 #: shopping/templates/shopping/paypal/confirmation.html:22
 msgid "Pay"
 msgstr "Payer"
 
 #: shopping/templates/shopping/checkout.html:87
-#: shopping/templates/shopping/optimum/checkout.html:75
+#: shopping/templates/shopping/optimum/checkout.html:79
 msgid ""
 "\n"
 "                            No thanks, I want to\n"
@@ -2743,7 +2729,7 @@ msgstr ""
 "                        "
 
 #: shopping/templates/shopping/checkout.html:98
-#: shopping/templates/shopping/optimum/checkout.html:86
+#: shopping/templates/shopping/optimum/checkout.html:90
 msgid ""
 "\n"
 "                                Please hold on a second while <strong>we are "
@@ -2754,7 +2740,7 @@ msgstr ""
 "que <strong>nous essayons de vous localiser</strong> "
 
 #: shopping/templates/shopping/checkout.html:101
-#: shopping/templates/shopping/optimum/checkout.html:89
+#: shopping/templates/shopping/optimum/checkout.html:93
 msgid ""
 "\n"
 "                                Sorry, we couldn't locate you. "
@@ -2765,44 +2751,44 @@ msgstr ""
 "<strong>Veuillez entrer votre position manuellement.</strong> "
 
 #: shopping/templates/shopping/checkout.html:109
-#: shopping/templates/shopping/optimum/checkout.html:97
+#: shopping/templates/shopping/optimum/checkout.html:101
 msgid "Please, give us your address"
 msgstr "S'il vous plaît donnez-nous votre adresse"
 
 #: shopping/templates/shopping/checkout.html:111
-#: shopping/templates/shopping/optimum/checkout.html:99
+#: shopping/templates/shopping/optimum/checkout.html:103
 msgid "New delivery address"
 msgstr "Nouvelle adresse de livraison"
 
 #: shopping/templates/shopping/checkout.html:117
-#: shopping/templates/shopping/optimum/checkout.html:105
+#: shopping/templates/shopping/optimum/checkout.html:109
 msgid "Country"
 msgstr "Pays"
 
 #: shopping/templates/shopping/checkout.html:127
-#: shopping/templates/shopping/optimum/checkout.html:115
+#: shopping/templates/shopping/optimum/checkout.html:119
 msgid "City"
 msgstr "Ville"
 
 #: shopping/templates/shopping/checkout.html:133
 #: shopping/templates/shopping/contact.html:17
-#: shopping/templates/shopping/optimum/checkout.html:121
+#: shopping/templates/shopping/optimum/checkout.html:125
 #: shopping/templates/shopping/optimum/contact.html:17
 msgid "Address"
 msgstr "Adresse"
 
 #: shopping/templates/shopping/checkout.html:141
-#: shopping/templates/shopping/optimum/checkout.html:129
+#: shopping/templates/shopping/optimum/checkout.html:133
 msgid "Postal Code"
 msgstr "Code postal"
 
 #: shopping/templates/shopping/checkout.html:163
-#: shopping/templates/shopping/optimum/checkout.html:151
+#: shopping/templates/shopping/optimum/checkout.html:155
 msgid "Your name"
 msgstr "Nom"
 
 #: shopping/templates/shopping/checkout.html:209
-#: shopping/templates/shopping/optimum/checkout.html:199
+#: shopping/templates/shopping/optimum/checkout.html:208
 msgid "Click here to view previous addresses."
 msgstr "Cliquez ici pour voir les adresses précédentes."
 
@@ -3324,58 +3310,44 @@ msgstr "Ouvrir le champ de recherche"
 msgid "Close search box"
 msgstr "Fermer le champ de recherche"
 
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#: shopping/templates/shopping/optimum/base.html:162
-#, fuzzy
-msgctxt "cart items"
-msgid ""
-msgstr ""
-"Project-Id-Version: Francais\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-27 20:55+0100\n"
-"PO-Revision-Date: 2017-12-07 14:51+0100\n"
-"Language: fr_FR\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.0.4\n"
-
-#: shopping/templates/shopping/optimum/base.html:179
+#: shopping/templates/shopping/optimum/base.html:177
 #: templates/tchopetyamo/shopping/optimum/base.html:164
 msgid "Search ..."
 msgstr "Recherche ..."
 
-#: shopping/templates/shopping/optimum/base.html:221
+#: shopping/templates/shopping/optimum/base.html:219
 msgid "See more ..."
 msgstr "Voir plus ..."
 
-#: shopping/templates/shopping/optimum/base.html:410
-#: shopping/templates/shopping/optimum/base.html:507
+#: shopping/templates/shopping/optimum/base.html:412
+#: shopping/templates/shopping/optimum/base.html:509
 #: shopping/templates/shopping/snippets/checkout_summary.html:27
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:27
 msgid "Apply"
 msgstr "OK"
 
-#: shopping/templates/shopping/optimum/base.html:503
+#: shopping/templates/shopping/optimum/base.html:454
+#: templates/tchopetyamo/shopping/optimum/base.html:340
+#: templates/tchopetyamo/shopping/optimum/base.html:359
+#: templates/tchopetyamo/webnode/improve/base.html:321
+#: trade/templates/trade/bank/deal_list.html:83
+#: trade/templates/trade/bank/deal_list.html:146
+msgid "About"
+msgstr "À propos"
+
+#: shopping/templates/shopping/optimum/base.html:505
 msgid "If you like this theme, click Apply to use it."
 msgstr "Si vous aimez ce thème, cliquez sur Appliquer pour l'utiliser."
 
-#: shopping/templates/shopping/optimum/base.html:504
+#: shopping/templates/shopping/optimum/base.html:506
 msgid "Do you like this theme ?"
 msgstr "Aimez vous ce thème ?"
 
-#: shopping/templates/shopping/optimum/base.html:579
+#: shopping/templates/shopping/optimum/base.html:581
 msgid "Select and send a product to your follower"
 msgstr "Sélectionnez et envoyez un produit à votre follower"
 
-#: shopping/templates/shopping/optimum/base.html:580
+#: shopping/templates/shopping/optimum/base.html:582
 msgid ""
 "Browse and choose a product your follower might like and send him the link "
 "using a Sharing button."
@@ -3534,8 +3506,8 @@ msgid "Pick-up / Delivery"
 msgstr "Récupération / Livraison"
 
 #: shopping/templates/shopping/snippets/checkout_summary.html:79
-msgid "Choose an option below"
-msgstr "Choisissez une option ci-dessous"
+msgid "Please, click an option below"
+msgstr "Veuillez choisir une option ci-dessous"
 
 #: shopping/templates/shopping/snippets/checkout_summary.html:118
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:115
@@ -3805,6 +3777,10 @@ msgstr "Com & Marketing"
 #: templates/tchopetyamo/core/app_base_admin.html:124
 msgid "Homepage"
 msgstr "Page d'accueil"
+
+#: templates/core/app_base_admin.html:97
+msgid "Promo Codes"
+msgstr "Codes Promo"
 
 #: templates/core/app_base_admin.html:100
 #: templates/tchopetyamo/core/app_base_admin.html:144
@@ -4623,6 +4599,34 @@ msgstr "RCC"
 msgid "Package details"
 msgstr "Détails du paquet"
 
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+#~ msgctxt "cart items"
+#~ msgid ""
+#~ msgstr ""
+#~ "Project-Id-Version: Francais\n"
+#~ "Report-Msgid-Bugs-To: \n"
+#~ "POT-Creation-Date: 2017-11-27 20:55+0100\n"
+#~ "PO-Revision-Date: 2017-12-07 14:51+0100\n"
+#~ "Language: fr_FR\n"
+#~ "MIME-Version: 1.0\n"
+#~ "Content-Type: text/plain; charset=UTF-8\n"
+#~ "Content-Transfer-Encoding: 8bit\n"
+#~ "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#~ "Last-Translator: \n"
+#~ "Language-Team: \n"
+#~ "X-Generator: Poedit 2.0.4\n"
+
+#~ msgid "Coupon %s successfully updated."
+#~ msgstr "Le coupon %s mis à jour avec succès."
+
+#~ msgid "Coupon %s successfully created."
+#~ msgstr "Le coupon %s créé avec succès."
+
 #~ msgid "Sort"
 #~ msgstr "Ordonner"
 
@@ -4648,24 +4652,6 @@ msgstr "Détails du paquet"
 #~ "                        <a href=\"#\" class=\"turn-down\">Non, merci</a> "
 #~ "Je ferai un achat anonyme.\n"
 #~ "                        "
-
-#~ msgid "English"
-#~ msgstr "Anglais"
-
-#~ msgid "French"
-#~ msgstr "Français"
-
-#~ msgid "Manage Profiles"
-#~ msgstr "Gérer les profils"
-
-#~ msgid "Manage Revivals"
-#~ msgstr "Gérer les Relances"
-
-#~ msgid "Manage Daraja"
-#~ msgstr "Gérer Daraja"
-
-#~ msgid "Manage Continuous Rewarding"
-#~ msgstr "Gérer le Continuous Rewarding"
 
 #~ msgid "Current month Earnings"
 #~ msgstr "Revenus courants"
