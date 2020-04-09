@@ -428,15 +428,7 @@ class Cart(TemplateSelector, TemplateView):
 
             self.request.session.modified = True
             try:
-                del self.request.session['promo_code_id']
-            except:
-                pass
-            try:
                 del self.request.session['promo_code']
-            except:
-                pass
-            try:
-                del self.request.session['promo_rate']
             except:
                 pass
         return context
@@ -490,19 +482,18 @@ def load_checkout_summary(request, *args, **kwargs):
     items_cost = float(request.GET['items_cost'])
     packing_cost = float(request.GET['packing_cost'])
     delivery_option_id = request.GET.get('delivery_option_id')
-    items_gross_cost = 0
+    items_gross_cost = items_cost
     delivery_option = None
-    coupon = None
+    promo_code = None
     if request.session.get('promo_code'):
-        promo_id = request.session.get('promo_code_id')
+        promo_id = request.session.get('promo_code')['id']
         try:
             now = datetime.now()
-            coupon = PromoCode.objects.get(pk=promo_id, start_on__lte=now, end_on__gt=now, is_active=True)
+            promo_code = PromoCode.objects.get(pk=promo_id, start_on__lte=now, end_on__gt=now, is_active=True)
         except PromoCode.DoesNotExist:
             pass
         else:
-            items_gross_cost = items_cost
-            items_cost = items_cost - (items_cost * coupon.rate / 100)
+            items_cost = items_gross_cost * (100 - promo_code.rate) / 100
 
     total_cost = items_cost
     if request.GET.get('buy_packing'):
@@ -512,7 +503,7 @@ def load_checkout_summary(request, *args, **kwargs):
         total_cost += delivery_option.cost
 
     available_options = list(DeliveryOption.objects\
-                             .filter(checkout_min__lte=items_cost, is_active=True).order_by('cost'))
+                             .filter(checkout_min__lte=items_gross_cost, is_active=True).order_by('cost'))
     delivery_options = set()
     for i in available_options:
         for j in available_options:
@@ -526,9 +517,9 @@ def load_checkout_summary(request, *args, **kwargs):
 
     main_payment_mean = PaymentMean.objects.get(is_main=True)
     payment_mean_list = PaymentMean.objects.filter(is_main=False, is_active=True)
-    context = {'items_cost': items_cost, 'items_count': items_count, 'items_gross_cost':items_gross_cost, 'delivery_option': delivery_option,
+    context = {'items_cost': items_cost, 'items_count': items_count, 'items_gross_cost': items_gross_cost, 'delivery_option': delivery_option,
                'total_cost': total_cost, 'config': get_service_instance().config, 'delivery_options': delivery_options,
-               'main_payment_mean': main_payment_mean, 'payment_mean_list': payment_mean_list, 'coupon': coupon}
+               'main_payment_mean': main_payment_mean, 'payment_mean_list': payment_mean_list, 'promo_code': promo_code}
     return render(request, 'shopping/snippets/checkout_summary.html', context)
 
 

@@ -3,13 +3,13 @@
 <div{% if delivery_options|length > 1 %} class="multiple-delivery-options"{% endif %}>
     <div id="items-summary" class="co subtle-shade" data-total="{{ items_cost }}">
         <h4><span class="count">{{ items_count }}</span> {% trans "item(s), totaling" %}:</h4>
-        {% if coupon %}
+        {% if promo_code %}
             <del>
             <p class="price" style="color: #979797">
                 <span>{{ CURRENCY.symbol }}</span>
                 <span class="total">{{ items_gross_cost|floatformat:CURRENCY.precision|intcomma }}</span>
             </p></del>
-            <span class="promo-code-rate">{{ request.session.promo_code.code }} {{ request.session.promo_code.rate }}</span>
+            <span class="promo-code-rate">{{ promo_code.code }}: -{{ promo_code.rate }}%</span>
             <p class="price">
                 <span>{{ CURRENCY.symbol }}</span>
                 <span class="total">{{ items_cost|floatformat:CURRENCY.precision|intcomma }}</span>
@@ -76,7 +76,7 @@
             <div class="actions">
                 <div id="delivery" class="co subtle-shade">
                     <h4>{% trans "Pick-up / Delivery" %}</h4>
-                    <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Choose an option below" %}</p>
+                    <p class="alert alert-info" style="font-size: 12px; margin: 1.5em 0 0">{% trans "Please, click an option below" %}</p>
                     <ul style="padding: 1em 0 0 0">
                         {% for option in delivery_options %}
                             <li class="delivery-option{% if option == delivery_option %} active{% endif %}"

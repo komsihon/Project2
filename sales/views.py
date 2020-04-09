@@ -15,15 +15,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.admin import helpers
 from django.views.generic import TemplateView
+from import_export.formats.base_formats import XLS
+
+from ikwen.core.views import HybridListView, ChangeObjectBase
+from ikwen.core.utils import get_model_admin_instance
 
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.models import ProductCategory
-from import_export.formats.base_formats import XLS
-
-from ikwen.core.views import HybridListView
-
 from ikwen_kakocase.sales.models import Promotion, PromoCode, CustomerEmail
-from ikwen.core.utils import get_model_admin_instance
 from ikwen_kakocase.sales.admin import PromotionAdmin, PromoCodeAdmin, CustomerEmailResource
 
 
@@ -46,83 +45,13 @@ class PromotionList(HybridListView):
 
 
 class PromoCodeList(HybridListView):
-    template_name = 'sales/promo_code_list.html'
-    html_results_template_name = 'sales/snippets/comment_list_results.html'
-    queryset = PromoCode.objects.all()
-    ordering = ('-updated_on', )
+    model = PromoCode
     search_field = 'code'
-    context_object_name = 'promo_code_list'
-
-    def get_context_data(self, **kwargs):
-        queryset = self.get_queryset()
-        context = super(PromoCodeList, self).get_context_data(**kwargs)
-        paginator = Paginator(queryset, self.page_size)
-        objects_page = paginator.page(1)
-        context['q'] = self.request.GET.get('q')
-        context['objects_page'] = objects_page
-        return context
 
 
-class ChangePromoCode(TemplateView):
-    template_name = 'sales/change_promo_code.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ChangePromoCode, self).get_context_data(**kwargs)
-        promo_code_id = kwargs.get('promo_code_id')  # May be overridden with the one from GET data
-        promo_code_id = self.request.GET.get('promo_code_id', promo_code_id)
-        promo_code = None
-        if promo_code_id:
-            promo_code = get_object_or_404(PromoCode, pk=promo_code_id)
-        promo_code_admin = get_model_admin_instance(PromoCode, PromoCodeAdmin)
-        ModelForm = modelform_factory(PromoCode, fields=('code', 'start_on', 'end_on', 'rate', 'is_active'))
-        form = ModelForm(instance=promo_code)
-        promotion_form = helpers.AdminForm(form, list(promo_code_admin.get_fieldsets(self.request)),
-                                           promo_code_admin.get_prepopulated_fields(self.request),
-                                           promo_code_admin.get_readonly_fields(self.request, obj=promo_code))
-        context['promo_code'] = promo_code
-        context['model_admin_form'] = promotion_form
-        return context
-
-    @method_decorator(csrf_protect)
-    def post(self, request, *args, **kwargs):
-        promo_code_id = self.request.POST.get('promo_code_id')
-        if promo_code_id:
-            promo_code = get_object_or_404(PromoCode, pk=promo_code_id)
-        else:
-            promo_code = PromoCode()
-
-        promo_code_admin = get_model_admin_instance(PromoCode, PromoCodeAdmin)
-        ModelForm = promo_code_admin.get_form(self.request)
-        form = ModelForm(request.POST, instance=promo_code)
-        start_date = self.request.POST.get('start_on')
-        end_date = self.request.POST.get('end_on')
-        if len(start_date) > 16:
-            start_date = start_date[:-3].strip()
-        if len(end_date) > 16:
-            end_date = end_date[:-3].strip()
-
-        start_on = datetime.strptime(start_date, '%Y-%m-%d %H:%M')
-        end_on = datetime.strptime(end_date, '%Y-%m-%d %H:%M')
-        code = request.POST.get('code')
-        rate = request.POST.get('rate')
-        is_active = request.POST.get('is_active')
-        if code:
-            promo_code.code = code.lower()
-            promo_code.start_on = start_on
-            promo_code.end_on = end_on
-            promo_code.rate = rate
-            promo_code.is_active = is_active
-            promo_code.save()
-            next_url = reverse('sales:promo_code_list')
-            if promo_code_id:
-                messages.success(request, _("Coupon %s successfully updated." % promo_code.code))
-            else:
-                messages.success(request, _("Coupon %s successfully created." %  promo_code.code))
-            return HttpResponseRedirect(next_url)
-        else:
-            context = self.get_context_data(**kwargs)
-            context['errors'] = form.errors
-            return render(request, self.template_name, context)
+class ChangePromoCode(ChangeObjectBase):
+    model = PromoCode
+    model_admin = PromoCodeAdmin
 
 
 class ChangePromotion(TemplateView):
@@ -262,20 +191,15 @@ def apply_promotion_discount(product_list):
 def find_promo_code(request, *args, **kwargs):
     code = request.GET.get('code')
     try:
-        promo_code = PromoCode.objects.get(code=code.lower())
+        promo_code = PromoCode.objects.get(code__iexact=code)
     except PromoCode.DoesNotExist:
-        response = HttpResponse(json.dumps(
-            {'error': 'Invalid promo code',
-             'message': 'Invalid promo code',
-             }), 'content-type: text/json')
+        response = HttpResponse(json.dumps({
+            'error': 'Invalid promo code',
+            'message': 'Invalid promo code',
+        }), 'content-type: text/json')
     else:
         request.session['promo_code'] = promo_code.to_dict()
-        request.session['promo_rate'] = promo_code.rate
-        request.session['promo_code_id'] = promo_code.id
-        response = HttpResponse(json.dumps(
-            {'success': True,
-             # 'promo_code': promo_code.to_dict(),
-             }), 'content-type: text/json')
+        response = HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
     return response
 
 

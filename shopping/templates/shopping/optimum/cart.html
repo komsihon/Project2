@@ -287,14 +287,24 @@
                         if (resp.error) {
                             $(".invalid-code").fadeIn().show();
                             $('.promo').find('input[type=text]').focus()
-                        }else {
-{#                            promoRate = parseInt(resp.promo_code.rate);#}
+                        } else {
                             loadCheckoutSummary();
-{#                            $('#promo-code').remove()#}
                         }
                     });
                 }).on('click', '#coupons .card-li', function() {
                     loadCheckoutSummary();
+                }).on('click', '.coupon-img', function() {
+                    let id = $(this).data('id');
+                    $.getJSON('rewarding/coupon_detail', {id: id}, function(data) {
+                        if (data.error) {
+                            ikwen.showFloatingNotice(data.error, '', 6);
+                            return;
+                        }
+                        $('div#coupon-detail .modal-title').text(data.name);
+                        $('div#coupon-detail img').prop('src', data.image_url);
+                        $('div#coupon-detail .description').html(data.description);
+                        $('#coupon-detail').modal('show');
+                    })
                 }).on('keypress', '.promo input[type=text]',function () {
                     $(".invalid-code").fadeOut().hide()
                 }).on('click', '#check-packing', function() {
@@ -494,33 +504,17 @@
                 prevButton: '.swiper-button-prev'
             });
 
-            $('body').on('click', '.coupon-img', function() {
-                var id = $(this).data('id');
-                {#$.getJSON('http://localhost/tchopetyamo/rewarding/coupon_detail', {id: id}, function(data) {#}
-                $.getJSON('rewarding/coupon_detail', {id: id}, function(data) {
-                    if (data.error) {
-                        ikwen.showFloatingNotice(data.error, '', 6);
-                        return;
-                    }
-                    $('div#coupon-detail .modal-title').text(data.name);
-                    $('div#coupon-detail img').prop('src', data.image_url);
-                    $('div#coupon-detail .description').html(data.description);
-                    $('#coupon-detail').modal('show');
-                })
-            })
             $('.card-ul .swiper-slide').click(function () {
-                if ($(this).hasClass('use-coupon')){
-                    $(this).removeClass('use-coupon')
+                if ($(this).hasClass('use-coupon')) {
+                    $(this).removeClass('use-coupon');
                     $('#coupon-id').val('')
                 } else {
-                    $('.card-ul .swiper-slide').removeClass('use-coupon')
-                    $('#coupon-id').val('')
-                    $(this).addClass('use-coupon')
-                    var couponId = $(this).data('coupon-id')
-                    $('#coupon-id').val(couponId)
+                    $('.card-ul .swiper-slide').removeClass('use-coupon');
+                    $(this).addClass('use-coupon');
+                    var couponId = $(this).data('coupon-id');
+                    $('#coupon-id').val(couponId);
                 }
-            })
-
+            });
             $('.cart-shopping').addClass('hide');
         })()
     </script>

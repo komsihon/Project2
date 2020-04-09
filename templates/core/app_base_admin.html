@@ -93,8 +93,8 @@
                                         <li class="promotion">{% url 'sales:promotion_list' as promotion_list_url %}
                                             <a href="{{ promotion_list_url }}">{% trans "Promotions" %}</a>
                                         </li>
-                                        <li class="discount">{% url 'sales:promo_code_list' as Promo_code_list_url %}
-                                            <a href="{{ Promo_code_list_url }}">{% trans "Coupons" %}</a>
+                                        <li class="discount">{% url 'sales:promocode_list' as promo_code_list_url %}
+                                            <a href="{{ promo_code_list_url }}">{% trans "Promo Codes" %}</a>
                                         </li>
                                         <li class="emails">{% url 'sales:email_list' as email_list_url %}
                                             <a href="{{ email_list_url }}">{% trans "Emails" %}</a>

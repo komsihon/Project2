@@ -7,7 +7,6 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/jquery.datetimepicker.css' %}"/>
     <style>
         .verify {border: 1px solid #e74c3c}
@@ -16,11 +15,6 @@
             #promotion-sharing .social-media {text-align: center}
         }
     </style>
-{% endblock %}
-
-{% block head_js %}
-    {{ block.super }}
-    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
 {% endblock %}
 
 
@@ -138,9 +132,6 @@
                     $('#id_title').val("{{ request.GET.name }}");
                 {% endif %}
 {#            {% endif %}#}
-            {% if messages %}
-                {% for msg in messages %}ikwen.showFloatingNotice('{{ msg }}', '', 6);{% endfor %}
-            {% endif %}
         })()
     </script>
 {% endblock %}

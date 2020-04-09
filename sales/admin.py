@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib import admin
-from django.utils.translation import gettext as _
 from ikwen_kakocase.sales.models import Promotion, PromoCode, CustomerEmail
 
 from import_export import resources, fields
@@ -29,13 +28,11 @@ class PromotionAdmin(admin.ModelAdmin):
 
 
 class PromoCodeAdmin(admin.ModelAdmin):
-    list_display = ('code', 'start_on', 'end_on', 'rate')
-    search_fields = ('code', 'item', )
-    save_on_top = True
+    fields = ('code', 'start_on', 'end_on', 'rate', 'is_active')
 
 
 class GrouponAdmin(admin.ModelAdmin):
-    list_display = ('code','item', 'cost', 'objective', 'actual_count', 'start_on', 'end_on', 'is_active')
+    list_display = ('code', 'item', 'cost', 'objective', 'actual_count', 'start_on', 'end_on', 'is_active')
     search_fields = ('code',)
     save_on_top = True
 
