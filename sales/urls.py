@@ -8,7 +8,7 @@ from ikwen_kakocase.sales.views import PromotionList, PromoCodeList, ChangePromo
 urlpatterns = patterns(
     '',
     url(r'^promotions/$', permission_required('commarketing.ik_manage_marketing')(PromotionList.as_view()), name='promotion_list'),
-    url(r'^promocodes/$', permission_required('commarketing.ik_manage_marketing') (PromoCodeList.as_view()), name='promocode_list'),
+    url(r'^promocodes/$', permission_required('commarketing.ik_manage_marketing')(PromoCodeList.as_view()), name='promocode_list'),
     url(r'^changePromotion/$', permission_required('commarketing.ik_manage_marketing') (ChangePromotion.as_view()), name='change_promotion'),
     url(r'^changePromotion/(?P<promotion_id>[-\w]+)/$', permission_required('commarketing.ik_manage_marketing') (ChangePromotion.as_view()), name='change_promotion'),
     url(r'^changePromoCode/$', permission_required('commarketing.ik_manage_marketing')(ChangePromoCode.as_view()), name='change_promocode'),
