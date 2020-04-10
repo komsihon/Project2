@@ -692,7 +692,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
 
     if getattr(settings, 'UNIT_TESTING', False):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
-    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'https://payment.ikwen.com/v1')
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.ikwen.com/v1')
     endpoint = gateway_url + '/request_payment'
     params = {
         'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
