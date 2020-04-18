@@ -35,6 +35,7 @@ from ikwen.billing.mtnmomo.views import MTN_MOMO
 from ikwen.core.models import Country, ConsoleEvent, ConsoleEventType, Service
 from ikwen.core.utils import get_service_instance, add_event, as_matrix, add_database
 from ikwen.core.views import HybridListView
+from ikwen.core.templatetags.url_utils import strip_base_alias
 from ikwen.flatpages.models import FlatPage
 from ikwen.rewarding.models import Reward
 from ikwen.rewarding.utils import reward_member
@@ -698,9 +699,9 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
         'amount': order.total_cost,
         'merchant_name': config.company_name,
-        'notification_url': service.url + notification_url,
-        'return_url': service.url + return_url,
-        'cancel_url': service.url + cancel_url,
+        'notification_url': service.url + strip_base_alias(notification_url),
+        'return_url': service.url + strip_base_alias(return_url),
+        'cancel_url': service.url + strip_base_alias(cancel_url),
         'user_id': request.user.username
     }
     try:
