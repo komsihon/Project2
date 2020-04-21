@@ -4,14 +4,14 @@ from django.contrib.auth.decorators import permission_required
 
 from ikwen_kakocase.trade.provider.views import get_package_details, PackageList, ProviderDashboard, \
     get_package_from_rcc, confirm_shipping, confirm_processing, notify_order_process
-from ikwen_kakocase.trade.views import OrderList, require_order_rcc, get_order_details, LateDeliveryList, \
-    BrokenProductList, RetailerDashboard, list_partner_companies, approve_or_reject, \
+from ikwen_kakocase.trade.views import OrderList, DriveOrderList, require_order_rcc, get_order_details, \
+    LateDeliveryList, BrokenProductList, RetailerDashboard, list_partner_companies, approve_or_reject, \
     PartnerList, DealList
 
 urlpatterns = patterns(
     '',
     url(r'^orders/$', permission_required('trade.ik_manage_order')(OrderList.as_view()), name='order_list'),
-    url(r'^orders/(?P<drivy>[-\w]+)/$', permission_required('trade.ik_manage_drivy')(OrderList.as_view()), name='order_list'),
+    url(r'^orders/(?P<drivy>[-\w]+)/$', permission_required('trade.ik_manage_drivy')(DriveOrderList.as_view()), name='order_list'),
     url(r'^retail/lateDeliveries/$', permission_required('trade.ik_manage_order')(LateDeliveryList.as_view()), name='late_delivery_list'),
     url(r'^retail/brokenProducts/$', permission_required('trade.ik_manage_order')(BrokenProductList.as_view()), name='broken_product_list'),
     url(r'^retail/require_order_rcc$', require_order_rcc, name='require_order_rcc'),

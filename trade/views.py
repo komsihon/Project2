@@ -44,109 +44,50 @@ logger = logging.getLogger('ikwen')
 
 class OrderList(HybridListView):
     template_name = 'trade/order_list.html'
-    model = Order
-    if getattr(settings, 'IS_BANK', False):
-        queryset = Order.objects.exclude(status=Order.PENDING_FOR_PAYMENT)
-    else:
-        queryset = Order.objects.exclude(Q(status=Order.PENDING_FOR_PAYMENT) & Q(status=Order.PENDING_FOR_APPROVAL))
+    html_results_template_name = 'trade/snippets/order_list_results.html'
     ordering = ('-id', )
     context_object_name = 'order_list'
     search_field = 'tags'
+    export_resource = OrderResource
 
-    def get(self, request, *args, **kwargs):
-        action = request.GET.get('action')
-        if action == 'export':
-            return self.export(request, *args, **kwargs)
-        return super(OrderList, self).get(request, *args, **kwargs)
+    def get_base_queryset(self):
+        q = self.request.GET.get('q')
+        status = self.request.GET.get('status')
+        by_rcc = False
+        if getattr(settings, 'IS_BANK', False):
+            queryset = Order.objects.exclude(status=Order.PENDING_FOR_PAYMENT)
+        else:
+            queryset = Order.objects.exclude(Q(status=Order.PENDING_FOR_PAYMENT) & Q(status=Order.PENDING_FOR_APPROVAL))
+        if q:
+            try:
+                Order.objects.get(rcc=q.lower())
+                queryset = queryset.filter(rcc=q.lower())
+                by_rcc = True
+            except Order.DoesNotExist:
+                pass
+        if not by_rcc:
+            if status and status.lower() != 'all':
+                queryset = queryset.filter(status=status)
+            if getattr(settings, 'IS_PROVIDER', False):
+                service = get_service_instance()
+                queryset = queryset.filter(delivery_company=service)
+        return queryset
 
-    def get_export_filename(self, file_format):
-        date_str = datetime.now().strftime('%Y-%m-%d')
-        filename = "%s-%s.%s" % (self.model.__name__,
-                                 date_str,
-                                 file_format.get_extension())
-        return filename
+    def get_queryset(self):
+        queryset = self.get_base_queryset()
+        return queryset.filter(pick_up_in_store=False)
 
-    def export(self, request, *args, **kwargs):
-        status = request.GET.get('status')
-        queryset = self.get_queryset()
-        if status and status.lower() != 'all':
-            queryset = queryset.filter(status=status)
-        queryset = queryset.order_by(*self.ordering)
-        file_format = XLS()
-        data = OrderResource().export(queryset)
-        export_data = file_format.export_data(data)
-        content_type = file_format.get_content_type()
-        # Django 1.7 uses the content_type kwarg instead of mimetype
-        try:
-            response = HttpResponse(export_data, content_type=content_type)
-        except TypeError:
-            response = HttpResponse(export_data, mimetype=content_type)
-        response['Content-Disposition'] = 'attachment; filename=%s' % (
-            self.get_export_filename(file_format),
-        )
-        return response
+
+class DriveOrderList(OrderList):
+
+    def get_queryset(self):
+        queryset = self.get_base_queryset()
+        return queryset.filter(pick_up_in_store=True)
 
     def get_context_data(self, **kwargs):
-        context = super(OrderList, self).get_context_data(**kwargs)
-        if getattr(settings, 'IS_BANK', False):
-            queryset = self.get_queryset().filter(status=Order.PENDING_FOR_APPROVAL)
-        else:
-            queryset = self.get_queryset().filter(status=Order.PENDING)
-        is_drivy = True if kwargs.get('drivy') else False
-        if getattr(settings, 'IS_PROVIDER', False):
-            service = get_service_instance()
-            queryset = queryset.filter(delivery_company=service)
-            if is_drivy:
-                queryset = queryset.filter(pick_up_in_store=True)
-            else:
-                queryset = queryset.exclude(pick_up_in_store=True)
-        queryset = queryset.order_by(*self.ordering)
-        page_size = 15 if self.request.user_agent.is_mobile else 25
-        paginator = Paginator(queryset, page_size)
-        orders_page = paginator.page(1)
-        context['is_drivy'] = is_drivy
-        context['orders_page'] = orders_page
+        context = super(DriveOrderList, self).get_context_data(**kwargs)
+        context['is_drivy'] = True
         return context
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.GET.get('format') == 'html_results':
-            order_queryset = self.get_queryset()
-            q = self.request.GET.get('q')
-            status = self.request.GET.get('status')
-            by_rcc = False
-            if q:
-                try:
-                    Order.objects.get(rcc=q.lower())
-                    order_queryset = Order.objects.filter(rcc=q.lower())
-                    by_rcc = True
-                except Order.DoesNotExist:
-                    order_queryset = self.get_search_results(order_queryset)
-            if not by_rcc:
-                is_drivy = context['is_drivy']
-                if status and status.lower() != 'all':
-                    order_queryset = order_queryset.filter(status=status)
-                if getattr(settings, 'IS_PROVIDER', False):
-                    service = get_service_instance()
-                    order_queryset = order_queryset.filter(delivery_company=service)
-                    if is_drivy:
-                        order_queryset = order_queryset.filter(pick_up_in_store=True)
-                    else:
-                        order_queryset = order_queryset.exclude(pick_up_in_store=True)
-            order_queryset = order_queryset.order_by(*self.ordering)
-            page_size = 15 if self.request.user_agent.is_mobile else 25
-            paginator = Paginator(order_queryset, page_size)
-            page = self.request.GET.get('page')
-            try:
-                orders_page = paginator.page(page)
-            except PageNotAnInteger:
-                orders_page = paginator.page(1)
-            except EmptyPage:
-                orders_page = paginator.page(paginator.num_pages)
-            context['q'] = q
-            context['orders_page'] = orders_page
-            return render(self.request, 'trade/snippets/order_list_results.html', context)
-        else:
-            return super(OrderList, self).render_to_response(context, **response_kwargs)
 
 
 @permission_required('trade.ik_manage_order')
