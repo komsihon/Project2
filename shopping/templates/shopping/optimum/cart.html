@@ -204,16 +204,13 @@
             </div>
         </div>
     </div>
-    {% if user.is_authenticated %}
-        <form id="start-checkout" action="{% url 'shopping:checkout' %}">
-            <input type="hidden" id="next" name="next">
-            <input type="hidden" id="delivery-option-id" name="delivery_option_id">
-            <input type="hidden" id="buy-packing" name="buy_packing">
-            <input type="hidden" id="coupon-id" name="coupon_id">
-        </form>
-    {% else %}
-        {% include 'shopping/snippets/modal_suggest_login.html' %}
-    {% endif %}
+    {% include 'shopping/snippets/modal_suggest_login.html' %}
+    <form id="start-checkout" action="{% if user.is_authenticated %}{% url 'shopping:checkout' %}{% endif %}">
+        <input type="hidden" id="next" name="next">
+        <input type="hidden" id="delivery-option-id" name="delivery_option_id">
+        <input type="hidden" id="buy-packing" name="buy_packing">
+        <input type="hidden" id="coupon-id" name="coupon_id">
+    </form>
     {% endwith %}
 {% endblock %}
 {% block js %}
