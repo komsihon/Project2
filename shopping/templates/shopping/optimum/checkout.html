@@ -215,6 +215,7 @@
             }).on('click', '.submit-checkout, .payment-method:not(.processing)', function() {
                 let actionURL = $(this).data('action-url');
                 $('.payment-method').addClass('processing');
+                $('#payment-methods .spinner').show();
                 $('form#do-checkout').prop('action', actionURL).submit()
             });
 
