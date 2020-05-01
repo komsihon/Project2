@@ -125,6 +125,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed .box_1 {margin-top: 22px}
 .header-bottom.fixed .logo-nav-left a {font-size: 23px;left: 10px; position: absolute; top: 10px;}
 .header-bottom.fixed .logo-nav-left img {max-height: 60px; left: 10px;position: absolute;top: 0px;max-width: 200px;}
+.header-bottom.fixed .navbar-nav {margin-top: 9px}
 .header-bottom.fixed #auth.top-right ul {margin: -10px 0 -6px;position: absolute;right: 12px;top: 0;}
 .header-bottom.fixed #auth.top-right .fa {color: #1B242F; font-size: 17px}
 .header-bottom.fixed #auth.top-right a {color: #1B242F}
@@ -236,7 +237,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .header-xs .action .badge {position: absolute;z-index: 3;font-size: 10px;}
 .nav-xs {background: #f8f8f8;width: 100%;position: fixed;visibility: hidden;z-index: 0;top: 45px;}
-.nav-xs.appear {visibility: visible;z-index: 11;/* background: #000; */ height: 160px; padding: 20px 0;}
+.nav-xs.appear {visibility: visible;z-index: 11;/* background: #000; */ height: 130px; padding: 10px 0;}
 
 .top-edge-panel span.label.label-danger.simpleCart_quantity { margin: 11px -137px;position: absolute;}
 /*.nav-xs.diappear {visibility: hidden;}*/
@@ -251,7 +252,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .invalid-code {color: #e51c23;float: left;margin-top: -15px;font-size:  13px;display: none;}
 .navbar {position: relative; margin-bottom: 0}
-.navbar-nav > li > a {font-size: 1em;font-weight: 700;padding: 0 !important;}
+.navbar-nav > li > a {font-size: 18px;font-weight: 700;padding: 0 15px;}
 .navbar-nav > li > a:hover { color:#99141d !important; }
 
 /*.cart-shopping.show { bottom: 0; position: sticky; background-color: #5f0000}*/
@@ -307,7 +308,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .nav-xs ul.nav {float: left;margin-top: 9px;margin-left: -60px;}
 .nav-xs .swiper-slide {/*background: #1f1137;border-radius: 50%;*/text-align: center;width: 80px; height: 80px; position: relative; margin: 0 10px}
 .nav-xs .swiper-slide a {color: #fff; text-transform: uppercase; font-weight: 700}
-.nav-xs .swiper-slide .menu-label {color: #1B242F;text-transform: uppercase;position: absolute;left: 10%;top: 420%;}
+.nav-xs .swiper-slide .menu-label {color: #1B242F;font-size: .8em;left: 10%;position: absolute;text-transform: uppercase;top: 420%;}
 .nav-xs .swiper-slide .img-circle {height: 80px; left: 0; position: fixed; top: 0; width: 80px}
 .location div i {margin-right: 10px}
 .no-logo {border-radius: 25px;height: 50px;width: 50px;text-align: center;font-weight: 400;overflow: hidden;font-size: 35px;line-height: 47px;}
@@ -332,7 +333,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .product-img { position: relative;}
 .product-about {padding-bottom: .4em;}
 .product-about {padding-bottom: .4em;clear: both;}
-.product-about h6 {font-size: 1.4em;margin-bottom: 0.2em;}
+.product-about h6 {font-size: 1.3em;margin-bottom: 0.4em;}
 .product-about h6 a {color: #1f1137; text-decoration: none}
 .product-about p {font-size: 1em;margin: .3em 0 .6em;}
 .product-about.groupon p  {clear: both; float: left; text-align: center; width: 100%}
@@ -487,7 +488,7 @@ h2.title {text-align: center;font-size: 2.3em;padding: .9em;}
 }
 /*-- //treeview --*/
 .price,.cat-img,.brand-w3l {/* margin-top: -2em; */}
-.price h3,.top-rates h3,.brand-w3l h3{text-align: center;font-size: 1.6em;padding: .4em;background: #150b27;color: #fff;margin-bottom: .5em;}
+.price h3,.top-rates h3,.brand-w3l h3{font-size: 1.6em;padding: .2em 0;color: #150b27;margin-bottom: .5em;}
 /*-- Slider range --*/
 span.amount{color:#ffffff; font-size:16px;}
 .price input#amount,.price input#amount1 {font-size: 15px;outline: none;background: none;word-spacing: 1em;color: #000 !important;left: 0%;margin-top: -5px;text-align: center;width: 100%;padding: 4px 0;}
@@ -610,9 +611,9 @@ p.price {font-size: 1.8em;margin: 1em 0 .5em;color: #c10023;font-weight: bold;}
 .single-grid1 h3 {font-size: 2.5em;text-align: center; color: #1f1137; margin-bottom: 0.5em;}
 .item-left { margin-bottom: 1em; margin-top: 2em}
 .recent-left {float: left;width: 25%;clear: both;}
-.recent-right {float: right;width: 68%;margin-top: 3em;}
+.recent-right {float: right;width: 68%}
 span.price-in1 {font-size: 1.2em; color: #c10023; font-weight: bold; margin-top: 0.5em; display: block;}
-.best2 a {font-size: 1.5em;text-decoration: none;display: block;margin-bottom: 0.5em;text-transform: capitalize;}
+.best2 a {font-size: 1.3em;text-decoration: none;display: block;margin-bottom: 0.5em;text-transform: capitalize;}
 .nav-tabs {border-bottom: 1px solid #fff;}
 .left-tab > li > a {margin-right: 2px; line-height: 1.42857143; border: none !important; border-radius: 0; color: #fff; background: #712835; padding: 0.5em 1em; font-size: 1.2em;}
 .left-tab > li.active > a, .left-tab > li.active > a:hover, .left-tab > li.active > a:focus {color: #fff; cursor: default; background-color: #c10023; border: none !important; border-bottom-color: transparent !important;}
@@ -775,6 +776,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .header-xs .fa.fa-bell {font-size: 17px;margin-left: 12px;}
     .visible-xs .sort-item {border-bottom: solid 1px #DDD; padding: 8px 13px; text-align: left;}
     .visible-xs .sort-item:last-child {border-bottom: solid 1px transparent}
+    .price h3, .top-rates h3, .brand-w3l h3 {padding: 0.2em}
     #bottom-tabs li {text-align: center;width: 50%;}
     #suggestions {border-top: 1px solid #eee; padding: 1em 0 2em}
     .bottom-cntr {position: absolute;margin-top: 160px;right: 10px;}

@@ -24,25 +24,27 @@
             <div id="admin-tools" class="ceil bottom-shade-xs">
                 <form id="admin-tools-form">
                     <div>
-                        <i class="glyphicon glyphicon-search"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-                        <input id="context-search" type="text" class="input-sm tool search"
-                               placeholder="{% trans "Search" %}" data-min-search-chars="2" />
-                    </div>
-                    <div class="filter-trigger">
-                        <i class="glyphicon glyphicon-filter"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
-                        <div class="tool filter">
-                            <label for="order-status" class="sr-only"></label>
-                            <select id="order-status" style="float: left; width: 120px" class="form-control input-sm status widget" name="status">
-                                <option value="{% if settings.IS_BANK %}PendingForApproval{% else %}Pending{% endif %}">{% trans "Pending" %}</option>
-                                {% if settings.IS_BANK %}
-                                    <option value="Confirmed">{% trans "Confirmed" %}</option>
-                                    <option value="Rejected">{% trans "Rejected" %}</option>
-                                {% endif %}
-                                {% if settings.IS_DELIVERY_COMPANY %}<option value="Delivered">{% trans "Delivered" %}</option>{% endif %}
-                                <option value="">{% trans "All" %}</option>
-                            </select>
+                        <div>
+                            <i class="glyphicon glyphicon-search"></i>
+                            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+                            <input id="context-search" type="text" class="input-sm tool search"
+                                   placeholder="{% trans "Search" %}" data-min-search-chars="2" />
+                        </div>
+                        <div class="filter-trigger">
+                            <i class="glyphicon glyphicon-filter"></i>
+                            <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                            <div class="tool filter">
+                                <label for="order-status" class="sr-only"></label>
+                                <select id="order-status" style="float: left; width: 120px" class="form-control input-sm status widget" name="status">
+                                    <option value="{% if settings.IS_BANK %}PendingForApproval{% else %}Pending{% endif %}">{% trans "Pending" %}</option>
+                                    {% if settings.IS_BANK %}
+                                        <option value="Confirmed">{% trans "Confirmed" %}</option>
+                                        <option value="Rejected">{% trans "Rejected" %}</option>
+                                    {% endif %}
+                                    {% if settings.IS_DELIVERY_COMPANY %}<option value="Delivered">{% trans "Delivered" %}</option>{% endif %}
+                                    <option value="">{% trans "All" %}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <input type="hidden" id="filter-action" name="action" />

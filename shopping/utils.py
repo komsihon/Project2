@@ -187,21 +187,24 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
             except:
                 logger.error("Failed to notify %s for empty messaging credit." % service, exc_info=True)
             return
-        crcy = currencies(request)['CURRENCY']
-        html_content = get_mail_content(subject, template_name=template_name,
-                                        extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
-                                                       'IS_BANK': getattr(settings, 'IS_BANK', False),
-                                                       'coupon_count': coupon_count, 'crcy': crcy})
-        sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
-        msg = XEmailMessage(subject, html_content, sender, [buyer_email])
-        bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
-        bcc.append(service.member.email)
-        msg.bcc = list(set(bcc))
-        msg.content_subtype = "html"
-        if not getattr(settings, 'UNIT_TESTING', False):
-            balance.mail_count -= len(msg.bcc) + 1
-        balance.save()
-        Thread(target=lambda m: m.send(), args=(msg,)).start()
+        try:
+            crcy = currencies(request)['CURRENCY']
+            html_content = get_mail_content(subject, template_name=template_name,
+                                            extra_context={'buyer_name': buyer_name, 'order': order, 'message': message,
+                                                           'IS_BANK': getattr(settings, 'IS_BANK', False),
+                                                           'coupon_count': coupon_count, 'crcy': crcy})
+            sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
+            msg = XEmailMessage(subject, html_content, sender, [buyer_email])
+            bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
+            bcc.append(service.member.email)
+            msg.bcc = list(set(bcc))
+            msg.content_subtype = "html"
+            if not getattr(settings, 'UNIT_TESTING', False):
+                balance.mail_count -= len(msg.bcc) + 1
+            balance.save()
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            logger.error("%s - Failed to send order confirmation email." % service, exc_info=True)
 
 
 def send_dara_notification_email(dara_service, order):
