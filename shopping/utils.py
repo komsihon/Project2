@@ -4,8 +4,10 @@ from datetime import timedelta, datetime
 from threading import Thread
 
 import requests
+from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from currencies.context_processors import currencies
 from currencies.models import Currency
+from daraja.models import Dara, Follower, DARA_CASH
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse
@@ -13,27 +15,22 @@ from django.db import transaction
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import gettext as _, activate
-
-from ikwen.conf.settings import WALLETS_DB_ALIAS
-from ikwen.accesscontrol.models import SUDO, Member
-from ikwen.accesscontrol.backends import UMBRELLA
-from ikwen.core.models import Country, Service
-from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
-    add_database, add_event, send_sms, XEmailMessage
-from ikwen.billing.mtnmomo.views import MTN_MOMO
-
-from ikwen_kakocase.kako.models import Product
-from ikwen_kakocase.kako.utils import mark_duplicates
-from ikwen_kakocase.sales.models import PromoCode
-from ikwen_kakocase.sales.views import apply_promotion_discount
-from ikwen_kakocase.kakocase.models import OperatorProfile, SOLD_OUT_EVENT, NEW_ORDER_EVENT
-from ikwen_kakocase.kakocase.utils import set_customer_dara
-
-from currencies.conf import SESSION_KEY as CURRENCY_SESSION_KEY
 from echo.models import Balance
 from echo.utils import count_pages, notify_for_empty_messaging_credit, notify_for_low_messaging_credit, LOW_SMS_LIMIT, \
     LOW_MAIL_LIMIT
-from daraja.models import Dara, Follower, DARA_CASH
+from ikwen.accesscontrol.backends import UMBRELLA
+from ikwen.accesscontrol.models import SUDO, Member
+from ikwen.billing.mtnmomo.views import MTN_MOMO
+from ikwen.conf.settings import WALLETS_DB_ALIAS
+from ikwen.core.models import Country, Service
+from ikwen.core.utils import set_counters, get_service_instance, increment_history_field, get_mail_content, \
+    add_database, add_event, send_sms, XEmailMessage
+from ikwen_kakocase.kako.models import Product
+from ikwen_kakocase.kako.utils import mark_duplicates
+from ikwen_kakocase.kakocase.models import OperatorProfile, SOLD_OUT_EVENT, NEW_ORDER_EVENT
+from ikwen_kakocase.kakocase.utils import set_customer_dara
+from ikwen_kakocase.sales.models import PromoCode
+from ikwen_kakocase.sales.views import apply_promotion_discount
 
 logger = logging.getLogger('ikwen.crons')
 
@@ -494,6 +491,9 @@ def after_order_confirmation(order, update_stock=True):
             nvp_dict = package.get_nvp_api_dict()
             Thread(target=lambda url, data: requests.post(url, data=data),
                    args=(provider_profile_original.return_url, nvp_dict)).start()
+
+    packing_earnings = order.packing_cost * (100 - config.ikwen_share_rate) / 100
+    service.raise_balance(packing_earnings)
 
     set_counters(config)
     increment_history_field(config, 'orders_count_history')
