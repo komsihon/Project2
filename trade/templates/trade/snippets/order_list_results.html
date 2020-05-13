@@ -1,4 +1,5 @@
 {% load i18n staticfiles humanize auth_tokens media_from_provider %}
+{% include 'core/snippets/spinner.html' %}
 <ul class="object-list">
 {% for order in objects_page.object_list %}
     <li class="ik-li order {{ order.status|lower }}" id="{{ order.id }}" data-id="{{ order.id }}">
@@ -50,7 +51,7 @@
                 </div>
             </div>
         {% endwith %}
-        <date class="date text-muted">{{ order.created_on|date }}</date>
+        <date class="date text-muted">{{ order.created_on|date:"Y-m-d H:i" }}</date>
         <i class="glyphicon status{% if order.status == 'Confirmed' %} text-success glyphicon-ok{% elif order.status == 'Rejected' %} text-danger glyphicon-remove{% endif %}"></i>
     </li>
 {% endfor %}

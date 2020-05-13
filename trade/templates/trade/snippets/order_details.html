@@ -6,7 +6,7 @@
             <li class="ik-li">
                 {% with product=entry.product %}
                     {% url 'kako:change_product' product.id as product_url %}
-                    <a href="{{ product_url }}" target="_blank" class="image" style="background-image: url({{ product.image|from_provider:product.provider }})"></a>
+                    <a href="{{ product_url }}" target="_blank" class="image" style="background-image: url({{ product.image.thumb_name|from_provider:product.provider }})"></a>
                     <div class="info">
                         <span class="name">{{ product.name }}</span>
                         <div class="about">

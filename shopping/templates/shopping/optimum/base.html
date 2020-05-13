@@ -18,10 +18,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?V=20.04.08.11.00" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.4.29.20.49" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
-                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css" />
+                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css?v=20.4.29.20.37" />
                 {% endwith %}
                 <style>
                     .apply-theme-band {
@@ -36,7 +36,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </style>
             {% elif config.theme %}
                 {% with theme=config.theme %}
-                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css" />
+                    <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template.slug }}/{{ theme.slug }}.css?v=20.4.29.20" />
                 {% endwith %}
             {% else %}
                 <link href="https://fonts.googleapis.com/css?family=Cagliostro" rel="stylesheet">
@@ -333,7 +333,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              {% if smart_category.image.name != '' %}
                                  <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">
                                      <img src="{% get_media_prefix %}{{ smart_category.image.name }}" class="img-circle has-shade" style=""  alt="">
-                                     <span class="menu-label">{{ smart_category.title | truncatechars:14  }}</span>
+                                     <span class="menu-label">{{ smart_category.title | truncatechars:10  }}</span>
                                  </a>
                              </li>
                              {% endif %}
@@ -343,7 +343,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              <li class="swiper-slide level1">
                                  <a href="{% url 'shopping:smart_object_detail' smart_category.slug %}">
                                      <img src="{% get_media_prefix %}{{ smart_category.image.name }}" class="img-circle has-shade" style=""  alt="">
-                                     <span class="menu-label">{{ smart_category.title | truncatechars:14  }}</span>
+                                     <span class="menu-label">{{ smart_category.title | truncatechars:10  }}</span>
                                  </a>
                              </li>
                              {% endif %}
@@ -353,7 +353,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              <li class="swiper-slide">
                                  <a href="{% url 'shopping:product_list' category.slug %}">
                                      <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
-                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                     <span class="menu-label">{{ category.name | truncatechars:10 }}</span>
                                  </a>
                              </li>
                              {% endif %}
@@ -363,7 +363,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              <li class="swiper-slide">
                                  <a href="{% url 'shopping:product_list' category.slug %}">
                                      <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
-                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                     <span class="menu-label">{{ category.name | truncatechars:10 }}</span>
                                  </a>
                              </li>
                              {% endif %}
@@ -373,7 +373,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                              <li class="swiper-slide">
                                  <a href="{% url 'shopping:product_list' category.slug %}">
                                      <img src="{% get_media_prefix %}{{ category.image.name }}" class="img-circle has-shade" style=""  alt="">
-                                     <span class="menu-label">{{ category.name | truncatechars:14 }}</span>
+                                     <span class="menu-label">{{ category.name | truncatechars:10 }}</span>
                                  </a>
                              </li>
                              {% endif %}

@@ -1,4 +1,4 @@
-{% extends 'core/app_base_admin.html' %}
+{% extends 'core/object_list_base.html' %}
 {% load i18n humanize staticfiles auth_tokens %}
 
 {% block page_title %}
@@ -21,41 +21,8 @@
 {% block admin_content %}
     <div id="admin-content" class="has-edge-panel-right">
         <div class="container-fluid">
-            <div id="admin-tools" class="ceil bottom-shade-xs">
-                <form id="admin-tools-form">
-                    <div>
-                        <i class="glyphicon glyphicon-search"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-search back"></i>
-                        <input id="context-search" type="text" class="input-sm tool search"
-                               placeholder="{% trans "Search" %}" data-min-search-chars="2" />
-                    </div>
-                    <div class="filter-trigger">
-                        <i class="glyphicon glyphicon-filter"></i>
-                        <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
-                        <div class="tool filter">
-                            <label for="order-status" class="sr-only"></label>
-                            <select id="order-status" style="float: left; width: 120px" class="form-control input-sm status widget" name="status">
-                                <option value="{% if settings.IS_BANK %}PendingForApproval{% else %}Pending{% endif %}">{% trans "Pending" %}</option>
-                                {% if settings.IS_BANK %}
-                                    <option value="Confirmed">{% trans "Confirmed" %}</option>
-                                    <option value="Rejected">{% trans "Rejected" %}</option>
-                                {% endif %}
-                                {% if settings.IS_DELIVERY_COMPANY %}<option value="Delivered">{% trans "Delivered" %}</option>{% endif %}
-                                <option value="">{% trans "All" %}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <input type="hidden" id="filter-action" name="action" />
-                </form>
-                <button class="btn btn-sm btn-success cta pull-right action export" style="border-color: #18bc9c"
-                        title="{% trans "Export as Spreadsheet" %}">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                    <span class="hidden-xs">{% trans "Export" %}</span>
-                </button>
-                <div class="clearfix"></div>
-            </div>
-            <div id="results" style="clear: both">
-                {% include 'core/snippets/spinner.html' %}
+            {% include 'core/snippets/admin_tools.html' %}
+            <div id="results" class="results-stage" style="clear: both">
                 {% include 'trade/snippets/order_list_results.html' %}
             </div>
             <div class="edge-panel-right-container">
@@ -74,6 +41,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block after_content %}
+    {{ block.super }}
     <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-info">
@@ -127,6 +98,7 @@
     {{ block.super }}
     <script type="text/javascript">
         (function() {
+            $('div#admin-nav li').removeClass('active');
             {% if is_drivy %}
                 $('div#admin-nav .drivy').addClass('active');
             {% else %}
