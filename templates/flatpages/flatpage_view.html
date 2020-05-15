@@ -11,7 +11,11 @@
         <div class="container">
             <h2 class="tittle" style="margin-top: 1em">{% trans page.title %}</h2>
             <div class="container" style="margin-top: 2em; min-height: 450px; text-align: justify">
-                {% trans page.content|safe %}
+                {% if page.content %}
+                    {% blocktrans with page_content=page.content|safe %}
+                        {{ page_content }}
+                    {% endblocktrans %}
+                {% endif %}
             </div>
         </div>
     </div>
