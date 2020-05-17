@@ -11,7 +11,7 @@ from ikwen_kakocase.shopping.views import Home, FlatPageView
 
 from ikwen_kakocase.trade.provider.views import ProviderDashboard, CCMDashboard
 from ikwen_kakocase.trade.views import RetailerDashboard, LogicomDashboard
-from ikwen_kakocase.kakocase.views import AdminHome, MerchantList, Welcome
+from ikwen_kakocase.kakocase.views import AdminHome, MerchantList, Welcome, GuardPage
 
 admin.autodiscover()
 
@@ -57,6 +57,7 @@ urlpatterns = patterns(
 
     # url(r'^$', ProviderDashboard.as_view(), name='admin_home'),
     url(r'^welcome/$', Welcome.as_view(), name='welcome'),
+    url(r'^guardPage/$', GuardPage.as_view(), name='guard_page'),
     url(r'^page/(?P<url>[-\w]+)/$', FlatPageView.as_view(), name='flatpage'),
     url(r'^$', LandingPage.as_view(), name='home'),
     url(r'^offline.html$', Offline.as_view(), name='offline'),

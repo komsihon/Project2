@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -29,12 +30,15 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, Busi
 
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
-from ikwen.core.utils import get_service_instance
+from ikwen.core.utils import get_service_instance, add_database
 from ikwen.core.views import AdminHomeBase
+from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.shopping.models import Customer
+from ikwen_kakocase.sales.models import Promotion, PromoCode
 from ikwen.billing.utils import get_months_count_billing_cycle
+from ikwen.rewarding.models import Coupon, CouponWinner
 
 
 class AdminHome(AdminHomeBase):
@@ -302,7 +306,7 @@ class SuccessfulDeployment(TemplateView):
         context = super(SuccessfulDeployment, self).get_context_data(**kwargs)
         service_id = kwargs.pop('service_id')
         service = get_object_or_404(Service, pk=service_id)
-        context['invoice'] = Invoice.objects.filter(subscription=service)[0]
+        context['invoice'] = Invoice.objects.filter(subscription=service).first()
         context['new_service'] = service
         return context
 
@@ -405,8 +409,8 @@ class Go(VerifiedEmailTemplateView):
             return render(request, 'kakocase/tsunami/go.html', context)
 
 
-class Welcome(TemplateView):
-    template_name = 'kakocase/welcome.html'
+class GuardPage(TemplateView):
+    template_name = 'kakocase/guard_page.html'
 
     def get(self, request, *args, **kwargs):
         config = get_service_instance().config
@@ -415,7 +419,7 @@ class Welcome(TemplateView):
         return super(Welcome, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(Welcome, self).get_context_data(**kwargs)
+        context = super(GuardPage, self).get_context_data(**kwargs)
         service = get_service_instance()
         config = OperatorProfile.objects.using(UMBRELLA).get(service=service)
         business_category = config.business_category
@@ -423,6 +427,31 @@ class Welcome(TemplateView):
             context['business_category'] = business_category.slug
         else:
             context['business_category'] = 'other'
+        return context
+
+
+class Welcome(TemplateView):
+    template_name = 'kakocase/welcome/welcome_to_community.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Welcome, self).get_context_data()
+        service = get_service_instance()
+        db = service.database
+        add_database(db)
+        dc_coupon_list = Coupon.objects.using(db).filter(service=service, deleted=False)
+        # dc_coupon_list = Coupon.objects.filter(service=service, type=Coupon.DISCOUNT, deleted=False)
+        # dc_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.DISCOUNT, deleted=False)
+        # po_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.PURCHASE_ORDER, deleted=False)
+        # gift_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.GIFT, deleted=False)
+        now = datetime.now()
+        promotion_list = Promotion.objects.using(db).filter(is_active=True, end_on__lte=now)
+        promo_code_list = PromoCode.objects.using(db).filter(is_active=True, end_on__lte=now)
+
+        context['dc_coupon_list'] = dc_coupon_list
+        context['promotion_list'] = promotion_list
+        context['promo_code_list'] = promo_code_list
+        context['welcome_speech'] = service.config.welcome_message
+        context['main_product'] = Product.objects.first()
         return context
 
 
