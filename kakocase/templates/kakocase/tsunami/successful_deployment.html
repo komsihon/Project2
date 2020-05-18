@@ -3,13 +3,13 @@
 
 {% block meta %}
     {{ block.super }}
-    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <link rel="shortcut icon" type="image/png" href="{% static "kakocase/img/tsunami/favicon_Tsunami.ico" %}">
     <meta name="theme-color" content="#233682">
     <meta name="msapplication-navbutton-color" content="#233682">
     <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
-    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:image" content="{% static 'kakocase/img/tsunami/Logo-IKWEN-Tsunami_og.png' %}" />
     <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
     <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
     <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
@@ -23,12 +23,12 @@
     {{ block.super }}
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'ikwen/css/console.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_how_to.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/tsunami/tsunami_how_to.css' %}">
 {% endblock %}
 
 {% block header_brand %}
     <a class="navbar-brand hidden-xs" href="{{ service.url }}">
-        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}"/>
+        <img src="{% static "kakocase/img/tsunami/logo_ikwen_web_header.png" %}"/>
     </a>
     <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
 {% endblock %}
@@ -41,7 +41,7 @@
 				<div class="col-md-8 col-md-offset-2 mobile-adjust" style="padding-top: 20vh">
 					<div class="media">
 						<div class="pull-left">
-							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
+							<img src="{% static 'kakocase/img/tsunami/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
 						</div>
 						<div class="media-body ">
                         {% blocktrans with client_name=new_service.member.first_name service_url=new_service.url %}
@@ -63,7 +63,7 @@
 				<div class="col-md-10 col-md-offset-1 mobile-adjust" style="padding-top: 20vh">
 					<div class="media">
 						<div class="pull-left">
-							<img src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
+							<img src="{% static 'kakocase/img/tsunami/Logo-IKWEN-Tsunami.png' %}" class="media-object" style="max-width: 110px" alt="Sample Image"/>
 						</div>
 						<div class="media-body">
                         {% blocktrans with client_name=service.member.first_name service_url=service.url %}
@@ -95,7 +95,7 @@
 
 					</div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'tsunami/img/fully_automated.png' %}" />
+						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'kakocase/img/tsunami/fully_automated.png' %}" />
 					</div>
 				</div>
 				<div class="row row-custom" style="padding-top: 5vh">
@@ -110,7 +110,7 @@
 					{% endblocktrans %}
                     </div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features" alt="img_inbound_marketing" src="{% static 'tsunami/img/inbound_marketing.png' %}" />
+						<img class="img-features" alt="img_inbound_marketing" src="{% static 'kakocase/img/tsunami/inbound_marketing.png' %}" />
 					</div>
 				</div>
 				<div class="row row-custom" style="padding-top: 5vh">
@@ -126,7 +126,7 @@
 						<a href="{{ new_service.url }}/kako/products/" target="_blank" style="font-size: 15px; font-weight: bold; margin-top: 10px; text-decoration: none;" class="discover-link">{% trans "Publish your products" %}&nbsp;<i class="fa fa-arrow-circle-right animated slideInLeft"></i></a>
 					</div>
 					<div class="col-md-6 col-sm-6 first-on-mobile">
-						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'tsunami/img/glogal-market.png' %}" />
+						<img class="img-features" alt="img_client_list_exploitation" src="{% static 'kakocase/img/tsunami/glogal-market.png' %}" />
 					</div>
 				</div>
 			</div>
