@@ -62,7 +62,8 @@
                 <section class="content" style="width: 100%">
                     <ul id="content-items" style="padding-left: 0">
                         {% for item in smart_object.content %}
-                            <li class="ik-li" id="{{ item.id }}" data-id="{{ item.id }}">
+                            <li id="{{ item.id }}" data-id="{{ item.id }}"
+                                class="ik-li{% if smart_object.content_type == 'Products' and not item.visible %} bleached{% endif %}">
                                 <div class="subtle-shade select">
                                     <i class="glyphicon glyphicon-ok"></i>
                                 </div>
