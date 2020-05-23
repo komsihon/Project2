@@ -2,7 +2,7 @@
 {% include 'core/snippets/spinner.html' %}
 <ul class="object-list">
     {% for product in objects_page.object_list %}
-    <li class="ik-li img-lg product" id="{{ product.id }}" data-id="{{ product.id }}"
+    <li class="ik-li img-lg product{% if not product.visible %} bleached{% endif %}" id="{{ product.id }}" data-id="{{ product.id }}"
         {% if product.stock %}data-stock="{{ product.stock }}{% endif %}"
         {% if product.retail_price %}data-retail_price="{{ product.retail_price }}{% endif %}">
         {% if request.GET.smart_link %}
