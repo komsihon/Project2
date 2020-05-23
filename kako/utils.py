@@ -44,7 +44,7 @@ def create_category(name):
 
 def mark_duplicates(product):
     queryset = Product.objects.filter(category=product.category, slug=product.slug,
-                                      brand=product.brand).order_by('-stock', '-updated_on')
+                                      brand=product.brand, visible=True).order_by('-stock', '-updated_on')
     if queryset.count() >= 1:
         queryset.update(is_duplicate=True)
         original = queryset[0]
