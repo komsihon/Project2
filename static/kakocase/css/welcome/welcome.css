@@ -1,0 +1,254 @@
+.btn-deep-blue {color: #fff;background: #007bff;border-color: #007bff;font-weight: 700;}
+.btn-deep-blue:hover {background: #006ee4;border-color: #007bff;}
+.btn-deep-blue:hover:active {background: #006ee4;border-color: #007bff;}
+.pulse:hover {-webkit-animation-name: pulse;animation-name: pulse;}
+.animated {-webkit-animation-duration: 0.5s;animation-duration: 0.5s;-webkit-animation-fill-mode: both;animation-fill-mode: both;}
+.slideInLeft:hover { -webkit-animation-name: slideInLeft; animation-name: slideInLeft; }
+.my-cart-b {color: #1f1137; border: 2px solid #c10023}
+.my-cart-b:not(.sold-out):hover, .my-cart-b:not(.sold-out):focus, .my-cart-b:not(.sold-out):active {background: #1F1137;border-color: #2b1906;}
+.btn {height: 45px}
+
+body {background: none!important;}
+#content {min-height: auto; margin-bottom: 100px;}
+
+
+#banner-header p {margin-top: 35px; font-size: 20px;}
+#banner-header h1 {font-size: 30px; line-height: 45px}
+#banner-img {height: 300px;}
+
+.main-img {height: inherit}
+/*{#.section .img-responsive {margin: auto; border-radius: 92px; height: 180px; overflow: hidden; width: 180px;}#}*/
+.section {min-height: 300px}
+/*.section {margin-top: 50px; min-height: 350px}*/
+/*.section img:not(.main-img) {width: 150px; height: 300px; border-radius: 200px; overflow: hidden; }*/
+.section img:not(.main-img) {width: 240px; height: auto; overflow: hidden; }
+.description h2, .banner-bottom h2 {font-weight: 900}
+.description {line-height: 30px;}
+.img-illustration {margin-top: 30px;}
+
+#our-products {margin-bottom: 60px}
+#our-products .description {float: none!important;}
+#our-products .description h2 {margin-bottom: 30px;}
+#our-products .description p {margin-bottom: 35px;}
+.section .coupon img {width: 260px; height: 260px; border-radius: 200px; overflow: hidden; }
+
+.anchor {font-size: 4vw; margin-top: 70px}
+.action {margin-top: 40px;}
+.action button {font-weight: 600; color: #fff;}
+#android-only {font-size: .7em;}
+#android-only .fa-android {font-size: 1.5em}
+
+.banner-bottom {margin: 20px auto auto}
+.banner-bottom .start-now {width: 150px;}
+.banner-bottom h2 {margin-bottom: 50px;}
+
+.coupon {float: left; margin: 5px 38px 15px 0; width: 271px}
+.coupon img {background: #f8f6f6; height: 240px; width: 180px}
+.coupon-name {margin: 5px 0}
+.coupon .action {border: none; color: #e74c3c; float: right; margin: -10px 5px 0 0}
+.coupon .attention {cursor: pointer; display: none}
+.coupon.PendingForApproval .attention.text-warning {display: inline-block}
+.coupon.Rejected .attention.text-danger {display: inline-block}
+.coupon-group {margin-bottom: 20px; padding: 0 15px}
+.coupon-group .title {margin: 20px 0}
+ul.coupon-list {padding: 0}
+ul.coupon-list li {display: inline-block}
+
+#next-action .continue {font-size: 18px; color: #666666; margin-top: 10px}
+#next-action .continue:hover {color: #9b1620;}
+#next-action .register {vertical-align: middle; line-height: 30px}
+#next-action span:first-of-type {margin-bottom: 40px; margin-top: 10px; font-size: .9em; display: block}
+
+.section:nth-of-type(odd) > .description {float: right;}
+.section:nth-of-type(odd) > .img-illustration {float: left;}
+
+.section:nth-of-type(even) > .description {float: left;}
+.section:nth-of-type(even) > .img-illustration {float: right;}
+
+
+.download-app {margin-top: 50px}
+
+.section-banniere { background: url(../img/ikwen-daraja_banniere.png) center center no-repeat;
+			-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
+			background-size: cover; color: inherit; height: 251px; margin-top: 5vh; }
+.section-banniere-bottom { background: url(../img/architecture-entreprise.jpg) center center;
+			-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
+			background-size: cover; color: white; height: 300px; margin-top: 6.5vh !important; }
+.section-banniere-inner {
+	width: inherit;
+	height: inherit;
+	background: rgb(2,0,36);
+	background: linear-gradient(90deg, rgba(2,0,36,0.7792637074360994) 0%,
+	rgba(9, 9, 121, 0.85) 35%, rgba(0,212,255,0.31707883348651966) 100%);
+}
+
+.footer {
+	background-color: #fff;
+	flex-shrink: 0;  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+	padding: 3px 0;
+}
+
+@media screen and (max-width: 767px) {
+	#banner-header {text-align: center}
+	#banner-img {text-align: center; padding: initial}
+	#banner-header h1 {font-size: 29px; line-height: 40px}
+	#banner-header p {font-size: 18px; text-align: justify; line-height: 30px; margin-top: 20px}
+	#about-service, .activate-notification, .download-app {margin-top: 80px}
+
+	.main-img {width: auto; text-align: center;}
+	.anchor {font-size: 12vw; margin-top: 40px}
+	.section {margin-bottom: 30px}
+	.section li {width: inherit;}
+	.section img:not(.main-img) {width: 150px; margin-top: 20px; margin-left: auto; margin-right: auto;}
+	.description h2 {text-align: center}
+	#our-products {margin-top: 50px;}
+	.section .coupon img {width: 100%;}
+	#our-products .description h2 {margin-bottom: 10px;}
+	.action button {width: 100%}
+	#android-only-container {text-align: center}
+	.next-action {margin: auto}
+
+
+	.section-banniere > div {padding: 3vh 2vh 9vh;}
+
+	.section:nth-of-type(odd) > .description {float: none;}
+	.section:nth-of-type(odd) > .img-illustration {float: none;}
+
+	.section:nth-of-type(even) > .description {float: none;}
+	.section:nth-of-type(even) > .img-illustration {float: none;}
+
+	.banner-bottom {margin-top: 100px}
+	.banner-bottom h2 {margin-bottom: 15px}
+}
+
+@media (min-width: 768px) {
+	#banner-header {margin-top: 69px}
+	.coupon .action {visibility: hidden}
+	.coupon:hover .action {visibility: visible}
+	.reward-pack .coupon-group {margin-bottom: 5px}
+
+	.section-banniere > div {padding: 3vh 0 9vh;}
+}
+
+
+@-webkit-keyframes pulse {
+	from {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+	-webkit-transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
+	}
+
+	to {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+
+@-moz-keyframes pulse {
+	from {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+	-webkit-transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
+	}
+
+	to {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+
+@-o-keyframes pulse {
+	from {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+	-webkit-transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
+	}
+
+	to {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+
+@-ms-keyframes pulse {
+	from {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+	-webkit-transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
+	}
+
+	to {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes pulse {
+	from {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+
+	50% {
+	-webkit-transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
+	}
+
+	to {
+	-webkit-transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
+	}
+}
+
+.pulse:hover {
+	-webkit-animation-name: pulse;
+	animation-name: pulse;
+}
+
+
+@-webkit-keyframes slideInLeft {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); visibility: visible; }
+
+  to { -webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0); }
+}
+
+@-moz-keyframes slideInLeft {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); visibility: visible; }
+
+  to { -webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0); }
+}
+
+@-o-keyframes slideInLeft {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); visibility: visible; }
+
+  to { -webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0); }
+}
+
+@-ms-keyframes slideInLeft {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); visibility: visible; }
+
+  to { -webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0); }
+}
+
+
+@keyframes slideInLeft {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); visibility: visible; }
+
+  to { -webkit-transform: translate3d(50%, 0, 0); transform: translate3d(50%, 0, 0); }
+}

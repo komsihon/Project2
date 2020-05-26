@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -416,7 +416,7 @@ class GuardPage(TemplateView):
         config = get_service_instance().config
         if config.is_ecommerce_active:
             return HttpResponseRedirect(reverse('home'))
-        return super(Welcome, self).get(request, *args, **kwargs)
+        return super(GuardPage, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(GuardPage, self).get_context_data(**kwargs)
@@ -430,29 +430,35 @@ class GuardPage(TemplateView):
         return context
 
 
-class Welcome(TemplateView):
-    template_name = 'kakocase/welcome/welcome_to_community.html'
+class FirstTime(TemplateView):
+    template_name = 'kakocase/welcome/first_time.html'
+
+    # def get(self, request, *args, **kwargs):
+    #     service = get_service_instance()
+    #     cookie_name = "%s_first_time" % service.project_name_slug
+    #     response = super(FirstTime, self).get(request, *args, **kwargs)
+    #     expires = datetime.now() + timedelta(days=3650)
+    #     response.set_cookie(cookie_name, 'yes', expires=expires)
+    #     return response
 
     def get_context_data(self, **kwargs):
-        context = super(Welcome, self).get_context_data()
+        context = super(FirstTime, self).get_context_data()
         service = get_service_instance()
-        db = service.database
-        add_database(db)
-        dc_coupon_list = Coupon.objects.using(db).filter(service=service, deleted=False)
-        # dc_coupon_list = Coupon.objects.filter(service=service, type=Coupon.DISCOUNT, deleted=False)
-        # dc_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.DISCOUNT, deleted=False)
-        # po_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.PURCHASE_ORDER, deleted=False)
-        # gift_coupon_list = Coupon.objects.using(UMBRELLA).filter(service=service, type=Coupon.GIFT, deleted=False)
         now = datetime.now()
-        promotion_list = Promotion.objects.using(db).filter(is_active=True, end_on__lte=now)
-        promo_code_list = PromoCode.objects.using(db).filter(is_active=True, end_on__lte=now)
+        promotion_list = Promotion.objects.filter(is_active=True)
+        promo_code_list = PromoCode.objects.filter(is_active=True)
 
-        context['dc_coupon_list'] = dc_coupon_list
-        context['promotion_list'] = promotion_list
-        context['promo_code_list'] = promo_code_list
-        context['welcome_speech'] = service.config.welcome_message
-        context['main_product'] = Product.objects.first()
+        context['coupon_list'] = Coupon.objects.using(UMBRELLA).filter(service=service, deleted=False)
+        context['promotion'] = promotion_list.order_by('end_on').first()
+        context['promo_code'] = promo_code_list.order_by('end_on').first()
+        context['welcome_message'] = service.config.welcome_message
+        context['product_list'] = Product.objects.filter(visible=True, photos__isnull=False)\
+                                      .order_by('-total_units_sold', 'retail_price')[:6]
         return context
+
+
+class Welcome(TemplateView):
+    template_name = 'kakocase/welcome/welcome.html'
 
 
 class CustomerJourney(TemplateView):

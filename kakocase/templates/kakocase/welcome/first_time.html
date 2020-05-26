@@ -1,0 +1,278 @@
+{% extends 'kakocase/welcome/base.html' %}
+{% load i18n static humanize webdesign currency media_from_provider %}
+
+{% block meta %}
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ service.url }}" />
+{#    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />#}
+    <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
+{#    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>#}
+    <meta property="og:title" content="{{ config.short_description }}"/>
+{#    <meta property="og:description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}">#}
+    <meta property="og:description" content="{{ config.description }}">
+{#    <meta property="description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}" />#}
+    <meta property="description" content="{{ config.description }}" />
+{% endblock %}
+
+{% block page_title %}
+    <title>{{ service.project_name }} - Welcome</title>
+{% endblock %}
+
+{% block head_style %}
+    <link rel="shortcut icon" type="image/png" href="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}" />
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-05-26.17.04"/>
+
+    <!--Conditional custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+{% endblock %}
+{% block header_brand %}
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div  class="container">
+            <div class="section row">
+                <div id="banner-img" class="col-md-4 col-sm-2 img-illustration">
+                    <img class="main-img" src="{% static 'kakocase/img/welcome/about-service.jpg' %}">
+                </div>
+                <div id="banner-header" class="col-md-8 col-sm-7 description">
+                     <h1>
+                        {% blocktrans with project_name=service.project_name %}
+                            Thank you for visiting {{ project_name }} !
+                        {% endblocktrans %}
+                    </h1>
+                    <p class="text-left">
+                        {% blocktrans with project_name=service.project_name %}
+                            Please take a few seconds to discover and understand our online offers.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            {% if config.welcome_message %}
+                <div id="about-service" class="section row">
+                    <div class="col-md-4 col-sm-5 img-illustration">
+                        <img class="img-responsive" src="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}">
+                    </div>
+                    <div class="col-md-8 col-sm-7 description">
+                        <h2>{% trans 'Welcome' %}</h2>
+                        <p>
+                            {{ config.welcome_message|safe }}
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            {% endif %}
+            <div id="our-products" class="section">
+                <div class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 description text-center">
+                    <h2>{% trans 'Our products' %}</h2>
+                    <p>
+                        {% blocktrans %}
+                            Order and pay online in total security, choose your delivery option and we take care of the rest.
+                        {% endblocktrans %}
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+                <div>
+                    <div class="coupon-group swiper-container">
+                        <ul class="coupon-list swiper-wrapper">
+                            {% for product in product_list %}
+                            <li class="swiper-slide coupon" id="{{ product.id }}" data-id="{{ product.id }}">
+                                <img src="{% get_media_prefix %}{{ product.image.small_name }}" />
+                                <p class="coupon-name text-center">
+                                    {{ product.name }}<br><br><sup>{{ CURRENCY.symbol }}</sup>
+                                    <strong style="font-size: 1.5em"> {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
+                                </p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="swiper-button-next has-shade">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                        <div class="swiper-button-prev has-shade">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            {% if coupon_list %}
+            <div class="section row">
+                <div class="col-md-6 col-sm-7 img-illustration">
+                    <div class="coupon-group swiper-container">
+                        <ul class="coupon-list swiper-wrapper">
+                            {% for coupon in coupon_list %}
+                            <li class="swiper-slide coupon" id="{{ coupon.id }}" data-id="{{ coupon.id }}">
+                                <img src="{{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }}" />
+                                <p class="coupon-name text-center">{{ coupon.name }}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="swiper-button-next has-shade">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                        <div class="swiper-button-prev has-shade">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-5 description">
+                    <h2>{% trans 'Coupons' %}</h2>
+                    <p>
+                        {% blocktrans %}
+                        {% endblocktrans %}
+                        {% lorem 40 w %}
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            {% if promotion %}
+            <div class="section row">
+                <div class="col-md-4 col-sm-7 img-illustration">
+                    {% if promotion.item %}
+                        <img class="img-responsive" src="{{ promotion.item.image|from_provider:promotion.item.provider }}" />
+                    {% endif %}
+                    <p class="coupon-name">
+                        <h4 class="text-center visible-xs">{{ promotion.title }}</h4>
+                        <h4 class="hidden-xs">{{ promotion.title }}</h4>
+                        <strong>{{ promotion.code }}</strong>
+                        <span>{% trans 'Available until:' %}&nbsp;&nbsp;{{ promotion.end_on }}</span>
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-8 col-sm-5 description">
+                    <h2>{% trans 'Promotions' %}</h2>
+                    <p>
+                        {% blocktrans %}
+
+                        {% endblocktrans %}
+                        {% lorem 40 w %}
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            {% if promocode %}
+            <div class="section row">
+                <div class="col-md-4 col-sm-7 img-illustration">
+                    <a href="{% url 'rewarding:change_coupon' coupon.id %}">
+                        <img class="img-responsive" src="{{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }}" />
+                    </a>
+                    <h6>{{ promocode.code }}</h6>
+                    <p class="coupon-name">
+                        <a href="{% url 'rewarding:change_coupon' coupon.id %}">
+                            {{ promocode.rate }}
+                        </a>
+                        <span>{{ promocode }}</span>
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-8 col-sm-5 description">
+                    <h2>{% trans 'Promo codes' %}</h2>
+                    <p>
+                        {% blocktrans %}
+
+                        {% endblocktrans %}
+                        {% lorem 100 w %}
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            <div class="push-subscribe activate-notification section row">
+                <div class="col-md-4 col-sm-7 img-illustration">
+                    <img alt="phone notification" class="img-responsive" src="{% static 'kakocase/img/phone-notification.png' %}">
+                </div>
+                <div class="col-md-8 col-sm-5 description">
+                    <h2>{% trans 'Activate notifications' %}</h2>
+                    <p>{% lorem 20 w %}</p>
+                    <div class="action">
+                        <button id="activate" class="btn btn-sm btn-deep-blue">{% trans "Activate" %}</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="install-promotion download-app section row">
+                <div class="col-md-3 col-sm-7 img-illustration">
+                    <img class="img-responsive" src="{% static 'kakocase/img/download-app2.jpg' %}">
+                </div>
+                <div class="col-md-6 col-md-offset-2 col-sm-5 description">
+                    <h2>{% trans 'Download app' %}</h2>
+                    <p>
+                        {% blocktrans %}
+                            Install app on your Android device for faster access.
+                        {% endblocktrans %}
+                    </p>
+                    <div class="action">
+                        <button id="download" class="btn btn-sm btn-deep-blue">{% trans "Download" %}</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="banner-bottom">
+                <div class="text-center" style="margin: auto">
+                    <img class="start-now" src="{% static 'kakocase/img/start-now.png' %}">
+                    <h2>{% trans 'You can start now !' %}</h2>
+                </div>
+                <div id="next-action" class="col-md-8 col-md-offset-2 col-sm-10">
+                    <span class="col-sm-4">
+                        <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="register btn btn-sm btn-block btn-deep-blue">
+                            <strong>{% trans "Register now" %}</strong>
+                        </a>
+                        <span class="text-muted text-center">{% trans 'And enjoy many advantages' %}</span>
+                    </span>
+                    <span class="col-sm-offset-4 col-sm-4">
+                        <a href="{{ service.url }}" class="btn btn-sm btn-block continue">
+                            {% trans "Continue on" %} {{ service.project_name }} <i class="animated infinite slideInLeft">&rarr;</i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (() => {
+            var couponSwiper = new Swiper('.swiper-container', {
+                slidesPerView: 'auto',
+                spaceBetween: 15,
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                breakpoints: {
+                    767: {
+                        spaceBetween: 0
+                    }
+                }
+            });
+            let widthCircledImage = $('.coupon img').width();
+            if($(window).width() < 768){
+                $('.coupon img').height(widthCircledImage);
+            }
+            $(window).on('resize', () => {
+                if($(window).width() < 768){
+                    $('.coupon img').height(widthCircledImage);
+                }
+            });
+        })()
+    </script>
+{% endblock %}

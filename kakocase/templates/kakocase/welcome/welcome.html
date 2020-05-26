@@ -1,0 +1,99 @@
+{% extends 'kakocase/welcome/base.html' %}
+{% load i18n static humanize webdesign media_from_provider %}
+
+{% block meta %}
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ service.url }}" />
+{#    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />#}
+    <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
+{#    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>#}
+    <meta property="og:title" content="{{ config.small_description }}"/>
+{#    <meta property="og:description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}">#}
+    <meta property="og:description" content="{{ config.description }}">
+{#    <meta property="description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}" />#}
+    <meta property="description" content="{{ config.description }}" />
+{% endblock %}
+
+{% block page_title %}
+    <title>{{ service.project_name }} - Welcome</title>
+{% endblock %}
+
+{% block head_style %}
+    <link rel="shortcut icon" type="image/png" href="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}" />
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-05-23.19.23"/>
+
+    <!--Conditional custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div  class="container" style="padding-top: 0;">
+            <div class="row text-center" style="min-height: 270px">
+                <div>
+                    <img class="img-responsive" src="{% static 'kakocase/img/welcome/welcome-image.jpg' %}" style="height: 150px; display: inline">
+                </div>
+                 <h1 style="font-size: 28px;">
+                    {% blocktrans with first_name=request.user.first_name project_name=service.project_name %}
+                        Congratulations {{ first_name }}, welcome to {{ project_name }} !
+                    {% endblocktrans %}
+                </h1>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="push-subscribe activate-notification section row">
+                <div class="col-sm-8 description">
+                    <h2>{% trans 'Activate notifications' %}</h2>
+                    <p>{% lorem 20 w %}</p>
+                    <div class="action">
+                        <button id="activate" class="btn btn-sm btn-deep-blue">{% trans "Activate" %}</button>
+                    </div>
+                </div>
+                <div class="col-sm-4 img-illustration">
+                    <img class="img-responsive" src="{% static 'kakocase/img/phone-notification.png' %}">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="install-promotion download-app section row">
+                <div class="col-sm-4 img-illustration">
+                    <img class="img-responsive" src="{% static 'kakocase/img/download-app2.jpg' %}">
+                </div>
+                <div class="col-sm-8 description">
+                    <h2>{% trans 'Download app' %}</h2>
+                    <p>
+                        {% blocktrans %}
+                            Install app on your Android device for faster access.
+                        {% endblocktrans %}
+                    </p>
+                    <div class="action">
+                        <button id="download" class="btn btn-sm btn-deep-blue">{% trans "Download" %}</button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    </div>
+    <div>
+        <div class="section-banniere-bottom" style="background-image: url({% static 'daraja/img/banner-2.png' %});margin-top: 0!important;">
+            <div class="section-banniere-inner">
+                <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
+                    <h1>{% blocktrans with project_name=service.project_name %}Order on {{ project_name }} now{% endblocktrans %}</h1>
+                    <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="btn btn-sm btn-outline-white animated pulse"  style="margin-top: 40px; height: 40px">
+                        {% trans "Go !" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
