@@ -7,14 +7,13 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ service.url }}" />
-{#    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />#}
     <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
-{#    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>#}
     <meta property="og:title" content="{{ config.short_description }}"/>
-{#    <meta property="og:description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}">#}
     <meta property="og:description" content="{{ config.description }}">
-{#    <meta property="description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}" />#}
     <meta property="description" content="{{ config.description }}" />
+    {% if config.is_pwa_ready %}
+        <link rel="manifest" href="/manifest.json' %}">
+    {% endif %}
 {% endblock %}
 
 {% block page_title %}
@@ -195,7 +194,7 @@
                 <div class="clearfix"></div>
             </div>
             {% endif %}
-            <div class="push-subscribe activate-notification section row">
+            <div class="push-subscribe activate-notification section row" style="display: none">
                 <div class="col-md-4 col-sm-7 img-illustration">
                     <img alt="phone notification" class="img-responsive" src="{% static 'kakocase/img/phone-notification.png' %}">
                 </div>
@@ -203,12 +202,15 @@
                     <h2>{% trans 'Activate notifications' %}</h2>
                     <p>{% lorem 20 w %}</p>
                     <div class="action">
-                        <button id="activate" class="btn btn-sm btn-deep-blue">{% trans "Activate" %}</button>
+                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn">
+                            {% include 'core/snippets/button_spinner.html' %}
+                            <span>{% trans "Activate" %}</span>
+                        </button>
                     </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="install-promotion download-app section row">
+            <div class="install-promotion download-app section row" style="display: none">
                 <div class="col-md-3 col-sm-7 img-illustration">
                     <img class="img-responsive" src="{% static 'kakocase/img/download-app2.jpg' %}">
                 </div>
@@ -220,7 +222,10 @@
                         {% endblocktrans %}
                     </p>
                     <div class="action">
-                        <button id="download" class="btn btn-sm btn-deep-blue">{% trans "Download" %}</button>
+                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa">
+                            {% include 'core/snippets/button_spinner.html' %}
+                            <span>{% trans "Download" %}</span>
+                        </button>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -250,6 +255,9 @@
 {% endblock %}
 
 {% block js %}
+    {% if config.is_pwa_ready %}
+        <script src="{% static 'ikwen/js/pwa-main.js' %}"></script>
+    {% endif %}
     {{ block.super }}
     <script type="text/javascript">
         (() => {
