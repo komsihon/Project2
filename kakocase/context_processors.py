@@ -58,7 +58,10 @@ def categories(request):
         if not getattr(settings, 'DEBUG', False):
             cache.set('quick_access_categories', quick_access_categories)
     member = request.user
-    template_cache_duration = 0 if member.is_authenticated() and member.is_staff else 300
+    if request.META['HTTP_HOST'] == 'go.ikwen.com':
+        template_cache_duration = 0
+    else:
+        template_cache_duration = 0 if member.is_authenticated() and member.is_staff else 300
     return {
         'smart_categories_level2': smart_categories_level2,
         'smart_categories_level1': smart_categories_level1,

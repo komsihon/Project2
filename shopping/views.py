@@ -115,6 +115,11 @@ class Home(TemplateSelector, TemplateView):
             return getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
 
     def get(self, request, *args, **kwargs):
+        # service = get_service_instance()
+        # cookie_name = "%s_first_time" % service.project_name_slug
+        # if not request.COOKIES.get(cookie_name):
+        #     return HttpResponseRedirect(reverse('first_time'))
+
         context = super(Home, self).get_context_data(**kwargs)
 
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)

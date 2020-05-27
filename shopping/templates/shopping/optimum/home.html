@@ -9,6 +9,9 @@
     <meta property="og:description" content="{{ config.description }}" />
     <meta property="og:url" content="{{ service.url }}" />
     <meta property="og:site_name" content="{{ service.domain|upper }}" />
+    {% if config.is_pwa_ready %}
+        <link rel="manifest" href="/manifest.json' %}">
+    {% endif %}
 {% endblock %}
 
 {% block page_title %}
@@ -46,6 +49,9 @@
     {% include 'shopping/snippets/modal_preview.html' %}
 {% endblock %}
 {% block js %}
+    {% if config.is_pwa_ready %}
+        <script src="{% static 'ikwen/js/pwa-main.js' %}"></script>
+    {% endif %}
     {{ block.super }}
     <script>
         (function() {

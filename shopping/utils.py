@@ -215,7 +215,8 @@ def send_dara_notification_email(dara_service, order):
         dashboard_url = 'http://daraja.ikwen.com' + reverse('daraja:dashboard')
         extra_context = {'currency_symbol': config.currency_symbol, 'amount': order.items_cost,
                          'dara_earnings': order.referrer_earnings,
-                         'transaction_time': order.updated_on.strftime('%Y-%m-%d %H:%M:%S'),
+                         'tx_date': order.updated_on.strftime('%Y-%m-%d'),
+                         'tx_time': order.updated_on.strftime('%H:%M:%S'),
                          'account_balance': dara_service.balance,
                          'dashboard_url': dashboard_url}
         try:

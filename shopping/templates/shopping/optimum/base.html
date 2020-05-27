@@ -516,6 +516,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_added_to_cart.html' %}
         {% include 'shopping/snippets/modal_successful_registration.html' %}
         {% include 'shopping/snippets/modal_delivery_location_warning.html' %}
+        <div id="pwa-overlay">
+            <div class="text-has-shade text-center visible-xs visible-sm">
+                <h3 style="font-weight: 600">{% trans "Click the button below" %}</h3>
+                <div>
+                    <i class="fa fa-arrow-down" style="font-size: 27px"></i>
+                </div>
+            </div>
+        </div>
         <div class="edge-swipe-overlay"></div>
         {# modal BEGIN #}
         <div class="modal fade" id="modal-generic-notice" tabindex="-1" role="dialog">
@@ -728,27 +736,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     }
                     $('div#product-modal-preview').modal('hide')
                 });
-
-                {% comment %}// Listening scroll direction : BEGIN
-                $('body').bind('mousewheel', function (e) {
-                    if(e.originalEvent.wheelDelta < 0){
-                        $('.nav-xs.animated').addClass('fadeOutUp')
-                    }
-                    else {
-                        $('.nav-xs.animated').removeClass('fadeOutUp').addClass('fadeInDown')
-                    }
-                });
-                //Firefox specifications
-                $('body').bind('DOMMouseScroll', function (e) {
-                    if(e.originalEvent.detail > 0){
-                        $('.nav-xs.animated').addClass('fadeOutUp')
-                    }
-                    else {
-                        $('.nav-xs.animated').removeClass('fadeOutUp').addClass('fadeInDown')
-                    }
-
-                });
-                // Listening scroll direction : END{% endcomment %}
 
                 //Check simpleCart_items : BEGIN
                 simpleCart.load();

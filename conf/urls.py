@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import permission_required, user_passes_test
 
 from ikwen.core.views import Offline
+from ikwen.core.analytics import analytics
 from ikwen.accesscontrol.views import SignIn
 from ikwen.accesscontrol.utils import is_staff
 from ikwen_kakocase.shopping.views import Home, FlatPageView
@@ -54,6 +55,7 @@ urlpatterns = patterns(
     url(r'^ikwen/cashout/', include('ikwen.cashout.urls', namespace='cashout')),
     url(r'^ikwen/cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^ikwen/', include('ikwen.core.urls', namespace='ikwen')),
+    url(r'^analytics', analytics),
 
     url(r'^welcome/$', Welcome.as_view(), name='welcome'),
     url(r'^firstTime/$', FirstTime.as_view(), name='first_time'),
