@@ -9,9 +9,6 @@
     <meta property="og:description" content="{{ config.description }}" />
     <meta property="og:url" content="{{ service.url }}" />
     <meta property="og:site_name" content="{{ service.domain|upper }}" />
-    {% if config.is_pwa_ready %}
-        <link rel="manifest" href="/manifest.json' %}">
-    {% endif %}
 {% endblock %}
 
 {% block page_title %}
@@ -35,10 +32,14 @@
             }
         }
         .core-slider_list .button1 {display: block; margin: auto; text-align: center; width: 225px}
+        .install-promotion.banner {margin-top: 180px}
     </style>
 {% endblock %}
 
 {% block content %}
+    {% if not request.COOKIES.install_revoked %}
+        {% include 'core/snippets/pwa_promotion/banner.html' %}
+    {% endif %}
     {% if user.is_staff %}
         {% include 'shopping/optimum/snippets/home_content.html' %}
     {% else %}
@@ -49,9 +50,6 @@
     {% include 'shopping/snippets/modal_preview.html' %}
 {% endblock %}
 {% block js %}
-    {% if config.is_pwa_ready %}
-        <script src="{% static 'ikwen/js/pwa-main.js' %}"></script>
-    {% endif %}
     {{ block.super }}
     <script>
         (function() {

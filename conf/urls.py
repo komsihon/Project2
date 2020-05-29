@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import permission_required, user_passes_test
 from ikwen.core.views import Offline
 from ikwen.core.analytics import analytics
 from ikwen.accesscontrol.views import SignIn
-from ikwen.accesscontrol.utils import is_staff
+from ikwen.accesscontrol.utils import is_staff, update_push_subscription
 from ikwen_kakocase.shopping.views import Home, FlatPageView
 
 from ikwen_kakocase.trade.provider.views import ProviderDashboard, CCMDashboard
@@ -56,6 +56,7 @@ urlpatterns = patterns(
     url(r'^ikwen/cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^ikwen/', include('ikwen.core.urls', namespace='ikwen')),
     url(r'^analytics', analytics),
+    url(r'^update_push_subscription$', update_push_subscription),
 
     url(r'^welcome/$', Welcome.as_view(), name='welcome'),
     url(r'^firstTime/$', FirstTime.as_view(), name='first_time'),

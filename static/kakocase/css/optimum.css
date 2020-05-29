@@ -239,7 +239,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .header-xs .action .badge {position: absolute;z-index: 3;font-size: 10px;}
 .nav-xs {background: #f8f8f8;width: 100%;position: fixed;visibility: hidden;z-index: 0;top: 45px;}
-.nav-xs.appear {visibility: visible;z-index: 11;/* background: #000; */ height: 130px; padding: 10px 0;}
+.nav-xs.appear {visibility: visible;z-index: 11;/* background: #000; */height: 130px;padding: 10px 0;}
 
 .top-edge-panel span.label.label-danger.simpleCart_quantity { margin: 11px -130px;position: absolute;}
 /*.nav-xs.diappear {visibility: hidden;}*/
@@ -767,7 +767,8 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 
 @media (max-width: 767px){
     .app-name {font-size: 15px;font-weight: 700;margin-top: 8px;}
-     .banner-w3 {margin-top: 45px;}
+     .banner-w3 {margin-top: 180px;}
+     .install-promotion + .banner-w3 {margin-top: 45px;}
     .core-slider_item .cta a.button1 {width: 125px; padding: 5px 0}
      .slogan {clear: both; font-size: 14px; font-style: italic}
     .product-agile .container {padding: 0}

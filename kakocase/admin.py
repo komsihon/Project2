@@ -24,7 +24,7 @@ if getattr(settings, 'IS_IKWEN', False):
         (_('Business'), {'fields': ('business_category', 'ikwen_share_fixed', 'ikwen_share_rate',
                                     'payment_delay', 'cash_out_min', 'is_certified')}),
         (_('Platform'), {'fields': ('max_products', 'can_manage_delivery_options', 'is_pro_version',
-                                    'is_standalone', 'can_manage_currencies')}),
+                                    'is_standalone', 'can_manage_currencies', 'is_pwa_ready')}),
         (_('SMS'), {'fields': ('sms_api_script_url', )}),
         (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature',)})
     ]
