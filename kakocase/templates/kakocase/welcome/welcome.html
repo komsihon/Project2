@@ -11,6 +11,9 @@
     <meta property="og:title" content="{{ config.small_description }}"/>
     <meta property="og:description" content="{{ config.description }}">
     <meta property="description" content="{{ config.description }}" />
+    {% if config.is_pwa_ready %}
+        <link rel="manifest" href="/manifest.json' %}">
+    {% endif %}
 {% endblock %}
 
 {% block page_title %}
@@ -29,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
     <style>
+        #content {margin-bottom: 0}
         .banner {min-height: 270px}
         .banner-image img {height: 150px;  display: inline}
         .banner-title {font-size: 28px; line-height: 32px}
@@ -39,10 +43,9 @@
 
         @media screen and (max-width: 767px) {
             .navbar-default .navbar-brand {max-width: 148px; }
-            .menu-button {visibility: hidden}
-            .navbar-header nav {display: none}
+            .navbar-header nav #nav-xs {display: none}
 
-            .banner-title {font-size: initial;}
+            .banner-title {font-size: 16px;}
         }
     </style>
 {% endblock %}
@@ -61,7 +64,7 @@
                 </h1>
                 <div class="clearfix"></div>
             </div>
-
+            {% if cumulate_coupon_list %}
             <div class="section row cumulated-coupon">
                 <div class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 description text-center">
                     <h2>{% trans 'Coupons' %}</h2>
@@ -72,7 +75,7 @@
                     </p>
                 </div>
                 <div class="clearfix"></div>
-                {% if cumulate_coupon_list %}
+
                 <div>
                     <div class="coupon-group swiper-container">
                         {% if cumulated_coupon_list|length > 1 %}
@@ -104,26 +107,29 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                {% endif %}
             </div>
-            <div class="push-subscribe activate-notification section row">
-                <div class="col-sm-8 description">
+            {% endif %}
+            <div class="push-subscribe activate-notification section row" style="display: none">
+                <div class="col-md-4 col-sm-7 img-illustration">
+                    <img alt="phone notification" class="img-responsive" src="{% static 'kakocase/img/phone-notification.png' %}">
+                </div>
+                <div class="col-md-8 col-sm-5 description">
                     <h2>{% trans 'Activate notifications' %}</h2>
                     <p>{% lorem 20 w %}</p>
                     <div class="action">
-                        <button id="activate" class="btn btn-sm btn-deep-blue">{% trans "Activate" %}</button>
+                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn">
+                            {% include 'core/snippets/button_spinner.html' %}
+                            <span>{% trans "Activate" %}</span>
+                        </button>
                     </div>
-                </div>
-                <div class="col-sm-4 img-illustration">
-                    <img class="img-responsive" src="{% static 'kakocase/img/phone-notification.png' %}">
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="install-promotion download-app section row">
-                <div class="col-sm-4 img-illustration">
+            <div class="install-promotion download-app section row" style="display: none">
+                <div class="col-md-3 col-sm-7 img-illustration">
                     <img class="img-responsive" src="{% static 'kakocase/img/download-app2.jpg' %}">
                 </div>
-                <div class="col-sm-8 description">
+                <div class="col-md-6 col-md-offset-2 col-sm-5 description">
                     <h2>{% trans 'Download app' %}</h2>
                     <p>
                         {% blocktrans %}
@@ -131,12 +137,14 @@
                         {% endblocktrans %}
                     </p>
                     <div class="action">
-                        <button id="download" class="btn btn-sm btn-deep-blue">{% trans "Download" %}</button>
+                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa">
+                            {% include 'core/snippets/button_spinner.html' %}
+                            <span>{% trans "Download" %}</span>
+                        </button>
                     </div>
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
         </div>
         <div class="clearfix"></div>
         <div>
