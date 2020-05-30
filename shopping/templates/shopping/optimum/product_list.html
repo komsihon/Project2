@@ -31,40 +31,6 @@
     <div class="clearfix"></div>
     {% cache template_cache_duration product_list_content category.slug smart_object.slug request.GET.q %}
     <div id="content" class="content">
-        {% comment %}<div class="container-fluid visible-xs filter-container">
-            <div class="top-filter">
-                <div class="filter">
-                    <i class="fa fa-filter" aria-hidden="true" style="line-height: .4em; margin-top: 10px"></i>
-                    <span>{% trans "Filter" %}</span>
-                </div>
-                <div class="sort">
-                    <ul id="sort-menu">
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-sort-amount-desc" aria-hidden="true"  style="line-height: .4em; margin-top: 10px"></i>
-                                <span>{% trans "Sort" %}</span>
-                            </a>
-                            <input type="hidden" class="chosen-criterion">
-                            <ul class="dropdown-menu criteria" aria-labelledby="filter-menu">
-                                <li class="sort-item" value="-updated_on" data-sort-by="-updated_on"><i class="fa fa-arrows-v" aria-hidden="true" style="line-height: .4em; margin-top: 10px; margin-right: 12px"></i> {% trans "Most recent" %}</li>
-                                <li class="sort-item"  value="name" data-sort-by="name"><i class="fa fa-sort-alpha-asc" aria-hidden="true" style="line-height: .4em; margin-top: 10px; margin-right: 12px"></i> {% trans "Name" %}</li>
-                                {% if config.show_prices %}
-                                <li class="sort-item"  value="retail_price" data-sort-by="retail_price"><i class="fa fa-sort-numeric-asc" aria-hidden="true" style="line-height: .4em; margin-top: 10px; margin-right: 12px"></i> {% trans "Price" %}</li>
-                                 {% endif %}
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="price-filter is-off">
-                {% if config.show_prices and min_price >= 0 and max_price %}
-                    <div class="price">
-                        <div id="price-range" style=""></div>
-                        <input type="text" id="amount" style="border: 0; color: #000; font-weight: normal;" />
-                    </div>
-                {% endif %}
-            </div>
-        </div>{% endcomment %}
         <div class="products-agileinfo">
             <div class="container">
             {% if request.GET.q %}

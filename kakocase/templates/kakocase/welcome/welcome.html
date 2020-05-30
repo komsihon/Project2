@@ -48,6 +48,40 @@
                 </h1>
                 <div class="clearfix"></div>
             </div>
+            {% if cumulated_coupon_list %}
+            <div class="section row">
+                <div class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 description text-center">
+                    <h2>{% trans 'Coupons' %}</h2>
+                    <p>
+                        {% blocktrans %}
+                            Great !!! You won <strong>{{ total_cumulated_coupons }}</strong> free coupons.
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div>
+                    <div class="coupon-group swiper-container">
+                        <ul class="coupon-list swiper-wrapper">
+                            {% for cumul in cumulated_coupon_list %}
+                            <li class="swiper-slide coupon">
+                                <img src="{{ settings.IKWEN_MEDIA_URL }}{{ cumul.coupon.image.name }}" />
+                                <p class="coupon-name text-center">
+                                    {{ cumul.coupon.name }}<br><br> {{ cumul.count }}
+                                </p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="swiper-button-next has-shade">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                        <div class="swiper-button-prev has-shade">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            {% endif %}
 
             <div class="push-subscribe activate-notification section row">
                 <div class="col-sm-8 description">

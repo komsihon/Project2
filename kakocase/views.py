@@ -38,7 +38,7 @@ from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.shopping.models import Customer
 from ikwen_kakocase.sales.models import Promotion, PromoCode
 from ikwen.billing.utils import get_months_count_billing_cycle
-from ikwen.rewarding.models import Coupon, CouponWinner
+from ikwen.rewarding.models import Coupon, CouponWinner, CumulatedCoupon
 
 
 class AdminHome(AdminHomeBase):
@@ -459,6 +459,18 @@ class FirstTime(TemplateView):
 
 class Welcome(TemplateView):
     template_name = 'kakocase/welcome/welcome.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Welcome, self).get_context_data(**kwargs)
+        user = self.request.user
+        cumulated_coupon_list = []
+        total_cumulated_coupons = 0
+        for cumul in CumulatedCoupon.objects.select_related('coupon').filter(member=user):
+            total_cumulated_coupons += cumul.count
+            cumulated_coupon_list.append(cumul)
+        context['cumulated_coupon_list'] = cumulated_coupon_list
+        context['total_cumulated_coupons'] = total_cumulated_coupons
+        return context
 
 
 class CustomerJourney(TemplateView):
