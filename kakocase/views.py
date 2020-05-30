@@ -465,9 +465,10 @@ class Welcome(TemplateView):
         user = self.request.user
         cumulated_coupon_list = []
         total_cumulated_coupons = 0
-        for cumul in CumulatedCoupon.objects.select_related('coupon').filter(member=user):
-            total_cumulated_coupons += cumul.count
-            cumulated_coupon_list.append(cumul)
+        if user.is_authenticated():
+            for cumul in CumulatedCoupon.objects.select_related('coupon').filter(member=user):
+                total_cumulated_coupons += cumul.count
+                cumulated_coupon_list.append(cumul)
         context['cumulated_coupon_list'] = cumulated_coupon_list
         context['total_cumulated_coupons'] = total_cumulated_coupons
         return context

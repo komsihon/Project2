@@ -94,11 +94,14 @@ def add_member_auto_profiletag(request, **kwargs):
             except:
                 name = Banner.objects.get(slug=tag_slug).title
         if tag_slug:
-            tag, update = ProfileTag.objects.get_or_create(name=name, slug='__' + tag_slug, is_auto=True)
-            member_profile, update = MemberProfile.objects.get_or_create(member=request.user)
-            if tag.id not in member_profile.tag_fk_list:
-                member_profile.tag_fk_list.append(tag.id)
-                member_profile.save()
+            try:
+                tag, update = ProfileTag.objects.get_or_create(name=name, slug='__' + tag_slug, is_auto=True)
+                member_profile, update = MemberProfile.objects.get_or_create(member=request.user)
+                if tag.id not in member_profile.tag_fk_list:
+                    member_profile.tag_fk_list.append(tag.id)
+                    member_profile.save()
+            except:
+                pass
 
 
 class Home(TemplateSelector, TemplateView):

@@ -7,13 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ service.url }}" />
-{#    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />#}
     <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
-{#    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>#}
     <meta property="og:title" content="{{ config.small_description }}"/>
-{#    <meta property="og:description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}">#}
     <meta property="og:description" content="{{ config.description }}">
-{#    <meta property="description" content="{% trans "Reach more customers and sell all your stocks with Tsunami" %}" />#}
     <meta property="description" content="{{ config.description }}" />
 {% endblock %}
 
@@ -32,57 +28,84 @@
     <!--Conditional custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
+    <style>
+        .banner {min-height: 270px}
+        .banner-image img {height: 150px;  display: inline}
+        .banner-title {font-size: 28px; line-height: 32px}
+
+        .cumulated-coupon {margin-top: 30px}
+
+        .section-banniere-bottom {background-image: url({% static 'daraja/img/banner-2.png' %});margin-top: 0!important;}
+
+        @media screen and (max-width: 767px) {
+            .navbar-default .navbar-brand {max-width: 148px; }
+            .menu-button {visibility: hidden}
+            .navbar-header nav {display: none}
+
+            .banner-title {font-size: initial;}
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     <div id="content">
         <div  class="container" style="padding-top: 0;">
-            <div class="row text-center" style="min-height: 270px">
-                <div>
-                    <img class="img-responsive" src="{% static 'kakocase/img/welcome/welcome-image.jpg' %}" style="height: 150px; display: inline">
+            <div class="row text-center banner">
+                <div class="banner-image">
+                    <img class="img-responsive" src="{% static 'kakocase/img/welcome/welcome-image.jpg' %}">
                 </div>
-                 <h1 style="font-size: 28px;">
+                 <h1 class="banner-title">
                     {% blocktrans with first_name=request.user.first_name project_name=service.project_name %}
                         Congratulations {{ first_name }}, welcome to {{ project_name }} !
                     {% endblocktrans %}
                 </h1>
                 <div class="clearfix"></div>
             </div>
-            {% if cumulated_coupon_list %}
-            <div class="section row">
+
+            <div class="section row cumulated-coupon">
                 <div class="col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 description text-center">
                     <h2>{% trans 'Coupons' %}</h2>
                     <p>
                         {% blocktrans %}
-                            Great !!! You won <strong>{{ total_cumulated_coupons }}</strong> free coupons.
+                            Great !!! You totally won <strong>{{ total_cumulated_coupons }}</strong> free coupons.
                         {% endblocktrans %}
                     </p>
                 </div>
+                <div class="clearfix"></div>
+                {% if cumulate_coupon_list %}
                 <div>
                     <div class="coupon-group swiper-container">
-                        <ul class="coupon-list swiper-wrapper">
-                            {% for cumul in cumulated_coupon_list %}
-                            <li class="swiper-slide coupon">
-                                <img src="{{ settings.IKWEN_MEDIA_URL }}{{ cumul.coupon.image.name }}" />
+                        {% if cumulated_coupon_list|length > 1 %}
+                            <ul class="coupon-list swiper-wrapper">
+                                {% for cumul in cumulated_coupon_list %}
+                                <li class="swiper-slide coupon">
+                                    <img src="{{ settings.IKWEN_MEDIA_URL }}{% if cumul.coupon.image %}{{ cumul.coupon.image.name }}{% else %}{{ config.logo.name }}{% endif %}" />
+                                    <p class="coupon-name text-center">
+                                        {{ cumul.coupon.name }}<br><br> {{ cumul.count }} coupon(s)
+                                    </p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="swiper-button-next has-shade">
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                            <div class="swiper-button-prev has-shade">
+                                <i class="fa fa-angle-left"></i>
+                            </div>
+                        {% else %}
+                            {% with cumul=cumalated_coupon_list|first %}
+                                <img src="{{ settings.IKWEN_MEDIA_URL }}{% if cumul.coupon.image %}{{ cumul.coupon.image.name }}{% else %}{{ config.logo.name }}{% endif %}" />
                                 <p class="coupon-name text-center">
-                                    {{ cumul.coupon.name }}<br><br> {{ cumul.count }}
+                                    {{ cumul.coupon.name }}<br><br> {{ cumul.count }} coupon(s)
                                 </p>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        <div class="swiper-button-next has-shade">
-                            <i class="fa fa-angle-right"></i>
-                        </div>
-                        <div class="swiper-button-prev has-shade">
-                            <i class="fa fa-angle-left"></i>
-                        </div>
+                            {% endwith %}
+                        {% endif %}
                         <div class="clearfix"></div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
+                {% endif %}
             </div>
-            {% endif %}
-
             <div class="push-subscribe activate-notification section row">
                 <div class="col-sm-8 description">
                     <h2>{% trans 'Activate notifications' %}</h2>
@@ -115,17 +138,16 @@
             </div>
             <div class="clearfix"></div>
         </div>
-    </div>
-    <div class="clearfix"></div>
-    </div>
-    <div>
-        <div class="section-banniere-bottom" style="background-image: url({% static 'daraja/img/banner-2.png' %});margin-top: 0!important;">
-            <div class="section-banniere-inner">
-                <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
-                    <h1>{% blocktrans with project_name=service.project_name %}Order on {{ project_name }} now{% endblocktrans %}</h1>
-                    <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="btn btn-sm btn-outline-white animated pulse"  style="margin-top: 40px; height: 40px">
-                        {% trans "Go !" %}
-                    </a>
+        <div class="clearfix"></div>
+        <div>
+            <div class="section-banniere-bottom">
+                <div class="section-banniere-inner">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
+                        <h1>{% blocktrans with project_name=service.project_name %}Order on {{ project_name }} now{% endblocktrans %}</h1>
+                        <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="btn btn-sm btn-outline-white animated pulse"  style="margin-top: 40px; height: 40px">
+                            {% trans "Go !" %}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
