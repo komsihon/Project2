@@ -11,7 +11,7 @@
     <meta property="og:title" content="{{ config.short_description }}"/>
     <meta property="og:description" content="{{ config.description }}">
     <meta property="description" content="{{ config.description }}" />
-    {% if config.is_pwa_ready %}
+    {% if service.is_pwa_ready %}
         <link rel="manifest" href="/manifest.json' %}">
     {% endif %}
 {% endblock %}
@@ -27,6 +27,7 @@
     <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}" />
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
     <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-05-26.17.04"/>
+    <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}"/>
 
     <!--Conditional custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
@@ -260,7 +261,7 @@
 {% endblock %}
 
 {% block js %}
-    {% if config.is_pwa_ready %}
+    {% if service.is_pwa_ready %}
         <script src="{% static 'ikwen/js/pwa-main.js' %}"></script>
     {% endif %}
     {{ block.super }}
