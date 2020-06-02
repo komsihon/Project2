@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.5.29" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.02.20.05" type="text/css" media="all" />
             <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.5.29" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
@@ -123,7 +123,43 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 </ul>
                             {% endif %}
                         </div>
-                        {% include 'shopping/snippets/language_switcher.html' %}
+                        {% if config.allow_shopping and config.show_prices %}
+                            <div class="header-right2">
+                                <div class="cart box_1">
+{#                                    <div class="toggle-cd-search">#}
+{#                                        <div class="open" style="float: left" title="{% trans 'Open search box' %}"><i class="fa fa-search"></i></div>#}
+{#                                        <div class="close2" style="float: left" title="{% trans 'Close search box' %}"><i class="fa fa-times"></i></div>#}
+{#                                    </div>#}
+                                    <ul>
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
+                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity">1</span>
+                                            </a>
+                                            <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="left: -85px; width: 200px">
+                                                <li>
+                                                    <div class="cart-details">
+                                                        <a href="{% url 'shopping:cart' %}">
+                                                            <h5>
+                                                                <div class="total">
+                                                                    <span class="simpleCart_total"></span>
+                                                                </div>
+                                                            </h5>
+                                                        </a>
+                                                        <a href="javascript:;" class="empty-cart" data-toggle="modal"
+                                                           data-target="#confirm-empty-cart">
+                                                            <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
+                                                        </a>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning" style="background: var(--color-orange); color: #fff; height: 40px; line-height: 32px; font-size: 14px">{% trans 'Checkout' %}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
                         {% if config.can_manage_currencies %}
                             {% include 'shopping/snippets/currency_switcher.html' %}
                         {% endif %}
@@ -156,7 +192,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     </a>
                                 </h1>
                             </div>
-
                             {% if config.allow_shopping and config.show_prices %}
                                 <div class="header-right2">
                                     <div class="cart box_1">
@@ -164,23 +199,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <div class="open" style="float: left" title="{% trans 'Open search box' %}"><i class="fa fa-search"></i></div>
                                             <div class="close2" style="float: left" title="{% trans 'Close search box' %}"><i class="fa fa-times"></i></div>
                                         </div>
-                                        <a href="{% url 'shopping:cart' %}"><i class="kkc-cart fa fa-opencart fa-4x"></i></a>
-                                        <div class="cart-details">
-                                            <a href="{% url 'shopping:cart' %}">
-                                                <h5>
-                                                    <div class="total">
-                                                        <span class="simpleCart_total"></span>
-                                                    </div>
-                                                    <span class="label label-danger simpleCart_quantity"></span>
-                                                </h5>
-                                            </a>
-                                            <a href="javascript:;" class="empty-cart" data-toggle="modal"
-                                               data-target="#confirm-empty-cart">
-                                                <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
-                                            </a>
-                                        </div>
-
-                                        <div class="clearfix"> </div>
+                                        <ul>
+                                            <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
+                                                    <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity">1</span>
+                                                </a>
+                                                <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="width: 200px">
+                                                    <li>
+                                                        <div class="cart-details">
+                                                            <a href="{% url 'shopping:cart' %}">
+                                                                <h5>
+                                                                    <div class="total">
+                                                                        <span class="simpleCart_total"></span>
+                                                                    </div>
+                                                                </h5>
+                                                            </a>
+                                                            <a href="javascript:;" class="empty-cart" data-toggle="modal"
+                                                               data-target="#confirm-empty-cart">
+                                                                <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
+                                                            </a>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning" style="background: var(--color-orange); color: #fff; height: 40px; line-height: 32px; font-size: 14px">{% trans 'Checkout' %}</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             {% endif %}
@@ -490,6 +535,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             - <a href="{{ settings.LEGAL_MENTIONS_URL }}" style="text-decoration: none">{% trans "Legal mentions" %}</a>
                         </p>
                     </div>
+                    <div class="push-right">
+                        {% include 'shopping/snippets/language_switcher.html' %}
+                    </div>
 {#                    <div class="copy-right">#}
 {#                        <img src="{% static 'kakocase/img/card.png' %}" alt=""/>#}
 {#                    </div>#}
@@ -751,7 +799,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     var scrollTop = $(this).scrollTop();
                     if (scrollTop > headerTopH + headerBottomH) {
                         $('.header-bottom:not(.fixed)').addClass('fixed').animate({top: 0});
-                        $('#auth').remove().prependTo('.header-right2')
+                        {#$('#auth').remove().prependTo('.header-right2')#}
                     } else {
                         $('.header-bottom.fixed').removeClass('fixed');
                         $('.toggle-cd-search').removeClass('is_active');

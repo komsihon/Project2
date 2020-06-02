@@ -2,9 +2,9 @@
 {% load i18n static humanize webdesign currency media_from_provider %}
 
 {% block meta %}
-    <meta name="theme-color" content="#233682">
-    <meta name="msapplication-navbutton-color" content="#233682">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta name="theme-color" content="{% if config.brand_color %}{{ config.brand_color }}{% else %}#233682{% endif %}">
+    <meta name="msapplication-navbutton-color" content="{% if config.brand_color %}{{ config.brand_color }}{% else %}#233682{% endif %}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="{% if config.brand_color %}{{ config.brand_color }}{% else %}#233682{% endif %}">
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ service.url }}" />
     <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
@@ -204,7 +204,7 @@
                     <h2>{% trans 'Activate notifications' %}</h2>
                     <p>{% lorem 20 w %}</p>
                     <div class="action">
-                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn">
+                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn" style="{% if config.brand_color %}background-color:{{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Activate" %}</span>
                         </button>
@@ -224,7 +224,7 @@
                         {% endblocktrans %}
                     </p>
                     <div class="action">
-                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa">
+                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa" style="{% if config.brand_color %}background-color:{{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Download" %}</span>
                         </button>
