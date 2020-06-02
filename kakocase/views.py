@@ -452,8 +452,8 @@ class FirstTime(TemplateView):
         context['promotion'] = promotion_list.order_by('end_on').first()
         context['promo_code'] = promo_code_list.order_by('end_on').first()
         context['welcome_message'] = service.config.welcome_message
-        context['product_list'] = Product.objects.filter(visible=True, photos__isnull=False)\
-                                      .order_by('-total_units_sold', 'retail_price')[:6]
+        context['product_list'] = [product for product in Product.objects.filter(visible=True).order_by('-total_units_sold', 'retail_price') if product.image][:6]
+
         return context
 
 

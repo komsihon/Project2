@@ -33,7 +33,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}other.css">
     <link rel="stylesheet" type="text/css" href="{% static 'kakocase/css/welcome/'%}{{ business_category }}.css">
     <style>
-        #content {margin-bottom: 0}
+        #content {margin-bottom: 0!important;}
         .banner {min-height: 270px}
         .banner-image img {height: 150px;  display: inline}
         .banner-title {font-size: 28px; line-height: 32px}
@@ -43,7 +43,7 @@
         .section-banniere-bottom {background-image: url({% static 'daraja/img/banner-2.png' %});margin-top: 0!important;}
 
         @media screen and (max-width: 767px) {
-            .navbar-default .navbar-brand {max-width: 148px; }
+            .navbar-default .navbar-brand {max-width: 148px;}
             .navbar-header nav #nav-xs {display: none}
 
             .banner-title {font-size: 16px;}

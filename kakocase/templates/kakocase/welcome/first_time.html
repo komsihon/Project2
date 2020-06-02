@@ -26,7 +26,7 @@
     <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
     <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}" />
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-05-26.17.04"/>
+    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-06-01.16.56"/>
     <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}"/>
 
     <!--Conditional custom css -->
@@ -96,7 +96,7 @@
                         <ul class="coupon-list swiper-wrapper">
                             {% for product in product_list %}
                             <li class="swiper-slide coupon" id="{{ product.id }}" data-id="{{ product.id }}">
-                                <img src="{% get_media_prefix %}{{ product.image.small_name }}" />
+                                <div class="img" style="background-image: url({% get_media_prefix %}{{ product.image.small_name }}); background-size: cover; background-position: center;"></div>
                                 <p class="coupon-name text-center">
                                     {{ product.name }}<br><br><sup>{{ CURRENCY.symbol }}</sup>
                                     <strong style="font-size: 1.5em"> {{ product.retail_price|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}</strong>
@@ -122,7 +122,7 @@
                         <ul class="coupon-list swiper-wrapper">
                             {% for coupon in coupon_list %}
                             <li class="swiper-slide coupon" id="{{ coupon.id }}" data-id="{{ coupon.id }}">
-                                <img src="{{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }}" />
+                                <div class="img" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{% if coupon.image.name %}{{ coupon.image.name }}{% else %}{{ config.logo.name }}{% endif %}); background-size: cover; background-position: center;"></div>
                                 <p class="coupon-name text-center">{{ coupon.name }}</p>
                             </li>
                             {% endfor %}
@@ -148,9 +148,9 @@
             </div>
             {% endif %}
             {% if promotion %}
-            <div class="section row">
-                <div class="col-md-4 col-sm-7 img-illustration">
-                    {% if promotion.item %}
+            <div id="promotion" class="section row">
+                <div class="col-sm-6 img-illustration">
+                    {% if promotion.item.provider %}
                         <img class="img-responsive" src="{{ promotion.item.image|from_provider:promotion.item.provider }}" />
                     {% endif %}
                     <p class="coupon-name">
@@ -161,7 +161,7 @@
                     </p>
                     <div class="clearfix"></div>
                 </div>
-                <div class="col-md-8 col-sm-5 description">
+                <div class="col-sm-6 description">
                     <h2>{% trans 'Promotions' %}</h2>
                     <p>
                         {% blocktrans %}
@@ -176,15 +176,11 @@
             {% if promocode %}
             <div class="section row">
                 <div class="col-md-4 col-sm-7 img-illustration">
-                    <a href="{% url 'rewarding:change_coupon' coupon.id %}">
-                        <img class="img-responsive" src="{{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }}" />
-                    </a>
+                    <img class="img-responsive" src="{{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }}" />
                     <h6>{{ promocode.code }}</h6>
                     <p class="coupon-name">
-                        <a href="{% url 'rewarding:change_coupon' coupon.id %}">
-                            {{ promocode.rate }}
-                        </a>
-                        <span>{{ promocode }}</span>
+                        <span>{{ promocode.rate }}</span><br>
+                        <strong>{{ promocode }}</strong>
                     </p>
                     <div class="clearfix"></div>
                 </div>
@@ -278,14 +274,15 @@
                     }
                 }
             });
-            let widthCircledImage = $('.coupon img').width();
-            if($(window).width() < 768){
-                $('.coupon img').height(widthCircledImage);
-            }
+            let widthCircledImage = $('.coupon .img').width(),
+                resize = () => {
+                    if($(window).width() < 768){
+                        $('.coupon .img').height(widthCircledImage);
+                    }
+                };
+            resize();
             $(window).on('resize', () => {
-                if($(window).width() < 768){
-                    $('.coupon img').height(widthCircledImage);
-                }
+                resize();
             });
         })()
     </script>

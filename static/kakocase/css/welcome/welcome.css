@@ -17,20 +17,20 @@ body {background: none!important;}
 #banner-img {height: 300px;}
 
 .main-img {height: inherit}
-/*{#.section .img-responsive {margin: auto; border-radius: 92px; height: 180px; overflow: hidden; width: 180px;}#}*/
 .section {min-height: 300px}
-/*.section {margin-top: 50px; min-height: 350px}*/
-/*.section img:not(.main-img) {width: 150px; height: 300px; border-radius: 200px; overflow: hidden; }*/
 .section img:not(.main-img) {width: 240px; height: auto; overflow: hidden; }
+.section .img {width: 240px; height: auto; overflow: hidden; }
 .description h2, .banner-bottom h2 {font-weight: 900}
 .description {line-height: 30px;}
-.img-illustration {margin-top: 30px;}
+.img-illustration {/* margin-top: 30px; */}
+
+#promotion img {width: auto}
 
 #our-products {margin-bottom: 60px}
 #our-products .description {float: none!important;}
 #our-products .description h2 {margin-bottom: 30px;}
 #our-products .description p {margin-bottom: 35px;font-size: 18px;}
-.section .coupon img {width: 260px; height: 260px; border-radius: 200px; overflow: hidden;}
+.section .coupon .img {width: auto;height: 260px;border-radius: 200px;overflow: hidden;}
 
 .anchor {font-size: 4vw; margin-top: 70px}
 .action {margin-top: 40px;}
@@ -43,7 +43,8 @@ body {background: none!important;}
 .banner-bottom h2 {margin-bottom: 50px;}
 
 .coupon {float: left; margin: 5px 38px 15px 0; width: 271px}
-.coupon img {background: #f8f6f6; height: 240px; width: 180px}
+/*.coupon img {background: #f8f6f6; height: 240px; width: 180px}*/
+.coupon .img {background: #f8f6f6; height: 240px; width: 180px}
 .coupon-name {margin: 5px 0}
 .coupon .action {border: none; color: #e74c3c; float: right; margin: -10px 5px 0 0}
 .coupon .attention {cursor: pointer; display: none}
