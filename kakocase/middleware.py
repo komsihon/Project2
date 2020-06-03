@@ -31,7 +31,7 @@ class LandingPageMiddleware(object):
         if rm.namespace == 'ikwen':
             if rm.url_name in [SIGN_IN, DO_SIGN_IN, LOGOUT, LOAD_EVENT]:
                 return
-        if rm.url_name != 'welcome':
+        if rm.url_name != 'guard_page':
             if not service.config.is_ecommerce_active:
                 if not member.is_superuser:
                     return HttpResponseRedirect(next_url)
