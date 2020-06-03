@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.02.20.05" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.03.09.10" type="text/css" media="all" />
             <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.5.29" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
@@ -92,7 +92,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <a href="{{ settings.IKWEN_CONSOLE_URL }}">
                                             {% if user.get_notice_count > 0 %}
                                                 <span class="label label-danger"
-                                                      style="">{{ user.get_notice_count }}</span>
+                                                      style="">{% if user.get_notice_count > 99 %}99+{% else %}{{ user.get_notice_count }}{% endif %}</span>
                                             {% endif %}
                                             <i class="fa fa-bell" aria-hidden="true"
                                                style="line-height: .4em; margin-top: 10px"></i>
