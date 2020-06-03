@@ -25,7 +25,7 @@ class LandingPageMiddleware(object):
             return
         rm = request.resolver_match
         service = get_service_instance()
-        next_url = reverse('welcome')
+        next_url = reverse('guard_page')
         member = request.user
 
         if rm.namespace == 'ikwen':
