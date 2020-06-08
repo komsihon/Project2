@@ -787,8 +787,13 @@ def confirm_checkout(request, *args, **kwargs):
 
     activate(member.language)
     subject = _("Order successful")
-    reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
-                                                   amount=order.items_cost, model_name='trade.Order')
+    try:
+        reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
+                                                       amount=order.items_cost, model_name='trade.Order')
+    except:
+        reward_pack_list = []
+        logger.error('%s - Failed to reward member %s for '
+                     'order %s of %dF' % (order.retailer.project_name, member.username, order.id, order.items_cost))
     send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, reward_pack_list=reward_pack_list)
     if getattr(settings, 'UNIT_TESTING', False):
         send_order_confirmation_sms(buyer_name, buyer_phone, order)

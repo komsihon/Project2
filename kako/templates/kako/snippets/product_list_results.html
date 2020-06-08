@@ -16,7 +16,7 @@
             {% url 'kako:change_product' product.id as product_url %}
         {% endif %}
         {% if product.image.name %}
-            <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %} class="image" style="background-image: url({{ product.image.small_url|from_provider:product.provider }})"></a>
+            <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %} class="image" style="background-image: url({{ product.image.thumb_url|from_provider:product.provider }})"></a>
         {% else %}
             <a {% if not request.GET.smart_link %}href="{{ product_url }}"{% endif %} class="image" style="background-image: url({% static 'ikwen/img/no_photo.jpg' %})"></a>
         {% endif %}

@@ -53,9 +53,9 @@ else:
     _fieldsets = [
         (_('Company'), {'fields': ('company_name', 'short_description', 'slogan', 'description')}),
         (_('Website'), _website_fields),
-        (_('Address & Contact'), {'fields': ('contact_email', 'contact_phone', 'address', 'country', 'city')}),
+        (_('Address & Contact'), {'fields': ('contact_email', 'contact_phone', 'whatsapp_phone', 'address', 'country', 'city')}),
         (_('Social'), {'fields': ('facebook_link', 'twitter_link',
-                                  'youtube_link', 'instagram_link', 'tumblr_link', 'linkedin_link', )}),
+                                  'youtube_link', 'instagram_link', 'linkedin_link', )}),
         (_('Mailing'), {'fields': ('invitation_message', 'welcome_message', 'signature', )}),
     ]
     _fieldsets.extend([

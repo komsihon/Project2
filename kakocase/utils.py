@@ -50,7 +50,11 @@ def set_customer_dara(service, referrer, member):
         set_counters(service_mirror)
         increment_history_field(service_mirror, 'community_history')
 
-        add_event(service, REFEREE_JOINED_EVENT, member)
+        _umbrella_db = 'ikwen_umbrella_prod'
+        add_database(_umbrella_db)
+        daraja_service = Service.objects.using(_umbrella_db).get(project_name_slug=DARAJA)
+        add_event(daraja_service, REFEREE_JOINED_EVENT,
+                  member=referrer, model='accesscontrol.Member', object_id=member.id)
 
         diff = datetime.now() - member.date_joined
 
