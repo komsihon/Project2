@@ -21,16 +21,20 @@ def user_coupon_list(request):
     coupon_summary = None
     coupon_qs = Coupon.objects.using(UMBRELLA).filter(service=service, is_active=True)
     if member.is_authenticated():
-        coupon_summary = CouponSummary.objects.using(UMBRELLA).get(service=service, member=member)
-        for coupon in coupon_qs:
-            try:
-                cumul = CumulatedCoupon.objects.using(UMBRELLA).get(coupon=coupon, member=member)
-                coupon.count = cumul.count
-                coupon.ratio = float(cumul.count) / coupon.heap_size * 100
-            except CumulatedCoupon.DoesNotExist:
-                coupon.count = 0
-                coupon.ratio = 0
-            coupon_list.append(coupon)
+        try:
+            coupon_summary = CouponSummary.objects.using(UMBRELLA).get(service=service, member=member)
+            for coupon in coupon_qs:
+                try:
+                    cumul = CumulatedCoupon.objects.using(UMBRELLA).get(coupon=coupon, member=member)
+                    coupon.count = cumul.count
+                    coupon.ratio = float(cumul.count) / coupon.heap_size * 100
+                except CumulatedCoupon.DoesNotExist:
+                    coupon.count = 0
+                    coupon.ratio = 0
+                coupon_list.append(coupon)
+        except:
+            coupon_summary = CouponSummary(service=service, member=member, count=0)
+
         url = getattr(settings, 'PROJECT_URL') + reverse('ikwen:company_profile', args=(service.project_name_slug,))
 
         url += '?referrer=' + member.id
@@ -44,7 +48,6 @@ def user_coupon_list(request):
             'total_coupons': coupon_summary.count,
             'profile_name': service.project_name
         }
-
     return {
 
     }

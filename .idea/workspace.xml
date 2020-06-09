@@ -1,50 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2297b2c-f03a-4b49-8563-a6b7692c34c4" name="Default" comment="Update on template selector, Blog views">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/banner_mob.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/banner_top.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_ipad.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_ipad_lc.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/ikwen_making_the_web_a_business_lg.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/img/watercolor-3130650.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/ikwen/css/owl.transitions.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwen/static/website/css/apps.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/tsunami/css/tsunami.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/apps.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/fixtures/bundles.yaml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/address_section.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/../ikwenWebsite/static/website/css/com.css" afterPath="$PROJECT_DIR$/../ikwenWebsite/static/ikwen/css/com.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/db.sqlite3" afterPath="$PROJECT_DIR$/../ikwenWebsite/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/views.py" afterPath="$PROJECT_DIR$/../CreolinkLocalizer/localizing/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html" afterPath="$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" afterPath="$PROJECT_DIR$/../Paleba/Paleba/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WebNode/items/templates/items/change_item.html" afterPath="$PROJECT_DIR$/../WebNode/items/templates/items/change_item.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" afterPath="$PROJECT_DIR$/../ikwen/.idea/ikwen.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/apache.conf" afterPath="$PROJECT_DIR$/../ikwen/apache.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/conf/settings.py" afterPath="$PROJECT_DIR$/../ikwen/conf/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/conf/urls.py" afterPath="$PROJECT_DIR$/../ikwen/conf/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwen/partnership/urls.py" afterPath="$PROJECT_DIR$/../ikwen/partnership/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/apps_base.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/apps_base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/kakocase.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/kakocase.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/shavida.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/shavida.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/webnode.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/apps/webnode.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/mails/order_notice.html" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/mails/order_notice.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/tests.py" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ikwenWebsite/tsunami/views.py" afterPath="$PROJECT_DIR$/../ikwenWebsite/tsunami/views.py" />
+    <list default="true" id="c2297b2c-f03a-4b49-8563-a6b7692c34c4" name="Default" comment="- Put language switcher to the bottom &#10;-">
+      <change afterPath="$PROJECT_DIR$/../Enfinchezmoi/enfinchezmoi/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Mails/templates/foulassi/mails/new_assignment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Mails/templates/foulassi/mails/unsubmitted_homework.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/.idea/WebNode.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/.idea/libraries/R_User_Library.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/detail_page_seo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/home_seo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/homepage_section_blog.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/homepage_section_flat.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/homepage_section_item_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/homepage_section_portfolio.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/snippets/item_list_seo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Enfinchezmoi/enfinchezmoi/templates/enfinchezmoi/submit_ad.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Enfinchezmoi/enfinchezmoi/templates/enfinchezmoi/submit_ad.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Enfinchezmoi/static/enfinchezmoi/css/enfinchezmoi.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Enfinchezmoi/static/enfinchezmoi/css/enfinchezmoi.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Kakocase.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Kakocase.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping/context_processors.py" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/context_processors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping/templates/shopping/coupon_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/shopping/templates/shopping/coupon_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mails/templates/core/mails/snippets/confidentiality.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Mails/templates/core/mails/snippets/confidentiality.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Playground/conf/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Playground/conf/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Playground/locale/fr/LC_MESSAGES/django.po" beforeDir="false" afterPath="$PROJECT_DIR$/../Playground/locale/fr/LC_MESSAGES/django.po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/dreamer/base.html" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,426 +46,49 @@
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bundles.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="website.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1458">
-              <caret line="81" column="30" lean-forward="false" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/templates/home.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="108" column="23" lean-forward="false" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edge_panel.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edge_panel.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="language_switcher.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="50" lean-forward="false" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1728">
-              <caret line="96" column="30" lean-forward="false" selection-start-line="96" selection-start-column="30" selection-end-line="97" selection-end-column="80" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>Home</find>
-      <find>by</find>
-      <find>By</find>
-      <find>Sugges</find>
-      <find>loa</find>
-      <find>load_posts_for_homepage</find>
-      <find>.blog .blog-item .blog-content h3</find>
-      <find>.readmore</find>
-      <find>settings</find>
-      <find>c52d2f</find>
-      <find>.reply_section</find>
-      <find>col-xs-12 col-sm-10</find>
-      <find>searc</find>
-      <find>.blog .blog-item .blog-content h2</find>
-      <find>#navbar</find>
-      <find>purg</find>
-      <find>{% url 'blog:post_per_category'  category.slug %}</find>
-      <find>delete_post_category</find>
-      <find>renderer</find>
-      <find>rendere</find>
-      <find>lead</find>
-      <find>display_date</find>
-      <find>add</find>
-      <find>app-img</find>
-      <find>footer</find>
-      <find>.company-logo-container</find>
-      <find>acti</find>
-      <find>pricing-body</find>
-      <find>pricing-fe</find>
-      <find>fixed</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>image-list</replace>
-      <replace>fca300</replace>
-      <replace>app-logo</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/views.py" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/templates/blog/search.html" />
-        <option value="$PROJECT_DIR$/../IkwenTuto/support/templates/support/home.html" />
-        <option value="$PROJECT_DIR$/../WebNode/webnode/views.py" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/improve/base.html" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/admin/category_list.html" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/urls.py" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/views.py" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/admin.py" />
-        <option value="$PROJECT_DIR$/../venv/local/lib/python2.7/site-packages/ikwen_webnode/blog/views.py" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/admin/change_category.html" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/admin/admin_change_blog.html" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/improve/blog-item.html" />
-        <option value="$PROJECT_DIR$/../WebNode/blog/templates/blog/improve/post_details.html" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/templates/blog/base.html" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/static/css/blog.css" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/templates/blog/post_details.html" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/blog/models.py" />
-        <option value="$PROJECT_DIR$/../IkwenBlog/static/blog/css/blog.css" />
-        <option value="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/snippets/homepage_section_flat.html" />
-        <option value="$PROJECT_DIR$/../WebNode/webnode/templates/webnode/snippets/homepage_section_item_list.html" />
-        <option value="$PROJECT_DIR$/../WebNode/static/webnode/css/improve/base.css" />
-        <option value="$PROJECT_DIR$/../WebNode/commarketing/models.py" />
-        <option value="$PROJECT_DIR$/../WebNode/commarketing/templates/commarketing/change_smart_object.html" />
-        <option value="$PROJECT_DIR$/../IkwenTuto/support/admin.py" />
-        <option value="$PROJECT_DIR$/../Website/conf/settings.py" />
-        <option value="$PROJECT_DIR$/../ikwen/static/ikwen/css/owl.transitions.css" />
-        <option value="$PROJECT_DIR$/../Website/static/ikwen/css/owl.transitions.css" />
-        <option value="$PROJECT_DIR$/../Website/templates/home.html" />
-        <option value="$PROJECT_DIR$/../Website/conf/urls.py" />
-        <option value="$PROJECT_DIR$/../Website/templates/app/kakocase.html" />
-        <option value="$PROJECT_DIR$/../Website/website/views.py" />
-        <option value="$PROJECT_DIR$/static/kakocase/css/optimum.css" />
-        <option value="$PROJECT_DIR$/../Website/static/ikwen/css/apps.css" />
-        <option value="$PROJECT_DIR$/../Website/templates/apps/webnode.html" />
-        <option value="$PROJECT_DIR$/../Website/templates/apps/shavida.html" />
-        <option value="$PROJECT_DIR$/../Website/templates/apps/kakocase.html" />
-        <option value="$PROJECT_DIR$/../Website/templates/about.html" />
-        <option value="$PROJECT_DIR$/../Website/tsunami/templates/tsunami/bundles.html" />
-        <option value="$PROJECT_DIR$/../Website/static/website/css/com.css" />
-        <option value="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/base.html" />
-        <option value="$PROJECT_DIR$/shopping/templates/shopping/base.html" />
-        <option value="$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html" />
-        <option value="$PROJECT_DIR$/shopping/templates/shopping/snippets/language_switcher.html" />
-        <option value="$PROJECT_DIR$/../CloudTest/Kakocase/adidas/templates/shopping/optimum/base.html" />
-        <option value="$PROJECT_DIR$/static/kakocase/css/style.css" />
-        <option value="$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/cart.html" />
-        <option value="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html" />
-        <option value="$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html" />
-        <option value="$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css" />
-        <option value="$PROJECT_DIR$/../ikwenWebsite/templates/home.html" />
+        <option value="theYogam &lt;44173266+theyogam@users.noreply.github.com&gt;" />
       </list>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/komsihon/Project1.git" />
+        <option value="https://github.com/komsihon/Project10.git" />
+        <option value="https://github.com/komsihon/Project12.git" />
+        <option value="https://github.com/komsihon/Project4.git" />
+        <option value="https://github.com/komsihon/Project6.git" />
+        <option value="https://github.com/theYogam/Playground.git" />
+      </set>
+    </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="-11" />
-    <option name="width" value="1922" />
-    <option name="height" value="1092" />
-  </component>
+  <component name="ProjectId" id="1cX2dLdcZiK4MKU642PXWayqOvD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snippets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tsunami" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ikwenWebsite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adidas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adidas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webnode" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adidas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tchopetyamo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KakocaseGithub" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ikwenWebsite" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Daraja" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -492,36 +99,28 @@
       <recent name="$PROJECT_DIR$/../Website/templates/app" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Python tests.Unittests in WebNode">
-    <configuration default="false" name="Unittests in WebNode" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Kakocase" type="DjangoTestsConfigurationType">
+      <module name="KakocaseGithub" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="KakocaseGithub" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/../WebNode&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="KakocaseGithub" />
+      <option name="SETTINGS_FILE" value="$PROJECT_DIR$/conf/settings.py" />
+      <option name="CUSTOM_SETTINGS" value="true" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+    <configuration default="true" type="DjangoTestsConfigurationType">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -533,80 +132,59 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="TARGET" value="" />
       <option name="SETTINGS_FILE" value="" />
       <option name="CUSTOM_SETTINGS" value="false" />
       <option name="USE_OPTIONS" value="false" />
       <option name="OPTIONS" value="" />
-      <method />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
-      <node-interpreter value="project" />
-      <working-dir value="" />
-      <envs />
-      <scope-kind value="ALL" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="ADDITIONAL_ARGS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
+    <configuration name="kakocase sales" type="DjangoTestsConfigurationType">
+      <module name="KakocaseGithub" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sales/" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="KakocaseGithub.sales" />
+      <option name="SETTINGS_FILE" value="$PROJECT_DIR$/conf/settings.py" />
+      <option name="CUSTOM_SETTINGS" value="true" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="KakocaseGithub" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
-      <option name="host" value="" />
-      <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="" />
-      <option name="runTestServer" value="false" />
-      <option name="runNoReload" value="false" />
-      <option name="useCustomRunCommand" value="false" />
-      <option name="customRunCommand" value="" />
-      <method />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PyLettuceRunConfigurationType" factoryName="Lettuce">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -620,53 +198,61 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <module />
-      <method />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+    <configuration default="true" type="js.build_tools.gulp">
       <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
       <arguments />
       <envs />
-      <method />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
-      <scripts />
-      <node-interpreter value="project" />
-      <envs />
-      <method />
+    <configuration name="Unittests in WebNode" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="KakocaseGithub" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/../WebNode&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -674,77 +260,36 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <method />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="KakocaseGithub" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="KakocaseGithub" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;.&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method />
+      <method v="2" />
     </configuration>
-    <configuration default="false" name="Kakocase" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="KakocaseGithub" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="KakocaseGithub" />
-      <option name="SETTINGS_FILE" value="$PROJECT_DIR$/conf/settings.py" />
-      <option name="CUSTOM_SETTINGS" value="true" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="kakocase sales" type="DjangoTestsConfigurationType" factoryName="Django tests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/../venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sales/" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="KakocaseGithub" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="KakocaseGithub.sales" />
-      <option name="SETTINGS_FILE" value="$PROJECT_DIR$/conf/settings.py" />
-      <option name="CUSTOM_SETTINGS" value="true" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Django tests.Kakocase" />
-      <item index="1" class="java.lang.String" itemvalue="Django tests.kakocase sales" />
-      <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in WebNode" />
+    <list>
+      <item itemvalue="Django tests.Kakocase" />
+      <item itemvalue="Django tests.kakocase sales" />
+      <item itemvalue="Python tests.Unittests in WebNode" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in WebNode" />
+      <list>
+        <item itemvalue="Python tests.Unittests in WebNode" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -753,6 +298,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1512488419630</updated>
+      <workItem from="1590660715302" duration="24000" />
+      <workItem from="1590661182545" duration="327000" />
+      <workItem from="1590682576157" duration="8071000" />
+      <workItem from="1590741649575" duration="16435000" />
+      <workItem from="1590844156005" duration="15658000" />
+      <workItem from="1591002651668" duration="636000" />
+      <workItem from="1591004663172" duration="1447000" />
+      <workItem from="1591012662327" duration="10591000" />
+      <workItem from="1591083460380" duration="18561000" />
+      <workItem from="1591115638796" duration="27863000" />
+      <workItem from="1591258072604" duration="9055000" />
+      <workItem from="1591287302858" duration="28312000" />
+      <workItem from="1591425931108" duration="23788000" />
+      <workItem from="1591535611472" duration="30189000" />
+      <workItem from="1591700583884" duration="5271000" />
+      <workItem from="1591720787319" duration="3777000" />
     </task>
     <task id="LOCAL-00001" summary="Update on template selector, Blog views">
       <created>1517829130163</created>
@@ -817,7 +378,105 @@
       <option name="project" value="LOCAL" />
       <updated>1521814863769</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- Add trailing slash within url of refer now&#10;- Minor change on home playground">
+      <created>1590692024490</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1590692024490</updated>
+    </task>
+    <task id="LOCAL-00011" summary="- Little changes on first_time.html and welcome.html templates &#10;- Remove importation of fontawesome in product_detail.html">
+      <created>1590837515356</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1590837515356</updated>
+    </task>
+    <task id="LOCAL-00012" summary="- Display coupons on welcome.html only when the user is authenticated&#10;&#10;- Update on the way we save a profile tag of an user">
+      <created>1590861208634</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1590861208634</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Include pwa parameters in welcome.html">
+      <created>1590863345836</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1590863345836</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add new urls in root urls to route users to first time and welcome pages">
+      <created>1590863683499</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1590863683499</updated>
+    </task>
+    <task id="LOCAL-00015" summary="- Minor changes on landing pages (first_time.html and welcome.html)&#10;&#10;- Minor change on style sheet">
+      <created>1591086028675</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1591086028675</updated>
+    </task>
+    <task id="LOCAL-00016" summary="- Move language selector to the footer sectioln&#10;- Put color brand on button whenever it exists&#10;- Change shopping bag UI">
+      <created>1591125033782</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1591125033782</updated>
+    </task>
+    <task id="LOCAL-00017" summary="- Put 99+ when user notifications exceed 99&#10;- Remove position fixed on top section on left edge panel.">
+      <created>1591180956842</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1591180956842</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Change middleware.py to make LandinPage to point on guard page.">
+      <created>1591183048370</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1591183048371</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Create a script assignment_reminder.py with the purpose to:&#10;- Remind/notify by email parents when a teacher gives a new assignment.&#10;- Remind parents 24 hours before assignment deadline, if the student has not sent his homework.">
+      <created>1591187682067</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1591187682067</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Correct middleware.py file">
+      <created>1591190210693</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1591190210693</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Comment js block on change_homework.html">
+      <created>1591191040338</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1591191040338</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Removing trailing slash after word `signIn` in URL of refer now.">
+      <created>1591374197649</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1591374197649</updated>
+    </task>
+    <task id="LOCAL-00023" summary="- Add brand color on buttons of first time and welcome pages&#10;- Create a view to display user's coupons on the service in which he browses&#10;- Put a clue to notify user that he has pending coupons (small circle, gift icon etc...)&#10;-">
+      <created>1591721441637</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1591721441638</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -852,327 +511,177 @@
       <configuration name="kakocase sales" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-1" y="-11" width="1922" height="1092" extended-state="6" />
-    <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17291667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37634408" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2451613" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24408603" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24623656" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37634408" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2945571" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24408603" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$/../Foulassi" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update on template selector, Blog views" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update on template selector, Blog views" />
+    <MESSAGE value="- Add trailing slash within url of refer now&#10;- Minor change on home playground" />
+    <MESSAGE value="- Little changes on first_time.html and welcome.html templates &#10;- Remove importation of fontawesome in product_detail.html" />
+    <MESSAGE value="- Display coupons on welcome.html only when the user is authenticated&#10;&#10;- Update on the way we save a profile tag of an user" />
+    <MESSAGE value="Include pwa parameters in welcome.html" />
+    <MESSAGE value="Add new urls in root urls to route users to first time and welcome pages" />
+    <MESSAGE value="- Minor changes on landing pages (first_time.html and welcome.html)&#10;&#10;- Minor change on style sheet" />
+    <MESSAGE value="- Move language selector to the footer sectioln&#10;- Put color brand on button whenever it exists&#10;- Change shopping bag UI" />
+    <MESSAGE value="- Put 99+ when user notifications exceed 99&#10;- Remove position fixed on top section on left edge panel." />
+    <MESSAGE value="Change middleware.py to make LandinPage to point on guard page." />
+    <MESSAGE value="Create a script assignment_reminder.py with the purpose to:&#10;- Remind/notify by email parents when a teacher gives a new assignment.&#10;- Remind parents 24 hours before assignment deadline, if the student has not sent his homework." />
+    <MESSAGE value="Correct middleware.py file" />
+    <MESSAGE value="Comment js block on change_homework.html" />
+    <MESSAGE value="Removing trailing slash after word `signIn` in URL of refer now." />
+    <MESSAGE value="- Add brand color on buttons of first time and welcome pages&#10;- Create a view to display user's coupons on the service in which he browses&#10;- Put a clue to notify user that he has pending coupons (small circle, gift icon etc...)&#10;-" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Add brand color on buttons of first time and welcome pages&#10;- Create a view to display user's coupons on the service in which he browses&#10;- Put a clue to notify user that he has pending coupons (small circle, gift icon etc...)&#10;-" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="4" />
-    </breakpoint-manager>
-    <watches-manager />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-achievement.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-contact.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-creolink.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-cyberlink.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/website/img/ikwen-dev.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/font-awesome/css/font-awesome.css" />
-    <entry file="file://$PROJECT_DIR$/../ikwen/static/ikwen/css/owl.transitions.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="2881" column="0" lean-forward="false" selection-start-line="2881" selection-start-column="0" selection-end-line="2882" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/scrollTo.js" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/scrollTo.js" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/animate.min.css" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/owl.transitions.css" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.js" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/bootstrap.css" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/js/bootstrap.min.js" />
-    <entry file="file://$PROJECT_DIR$/../Website/conf/urls.py" />
-    <entry file="file://$PROJECT_DIR$/../Website/templates/home.html" />
-    <entry file="file://$PROJECT_DIR$/../ikwen/accesscontrol/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="706">
-          <caret line="582" column="22" lean-forward="false" selection-start-line="582" selection-start-column="22" selection-end-line="582" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../venv/local/lib/python2.7/site-packages/ikwen/core/templates/core/base_bs.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="189" column="21" lean-forward="true" selection-start-line="183" selection-start-column="12" selection-end-line="189" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/website/views.py" />
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/shavida.html" />
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/webnode.html" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/ikwen/css/apps.css" />
-    <entry file="file://$PROJECT_DIR$/../Website/templates/apps/kakocase.html" />
-    <entry file="file://$PROJECT_DIR$/../Website/templates/about.html" />
-    <entry file="file://$PROJECT_DIR$/static/kakocase/css/optimum.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="95" column="54" lean-forward="true" selection-start-line="95" selection-start-column="54" selection-end-line="95" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/cancel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/checkout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="30" column="29" lean-forward="false" selection-start-line="30" selection-start-column="29" selection-end-line="30" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/kakocase/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="49" column="40" lean-forward="false" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sales/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/snippets/checkout_summary.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Website/tsunami/templates/tsunami/bundles.html" />
-    <entry file="file://$PROJECT_DIR$/../Website/static/website/css/com.css" />
-    <entry file="file://$PROJECT_DIR$/../WebNode/blog/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/kakocase/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="1" lean-forward="false" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="96" column="24" lean-forward="false" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="73" column="45" lean-forward="false" selection-start-line="73" selection-start-column="38" selection-end-line="73" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/cart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="334" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/shopping/optimum/cart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="309" column="28" lean-forward="false" selection-start-line="309" selection-start-column="28" selection-end-line="309" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/snippets/language_switcher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="7" lean-forward="false" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../CloudTest/Kakocase/adidas/templates/shopping/optimum/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="163" column="30" lean-forward="false" selection-start-line="163" selection-start-column="30" selection-end-line="163" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/bundles.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shopping/templates/shopping/optimum/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1728">
-          <caret line="96" column="30" lean-forward="false" selection-start-line="96" selection-start-column="30" selection-end-line="97" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/language_switcher.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="50" lean-forward="false" selection-start-line="2" selection-start-column="50" selection-end-line="2" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/snippets/edge_panel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/tsunami/templates/tsunami/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/static/website/css/website.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1458">
-          <caret line="81" column="30" lean-forward="false" selection-start-line="81" selection-start-column="30" selection-end-line="81" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/improve/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../ikwenWebsite/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="108" column="23" lean-forward="false" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/tchopetyamo/webnode/snippets/edge_panel.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state x="2026" y="67" width="738" height="977" key="#Unittests_in_WebNode" timestamp="1591287149384">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2026" y="67" width="738" height="977" key="#Unittests_in_WebNode/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591287149384" />
+    <state x="1806" y="81" width="1002" height="900" key="CommitChangelistDialog2" timestamp="1591721441048">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="181" y="266" width="1095" height="639" key="CommitChangelistDialog2/0.34.3360.1046@0.34.3360.1046" timestamp="1591705675021" />
+    <state x="1806" y="81" width="1002" height="900" key="CommitChangelistDialog2/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591721441048" />
+    <state x="0" y="198" width="1376" height="882" key="CommitChangelistDialog2/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591374197442" />
+    <state x="0" y="180" width="1430" height="894" key="DiffContextDialog" timestamp="1591721191437">
+      <screen x="0" y="180" width="1440" height="900" />
+    </state>
+    <state x="1543" y="131" width="1720" height="848" key="DiffContextDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591707998739" />
+    <state x="0" y="180" width="1430" height="894" key="DiffContextDialog/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591721191437" />
+    <state x="64" y="180" width="1164" height="876" key="DiffContextDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591291495438" />
+    <state x="1440" y="283" width="530" height="598" key="FileChooserDialogImpl" timestamp="1591639954530">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="1440" y="283" width="530" height="598" key="FileChooserDialogImpl/0.34.3360.1046@0.34.3360.1046" timestamp="1591639954530" />
+    <state x="2130" y="257" width="530" height="598" key="FileChooserDialogImpl/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591195937613" />
+    <state x="1622" y="109" width="1536" height="894" key="MergeDialog" timestamp="1591187802368">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1622" y="109" width="1536" height="894" key="MergeDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591187802368" />
+    <state x="1797" y="34" width="1398" height="697" key="MultipleFileMergeDialog" timestamp="1591187834503">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1797" y="34" width="1398" height="697" key="MultipleFileMergeDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591187834503" />
+    <state x="2103" y="161" width="583" height="789" key="RollbackChangesDialog" timestamp="1591641338869">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="2103" y="161" width="583" height="789" key="RollbackChangesDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591641338869" />
+    <state x="569" y="134" key="SettingsEditor" timestamp="1591641391745">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="569" y="134" key="SettingsEditor/0.34.3360.1046@0.34.3360.1046" timestamp="1591641391745" />
+    <state x="1765" y="103" key="SettingsEditor/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1590684215004" />
+    <state x="21" y="180" width="1419" height="900" key="VCS.ChangeListViewerDialog" timestamp="1591641961328">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="21" y="180" width="1419" height="900" key="VCS.ChangeListViewerDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591641961328" />
+    <state x="59" y="232" width="608" height="814" key="VCS.ChangeListViewerDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591289990671" />
+    <state x="341" y="371" width="1000" height="654" key="Vcs.Push.Dialog.v2" timestamp="1591721450034">
+      <screen x="0" y="180" width="1440" height="900" />
+    </state>
+    <state x="1440" y="256" width="1000" height="654" key="Vcs.Push.Dialog.v2/0.34.3360.1046@0.34.3360.1046" timestamp="1591086039612" />
+    <state x="341" y="371" width="1000" height="654" key="Vcs.Push.Dialog.v2/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591721450034" />
+    <state x="1895" y="229" width="1000" height="654" key="Vcs.Push.Dialog.v2/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591374200343" />
+    <state x="1540" y="132" width="1720" height="848" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1591641365998">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="1540" y="132" width="1720" height="848" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591641365998" />
+    <state x="1440" y="162" width="1920" height="822" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1591708779514">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="100" y="162" width="1720" height="822" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1590747000306" />
+    <state x="1440" y="162" width="1920" height="822" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591708779514" />
+    <state x="193" y="180" width="1237" height="634" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591371832751" />
+    <state x="317" y="541" key="com.intellij.ide.util.TipDialog" timestamp="1591720792789">
+      <screen x="0" y="180" width="1440" height="900" />
+    </state>
+    <state x="423" y="454" key="com.intellij.ide.util.TipDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1591700871373" />
+    <state x="1980" y="353" key="com.intellij.ide.util.TipDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591437291639" />
+    <state x="317" y="541" key="com.intellij.ide.util.TipDialog/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591720792789" />
+    <state x="1980" y="329" key="com.intellij.ide.util.TipDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591287303078" />
+    <state x="530" y="166" width="823" height="900" maximized="true" key="dock-window-1" timestamp="1591602688429">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="0" y="180" width="823" height="900" key="dock-window-1/0.34.1920.1046@0.34.1920.1046" timestamp="1591535619880" />
+    <state x="530" y="166" width="823" height="900" maximized="true" key="dock-window-1/0.34.3360.1046@0.34.3360.1046" timestamp="1591602688429" />
+    <state x="0" y="180" width="1287" height="804" maximized="true" key="dock-window-1/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591287310315" />
+    <state x="2023" y="304" width="743" height="503" key="git4idea.merge.GitMergeDialog" timestamp="1591289716067">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2023" y="304" width="743" height="503" key="git4idea.merge.GitMergeDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591289716067" />
+    <state x="430" y="433" width="754" height="503" key="git4idea.merge.GitPullDialog" timestamp="1591720863370">
+      <screen x="0" y="180" width="1440" height="900" />
+    </state>
+    <state x="823" y="328" width="754" height="503" key="git4idea.merge.GitPullDialog/0.34.1920.1046@0.34.1920.1046" timestamp="1591700885248" />
+    <state x="1440" y="328" width="754" height="503" key="git4idea.merge.GitPullDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591639982201" />
+    <state x="430" y="433" width="754" height="420" key="git4idea.merge.GitPullDialog/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591720863370" />
+    <state x="2013" y="304" width="764" height="503" key="git4idea.merge.GitPullDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591373957646" />
+    <state x="1440" y="459" width="1246" height="233" key="git4idea.ui.GitStashDialog" timestamp="1591639886004">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="1440" y="459" width="1246" height="233" key="git4idea.ui.GitStashDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591639886004" />
+    <state x="2039" y="439" width="712" height="233" key="git4idea.ui.GitStashDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591289745238" />
+    <state x="1440" y="34" width="1920" height="567" key="git4idea.ui.GitUnstashDialog" timestamp="1591640151509">
+      <screen x="0" y="34" width="3360" height="1046" />
+    </state>
+    <state x="1440" y="34" width="1920" height="567" key="git4idea.ui.GitUnstashDialog/0.34.3360.1046@0.34.3360.1046" timestamp="1591640151509" />
+    <state x="465" y="180" width="970" height="487" key="git4idea.ui.GitUnstashDialog/1440.0.1920.1080/0.180.1440.900@1440.0.1920.1080" timestamp="1591289992253" />
+    <state x="299" y="179" width="840" height="1034" key="search.everywhere.popup" timestamp="1591189958773">
+      <screen x="0" y="180" width="1440" height="900" />
+    </state>
+    <state x="299" y="179" width="840" height="1034" key="search.everywhere.popup/1440.0.1920.1080/0.180.1440.900@0.180.1440.900" timestamp="1591189958773" />
   </component>
 </project>

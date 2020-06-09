@@ -14,8 +14,12 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 2.7 (venv)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7 (virtualenv)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Tchopetyamo" />
+    <orderEntry type="module" module-name="Playground" />
+    <orderEntry type="module" module-name="ikwen Support" />
+    <orderEntry type="module" module-name="Daraja" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
