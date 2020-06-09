@@ -118,7 +118,7 @@
                     <h2>{% trans 'Activate notifications' %}</h2>
                     <p>{% lorem 20 w %}</p>
                     <div class="action">
-                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn">
+                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Activate" %}</span>
                         </button>
@@ -138,7 +138,7 @@
                         {% endblocktrans %}
                     </p>
                     <div class="action">
-                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa">
+                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Download" %}</span>
                         </button>

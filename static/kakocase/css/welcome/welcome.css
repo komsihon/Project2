@@ -25,6 +25,7 @@ body {background: none!important;}
 .img-illustration {/* margin-top: 30px; */}
 
 #promotion img {width: auto}
+#promotion {margin-bottom: 50px}
 
 #our-products {margin-bottom: 60px}
 #our-products .description {float: none!important;}

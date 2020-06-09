@@ -24,9 +24,9 @@
     <link rel="shortcut icon" type="image/png" href="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
-    <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}?v=20-06-04.19.59" />
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-06-01.16.56"/>
+    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-06-04.19.21"/>
     <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}"/>
 
     <!--Conditional custom css -->
@@ -204,7 +204,7 @@
                     <h2>{% trans 'Activate notifications' %}</h2>
                     <p>{% lorem 20 w %}</p>
                     <div class="action">
-                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn" style="{% if config.brand_color %}background-color:{{ config.brand_color }}{% endif %}">
+                        <button id="activate" class="btn btn-sm btn-deep-blue push-subscribe-btn" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Activate" %}</span>
                         </button>
@@ -224,7 +224,7 @@
                         {% endblocktrans %}
                     </p>
                     <div class="action">
-                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa" style="{% if config.brand_color %}background-color:{{ config.brand_color }}{% endif %}">
+                        <button id="download" class="btn btn-sm btn-deep-blue install-pwa" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">
                             {% include 'core/snippets/button_spinner.html' %}
                             <span>{% trans "Download" %}</span>
                         </button>
@@ -240,7 +240,7 @@
                 </div>
                 <div id="next-action" class="col-md-8 col-md-offset-2 col-sm-10">
                     <span class="col-sm-4">
-                        <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="register btn btn-sm btn-block btn-deep-blue">
+                        <a href="{% url 'ikwen:sign_in' %}?next={% url 'home' %}" class="register btn btn-sm btn-block btn-deep-blue" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">
                             <strong>{% trans "Register now" %}</strong>
                         </a>
                         <span class="text-muted text-center">{% trans 'And enjoy many advantages' %}</span>
@@ -284,6 +284,7 @@
             $(window).on('resize', () => {
                 resize();
             });
+
         })()
     </script>
 {% endblock %}

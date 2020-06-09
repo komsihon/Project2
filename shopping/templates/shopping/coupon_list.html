@@ -1,0 +1,206 @@
+{% extends "shopping/optimum/base.html" %}
+{% load i18n humanize static auth_tokens %}
+
+{% block meta %}
+    {{ block.super }}
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="Website" />
+
+    <meta property="og:title" content="{{ profile_name }}" />
+    <meta property="og:image" content="{{ settings.IKWEN_MEDIA_URL }}{{ config.logo.name }}" />
+    <meta property="og:description" content="{% blocktrans %}Join {{ profile_name }} on ikwen !{% endblocktrans %}" />
+    <meta name="description" content="{% blocktrans %}Join {{ profile_name }} on ikwen !{% endblocktrans %}" />
+    <meta property="og:site_name" content="www.ikwen.com" />
+{% endblock %}
+
+{% block page_title %}
+<title> My earned coupons on {{ profile_name }}</title>
+{% endblock %}
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'ikwen/css/console.css' %}?v=20.3.24" media="screen" rel="stylesheet" type="text/css" />
+    <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
+    <style>
+        #stage .card {background-color: transparent; margin-bottom: 53px; box-shadow: none;}
+
+        #coupons .progress {margin: 0}
+        #coupons .progress-bar {background-color: #4CAF50;}
+        .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
+        .coupon-count span {font-size: 26px; font-weight: 700}
+        .header-bottom .navbar, .coupon-section, .my-coupon-list {display: none!important;}
+    </style>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/swiper/js/swiper.jquery.min.js' %}"></script>
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ settings.IKWEN_BASE_URL }}">
+        <strong><span class="letter-i">i</span>kwen</strong>
+    </a>
+    <strong class="navbar-brand visible-xs"><span class="letter-i">i</span>kwen</strong>
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="container">
+        <div class="edge-panel-left visible-xs">
+            <div class="wrapper">
+                <div class="stage">
+                    <a class="logo text-center" href="{% url 'home' %}">
+                        <img src="{% static 'ikwen/img/logo_ikwen_2018.png' %}" alt="ikwen logo" />
+                    </a>
+                </div>
+                <footer>
+                    &copy; {{ year }} <a href="http://www.ikwen.com"><strong>ikwen</strong></a>. {% trans "All rights reserved." %} -
+                    <a href="http://www.ikwen.com/legalMentions" style="text-decoration: underline">{% trans "Legal mentions" %}</a>
+                </footer>
+            </div>
+        </div>
+        {% block stage %}
+            <div id="stage">
+                {% if coupon_list %}
+                <div id="coupons" class="card-ul">
+                    <div class="card subtle-shade">
+                        <div>
+                            <h3 class="pull-left" style="font-size: 18px; margin-top: 0">{% trans "Your free coupons" %}</h3>
+                            <div class="dropdown social-sharing pull-right">
+                                <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-share-alt" style="color: #243682; font-size: 21px; margin-right: 10px"></i>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="share-coupons">
+                                    <li class="visible-xs visible-sm">
+                                        <a href="javascript:;" data-toggle="modal" data-target="#whatsapp-share">
+                                            <i class="fa fa-whatsapp"></i>
+                                            WhatsApp
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://facebook.com/sharer/sharer.php?u={{ url }}" target="_blank">
+                                            <i class="fa fa-facebook"></i>
+                                            Facebook
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://twitter.com/home?status={{ url }}" target="_blank">
+                                            <i class="fa fa-twitter"></i>
+                                            Twitter
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="row">
+                            <div class="row swiper-container" style="margin-top: 5px">
+                                <div class="swiper-wrapper">
+                                {% for coupon in coupon_list %}
+                                    <div class="col-xs-4 col-sm-3 card-li swiper-slide" style="text-align: center">
+                                        <div>
+                                            <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }})">
+                                                {% if user.is_authenticated %}
+                                                <div class="text-has-shade coupon-count">
+                                                    <span>{{ coupon.count }}</span>/100
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            {% if user.is_authenticated %}
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: {{ coupon.ratio|floatformat:"0" }}%">
+                                                    <span class="sr-only">{{ coupon.ratio }}% Complete</span>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <p style="margin-top: 5px">{{ coupon.name }}</p>
+                                        </div>
+                                        {% if coupon.count >= 100 %}
+                                            <button class="btn btn-sm btn-block btn-warning claim-reward"
+                                                    data-toggle="modal" data-target="#claim-reward">
+                                                {% trans "Claim your reward" %}
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                <div class="swiper-button-next has-shade">
+                                    <i class="fa fa-angle-right"></i>
+                                </div>
+                                <div class="swiper-button-prev has-shade">
+                                    <i class="fa fa-angle-left"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% include 'rewarding/snippets/cr_console_modals.html' %}
+        {% endblock %}
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    {% with do_refer=request.GET.do_refer joined=request.GET.joined join_coupon_count=request.GET.join_coupon_count referral_coupon_count=request.GET.referral_coupon_count %}
+    {% include 'accesscontrol/snippets/request_management.html' %}
+    <script>
+        (function() {
+            var couponSwiper = new Swiper('#coupons .swiper-container', {
+                slidesPerView: 'auto',
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev'
+            });
+            $('body').on('click', '.coupon-img', function() {
+                var id = $(this).data('id');
+                $.getJSON('{% url 'rewarding:coupon_detail' %}', {id: id}, function(data) {
+                    if (data.error) {
+                        ikwen.showFloatingNotice(data.error, '', 6);
+                        return;
+                    }
+                    $('div#coupon-detail .modal-title').text(data.name);
+                    $('div#coupon-detail img').prop('src', data.image_url.replace("{{ service.ikwen_name }}", "ikwen"));
+                    $('div#coupon-detail .description').html(data.description);
+                    $('#coupon-detail').modal('show');
+                })
+            }).on('click', '#whatsapp-share .btn.ok', function() {
+                var msg = $('#whatsapp-share-msg').val(),
+                    url = $('.wsap-link').data('url');
+                window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A' + msg;
+            });
+            $(window).scroll(function() {
+                var scrollTop = $(this).scrollTop();
+                if (scrollTop > 150) $('.bottom-join').addClass('revealed');
+                else $('.bottom-join').removeClass('revealed');
+            });
+            {% if joined %}
+                $('div#modal-join-notice .speech > div, div#modal-join-notice .actions > div, .cr-refer').hide();
+                {% if  join_coupon_count or referral_coupon_count %}
+                    $('.reward-available').show();
+                    $('#modal-join-notice .claim').attr('href', "{% url 'ikwen:company_profile' request.GET.joined %}");
+                    if ("{{ request.GET.referral_coupon_count }}") {
+                        $('.cr-refer').show();
+                        $('.reward-available.col-sm-offset-4').removeClass('col-sm-offset-4');
+                    }
+                {% else %}
+                    $('.no-reward').show();
+                {% endif %}
+                $('#modal-join-notice').modal('show');
+            {% endif %}
+            {% if do_refer %}
+                {% if user.is_anonymous %}
+                    $('#modal-login-to-refer').modal('show');
+                {% else %}
+                    $('#modal-refer-now').modal('show');
+                {% endif %}
+            {% endif %}
+            {% if is_company %}
+                $('#modal-join-notice .invite-friends').click(function () {
+                    $('.social-sharing')
+                });
+            {% endif %}
+        })()
+    </script>
+    {% endwith %}
+{% endblock %}

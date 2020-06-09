@@ -122,6 +122,15 @@ class Home(TemplateSelector, TemplateView):
         # cookie_name = "%s_first_time" % service.project_name_slug
         # if request.user.is_anonymous() and not request.COOKIES.get(cookie_name):
         #     return HttpResponseRedirect(reverse('first_time'))
+        # has_pending_coupon = "has_unused_coupons_on_%s" % service.project_name_slug
+        # response = super(Home, self).get(request, *args, **kwargs)
+        # if request.user.is_authenticated():
+        #     if not request.COOKIES.get(has_pending_coupon):
+        #         expires = datetime.now() + timedelta(days=4)
+        #         response.set_cookie(has_pending_coupon, 'yes', expires=expires)
+
+        # return response
+
         context = super(Home, self).get_context_data(**kwargs)
 
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)
@@ -999,3 +1008,71 @@ def load_countries(*args, **kwargs):
     json.dumps({'Success': True}),
     'content-type: text/json'
     )
+
+
+class CouponList(TemplateView):
+
+    template_name = 'shopping/coupon_list.html'
+
+    # def get_context_data(self, **kwargs):
+        # context = super(MyCouponList, self).get_context_data(**kwargs)
+        # # project_name_slug = kwargs['project_name_slug']
+        # # service = get_object_or_404(Service, project_name_slug=project_name_slug)
+        # service = get_service_instance()
+        #
+        # config = service.config
+        # # context['is_company'] = True
+        # # context['page_service'] = service  # Updates the service context defined in TemplateView
+        # # context['page_config'] = config
+        # # context['profile_name'] = service.project_name
+        # # context['profile_email'] = config.contact_email
+        # # context['profile_phone'] = config.contact_phone
+        # # context['profile_address'] = config.address
+        # # context['profile_city'] = config.city
+        # # context['profile_photo_url'] = config.logo.url if config.logo.name else ''
+        # # context['profile_cover_url'] = config.cover_image.url if config.cover_image.name else ''
+        # member = self.request.user
+        # # referrer_id = self.request.GET.get('referrer')
+        # # if referrer_id:
+        # #     referrer = get_object_or_404(Member, pk=referrer_id)
+        # #     context['referrer'] = referrer
+        # if member.is_authenticated():
+        #     try:
+        #         AccessRequest.objects.get(member=member, service=service)
+        #         context['is_member'] = True  # Causes the "Join" button not to appear when there's a pending Access Request
+        #     except AccessRequest.DoesNotExist:
+        #         try:
+        #             add_database_to_settings(service.database)
+        #             Member.objects.using(service.database).get(pk=member.id)
+        #             context['is_member'] = True
+        #         except Member.DoesNotExist:
+        #             context['is_member'] = False
+        # try:
+        #     cr_profile = CROperatorProfile.objects.get(service=service, is_active=True)
+        # except CROperatorProfile.DoesNotExist:
+        #     pass
+        # else:
+        #     coupon_qs = Coupon.objects.filter(service=service, status=Coupon.APPROVED, is_active=True)
+        #     if member.is_authenticated():
+        #         coupon_list = []
+        #         for coupon in coupon_qs:
+        #             try:
+        #                 cumul = CumulatedCoupon.objects.get(coupon=coupon, member=member)
+        #                 coupon.count = cumul.count
+        #                 coupon.ratio = float(cumul.count) / coupon.heap_size * 100
+        #             except CumulatedCoupon.DoesNotExist:
+        #                 coupon.count = 0
+        #                 coupon.ratio = 0
+        #             coupon_list.append(coupon)
+        #     else:
+        #         coupon_list = coupon_qs
+        #     url = getattr(settings, 'PROJECT_URL') + reverse('ikwen:company_profile', args=(service.project_name_slug, ))
+        #     if member.is_authenticated():
+        #         url += '?referrer=' + member.id
+        #         context['coupon_summary_list'] = get_coupon_summary_list(member)
+        #     context['url'] = urlquote(url)
+        #     context['cr_profile'] = cr_profile
+        #     context['coupon_list'] = coupon_list
+        # return context
+
+

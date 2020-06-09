@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.03.09.10" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.06.17.04" type="text/css" media="all" />
             <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.5.29" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
@@ -133,9 +133,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <ul>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
-                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity">1</span>
+                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity"></span>
                                             </a>
-                                            <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="left: -85px; width: 200px">
+                                            <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="left: -157px; width: 200px; top: 31px">
                                                 <li>
                                                     <div class="cart-details">
                                                         <a href="{% url 'shopping:cart' %}">
@@ -152,10 +152,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="clearfix"></div>
-                                                    <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning" style="background: var(--color-orange); color: #fff; height: 40px; line-height: 32px; font-size: 14px">{% trans 'Checkout' %}</a>
+                                                    <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning">{% trans 'Checkout' %}</a>
                                                 </li>
                                             </ul>
                                         </li>
+                                        {% if total_coupons %}
+                                        <li>
+                                            <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
+                                                <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>
@@ -202,7 +209,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <ul>
                                             <li class="dropdown">
                                                 <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
-                                                    <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity">1</span>
+                                                    <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity"></span>
                                                 </a>
                                                 <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="width: 200px">
                                                     <li>
@@ -221,10 +228,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                             <div class="clearfix"></div>
                                                         </div>
                                                         <div class="clearfix"></div>
-                                                        <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning" style="background: var(--color-orange); color: #fff; height: 40px; line-height: 32px; font-size: 14px">{% trans 'Checkout' %}</a>
+                                                        <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning">{% trans 'Checkout' %}</a>
                                                     </li>
                                                 </ul>
                                             </li>
+                                            {% if total_coupons %}
+                                            <li>
+                                                <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
+                                                    <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </div>
@@ -310,6 +324,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
+                        {% if total_coupons %}
+                            <i class="fa fa-circle coupons-notification"></i>
+                        {% endif %}
                         <span class="app-name">
                             <a>{{ service.project_name|truncatechars:":12" }}</a>
                         </span>
@@ -812,6 +829,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         }
                         lastScrollTop = st;
                     }
+                });
+
+                $('.header-bottom .navbar-toggle, .coupon-section a').on('click', (e) => {
+                    {#$(e.target).#}
                 });
 
                 $("#hide-email-modal").click(function(){

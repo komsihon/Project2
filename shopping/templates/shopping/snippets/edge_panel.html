@@ -1,9 +1,9 @@
- {% load i18n humanize staticfiles cache auth_tokens %}
+{% load i18n humanize staticfiles cache auth_tokens %}
 <div class="edge-panel-left-container visible-xs">
     <div id="side-nav" class="edge-panel-left" style="margin-left: -240px">
         <div class="wrapper">
             <div class="stage">
-                <div class="top-edge-panel" style>
+                <div class="top-edge-panel">
                     {% if config.cover_image and config.cover_image.name %}
                         <div class="panel-top" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ config.cover_image.name }});">
                     {% else %}
@@ -40,26 +40,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cart box_1">
-                        <a href="{% url 'shopping:cart' %}" style="float: left"><i class="kkc-cart fa fa-opencart fa-4x"></i></a>
-                        <div style="float: left; margin: 10px">
-                            <a href="{% url 'shopping:cart' %}">
-                                <h5>
-                                    <div class="total">
-                                        <span class="simpleCart_total"></span>
-                                        <span class="label label-danger simpleCart_quantity"></span>
-                                    </div>
-                                </h5>
-                            </a>
-                            <a href="javascript:;" class="empty-cart" data-toggle="modal"
-                               data-target="#confirm-empty-cart">
-                                <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
-                            </a>
+                    <div class="clearfix"></div>
+
+                    {% if total_coupons %}
+                        <div class="coupon-section">
+                            <div class="col-xs-2 row">
+                                <img src="{% static 'kakocase/img/gift-card.png' %}">
+                                <span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
+                            </div>
+                            <div class="col-xs-10 pull-right">
+                                {% trans 'Redeem your coupon voucher in lieu of gifts' %}
+                                <a href="{% url 'shopping:coupon_list' %}">{% trans 'see your collected coupons...' %}</a>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="divider"></div>
+                    {% endif %}
+                    <div class="divider"></div>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a href="{% url 'shopping:home' %}">{% trans "Home" %}</a></li>
                         {% if agreement_page %}
