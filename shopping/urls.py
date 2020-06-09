@@ -29,7 +29,7 @@ urlpatterns = patterns(
     url(r'^confirm_checkout/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)$', confirm_checkout, name='confirm_checkout'),
     url(r'^cancel$', Cancel.as_view(), name='cancel'),
 
-    url(r'^coupons$', CouponList.as_view(), name='coupon_list'),
+    url(r'^coupons$', login_required(CouponList.as_view()), name='coupon_list'),
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),
     url(r'^products/(?P<smart_category_slug>[-\w]+)/$', ProductList.as_view(), name='smart_object_detail'),
