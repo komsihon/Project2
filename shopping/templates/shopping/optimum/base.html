@@ -324,7 +324,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        {% if coupon_summary.threshold_reached %}
+                        {% if coupon_summary.threshold_reached and not request.COOKIES.hasPendingCoupon %}
                             <i class="fa fa-circle coupons-notification"></i>
                         {% endif %}
                         <span class="app-name">
@@ -840,8 +840,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 $('.coupons-notification').hide();
                         });
                     {% endif %}
-                } else {
-                    $('.coupons-notification').hide();
+                {#} else {#}
+                {#    $('.coupons-notification').hide();#}
                 }
 
 
