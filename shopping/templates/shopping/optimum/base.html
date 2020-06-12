@@ -156,7 +156,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                 </li>
                                             </ul>
                                         </li>
-                                        {% if total_coupons %}
+                                        {% if coupon_summary.threshold_reached %}
                                         <li>
                                             <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
                                                 <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
@@ -232,7 +232,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                     </li>
                                                 </ul>
                                             </li>
-                                            {% if total_coupons %}
+                                            {% if coupon_summary.threshold_reached %}
                                             <li>
                                                 <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
                                                     <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
@@ -324,7 +324,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        {% if total_coupons %}
+                        {% if coupon_summary.threshold_reached %}
                             <i class="fa fa-circle coupons-notification"></i>
                         {% endif %}
                         <span class="app-name">
@@ -831,9 +831,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     }
                 });
 
-                $('.header-bottom .navbar-toggle, .coupon-section a').on('click', (e) => {
-                    {#$(e.target).#}
-                });
+                if(!ikwen.CookieUtil.get('hasPendingCoupon')){
+                    {% if coupon_summary.threshold_reached %}
+                        $('.header-bottom .navbar-toggle').on('click', (e) => {
+                            let expires = (new Date()).getTime() + 345600000;
+                                expires = new Date(expires);
+                                ikwen.CookieUtil.set('hasPendingCoupon', 'yes', expires);
+                                $('.coupons-notification').hide();
+                        });
+                    {% endif %}
+                } else {
+                    $('.coupons-notification').hide();
+                }
+
 
                 $("#hide-email-modal").click(function(){
                     reInitTopComponent();

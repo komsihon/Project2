@@ -20,16 +20,28 @@
 {% endblock %}
 {% block head_style %}
     {{ block.super }}
-    <link href="{% static 'ikwen/css/console.css' %}?v=20.3.24" media="screen" rel="stylesheet" type="text/css" />
+{#    <link href="{% static 'ikwen/css/console.css' %}?v=20.3.24" media="screen" rel="stylesheet" type="text/css" />#}
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
     <style>
         #stage .card {background-color: transparent; margin-bottom: 53px; box-shadow: none;}
+        #stage {margin-top: 70px; margin-bottom: 50px}
+        .progress {height: 11px}
+        .card-li {width: 33%; height: 100%; padding: 0 12px; position: relative}
+        .card-li .coupon-img {background-size: cover; background-position: center; width: inherit; height: 300px}
 
         #coupons .progress {margin: 0}
         #coupons .progress-bar {background-color: #4CAF50;}
+        .coupon-img {cursor: pointer}
+        #coupon-detail img {cursor: pointer; height: 180px}
         .coupon-count {color: #fff; float: right; height: 34px; margin-top: 146px; padding-right: 5px}
         .coupon-count span {font-size: 26px; font-weight: 700}
-        .header-bottom .navbar, .coupon-section, .my-coupon-list {display: none!important;}
+        .header-bottom .navbar {display: none!important;}
+
+        @media (max-width: 767px) {
+            #stage {margin-top: 210px}
+            .card-li {width: 180px}
+            .coupon-count {margin-top: 230px}
+        }
     </style>
 {% endblock %}
 
@@ -94,11 +106,11 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="row">
+                        <div>
                             <div class="row swiper-container" style="margin-top: 5px">
                                 <div class="swiper-wrapper">
                                 {% for coupon in coupon_list %}
-                                    <div class="col-xs-4 col-sm-3 card-li swiper-slide" style="text-align: center">
+                                    <div class="card-li swiper-slide ">
                                         <div>
                                             <div class="img coupon-img" data-id="{{ coupon.id }}" style="background-image: url({{ settings.IKWEN_MEDIA_URL }}{{ coupon.image.name }})">
                                                 {% if user.is_authenticated %}
