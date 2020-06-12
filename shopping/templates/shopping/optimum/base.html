@@ -833,7 +833,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                 if(!ikwen.CookieUtil.get('hasPendingCoupon')){
                     {% if coupon_summary.threshold_reached %}
-                        $('.header-bottom .navbar-toggle').on('click', (e) => {
+                        $('body').on('click', '.header-xs .navbar-toggle', (e) => {
                             let expires = (new Date()).getTime() + 345600000;
                                 expires = new Date(expires);
                                 ikwen.CookieUtil.set('hasPendingCoupon', 'yes', expires);
