@@ -1,7 +1,7 @@
 import json
-from datetime import datetime, timedelta
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models.loading import get_model
 from django.http import HttpResponse
@@ -31,9 +31,11 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption, Busi
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance, add_database
-from ikwen.core.views import AdminHomeBase
+from ikwen.core.views import AdminHomeBase, HybridListView, ChangeObjectBase
 from ikwen_kakocase.kako.models import Product
 from ikwen_kakocase.kakocase.cloud_setup import DeploymentForm, deploy
+from ikwen_kakocase.kakocase.admin import DeliveryOptionAdmin
+
 from ikwen_kakocase.trade.models import Order
 from ikwen_kakocase.shopping.models import Customer
 from ikwen_kakocase.sales.models import Promotion, PromoCode
@@ -54,15 +56,41 @@ class AdminHome(AdminHomeBase):
         return super(AdminHome, self).get(request, *args, **kwargs)
 
 
-class DeliveryOptionList(TemplateView):
-    template_name = 'core/iframe_admin.html'
+class DeliveryOptionList(HybridListView):
+    model = DeliveryOption
 
-    def get_context_data(self, **kwargs):
-        context = super(DeliveryOptionList, self).get_context_data(**kwargs)
-        iframe_url = reverse('admin:kakocase_deliveryoption_changelist')
-        context['model_name'] = _('Delivery Option')
-        context['iframe_url'] = iframe_url
-        return context
+
+class ChangeDeliveryOption(ChangeObjectBase):
+    model = DeliveryOption
+    model_admin = DeliveryOptionAdmin
+
+    def after_save(self, request, obj, *args, **kwargs):
+        company_id = request.POST['company_id']
+        weblet = get_service_instance()
+        if company_id and company_id != weblet.id:
+            if getattr(settings, 'DEBUG', False):
+                _umbrella_db = 'ikwen_umbrella'
+            elif getattr(settings, 'UNIT_TESTING', False):
+                _umbrella_db = 'test_ikwen_umbrella'
+            else:
+                _umbrella_db = 'ikwen_umbrella_prod'
+            add_database(_umbrella_db)
+            company = Service.objects.using(_umbrella_db).get(pk=company_id)
+            company_config = company.config
+            if request.POST.get('auth_code') != company_config.auth_code:
+                messages.error(request, _("AUTH CODE is invalid, please verify. If the problem persists, please "
+                                          "contact %s to get the good one." % company_config.company_name))
+                return
+            try:
+                Service.objects.get(pk=company_id)
+            except Service.DoesNotExist:
+                config = company.config
+                company.save(using='default')
+                config.save(using='default')
+        else:
+            company = weblet
+        obj.company = company
+        obj.save()
 
 
 def list_available_companies(request, *args, **kwargs):
@@ -70,7 +98,7 @@ def list_available_companies(request, *args, **kwargs):
     Used for company auto-complete in delivery option admin upon
     creation of an Option and also when adding a Bank.
     """
-    q = request.GET['query'].lower()
+    q = request.GET['q'].lower()
     if len(q) < 2:
         return
 
@@ -81,14 +109,14 @@ def list_available_companies(request, *args, **kwargs):
     if word:
         companies = list(queryset.filter(company_name__icontains=word)[:10])
 
-    suggestions = [{'value': c.company_name, 'data': c.service.pk} for c in companies]
+    suggestions = [c.to_dict() for c in companies]
     if business_type == OperatorProfile.LOGISTICS:
         service = get_service_instance()
         # Add current Provider among potential delivery companies as he can deliver himself
-        yourself = {'value': _('Yourself'), 'data': service.pk}
+        yourself = service.to_dict()
+        yourself['project_name'] = _('Yourself')
         suggestions.insert(0, yourself)
-    response = {'suggestions': suggestions}
-    return HttpResponse(json.dumps(response), content_type='application/json')
+    return HttpResponse(json.dumps(suggestions), content_type='application/json')
 
 
 def add_delivery_company_to_local_database(request, *args, **kwargs):

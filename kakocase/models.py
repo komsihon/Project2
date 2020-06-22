@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -11,7 +12,8 @@ from ikwen.billing.models import SupportBundle, CloudBillingPlan
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.models import Model, AbstractConfig, AbstractWatchModel, Service
 from ikwen.theming.models import Theme
-from ikwen.core.utils import to_dict, add_database_to_settings, set_counters, increment_history_field
+from ikwen.core.utils import to_dict, add_database_to_settings, set_counters, increment_history_field, \
+    get_service_instance
 
 # Number of seconds since the Order was issued, that the Retailer
 # has left to commit to deliver the customer himself. After that
@@ -204,7 +206,7 @@ class DeliveryOption(Model):
         (PICK_UP_IN_STORE, _('Pick up in store')),
         (HOME_DELIVERY, _('Home delivery')),
     )
-    company = models.ForeignKey(Service, related_name='+')
+    company = models.ForeignKey(Service, related_name='+', blank=True, null=True)
     auth_code = models.CharField(max_length=60, blank=True, null=True,
                                  help_text=_("Get this code from the Logistics company."))
     type = models.CharField(_("type"), max_length=30, choices=TYPE_CHOICES)
@@ -229,6 +231,9 @@ class DeliveryOption(Model):
                                     help_text=_("Check/Uncheck to make it active on you webshop."))
 
     def __unicode__(self):
+        weblet = get_service_instance()
+        if weblet != self.company:
+            return self.name + ' - ' + self.company.project_name
         return self.name
 
     def _get_company_name(self):
@@ -239,6 +244,16 @@ class DeliveryOption(Model):
         if self.max_delay > 72:
             return _('%d days' % (self.max_delay / 24))
         return _('%d hours' % self.max_delay)
+
+    def get_obj_details(self):
+        return '<strong>%(type)s</strong>: %(short_desc)s <br>' \
+               '<strong>Cost:</strong> %(cost)s - <strong>Packing:</strong> %(packing_cost)s - ' \
+               '<strong>Max:</strong> %(max_delay)d hour(s) after order - ' \
+               '<strong>Min purchase:</strong> %(checkout_min)s' % {'type': self.type, 'short_desc': self.short_description,
+                                                                    'cost': intcomma(self.cost),
+                                                                    'packing_cost': intcomma(self.packing_cost),
+                                                                    'max_delay': self.max_delay,
+                                                                    'checkout_min': intcomma(self.checkout_min)}
 
     def save(self, **kwargs):
         for operator in OperatorProfile.objects.filter(business_type=OperatorProfile.RETAILER):

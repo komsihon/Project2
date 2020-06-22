@@ -78,7 +78,7 @@ class DeliveryOptionAdmin(CustomBaseAdmin):
     add_form_template = 'admin/deliveryoption/change_form.html'
     change_form_template = 'admin/deliveryoption/change_form.html'
     list_display = ('company_name', 'type', 'short_description', 'cost', 'packing_cost', 'max_delay', 'checkout_min', 'is_active')
-    fields = ('company', 'auth_code', 'type', 'name', 'short_description', 'description',
+    fields = ('auth_code', 'type', 'name', 'short_description', 'description',
               'cost', 'packing_cost', 'max_delay', 'checkout_min', 'is_active', )
     raw_id_fields = ('company', )
 
@@ -88,10 +88,16 @@ class DeliveryOptionAdmin(CustomBaseAdmin):
             delcom = Service.objects.using(UMBRELLA).get(pk=company_id)
             delcom_config = delcom.config
             if delcom != service:
-                if obj.auth_code != delcom_config.auth_code:
+                if request.POST.get('auth_code') != delcom_config.auth_code:
                     self.message_user(request, _("AUTH CODE is invalid, please verify. If the problem persists, please "
                                                  "contact %s to get the good one." % delcom_config.company_name))
                     return
+
+            try:
+                Service.objects.get(pk=delcom.id)
+            except Service.DoesNotExist:
+                delcom.save(using='default')
+                delcom_config.save(using='default')
 
             add_database_to_settings(delcom.database)
             try:

@@ -1,0 +1,101 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel='stylesheet' href="{% static 'ikwen/css/change-form.css' %}" />
+    <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div id="stage" style="float: none; margin: auto">
+                <form class="col-sm-8 col-sm-offset-2" method="post">{% csrf_token %}
+                    {% if form.errors %}
+                        <div class="errorlist">{{ form.errors }}</div>
+                    {% endif %}
+                    <input type="hidden" id="company-id" name="company_id" />
+                    <div class="form-group" style="padding: 0 15px; margin: 5vh 0 0">
+                        <label for="company-name" style="font-weight: 400">{% trans "Company name" %}</label>
+                        <div>
+                            <input id="company-name" class="form-control input-sm"
+                                   type="text" value="{{ obj.company.project_name }}" autocomplete="off"/>
+                            {{ form.member_id.errors }}
+                            <div class="results companies has-shade" style="display: none" data-min-search-chars="2">
+                                {% include 'core/snippets/spinner.html' %}
+                                <ul style="float: left; padding-left: 0; width: 100%">
+                                    <li class="ik-li tpl" style="display: none">
+                                        <div style="display: block">
+                                            <span class="image rounded photo logo bg-img" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></span>
+                                            <div class="info">
+                                                 <div class='project_name has-faded-edge'></div>
+                                                <p class="about short_description minor-tag"></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="subscription-details">
+                        {% include 'core/snippets/model_admin_form.html' %}
+                        <div style="padding-top: 30px; margin-bottom: 10px">
+                            <div class="col-xs-12 col-sm-8 col-md-4">
+                                <button class="btn btn-sm btn-block btn-success">{% trans "Save" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .subscriptions').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+
+            $('.results.companies').on('click', '.ik-li', function() {
+                let companyId = $(this).data('id'),
+                    companyName = $(this).find('.project_name').text();
+                if (companyId && companyName) {
+                    $('#company-id').val(companyId);
+                    $('#company-name').val(companyName);
+                }
+            }).css('width', $('#company-name').css('width'));
+
+            $('#company-name').keyup(function() {
+                let val = $(this).val();
+                if (val.isValidEmail()) {
+                    $('#company-id').val('');
+                    $('#company-email').val(val);
+                    $('#stage .continue').prop('disabled', false);
+                } else {
+                    $('#company-email').val('');
+                    $('#stage .continue').prop('disabled', true);
+                }
+            });
+            {% url 'kakocase:list_available_companies' as list_companies_url %}
+            let searchDescriptor = [{
+                endpoint: '{{ list_companies_url }}',
+                resultTplSelector: '.results.companies .ik-li',
+                maxChars: function() {
+                    // The max number of characters that will be taken into consideration
+                    // in the string typed by user to do the search. Characters above that
+                    // limit will be ignored.
+                    return Math.max($('#company-name').val().length, 4);
+                }
+            }];
+            $('#company-name').focusout(function() {$('.results.companies').fadeOut()});
+            ikwen.setupSearch('#company-name', '.results.companies', searchDescriptor);
+        })()
+    </script>
+{% endblock %}
