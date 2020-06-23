@@ -67,6 +67,7 @@ class ChangeDeliveryOption(ChangeObjectBase):
     def after_save(self, request, obj, *args, **kwargs):
         company_id = request.POST['company_id']
         weblet = get_service_instance()
+        weblet_config = weblet.config
         if company_id and company_id != weblet.id:
             company = Service.objects.using(UMBRELLA).get(pk=company_id)
             company_config = company.config
@@ -79,15 +80,17 @@ class ChangeDeliveryOption(ChangeObjectBase):
             except Service.DoesNotExist:
                 company.save(using='default')
                 company_config.save(using='default')
+
+            company = Service.objects.get(pk=company_id)
             db = company.database
             add_database(db)
             try:
                 Service.objects.using(db).get(pk=weblet.id)
             except Service.DoesNotExist:
                 weblet.save(using=db)
-                weblet.config.save(using=db)
+                weblet_config.save(using=db)
         else:
-            company = weblet
+            company = get_service_instance()
         obj.company = company
         obj.save()
 
