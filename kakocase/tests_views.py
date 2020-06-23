@@ -70,3 +70,9 @@ class KakoViewsTestCase(unittest.TestCase):
         self.assertTrue(resp['success'])
         # Service and config must be found in the local database
         config = Service.objects.get(pk='56eb6d04b37b3379b531b105').config
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103', IS_IKWEN=False)
+    def test_AdminHome(self):
+        self.client.login(username='member3', password='admin')
+        response = self.client.get(reverse('admin_home'))
+        self.assertEqual(response.status_code, 200)

@@ -7,18 +7,17 @@ from django.core.urlresolvers import reverse
 from django.test.client import Client
 from django.test.utils import override_settings
 from django.utils import unittest, timezone
+
 from ikwen.accesscontrol.models import Member
-
+from ikwen.billing.models import MoMoTransaction
 from ikwen.partnership.models import PartnerProfile
-
 from ikwen.core.models import Service, OperatorWallet
-
 from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.core.utils import get_service_instance, add_database_to_settings
 from ikwen_kakocase.kako.models import Product, ProductCategory
 from ikwen_kakocase.kako.tests_views import wipe_test_data
-from ikwen_kakocase.kakocase.models import OperatorProfile
+from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
 from ikwen_kakocase.shopping.models import Review, Customer
 from ikwen_kakocase.trade.models import Order, Package
 
@@ -53,6 +52,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
             call_command('loaddata', fixture, database='test_kc_ems')
             call_command('loaddata', fixture, database='test_kc_afic')
             call_command('loaddata', fixture, database=UMBRELLA)
+        OperatorWallet.objects.using(WALLETS_DB_ALIAS).all().update(balance=0)
 
     def tearDown(self):
         add_database_to_settings('test_kc_sabc')
@@ -64,6 +64,8 @@ class ShoppingViewsTestCase(unittest.TestCase):
         wipe_test_data('test_kc_partner_jumbo')
         wipe_test_data('test_kc_afic')
         wipe_test_data(UMBRELLA)
+        OperatorWallet.objects.using('wallets').all().delete()
+        MoMoTransaction.objects.using('wallets').all().delete()
         OperatorWallet.objects.using(WALLETS_DB_ALIAS).all().update(balance=0)
         cache.clear()
 
@@ -198,24 +200,24 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(pack1.provider_revenue, 540000)
         self.assertEqual(pack1.provider_earnings, 512900)
         self.assertEqual(order.delivery_earnings, 2750)
-        self.assertEqual(round(order.ikwen_order_earnings, 1), 10940)
+        self.assertEqual(round(order.ikwen_order_earnings, 1), 10840)
         self.assertEqual(order.ikwen_delivery_earnings, 100)
-        self.assertEqual(order.eshop_partner_earnings, 16410)
+        self.assertEqual(order.eshop_partner_earnings, 16260)
         self.assertEqual(order.logicom_partner_earnings, 150)
 
         # Check counters for ikwen and partner
         cache.clear()
         service_umbrella = get_service_instance(UMBRELLA)
         self.assertEqual(service_umbrella.turnover_history, [540000])
-        self.assertEqual(round(service_umbrella.earnings_history[0], 1), 10940)
+        self.assertEqual(round(service_umbrella.earnings_history[0], 1), 10840)
         self.assertEqual(service_umbrella.transaction_count_history, [1])
-        self.assertEqual(round(service_umbrella.transaction_earnings_history[0], 1), 10940)
+        self.assertEqual(round(service_umbrella.transaction_earnings_history[0], 1), 10840)
 
         app_umbrella = service_umbrella.app
         self.assertEqual(app_umbrella.turnover_history, [540000])
-        self.assertEqual(round(app_umbrella.earnings_history[0], 1), 10940)
+        self.assertEqual(round(app_umbrella.earnings_history[0], 1), 10840)
         self.assertEqual(app_umbrella.transaction_count_history, [1])
-        self.assertEqual(round(app_umbrella.transaction_earnings_history[0], 1), 10940)
+        self.assertEqual(round(app_umbrella.transaction_earnings_history[0], 1), 10840)
 
         logicom_service_umbrella = Service.objects.using(UMBRELLA).get(pk='56eb6d04b37b3379b531b105')
         self.assertEqual(logicom_service_umbrella.turnover_history, [3000])
@@ -231,26 +233,26 @@ class ShoppingViewsTestCase(unittest.TestCase):
 
         service_mirror_partner = Service.objects.using('test_kc_partner_jumbo').get(pk=service_umbrella.id)
         self.assertEqual(service_mirror_partner.turnover_history, [540000])
-        self.assertEqual(service_mirror_partner.earnings_history, [16410])
+        self.assertEqual(service_mirror_partner.earnings_history, [16260])
         self.assertEqual(service_mirror_partner.transaction_count_history, [1])
-        self.assertEqual(service_mirror_partner.transaction_earnings_history, [16410])
+        self.assertEqual(service_mirror_partner.transaction_earnings_history, [16260])
 
         app_mirror_partner = service_mirror_partner.app
         self.assertEqual(app_mirror_partner.turnover_history, [540000])
-        self.assertEqual(app_mirror_partner.earnings_history, [16410])
+        self.assertEqual(app_mirror_partner.earnings_history, [16260])
         self.assertEqual(app_mirror_partner.transaction_count_history, [1])
-        self.assertEqual(app_mirror_partner.transaction_earnings_history, [16410])
+        self.assertEqual(app_mirror_partner.transaction_earnings_history, [16260])
 
         partner_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b9b531b10537b331')
         partner_profile_original = PartnerProfile.objects.using('test_kc_partner_jumbo').get(pk='56922a3bb37b33da18d02fb1')
         partner_profile_umbrella = PartnerProfile.objects.using(UMBRELLA).get(pk='56922a3bb37b33da18d02fb1')
-        self.assertEqual(partner_wallet.balance, 16560)
+        self.assertEqual(partner_wallet.balance, 16410)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
                        EMAIL_FILE_PATH='test_emails/shopping/',
                        UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
-    def test_confirm_checkout_with_authenticated_user(self):
+    def test_confirm_checkout_with_paypal(self):
         """
         Saves order and leaves AOTC None
         """
@@ -291,19 +293,19 @@ class ShoppingViewsTestCase(unittest.TestCase):
         pack = Package.objects.all()[0]
 
         self.assertEqual(pack.provider_earnings, 479700)
-        self.assertEqual(order.delivery_earnings, 3000)
-        self.assertEqual(order.ikwen_delivery_earnings, 0)
+        self.assertEqual(order.delivery_earnings, 2850)
+        self.assertEqual(order.ikwen_delivery_earnings, 150)
 
         # Check counters for ikwen and partner
         cache.clear()
         profile = get_service_instance().config
-        self.assertEqual(profile.turnover_history[-1], 483000)
-        self.assertEqual(profile.earnings_history[-1], 482700)
+        self.assertEqual(profile.turnover_history[-1], 483000.0)
+        self.assertEqual(profile.earnings_history[-1], 482550.0)
         self.assertEqual(profile.orders_count_history[-1], 1)
         self.assertEqual(profile.items_traded_history[-1], 1)
 
         service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
-        self.assertEqual(service_wallet.balance, 482700)
+        self.assertEqual(service_wallet.balance, 482550.0)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103',
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -361,7 +363,42 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                     'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
                                     'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': 'yes',
-                                    'delivery_option_id': '55d1feb9b37b301e070604d3',
+                                    'delivery_option_id': '55d1feb9b37b301e070604d2',
+                                    'success_url': reverse('shopping:checkout')})
+        json_resp = json.loads(response.content)
+        notification_url = json_resp['notification_url']
+        response = self.client.get(notification_url, data={'status': 'Success', 'phone': '677003321',
+                                                           'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
+        self.assertEqual(response.status_code, 200)
+
+        order = Order.objects.all()[0]
+        self.assertEqual(order.packing_cost, 2000)
+        self.assertEqual(order.total_cost, 14000)
+
+        # Transaction fees and dara_fees must be correctly set
+        tx = MoMoTransaction.objects.using('wallets').get(object_id=order.id)
+        self.assertEqual(tx.amount, 14000)
+        self.assertEqual(tx.fees, 2600)
+
+        service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
+        self.assertEqual(service_wallet.balance, 11400)
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_PROVIDER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/', UNIT_TESTING=True)
+    def test_confirm_checkout_with_paid_packaging_and_self_delivery(self):
+        """
+        Packaging cost must be included in order cost if Product has packaging cost
+        and buyer decided to purchase with packaging along. If delivery is handled
+        by the merchant, split money accordingly
+        """
+        DeliveryOption.objects.filter(pk='55d1feb9b37b301e070604d2').update(company='56eb6d04b37b3379b531b101')
+        self.client.login(username='member4', password='admin')
+        response = self.client.post(reverse('billing:momo_set_checkout'),
+                                   {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                    'country_iso2': 'CM', 'city': 'Yaounde', 'address': 'Odza',
+                                    'entries': '55d1fa8feb60008099bd4154:10', 'buy_packing': 'yes',
+                                    'delivery_option_id': '55d1feb9b37b301e070604d2',
                                     'success_url': reverse('shopping:checkout')})
         json_resp = json.loads(response.content)
         notification_url = json_resp['notification_url']
@@ -369,11 +406,16 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                                            'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
         self.assertEqual(response.status_code, 200)
         order = Order.objects.all()[0]
-        self.assertEqual(order.packing_cost, 1000)
+        self.assertEqual(order.packing_cost, 2000)
         self.assertEqual(order.total_cost, 14000)
 
+        # Transaction fees and dara_fees must be correctly set
+        tx = MoMoTransaction.objects.using('wallets').get(object_id=order.id)
+        self.assertEqual(tx.amount, 14000)
+        self.assertEqual(tx.fees, 700)
+
         service_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
-        self.assertEqual(service_wallet.balance, 10450)
+        self.assertEqual(service_wallet.balance, 13300)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_PROVIDER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -507,18 +549,27 @@ class ShoppingViewsTestCase(unittest.TestCase):
         referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')
         Customer.objects.filter(member='56eb6d04b37b3379b531e014').update(referrer=referrer)
         self.client.login(username='member4', password='admin')
-        response = self.client.post(reverse('shopping:paypal_set_checkout'),
+        response = self.client.post(reverse('billing:momo_set_checkout'),
                                     {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
                                      'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
                                      'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
-                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3',
+                                     'success_url': reverse('shopping:checkout')}, follow=True)
         json_resp = json.loads(response.content)
-        self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
+        notification_url = json_resp['notification_url']
+        self.client.get(notification_url, data={'status': 'Success', 'phone': '655003321',
+                                                'message': 'OK', 'operator_tx_id': 'OP_TX_1'})
 
         order = Order.objects.all()[0]
         pack1 = Package.objects.all()[0]
         self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 1)
         self.assertEqual(pack1.entries[0].product.id, '55d1fa8feb60008099bd4151')
+
+        # Transaction fees and dara_fees must be correctly set
+        tx = MoMoTransaction.objects.using('wallets').get(object_id=order.id)
+        self.assertEqual(tx.amount, 543000)
+        self.assertEqual(tx.fees, 30000)
+        self.assertEqual(tx.dara_fees, 54000)
 
         # Assuming IKWEN collects 5% on revenue of website and referrer gets 10%
         self.assertEqual(pack1.provider_revenue, 540000)
@@ -526,7 +577,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(pack1.referrer_earnings, 54000)
         self.assertEqual(order.referrer_earnings, 54000)
         self.assertEqual(order.delivery_earnings, 2850)
-        self.assertEqual(order.ikwen_order_earnings, 27150)
+        self.assertEqual(order.ikwen_order_earnings, 27000)
         self.assertEqual(order.ikwen_delivery_earnings, 150)
 
         # Check counters
@@ -548,7 +599,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         self.assertEqual(dara_service_original.transaction_count_history, [1.0])
         self.assertEqual(dara_service_original.earnings_history, [54000.0])
 
-        tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
+        tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='mtn-momo')
         self.assertEqual(tecno_wallet.balance, 459000)
 
         merchant_mirror = Service.objects.using('test_kc_referrer').get(pk='56eb6d04b37b3379b531b101')
@@ -590,8 +641,8 @@ class ShoppingViewsTestCase(unittest.TestCase):
                                      'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
                                      'entries': '55d1fa8feb60008099bd4151:1,5805d1fa008099bd4151feb6:6',
                                      'delivery_option_id': '55d1feb9b37b301e070604d3'}, follow=True)
-        final = response.redirect_chain[-1]
-        self.assertEqual(final, '/cart/')
+        final = response.redirect_chain[-1][0]
+        self.assertIn('/cart', final)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
                        EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
@@ -599,8 +650,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
                        UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
     def test_confirm_checkout_with_dara_cash(self):
         """
-        Saves order, splits it into packages, updates counters and sets order RCC.
-        Since buyer has a referrer, his earnings must be correctly set
+        Paying with money in Dara Cash takes the money from the Dara bonus wallet
         """
         BonusWallet.objects.using('wallets').create(dara_id='58a9658b4fc0c25ddbeca241', cash=600000)
         referrer = Service.objects.get(pk='58aab5ca4fc0c21cb231e582')

@@ -193,6 +193,16 @@ def send_order_confirmation_email(request, subject, buyer_name, buyer_email, ord
             sender = '%s <no-reply@%s>' % (service.project_name, service.domain)
             msg = XEmailMessage(subject, html_content, sender, [buyer_email])
             bcc = [email.strip() for email in service.config.notification_email.split(',') if email.strip()]
+            delcom = order.delivery_option.company
+            if service != delcom:
+                db = delcom.database
+                add_database(db)
+                try:
+                    delcom_config = OperatorProfile.objects.using(db).get(service=delcom)
+                    bcc += [email.strip() for email in delcom_config.notification_email.split(',') if email.strip()]
+                    bcc.append(delcom.member.email)
+                except:
+                    pass
             bcc.append(service.member.email)
             msg.bcc = list(set(bcc))
             msg.content_subtype = "html"
@@ -428,7 +438,7 @@ def set_logicom_earnings_and_stats(order):
     increment_history_field(provider_profile_mirror, 'earnings_history', order.delivery_earnings)
 
 
-def after_order_confirmation(order, update_stock=True):
+def after_order_confirmation(order, update_stock=True, momo_tx=None):
     member = order.member
     service = get_service_instance()
     config = service.config
@@ -461,9 +471,19 @@ def after_order_confirmation(order, update_stock=True):
             logging.error("%s - Provider Service not found in %s database for %s" % (service.project_name, referrer_db, referrer.project_name))
 
     packages_info = order.split_into_packages(dara)
+
+    if momo_tx:
+        momo_tx.fees = order.ikwen_order_earnings + order.eshop_partner_earnings
+        if order.delivery_company != service:
+            momo_tx.fees += order.delivery_option.cost
+        else:
+            momo_tx.fees += order.ikwen_delivery_earnings + order.logicom_partner_earnings
+        momo_tx.dara_fees = order.referrer_earnings
+        momo_tx.save(using='wallets')
+
     set_ikwen_earnings_and_stats(order)
 
-    if delcom != service:
+    if delcom != service and delcom_profile_original.payment_delay == OperatorProfile.STRAIGHT:
         set_logicom_earnings_and_stats(order)
 
     for provider_db in packages_info.keys():
@@ -472,8 +492,11 @@ def after_order_confirmation(order, update_stock=True):
         raw_provider_revenue = package.provider_revenue
         provider_revenue = raw_provider_revenue
         if package.provider == delcom:
+            provider_revenue += order.delivery_option.cost + order.delivery_option.packing_cost
             provider_earnings += order.delivery_earnings
-            provider_revenue += order.delivery_earnings
+        else:
+            provider_revenue += order.delivery_option.packing_cost
+            provider_earnings += order.delivery_option.packing_cost * (100 - config.ikwen_share_rate) / 100
         provider_profile_umbrella = packages_info[provider_db]['provider_profile']
         provider_profile_original = provider_profile_umbrella.get_from(provider_db)
         provider_original = provider_profile_original.service
@@ -492,9 +515,6 @@ def after_order_confirmation(order, update_stock=True):
             nvp_dict = package.get_nvp_api_dict()
             Thread(target=lambda url, data: requests.post(url, data=data),
                    args=(provider_profile_original.return_url, nvp_dict)).start()
-
-    packing_earnings = order.packing_cost * (100 - config.ikwen_share_rate) / 100
-    service.raise_balance(packing_earnings)
 
     set_counters(config)
     increment_history_field(config, 'orders_count_history')

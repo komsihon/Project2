@@ -440,7 +440,6 @@ class OperatorProfile(AbstractConfig):
                 obj_mirror.is_pro_version = self.is_pro_version
                 obj_mirror.max_products = self.max_products
                 obj_mirror.sms_api_script_url = self.sms_api_script_url
-                obj_mirror.is_pwa_ready = self.is_pwa_ready
                 super(OperatorProfile, obj_mirror).save(using=db)
             except OperatorProfile.DoesNotExist:
                 pass

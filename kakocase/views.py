@@ -68,14 +68,7 @@ class ChangeDeliveryOption(ChangeObjectBase):
         company_id = request.POST['company_id']
         weblet = get_service_instance()
         if company_id and company_id != weblet.id:
-            if getattr(settings, 'DEBUG', False):
-                _umbrella_db = 'ikwen_umbrella'
-            elif getattr(settings, 'UNIT_TESTING', False):
-                _umbrella_db = 'test_ikwen_umbrella'
-            else:
-                _umbrella_db = 'ikwen_umbrella_prod'
-            add_database(_umbrella_db)
-            company = Service.objects.using(_umbrella_db).get(pk=company_id)
+            company = Service.objects.using(UMBRELLA).get(pk=company_id)
             company_config = company.config
             if request.POST.get('auth_code') != company_config.auth_code:
                 messages.error(request, _("AUTH CODE is invalid, please verify. If the problem persists, please "
@@ -84,9 +77,15 @@ class ChangeDeliveryOption(ChangeObjectBase):
             try:
                 Service.objects.get(pk=company_id)
             except Service.DoesNotExist:
-                config = company.config
                 company.save(using='default')
-                config.save(using='default')
+                company_config.save(using='default')
+            db = company.database
+            add_database(db)
+            try:
+                Service.objects.using(db).get(pk=weblet.id)
+            except Service.DoesNotExist:
+                weblet.save(using=db)
+                weblet.config.save(using=db)
         else:
             company = weblet
         obj.company = company
@@ -109,7 +108,7 @@ def list_available_companies(request, *args, **kwargs):
     if word:
         companies = list(queryset.filter(company_name__icontains=word)[:10])
 
-    suggestions = [c.to_dict() for c in companies]
+    suggestions = [c.service.to_dict() for c in companies]
     if business_type == OperatorProfile.LOGISTICS:
         service = get_service_instance()
         # Add current Provider among potential delivery companies as he can deliver himself

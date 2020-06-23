@@ -58,7 +58,7 @@ def categories(request):
         if not getattr(settings, 'DEBUG', False):
             cache.set('quick_access_categories', quick_access_categories)
     member = request.user
-    if request.META['HTTP_HOST'] == 'go.ikwen.com':
+    if request.META.get('HTTP_HOST') == 'go.ikwen.com':
         template_cache_duration = 0
     else:
         template_cache_duration = 0 if member.is_authenticated() and member.is_staff else 300

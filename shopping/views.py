@@ -661,8 +661,10 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
     order.rcc = generate_tx_code(order.id, config.rel_id)
     order.save()
     signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(16)])
-    request.session['object_id'] = order.id
-    request.session['signature'] = signature
+
+    if getattr(settings, 'UNIT_TESTING', False) and payment_mean.slug != 'mtn-momo':
+        request.session['object_id'] = order.id
+        request.session['signature'] = signature
 
     amount = order.total_cost
     model_name = 'trade.Order'
@@ -674,6 +676,8 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         try:
             if getattr(settings, 'DEBUG', False):
                 _umbrella_db = 'ikwen_umbrella'
+            elif getattr(settings, 'UNIT_TESTING', False):
+                _umbrella_db = 'test_ikwen_umbrella'
             else:
                 _umbrella_db = 'ikwen_umbrella_prod'
             add_database(_umbrella_db)
@@ -738,6 +742,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
 
 def confirm_checkout(request, *args, **kwargs):
     order_id = request.POST.get('order_id', request.session.get('object_id'))
+    tx = None
     if order_id:
         signature = request.session['signature']
     else:
@@ -788,7 +793,7 @@ def confirm_checkout(request, *args, **kwargs):
     order.status = Order.PENDING
     order.save()
 
-    after_order_confirmation(order)
+    after_order_confirmation(order, momo_tx=tx)
     member = order.member
     buyer_name = member.full_name
     buyer_email = order.delivery_address.email

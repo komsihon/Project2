@@ -127,20 +127,25 @@ class Order(Model):
 
     def split_into_packages(self, referrer=None):
         service = get_service_instance()
+        config = service.config
         logicom = self.delivery_company
         delivery_man_db = logicom.database
         add_database_to_settings(delivery_man_db)
         delivery_man_profile_umbrella = OperatorProfile.objects.using(UMBRELLA).get(service=logicom)
         total_provider_charges = 0
         total_referrer_earnings = 0
+
         if logicom != service:
             delivery_charges = self.delivery_option.cost * delivery_man_profile_umbrella.ikwen_share_rate / 100
             delivery_charges += delivery_man_profile_umbrella.ikwen_share_fixed
+            self.delivery_earnings = self.delivery_option.cost - delivery_charges
+            total_provider_charges += self.delivery_option.packing_cost * config.ikwen_share_rate / 100
         else:
-            delivery_charges = 0
-        self.delivery_earnings = self.delivery_option.cost - delivery_charges
-        service = get_service_instance()
-        config = service.config
+            delivery_cost = self.delivery_option.cost + self.delivery_option.packing_cost
+            delivery_charges = delivery_cost * config.ikwen_share_rate / 100
+            delivery_charges += config.ikwen_share_fixed
+            self.delivery_earnings = delivery_cost - delivery_charges
+
         packages_info = {}
         for entry in self.entries:
             provider = entry.product.provider
@@ -188,7 +193,6 @@ class Order(Model):
             self.anonymous_buyer.save(using=delivery_man_db)
 
         self.referrer_earnings = total_referrer_earnings
-        total_provider_charges += delivery_charges
         if getattr(settings, 'IS_RETAILER', False):
             total_provider_charges += config.ikwen_share_fixed
         eshop_partner = service.retailer
@@ -200,14 +204,13 @@ class Order(Model):
             except:
                 pass
 
-        if service != logicom:
-            logicom_partner = self.delivery_company.retailer
-            logicom_partner_earnings = 0
-            if logicom_partner:
-                logicom_retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(partner=logicom_partner, app=service.app)
-                logicom_partner_earnings = delivery_charges * (100 - logicom_retail_config.ikwen_tx_share_rate) / 100
-            self.logicom_partner_earnings = logicom_partner_earnings
-            self.ikwen_delivery_earnings = delivery_charges - logicom_partner_earnings
+        logicom_partner = self.delivery_company.retailer
+        logicom_partner_earnings = 0
+        if logicom_partner:
+            logicom_retail_config = ApplicationRetailConfig.objects.using(UMBRELLA).get(partner=logicom_partner, app=service.app)
+            logicom_partner_earnings = delivery_charges * (100 - logicom_retail_config.ikwen_tx_share_rate) / 100
+        self.logicom_partner_earnings = logicom_partner_earnings
+        self.ikwen_delivery_earnings = delivery_charges - logicom_partner_earnings
 
         self.eshop_partner_earnings = eshop_partner_earnings
         self.ikwen_order_earnings = total_provider_charges - eshop_partner_earnings
