@@ -146,6 +146,7 @@
     name: Express
     slug: express
     cost: 2000
+    packing_cost: 1000
     max_delay: 2
 
 - model: kakocase.deliveryoption
