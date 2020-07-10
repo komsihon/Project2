@@ -12,13 +12,7 @@ from ikwen.rewarding.utils import get_coupon_summary_list
 def user_coupon_list(request):
     service = get_service_instance()
     member = request.user
-
-    # coupon_qs = Coupon.objects.filter(service=service, status=Coupon.APPROVED, is_active=True)
-
     coupon_list = []
-    coupon_summary_list = None
-    url = None
-    coupon_summary = None
     coupon_qs = Coupon.objects.using(UMBRELLA).filter(service=service, is_active=True)
     if member.is_authenticated():
         try:

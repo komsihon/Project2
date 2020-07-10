@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib import messages
@@ -463,14 +464,14 @@ class GuardPage(TemplateView):
 class FirstTime(TemplateView):
     template_name = 'kakocase/welcome/first_time.html'
 
-    # def get(self, request, *args, **kwargs):
-    #     service = get_service_instance()
-    #     cookie_name = "%s_first_time" % service.project_name_slug
-    #     response = super(FirstTime, self).get(request, *args, **kwargs)
-    #     if not request.COOKIES.get(cookie_name):
-    #         expires = datetime.now() + timedelta(days=3650)
-    #         response.set_cookie(cookie_name, 'yes', expires=expires)
-    #     return response
+    def get(self, request, *args, **kwargs):
+        service = get_service_instance()
+        cookie_name = "%s_first_time" % service.project_name_slug
+        response = super(FirstTime, self).get(request, *args, **kwargs)
+        if not request.COOKIES.get(cookie_name):
+            expires = datetime.now() + timedelta(days=3650)
+            response.set_cookie(cookie_name, 'yes', expires=expires)
+        return response
 
     def get_context_data(self, **kwargs):
         context = super(FirstTime, self).get_context_data()

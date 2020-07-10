@@ -133,9 +133,7 @@
                 <div class="col-md-6 col-md-offset-2 col-sm-5 description">
                     <h2>{% trans 'Download app' %}</h2>
                     <p>
-                        {% blocktrans %}
-                            Install app on your Android device for faster access.
-                        {% endblocktrans %}
+                        {% trans 'Install app on your Android device for easy and faster access.' %}
                     </p>
                     <div class="action">
                         <button id="download" class="btn btn-sm btn-deep-blue install-pwa" style="{% if config.brand_color and config.brand_color != '#ffffff' and config.brand_color != '#FFFFFF' and config.brand_color != '#fff' and config.brand_color != '#FFF'%} background-color:{{ config.brand_color }}; border-color: {{ config.brand_color }}{% endif %}">

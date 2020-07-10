@@ -55,7 +55,7 @@
                         {% endblocktrans %}
                     </h1>
                     <p class="text-left">
-                        {% blocktrans with project_name=service.project_name %}
+                        {% blocktrans %}
                             Please take a few seconds to discover and understand our online offers.
                         {% endblocktrans %}
                     </p>
@@ -140,8 +140,8 @@
                     <h2>{% trans 'Coupons' %}</h2>
                     <p>
                         {% blocktrans %}
+                             Coupons can be redeemed for free items or at substantial discounts. Collect them to benefit from them
                         {% endblocktrans %}
-                        {% lorem 40 w %}
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -165,9 +165,8 @@
                     <h2>{% trans 'Promotions' %}</h2>
                     <p>
                         {% blocktrans %}
-
+                            Here you benefit from our special offers. Visit us frequently to find new ones.
                         {% endblocktrans %}
-                        {% lorem 40 w %}
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -188,9 +187,8 @@
                     <h2>{% trans 'Promo codes' %}</h2>
                     <p>
                         {% blocktrans %}
-
+                            Congratulations for your coupon code {{ promocode }}. Use it in order to win incredible discounts on the number of purchases you make.
                         {% endblocktrans %}
-                        {% lorem 100 w %}
                     </p>
                 </div>
                 <div class="clearfix"></div>

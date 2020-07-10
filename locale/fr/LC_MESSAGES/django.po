@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Francais\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-07 18:58+0100\n"
-"PO-Revision-Date: 2020-06-08 18:59+0100\n"
+"POT-Creation-Date: 2020-07-10 14:21+0100\n"
+"PO-Revision-Date: 2020-07-10 14:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -96,7 +96,7 @@ msgstr "Oui, utilisez le"
 #: kakocase/templates/kakocase/tsunami/successful_deployment.html:182
 #: shopping/templates/shopping/choose_deal.html:109
 #: shopping/templates/shopping/choose_deal.html:153
-#: shopping/templates/shopping/optimum/base.html:589
+#: shopping/templates/shopping/optimum/base.html:606
 #: shopping/templates/shopping/optimum/product_detail.html:397
 #: shopping/templates/shopping/snippets/modal_confirm_empty_cart.html:17
 #: trade/templates/trade/order_list.html:62
@@ -116,7 +116,7 @@ msgstr "Vous n'avez pas assez de coupons"
 #: cci/templates/cci/snippets/modals.html:35
 #: cci/templates/cci/snippets/modals.html:76
 #: shopping/templates/shopping/choose_deal.html:149
-#: shopping/templates/shopping/optimum/base.html:586
+#: shopping/templates/shopping/optimum/base.html:603
 #: trade/templates/trade/order_list.html:58
 #: trade/templates/trade/order_list.html:83
 msgid "OK"
@@ -203,7 +203,7 @@ msgstr ""
 msgid "Whether it is a list of categories or a list of products"
 msgstr "Type: liste de catégories ou liste de produits"
 
-#: commarketing/models.py:64 kakocase/models.py:88
+#: commarketing/models.py:64 kakocase/models.py:90
 msgid "Make it visible or no."
 msgstr "Rendre visible ou non."
 
@@ -223,7 +223,7 @@ msgstr ""
 msgid "Manage marketing tools"
 msgstr "Gérer les outils marketing"
 
-#: commarketing/models.py:132 kakocase/models.py:81 kakocase/models.py:179
+#: commarketing/models.py:132 kakocase/models.py:83 kakocase/models.py:181
 msgid "Description of the category."
 msgstr "Description de la catégorie."
 
@@ -280,7 +280,7 @@ msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
 #: commarketing/templates/commarketing/banner_list.html:33
-#: kakocase/templates/kakocase/admin_home.html:171
+#: kakocase/templates/kakocase/admin_home.html:170
 msgid "Homepage slideshow"
 msgstr "Slideshow d'accueil"
 
@@ -343,7 +343,7 @@ msgstr "Désactiver"
 #: commarketing/templates/commarketing/banner_list.html:158
 #: commarketing/templates/commarketing/smart_category_list.html:55
 #: kako/templates/kako/category_list.html:65
-#: kakocase/templates/kakocase/welcome/first_time.html:209
+#: kakocase/templates/kakocase/welcome/first_time.html:207
 #: kakocase/templates/kakocase/welcome/welcome.html:123
 #: sales/templates/sales/snippets/promotion_list_results.html:27
 msgid "Activate"
@@ -430,7 +430,7 @@ msgid "Remove selected"
 msgstr "Retirer la sélection"
 
 #: commarketing/templates/commarketing/change_banner.html:21
-#: kakocase/templates/kakocase/admin_home.html:130
+#: kakocase/templates/kakocase/admin_home.html:129
 #: templates/core/app_base_admin.html:83
 #: templates/tchopetyamo/core/app_base_admin.html:131
 msgid "Smart categories"
@@ -442,7 +442,6 @@ msgstr "Smart Catégories"
 #: kako/templates/kako/change_category.html:32
 #: kako/templates/kako/change_product.html:97
 #: kako/templates/kako/change_product.html:389
-#: sales/templates/sales/change_promocode1.html:34
 #: sales/templates/sales/change_promotion.html:28
 msgid "New"
 msgstr "Nouveau"
@@ -481,7 +480,7 @@ msgstr "Ajouter les produits"
 #: kako/templates/kako/change_product.html:161
 #: kako/templates/kako/change_product.html:170
 #: kako/templates/kako/change_product.html:179
-#: sales/templates/sales/change_promocode1.html:48
+#: kakocase/templates/kakocase/change_deliveryoption.html:47
 #: sales/templates/sales/change_promotion.html:42
 #: trade/templates/trade/bank/deal_list.html:105
 msgid "Save"
@@ -495,7 +494,6 @@ msgstr "Smart Catégorie sauvegardée avec succès."
 #: commarketing/templates/commarketing/change_smart_object.html:152
 #: kako/templates/kako/change_category.html:104
 #: kako/templates/kako/change_product.html:277
-#: sales/templates/sales/change_promocode1.html:116
 #: sales/templates/sales/change_promotion.html:108
 #: shopping/templates/shopping/optimum/checkout.html:253
 msgid "Missing information. Please check."
@@ -539,14 +537,6 @@ msgstr "Partager cette bannière"
 #: commarketing/templates/commarketing/snippets/modal_share_box.html:17
 msgid "Banner URL"
 msgstr "URL de la bannière"
-
-#: conf/settings.py:146
-msgid "English"
-msgstr "Anglais"
-
-#: conf/settings.py:147
-msgid "French"
-msgstr "Français"
 
 #: kako/models.py:15
 msgid "Your wholesale price. Retailers may set their own price."
@@ -860,7 +850,7 @@ msgstr ""
 "                        "
 
 #: kako/templates/kako/product_list.html:199
-#: shopping/templates/shopping/optimum/base.html:626
+#: shopping/templates/shopping/optimum/base.html:643
 msgid "Got it !"
 msgstr "Compris !"
 
@@ -974,7 +964,7 @@ msgstr "Réseaux sociaux"
 msgid "External scripts"
 msgstr "Scripts externes"
 
-#: kakocase/admin.py:92
+#: kakocase/admin.py:92 kakocase/views.py:76
 #, python-format
 msgid ""
 "AUTH CODE is invalid, please verify. If the problem persists, please contact "
@@ -998,7 +988,7 @@ msgstr ""
 "Salut $client<br>Nous vous invitons à rejoindre notre incroyable communauté "
 "sur ikwen."
 
-#: kakocase/cloud_setup.py:327 kakocase/models.py:204
+#: kakocase/cloud_setup.py:327 kakocase/models.py:206
 #: shopping/templates/shopping/mails/order_notice.html:87
 msgid "Pick up in store"
 msgstr "Récupérer sur place"
@@ -1007,7 +997,7 @@ msgstr "Récupérer sur place"
 msgid "2H after order"
 msgstr "2H après avoir commandé"
 
-#: kakocase/cloud_setup.py:330 kakocase/models.py:205
+#: kakocase/cloud_setup.py:330 kakocase/models.py:207
 msgid "Home delivery"
 msgstr "Livraison à domicile"
 
@@ -1025,27 +1015,27 @@ msgstr "Mes félicitations ! %s FCFA vous attendent."
 msgid "Your website %s was created"
 msgstr "Votre site internet %s a été crée"
 
-#: kakocase/models.py:76 kakocase/models.py:211
+#: kakocase/models.py:78 kakocase/models.py:213
 msgid "name"
 msgstr "nom"
 
-#: kakocase/models.py:77 kakocase/models.py:175
+#: kakocase/models.py:79 kakocase/models.py:177
 msgid "Name of the category."
 msgstr "Nom de la catégorie."
 
-#: kakocase/models.py:79 kakocase/models.py:177
+#: kakocase/models.py:81 kakocase/models.py:179
 msgid "Slug of the category."
 msgstr "Slug de la catégorie."
 
-#: kakocase/models.py:80 kakocase/models.py:217
+#: kakocase/models.py:82 kakocase/models.py:219
 msgid "description"
 msgstr "description"
 
-#: kakocase/models.py:82
+#: kakocase/models.py:84
 msgid "badge text"
 msgstr "texte du badge"
 
-#: kakocase/models.py:83
+#: kakocase/models.py:85
 msgid ""
 "Text in the badge that appears on the category. <strong>E.g.:</strong> -20%, "
 "-30%, New, etc."
@@ -1053,23 +1043,23 @@ msgstr ""
 "Texte dans le badge qui apparaît sur la catégorie. <strong> Exemple: "
 "<strong> -20%, -30%, Nouveau, etc."
 
-#: kakocase/models.py:85
+#: kakocase/models.py:87
 msgid "appear in menu"
 msgstr "apparaît dans le menu"
 
-#: kakocase/models.py:86
+#: kakocase/models.py:88
 msgid "Category will appear in main menu if checked."
 msgstr "La catégorie apparaîtra dans le menu principal si coché."
 
-#: kakocase/models.py:90
+#: kakocase/models.py:92
 msgid "Order of appearance in a list of categories."
 msgstr "Ordre d'apparence dans une liste de catégories."
 
-#: kakocase/models.py:91
+#: kakocase/models.py:93
 msgid "elements in preview"
 msgstr "éléments dans l'aperçu"
 
-#: kakocase/models.py:92
+#: kakocase/models.py:94
 msgid ""
 "Number of elements in the category preview on home page. Must be a multiple "
 "of 4."
@@ -1077,121 +1067,121 @@ msgstr ""
 "Nombres d'éléments dans l'aperçu de la catégorie sur la page d'accueil. Doit "
 "être un multiple de 4."
 
-#: kakocase/models.py:209
+#: kakocase/models.py:211
 msgid "Get this code from the Logistics company."
 msgstr "Obtenez ce code de la société de logistique."
 
-#: kakocase/models.py:210
+#: kakocase/models.py:212
 msgid "type"
 msgstr "type"
 
-#: kakocase/models.py:212
+#: kakocase/models.py:214
 msgid "Name of the option."
 msgstr "Nom de l'option."
 
-#: kakocase/models.py:213
+#: kakocase/models.py:215
 msgid "Slug of the option."
 msgstr "Slug de l'option."
 
-#: kakocase/models.py:214
+#: kakocase/models.py:216
 msgid "short description"
 msgstr "brève description"
 
-#: kakocase/models.py:215
+#: kakocase/models.py:217
 msgid "Short description of the option.Typically max delay as a text value."
 msgstr "Brève description de l'option. Par exemple le délai maximum en texte."
 
-#: kakocase/models.py:218
+#: kakocase/models.py:220
 msgid "Description of the option. Typically coverage and conditions."
 msgstr "Description de l'option. Généralement la couverture et les conditions."
 
-#: kakocase/models.py:220
+#: kakocase/models.py:222
 msgid "24x24 PNG icon to illustrate the option."
 msgstr "Icône 24x24 PNG pour illustrer l'option."
 
-#: kakocase/models.py:221
+#: kakocase/models.py:223
 msgid "cost"
 msgstr "coût"
 
-#: kakocase/models.py:222
+#: kakocase/models.py:224
 msgid "packing cost"
 msgstr "coût de l'emballage"
 
-#: kakocase/models.py:223
+#: kakocase/models.py:225
 msgid "Packing cost for this option if any."
 msgstr "Coût de l'emballage pour cette option s'il y en a."
 
-#: kakocase/models.py:224
+#: kakocase/models.py:226
 msgid "max delay"
 msgstr "délai max"
 
-#: kakocase/models.py:226 kakocase/models.py:312
+#: kakocase/models.py:228 kakocase/models.py:327
 msgid "checkout minimum"
 msgstr "minimum d'achat"
 
-#: kakocase/models.py:227
+#: kakocase/models.py:229
 msgid "Minimum checkout to make this option available."
 msgstr "Minimum d'achat pour rendre cette option disponible."
 
-#: kakocase/models.py:228 kakocase/models.py:321
+#: kakocase/models.py:230 kakocase/models.py:336
 msgid "active"
 msgstr "actif"
 
-#: kakocase/models.py:229
+#: kakocase/models.py:231
 msgid "Check/Uncheck to make it active on you webshop."
 msgstr "Cochez/Décochez pour activer/désactiver cette option."
 
-#: kakocase/models.py:240
+#: kakocase/models.py:245
 #, python-format
 msgid "%d days"
 msgstr "%d jours"
 
-#: kakocase/models.py:241
+#: kakocase/models.py:246
 #, python-format
 msgid "%d hours"
 msgstr "%d heures"
 
-#: kakocase/models.py:288
+#: kakocase/models.py:303
 msgid "Straight"
 msgstr "Direct"
 
-#: kakocase/models.py:289
+#: kakocase/models.py:304
 msgid "Upon buyer confirmation"
 msgstr "À la confirmation de l'acheteur"
 
-#: kakocase/models.py:296
+#: kakocase/models.py:311
 msgid "business type"
 msgstr "type d'entreprise"
 
-#: kakocase/models.py:297
+#: kakocase/models.py:312
 msgid "ikwen share rate"
 msgstr "pourcentage d'ikwen"
 
-#: kakocase/models.py:298
+#: kakocase/models.py:313
 msgid "Percentage ikwen collects on the turnover made by this person."
 msgstr ""
 "Pourcentage prélevé par ikwen sur le chiffre d'affaire réalisé par cette "
 "personne."
 
-#: kakocase/models.py:299
+#: kakocase/models.py:314
 msgid "ikwen share fixed"
 msgstr "pourcentage fixe d'ikwen"
 
-#: kakocase/models.py:300
+#: kakocase/models.py:315
 msgid "Fixed amount ikwen collects on the turnover made by this person."
 msgstr ""
 "Montant fixe prélevé par ikwen sur le chiffre d'affaire réalisé par cette "
 "personne."
 
-#: kakocase/models.py:302
+#: kakocase/models.py:317
 msgid "certified"
 msgstr "certifié"
 
-#: kakocase/models.py:303
+#: kakocase/models.py:318
 msgid "Manage delivery options"
 msgstr "Gérer les options de livraison"
 
-#: kakocase/models.py:304
+#: kakocase/models.py:319
 msgid ""
 "If checked, IAO of the platform will be able to set delivery options like "
 "<strong>FREE SHIPPING</strong> or <strong>PICK-UP IN STORE</strong> besides "
@@ -1202,19 +1192,19 @@ msgstr ""
 "<strong>RAMASSE EN MAGASIN</strong>en plus de ceux offerts par les "
 "partenaires de l'entreprise de livraison ikwen."
 
-#: kakocase/models.py:310
+#: kakocase/models.py:325
 msgid "Activate shopping ?"
 msgstr "Activer la vente en ligne ?"
 
-#: kakocase/models.py:313
+#: kakocase/models.py:328
 msgid "Minimum amount you allow to customers to buy."
 msgstr "Montant minimum que vous autorisez les clients à acheter."
 
-#: kakocase/models.py:314
+#: kakocase/models.py:329
 msgid "Auto-manage sales"
 msgstr "Gestion automatique des soldes"
 
-#: kakocase/models.py:315
+#: kakocase/models.py:330
 msgid ""
 "If checked, may show a strike-through <em>previous price</em> right before "
 "the current <em>retail price</em> and a <em>'SALE'</em> badge on the product "
@@ -1225,19 +1215,19 @@ msgstr ""
 "fois que le prix en détail du produit est mis à jour par une valeur plus "
 "petite."
 
-#: kakocase/models.py:319
+#: kakocase/models.py:334
 msgid "show prices"
 msgstr "afficher les prix"
 
-#: kakocase/models.py:320
+#: kakocase/models.py:335
 msgid "allow shopping"
 msgstr "autoriser les achats"
 
-#: kakocase/models.py:326
+#: kakocase/models.py:341
 msgid "payment delay"
 msgstr "délai de paiement"
 
-#: kakocase/models.py:327
+#: kakocase/models.py:342
 msgid ""
 "When cash should be deposited on trader's account. Right when the buyer pays "
 "or when he acknowledges reception of the order."
@@ -1245,45 +1235,29 @@ msgstr ""
 "Quand l'argent sera déposé sur le compte du commerçant. Dès lors que "
 "l'acheteur paye ou lorsqu'il accuse réception de la commande."
 
-#: kakocase/models.py:351
+#: kakocase/models.py:366
 msgid "Last time provider updated the stock"
 msgstr "Date de dernière mise à jour du stock par le fournisseur"
 
-#: kakocase/models.py:365
+#: kakocase/models.py:380
 msgid "Notification email(s)"
 msgstr "Email(s) de notification"
 
-#: kakocase/models.py:368
+#: kakocase/models.py:383
 msgid "Notification phone(s)"
 msgstr "Phone(s) de notification"
 
-#: kakocase/models.py:380
+#: kakocase/models.py:395
 msgid "Website URL"
 msgstr "URL du site web"
 
-#: kakocase/models.py:382
+#: kakocase/models.py:397
 msgid "Create Bank Account URL"
 msgstr "URL de création du compte bancaire"
 
-#: kakocase/models.py:384
+#: kakocase/models.py:399
 msgid "CashFlex Terms URL"
 msgstr "URL de termes CashFlex"
-
-#: kakocase/scripts.py:67
-msgid "Manage Profiles"
-msgstr "Gérer les profils"
-
-#: kakocase/scripts.py:71
-msgid "Manage Revivals"
-msgstr "Gérer les Relances"
-
-#: kakocase/scripts.py:75
-msgid "Manage Daraja"
-msgstr "Gérer Daraja"
-
-#: kakocase/scripts.py:80
-msgid "Manage Continuous Rewarding"
-msgstr "Gérer le Continuous Rewarding"
 
 #: kakocase/utils.py:64
 #, python-format
@@ -1332,11 +1306,7 @@ msgstr "30 derniers jours"
 msgid "Never since 60 days"
 msgstr "Jamais depuis 60 jours"
 
-#: kakocase/views.py:63
-msgid "Delivery Option"
-msgstr "Option de livraison"
-
-#: kakocase/views.py:88
+#: kakocase/views.py:120
 msgid "Yourself"
 msgstr "Vous même"
 
@@ -1345,9 +1315,9 @@ msgstr "Vous même"
 #: kakocase/templates/kakocase/welcome/base.html:135
 #: shopping/templates/shopping/base.html:285
 #: shopping/templates/shopping/contact.html:6
-#: shopping/templates/shopping/optimum/base.html:459
+#: shopping/templates/shopping/optimum/base.html:476
 #: shopping/templates/shopping/optimum/contact.html:6
-#: shopping/templates/shopping/snippets/edge_panel.html:64
+#: shopping/templates/shopping/snippets/edge_panel.html:60
 #: templates/admin/base.html:49 templates/admin/change_list.html:40
 #: templates/core/app_base_admin.html:12
 #: templates/tchopetyamo/core/app_base_admin.html:23
@@ -1356,11 +1326,11 @@ msgstr "Vous même"
 msgid "Home"
 msgstr "Accueil"
 
-#: kakocase/templates/kakocase/admin_home.html:32
+#: kakocase/templates/kakocase/admin_home.html:31
 msgid "Welcome "
 msgstr "Bienvenu(e) "
 
-#: kakocase/templates/kakocase/admin_home.html:33
+#: kakocase/templates/kakocase/admin_home.html:32
 msgid ""
 "Manage your website, customer database, and revival campaigns to get the "
 "most out of Tsunami tools"
@@ -1368,11 +1338,11 @@ msgstr ""
 "Gérez votre plateforme, votre portefeuille client et lancez des campagnes "
 "pour profiter au maximum des services Tsunami"
 
-#: kakocase/templates/kakocase/admin_home.html:39
+#: kakocase/templates/kakocase/admin_home.html:38
 msgid "Website preview"
 msgstr "Aperçu du site web"
 
-#: kakocase/templates/kakocase/admin_home.html:42
+#: kakocase/templates/kakocase/admin_home.html:41
 #, python-format
 msgid ""
 "\n"
@@ -1393,15 +1363,15 @@ msgstr ""
 "et configurer tout correctement avant de passer en live.<br>\n"
 "                        "
 
-#: kakocase/templates/kakocase/admin_home.html:58
+#: kakocase/templates/kakocase/admin_home.html:57
 msgid "Go to public Website"
 msgstr "Allez sur site web publique"
 
-#: kakocase/templates/kakocase/admin_home.html:63
+#: kakocase/templates/kakocase/admin_home.html:62
 msgid "Customers contacts and community"
 msgstr "Contacts et communauté"
 
-#: kakocase/templates/kakocase/admin_home.html:69
+#: kakocase/templates/kakocase/admin_home.html:68
 msgid ""
 "\n"
 "                                Register your customers contacts here. Our "
@@ -1425,19 +1395,19 @@ msgstr ""
 "base de donnée, créer d'abord des profiles et regroupez-les correctement.\n"
 "                            "
 
-#: kakocase/templates/kakocase/admin_home.html:78
+#: kakocase/templates/kakocase/admin_home.html:77
 msgid "Create profile"
 msgstr "Créer profil"
 
-#: kakocase/templates/kakocase/admin_home.html:79
+#: kakocase/templates/kakocase/admin_home.html:78
 msgid "Add contact"
 msgstr "Ajouter un contact"
 
-#: kakocase/templates/kakocase/admin_home.html:84
+#: kakocase/templates/kakocase/admin_home.html:83
 msgid "Mails and SMS campaigns"
 msgstr "Campagnes Mails et SMS"
 
-#: kakocase/templates/kakocase/admin_home.html:91
+#: kakocase/templates/kakocase/admin_home.html:90
 msgid ""
 "\n"
 "                                Send individual or mass mails and SMS "
@@ -1451,19 +1421,19 @@ msgstr ""
 "entreprise comme expéditeur.\n"
 "                               "
 
-#: kakocase/templates/kakocase/admin_home.html:98
+#: kakocase/templates/kakocase/admin_home.html:97
 msgid "Start Email campaign"
 msgstr "Lancer une Campagne mail"
 
-#: kakocase/templates/kakocase/admin_home.html:99
+#: kakocase/templates/kakocase/admin_home.html:98
 msgid "Start SMS campaign"
 msgstr "Lancer une Campagne SMS"
 
-#: kakocase/templates/kakocase/admin_home.html:104
+#: kakocase/templates/kakocase/admin_home.html:103
 msgid "Products and categories"
 msgstr "Produits et catégories"
 
-#: kakocase/templates/kakocase/admin_home.html:111
+#: kakocase/templates/kakocase/admin_home.html:110
 msgid ""
 "\n"
 "                                Add photos, description, cost and stock for "
@@ -1484,19 +1454,19 @@ msgstr ""
 "                                Les plus fortement recommandés sont:\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:118
+#: kakocase/templates/kakocase/admin_home.html:117
 msgid "for portrait size photos"
 msgstr "pour les photos en portrait"
 
-#: kakocase/templates/kakocase/admin_home.html:119
+#: kakocase/templates/kakocase/admin_home.html:118
 msgid "for landscape photos"
 msgstr "pour les photos en paysage"
 
-#: kakocase/templates/kakocase/admin_home.html:125
+#: kakocase/templates/kakocase/admin_home.html:124
 msgid "Add a product"
 msgstr "Ajouter un produit"
 
-#: kakocase/templates/kakocase/admin_home.html:137
+#: kakocase/templates/kakocase/admin_home.html:136
 msgid ""
 "\n"
 "                                Smart categories let you group certain "
@@ -1519,15 +1489,15 @@ msgstr ""
 "sur la page d'accueil de votre site pour donner un aperçu de vos produits.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:146
+#: kakocase/templates/kakocase/admin_home.html:145
 msgid "Add a smart category"
 msgstr "Ajouter Smart catégorie"
 
-#: kakocase/templates/kakocase/admin_home.html:151
+#: kakocase/templates/kakocase/admin_home.html:150
 msgid "Delivery options"
 msgstr "Options de livraison"
 
-#: kakocase/templates/kakocase/admin_home.html:158
+#: kakocase/templates/kakocase/admin_home.html:157
 msgid ""
 "\n"
 "                                You need to set delivery options before the "
@@ -1547,11 +1517,11 @@ msgstr ""
 "couverture de l'option.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:166
+#: kakocase/templates/kakocase/admin_home.html:165
 msgid "Create delivery options"
 msgstr "Créer les options de livraison"
 
-#: kakocase/templates/kakocase/admin_home.html:178
+#: kakocase/templates/kakocase/admin_home.html:177
 msgid ""
 "\n"
 "                                    Create and manipulate big images that "
@@ -1575,15 +1545,15 @@ msgstr ""
 "déposer pour organiser l'ordre d'apparition sur le site web.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:188
+#: kakocase/templates/kakocase/admin_home.html:187
 msgid "Add slide"
 msgstr "Ajouter un slide"
 
-#: kakocase/templates/kakocase/admin_home.html:193
+#: kakocase/templates/kakocase/admin_home.html:192
 msgid "Website appearance and logo"
 msgstr "Aperçu du site web et logo"
 
-#: kakocase/templates/kakocase/admin_home.html:200
+#: kakocase/templates/kakocase/admin_home.html:199
 msgid ""
 "\n"
 "                                Choose your preferred template and configure "
@@ -1599,15 +1569,15 @@ msgstr ""
 "les produits seront disposés. Compact, cozy ou confortable.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:208
+#: kakocase/templates/kakocase/admin_home.html:207
 msgid "Configure appearance"
 msgstr "Configurez l'apparence"
 
-#: kakocase/templates/kakocase/admin_home.html:213
+#: kakocase/templates/kakocase/admin_home.html:212
 msgid "Website configurations and branding"
 msgstr "Configurations du site web et branding"
 
-#: kakocase/templates/kakocase/admin_home.html:220
+#: kakocase/templates/kakocase/admin_home.html:219
 msgid ""
 "\n"
 "                                Configure useful information of your website "
@@ -1624,15 +1594,15 @@ msgstr ""
 "favicon et icône d'application sur Smartphone.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:228
+#: kakocase/templates/kakocase/admin_home.html:227
 msgid "Configure your website"
 msgstr "Configurez votre site web"
 
-#: kakocase/templates/kakocase/admin_home.html:233
+#: kakocase/templates/kakocase/admin_home.html:232
 msgid "Customer retention program"
 msgstr "Programme de fidélisation des clients"
 
-#: kakocase/templates/kakocase/admin_home.html:240
+#: kakocase/templates/kakocase/admin_home.html:239
 msgid ""
 "\n"
 "                                Create coupons that your customers and fans "
@@ -1662,11 +1632,11 @@ msgstr ""
 "référencer leurs amis.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:251
+#: kakocase/templates/kakocase/admin_home.html:250
 msgid "Create coupons"
 msgstr "Créer des coupons"
 
-#: kakocase/templates/kakocase/admin_home.html:255
+#: kakocase/templates/kakocase/admin_home.html:254
 #: kakocase/templates/kakocase/welcome/first_time.html:165
 #: sales/templates/sales/change_promotion.html:23
 #: sales/templates/sales/promotion_list.html:5
@@ -1676,7 +1646,7 @@ msgstr "Créer des coupons"
 msgid "Promotions"
 msgstr "Promotions"
 
-#: kakocase/templates/kakocase/admin_home.html:262
+#: kakocase/templates/kakocase/admin_home.html:261
 msgid ""
 "\n"
 "                                You can create a promotion on a product, a "
@@ -1702,19 +1672,19 @@ msgstr ""
 "que vous avez configuré lors de sa création .\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:272
+#: kakocase/templates/kakocase/admin_home.html:271
 msgid "Launch promotion"
 msgstr "Lancer une promotion"
 
-#: kakocase/templates/kakocase/admin_home.html:273
+#: kakocase/templates/kakocase/admin_home.html:272
 msgid "Create Promo Code"
 msgstr "Créer un Code Promo"
 
-#: kakocase/templates/kakocase/admin_home.html:278
+#: kakocase/templates/kakocase/admin_home.html:277
 msgid "Help & Support"
 msgstr "Aide & Support"
 
-#: kakocase/templates/kakocase/admin_home.html:285
+#: kakocase/templates/kakocase/admin_home.html:284
 msgid ""
 "\n"
 "                                If you are still having issues getting all "
@@ -1744,17 +1714,21 @@ msgstr ""
 "mieux à vos besoins.\n"
 "                                "
 
-#: kakocase/templates/kakocase/admin_home.html:296
+#: kakocase/templates/kakocase/admin_home.html:295
 msgid "Technical support"
 msgstr "Support technique"
 
-#: kakocase/templates/kakocase/admin_home.html:297
+#: kakocase/templates/kakocase/admin_home.html:296
 msgid "Infographics"
 msgstr "Infographie"
 
-#: kakocase/templates/kakocase/admin_home.html:298
+#: kakocase/templates/kakocase/admin_home.html:297
 msgid "Marketing support"
 msgstr "Support marketing"
+
+#: kakocase/templates/kakocase/change_deliveryoption.html:20
+msgid "Company name"
+msgstr "Nom de l'entreprise"
 
 #: kakocase/templates/kakocase/customer_journey.html:25
 #: templates/core/app_base_admin.html:216
@@ -1842,7 +1816,6 @@ msgstr "ikwen TSUNAMI, les outils clouds pour les besoins de vos entreprises"
 
 #: kakocase/templates/kakocase/guard_page.html:14
 #: kakocase/templates/kakocase/guard_page.html:15
-#, fuzzy
 msgid "Reach more customers and sell all your stocks with Tsunami"
 msgstr "Touchez plus de clients et vendez tous vos stocks avec Tsunami"
 
@@ -2241,7 +2214,7 @@ msgstr ""
 #: shopping/templates/shopping/base.html:84
 #: shopping/templates/shopping/base.html:255
 #: shopping/templates/shopping/optimum/base.html:114
-#: shopping/templates/shopping/optimum/base.html:341
+#: shopping/templates/shopping/optimum/base.html:358
 #: templates/tchopetyamo/shopping/optimum/base.html:84
 #: templates/tchopetyamo/shopping/optimum/base.html:269
 #: templates/tchopetyamo/webnode/improve/base.html:177
@@ -2254,7 +2227,7 @@ msgstr "Infos compte"
 #: shopping/templates/shopping/base.html:86
 #: shopping/templates/shopping/base.html:257
 #: shopping/templates/shopping/optimum/base.html:116
-#: shopping/templates/shopping/optimum/base.html:343
+#: shopping/templates/shopping/optimum/base.html:360
 #: templates/tchopetyamo/shopping/optimum/base.html:86
 #: templates/tchopetyamo/shopping/optimum/base.html:271
 #: templates/tchopetyamo/shopping/optimum/base.html:348
@@ -2271,8 +2244,8 @@ msgstr "Déconnexion"
 #: shopping/templates/shopping/cart.html:127
 #: shopping/templates/shopping/cart.html:130
 #: shopping/templates/shopping/optimum/base.html:122
-#: shopping/templates/shopping/optimum/base.html:474
-#: shopping/templates/shopping/snippets/edge_panel.html:72
+#: shopping/templates/shopping/optimum/base.html:491
+#: shopping/templates/shopping/snippets/edge_panel.html:68
 #: templates/admin/login.html:105
 #: templates/tchopetyamo/accesscontrol/sign_in.html:37
 #: templates/tchopetyamo/accesscontrol/sign_in_minimal.html:22
@@ -2287,7 +2260,7 @@ msgid "Login"
 msgstr "Connexion"
 
 #: kakocase/templates/kakocase/welcome/base.html:193
-#: shopping/templates/shopping/optimum/base.html:559
+#: shopping/templates/shopping/optimum/base.html:576
 msgid "Click the button below"
 msgstr "Cliquer le bouton ci-dessous"
 
@@ -2303,7 +2276,6 @@ msgstr ""
 "                        "
 
 #: kakocase/templates/kakocase/welcome/first_time.html:58
-#, fuzzy
 msgid ""
 "\n"
 "                            Please take a few seconds to discover and "
@@ -2311,8 +2283,8 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                        Connectez-vous pour <strong>terminer vos achats</"
-"strong>.\n"
+"                        Prenez quelques secondes pour découvrir et "
+"comprendre vos offres .\n"
 "                    "
 
 #: kakocase/templates/kakocase/welcome/first_time.html:71
@@ -2332,13 +2304,12 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                           Vous pouvez commander et payer en ligne en toute "
-"sécurité, choisissez votre option de livraison et on s'occupe du reste.\n"
+"                            Vous pouvez commander et payer en ligne en toute "
+"sécurité, choisissez votre option de livraison et nous ferons le reste.\n"
 "                        "
 
 #: kakocase/templates/kakocase/welcome/first_time.html:140
 #: kakocase/templates/kakocase/welcome/welcome.html:71
-#: sales/templates/sales/change_promocode1.html:29
 #: templates/tchopetyamo/core/app_base_admin.html:141
 msgid "Coupons"
 msgstr "Coupons"
@@ -2346,37 +2317,61 @@ msgstr "Coupons"
 #: kakocase/templates/kakocase/welcome/first_time.html:142
 msgid ""
 "\n"
+"                             Coupons can be redeemed for free items or at "
+"substantial discounts. Collect them to benefit from them\n"
 "                        "
 msgstr ""
+"\n"
+"                          Les coupons vous donnent droit à des articles "
+"gratuits ou a de fortes réductions. Collectionnez-les pour en bénéficier.\n"
+"                    "
 
 #: kakocase/templates/kakocase/welcome/first_time.html:160
 msgid "Available until:"
-msgstr ""
+msgstr "Dispo. jusqu'au:"
 
 #: kakocase/templates/kakocase/welcome/first_time.html:167
-#: kakocase/templates/kakocase/welcome/first_time.html:190
 msgid ""
 "\n"
-"\n"
+"                            Here you benefit from our special offers. Visit "
+"us frequently to find new ones.\n"
 "                        "
 msgstr ""
+"\n"
+"                        Vous bénéficiez ici de nos offres exceptionnelles. "
+"Visitez nous régulièrement en trouver de nouvelles.\n"
+"                    "
 
-#: kakocase/templates/kakocase/welcome/first_time.html:188
+#: kakocase/templates/kakocase/welcome/first_time.html:187
 msgid "Promo codes"
 msgstr "Codes Promo"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:204
+#: kakocase/templates/kakocase/welcome/first_time.html:189
+#, python-format
+msgid ""
+"\n"
+"                            Congratulations for your coupon code "
+"%(promocode)s. Use it in order to win incredible discounts on the number of "
+"purchases you make.\n"
+"                        "
+msgstr ""
+"\n"
+"                           Félicitations pour votre code promo "
+"%(promocode)s. Utilisez le Gagnez d’incroyables réductions sur le nombre de "
+"vos achats.\n"
+"                        "
+
+#: kakocase/templates/kakocase/welcome/first_time.html:202
 #: kakocase/templates/kakocase/welcome/welcome.html:118
 msgid "Activate notifications"
 msgstr "Activer les notifications"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:220
+#: kakocase/templates/kakocase/welcome/first_time.html:218
 #: kakocase/templates/kakocase/welcome/welcome.html:134
 msgid "Download app"
 msgstr "Téléchargez l'appli"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:222
-#: kakocase/templates/kakocase/welcome/welcome.html:136
+#: kakocase/templates/kakocase/welcome/first_time.html:220
 msgid ""
 "\n"
 "                            Install app on your Android device for faster "
@@ -2388,24 +2383,24 @@ msgstr ""
 "plus rapide.\n"
 "                        "
 
-#: kakocase/templates/kakocase/welcome/first_time.html:229
-#: kakocase/templates/kakocase/welcome/welcome.html:143
+#: kakocase/templates/kakocase/welcome/first_time.html:227
+#: kakocase/templates/kakocase/welcome/welcome.html:141
 msgid "Download"
 msgstr "Télécharger"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:239
+#: kakocase/templates/kakocase/welcome/first_time.html:237
 msgid "You can start now !"
 msgstr "Vous pouvez commencer maintenant !"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:244
+#: kakocase/templates/kakocase/welcome/first_time.html:242
 msgid "Register now"
 msgstr "S'inscrire"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:246
+#: kakocase/templates/kakocase/welcome/first_time.html:244
 msgid "And enjoy many advantages"
 msgstr "Et profitez de nombreux avantages"
 
-#: kakocase/templates/kakocase/welcome/first_time.html:250
+#: kakocase/templates/kakocase/welcome/first_time.html:248
 msgid "Continue on"
 msgstr "Continuer sur"
 
@@ -2430,15 +2425,23 @@ msgid ""
 "%(total_cumulated_coupons)s</strong> free coupons.\n"
 "                        "
 msgstr ""
+"\n"
+"                            Superbe !!! Vous avez en tout gagné <strong>"
+"%(total_cumulated_coupons)s</strong> coupons gratuits.\n"
+"                        "
 
-#: kakocase/templates/kakocase/welcome/welcome.html:155
+#: kakocase/templates/kakocase/welcome/welcome.html:136
+msgid "Install app on your Android device for easy and faster access."
+msgstr "Installez l'application Android pour un accès plus rapide."
+
+#: kakocase/templates/kakocase/welcome/welcome.html:153
 #, python-format
 msgid "Order on %(project_name)s now"
 msgstr "Commandez sur %(project_name)s"
 
-#: kakocase/templates/kakocase/welcome/welcome.html:157
+#: kakocase/templates/kakocase/welcome/welcome.html:155
 msgid "Go !"
-msgstr ""
+msgstr "Allez-y !"
 
 #: sales/models.py:16
 msgid "Title of the promotion"
@@ -2498,10 +2501,6 @@ msgstr "Promotion %s mise à jour avec succès."
 msgid "Promotion %s successfully created."
 msgstr "Promotion %s créée avec succès."
 
-#: sales/templates/sales/change_promocode1.html:5
-msgid "New promo_code"
-msgstr "Nouveau code promo"
-
 #: sales/templates/sales/change_promotion.html:5
 msgid "New promotion"
 msgstr "Nouvelle promotion"
@@ -2536,16 +2535,12 @@ msgstr ""
 "\n"
 "                %(start)s – %(end)s de %(count)s résultats"
 
-#: shopping/manual_payment.py:24 shopping/views.py:789
-msgid "Order successful"
-msgstr "Commande réussie"
-
-#: shopping/utils.py:213
+#: shopping/utils.py:223
 #, python-format
 msgid "New transaction on %s"
 msgstr "Nouvelle transaction sur %s"
 
-#: shopping/utils.py:250
+#: shopping/utils.py:260
 #, python-format
 msgid ""
 "Order successful:\n"
@@ -2558,20 +2553,24 @@ msgstr ""
 "Votre RCC est %(rcc)s\n"
 "Merci."
 
-#: shopping/views.py:556
+#: shopping/views.py:565
 msgid "No order found with this AOTC"
 msgstr "Aucune commande trouvée avec cet AOTC"
 
-#: shopping/views.py:876
+#: shopping/views.py:803
+msgid "Order successful"
+msgstr "Commande réussie"
+
+#: shopping/views.py:890
 msgid "Error setting up Deals selection page"
 msgstr "Erreur lors de l'initialisation de la page de Deals"
 
-#: shopping/views.py:935
+#: shopping/views.py:949
 msgid "Terms payment is available only for one single product at a time."
 msgstr ""
 "Lespaiements à termes sont disponibles uniquement pour un produit à la fois."
 
-#: shopping/views.py:949
+#: shopping/views.py:963
 msgid "Order submit for approval"
 msgstr "Commande soumise pour approbation"
 
@@ -2592,8 +2591,8 @@ msgstr "Créer un compte"
 #: shopping/templates/shopping/base.html:160
 #: shopping/templates/shopping/base.html:268
 #: shopping/templates/shopping/product_list.html:56
-#: shopping/templates/shopping/optimum/base.html:300
-#: shopping/templates/shopping/optimum/base.html:358
+#: shopping/templates/shopping/optimum/base.html:314
+#: shopping/templates/shopping/optimum/base.html:375
 #: shopping/templates/shopping/optimum/product_list.html:37
 #: templates/admin/search_form.html:7
 #: templates/tchopetyamo/shopping/optimum/base.html:217
@@ -2608,8 +2607,7 @@ msgstr "articles"
 
 #: shopping/templates/shopping/base.html:179
 #: shopping/templates/shopping/optimum/base.html:150
-#: shopping/templates/shopping/optimum/base.html:219
-#: shopping/templates/shopping/snippets/edge_panel.html:56
+#: shopping/templates/shopping/optimum/base.html:226
 #: templates/tchopetyamo/shopping/optimum/base.html:152
 #: templates/tchopetyamo/shopping/snippets/edge_panel.html:56
 msgid "Empty Cart"
@@ -2619,9 +2617,9 @@ msgstr "Vider"
 #: shopping/templates/shopping/checkout.html:5
 #: shopping/templates/shopping/checkout.html:30
 #: shopping/templates/shopping/optimum/base.html:155
-#: shopping/templates/shopping/optimum/base.html:224
-#: shopping/templates/shopping/optimum/base.html:440
-#: shopping/templates/shopping/optimum/base.html:461
+#: shopping/templates/shopping/optimum/base.html:231
+#: shopping/templates/shopping/optimum/base.html:457
+#: shopping/templates/shopping/optimum/base.html:478
 #: shopping/templates/shopping/optimum/checkout.html:5
 #: shopping/templates/shopping/optimum/checkout.html:22
 #: shopping/templates/shopping/paypal/cancel.html:10
@@ -2641,25 +2639,26 @@ msgid "Checkout"
 msgstr "Terminer les achats"
 
 #: shopping/templates/shopping/base.html:300
-#: shopping/templates/shopping/optimum/base.html:479
+#: shopping/templates/shopping/optimum/base.html:496
 msgid "Quick access"
 msgstr "Accès Rapide"
 
 #: shopping/templates/shopping/base.html:329
-#: shopping/templates/shopping/optimum/base.html:508
+#: shopping/templates/shopping/optimum/base.html:525
 #: templates/tchopetyamo/shopping/optimum/base.html:377
 msgid "Contacts"
 msgstr "Contacts"
 
 #: shopping/templates/shopping/base.html:346
-#: shopping/templates/shopping/optimum/base.html:525
+#: shopping/templates/shopping/optimum/base.html:542
 #: templates/tchopetyamo/shopping/optimum/base.html:394
 #: templates/tchopetyamo/webnode/improve/base.html:365
 msgid "All rights reserved"
 msgstr "Tous droits reservés"
 
 #: shopping/templates/shopping/base.html:347
-#: shopping/templates/shopping/optimum/base.html:526
+#: shopping/templates/shopping/coupon_list.html:71
+#: shopping/templates/shopping/optimum/base.html:543
 #: templates/tchopetyamo/shopping/optimum/base.html:395
 #: templates/tchopetyamo/webnode/improve/base.html:366
 msgid "Legal mentions"
@@ -2667,8 +2666,8 @@ msgstr "Mentions légales"
 
 #: shopping/templates/shopping/base.html:425
 #: shopping/templates/shopping/base.html:525
-#: shopping/templates/shopping/optimum/base.html:664
-#: shopping/templates/shopping/optimum/base.html:770
+#: shopping/templates/shopping/optimum/base.html:681
+#: shopping/templates/shopping/optimum/base.html:787
 #: templates/tchopetyamo/shopping/optimum/base.html:459
 #: templates/tchopetyamo/shopping/optimum/base.html:555
 msgid "Please select a size."
@@ -2676,7 +2675,7 @@ msgstr "Sélectionnez une taille SVP."
 
 #: shopping/templates/shopping/base.html:445
 #: shopping/templates/shopping/cart.html:168
-#: shopping/templates/shopping/optimum/base.html:687
+#: shopping/templates/shopping/optimum/base.html:704
 #: shopping/templates/shopping/optimum/cart.html:242
 #: templates/tchopetyamo/shopping/optimum/base.html:479
 #: templates/tchopetyamo/shopping/optimum/cart.html:260
@@ -3077,6 +3076,26 @@ msgstr "Message..."
 msgid "Clear"
 msgstr "Effacer"
 
+#: shopping/templates/shopping/coupon_list.html:13
+#: shopping/templates/shopping/coupon_list.html:14
+#, python-format
+msgid "Join %(profile_name)s on ikwen !"
+msgstr "Join %(profile_name)s sur ikwen !"
+
+#: shopping/templates/shopping/coupon_list.html:70
+msgid "All rights reserved."
+msgstr "Tous droits reservés."
+
+#: shopping/templates/shopping/coupon_list.html:81
+msgid "Your free coupons"
+msgstr "Vous avez quelques coupons gratuits"
+
+#: shopping/templates/shopping/coupon_list.html:134
+#: templates/tchopetyamo/shopping/optimum/cart.html:211
+#: templates/tchopetyamo/webnode/improve/home.html:124
+msgid "Claim your reward"
+msgstr "Réclamez votre récompense"
+
 #: shopping/templates/shopping/home.html:213
 #: shopping/templates/shopping/home.html:344
 #: shopping/templates/shopping/home.html:434
@@ -3455,33 +3474,33 @@ msgstr "Détails des éléments"
 msgid "Thank you for shopping with us."
 msgstr "Merci d'être client chez nous."
 
-#: shopping/templates/shopping/optimum/base.html:199
+#: shopping/templates/shopping/optimum/base.html:206
 #: templates/tchopetyamo/shopping/optimum/base.html:135
 msgid "Open search box"
 msgstr "Ouvrir le champ de recherche"
 
-#: shopping/templates/shopping/optimum/base.html:200
+#: shopping/templates/shopping/optimum/base.html:207
 #: templates/tchopetyamo/shopping/optimum/base.html:136
 msgid "Close search box"
 msgstr "Fermer le champ de recherche"
 
-#: shopping/templates/shopping/optimum/base.html:236
+#: shopping/templates/shopping/optimum/base.html:250
 #: templates/tchopetyamo/shopping/optimum/base.html:164
 msgid "Search ..."
 msgstr "Recherche ..."
 
-#: shopping/templates/shopping/optimum/base.html:269
+#: shopping/templates/shopping/optimum/base.html:283
 msgid "See more ..."
 msgstr "Voir plus ..."
 
-#: shopping/templates/shopping/optimum/base.html:448
-#: shopping/templates/shopping/optimum/base.html:548
+#: shopping/templates/shopping/optimum/base.html:465
+#: shopping/templates/shopping/optimum/base.html:565
 #: shopping/templates/shopping/snippets/checkout_summary.html:27
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:27
 msgid "Apply"
 msgstr "OK"
 
-#: shopping/templates/shopping/optimum/base.html:490
+#: shopping/templates/shopping/optimum/base.html:507
 #: templates/tchopetyamo/shopping/optimum/base.html:340
 #: templates/tchopetyamo/shopping/optimum/base.html:359
 #: templates/tchopetyamo/webnode/improve/base.html:321
@@ -3490,19 +3509,19 @@ msgstr "OK"
 msgid "About"
 msgstr "À propos"
 
-#: shopping/templates/shopping/optimum/base.html:544
+#: shopping/templates/shopping/optimum/base.html:561
 msgid "If you like this theme, click Apply to use it."
 msgstr "Si vous aimez ce thème, cliquez sur Appliquer pour l'utiliser."
 
-#: shopping/templates/shopping/optimum/base.html:545
+#: shopping/templates/shopping/optimum/base.html:562
 msgid "Do you like this theme ?"
 msgstr "Aimez vous ce thème ?"
 
-#: shopping/templates/shopping/optimum/base.html:623
+#: shopping/templates/shopping/optimum/base.html:640
 msgid "Select and send a product to your follower"
 msgstr "Sélectionnez et envoyez un produit à votre follower"
 
-#: shopping/templates/shopping/optimum/base.html:624
+#: shopping/templates/shopping/optimum/base.html:641
 msgid ""
 "Browse and choose a product your follower might like and send him the link "
 "using a Sharing button."
@@ -3668,6 +3687,14 @@ msgstr "Veuillez choisir une option ci-dessous"
 #: templates/tchopetyamo/shopping/snippets/checkout_summary.html:115
 msgid "Total"
 msgstr "Total"
+
+#: shopping/templates/shopping/snippets/edge_panel.html:52
+msgid "Redeem your coupon voucher in lieu of gifts"
+msgstr "Échangez votre coupon de réduction contre des cadeaux"
+
+#: shopping/templates/shopping/snippets/edge_panel.html:53
+msgid "see your collected coupons..."
+msgstr "vérifiez vos coupons collectionés !"
 
 #: shopping/templates/shopping/snippets/language_switcher.html:6
 msgid "Language"
@@ -4021,15 +4048,15 @@ msgid "Info & Billing"
 msgstr "Infos et Facturation"
 
 #: templates/flatpages/flatpage_view.html:15
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                        %(page_content)s\n"
 "                    "
 msgstr ""
 "\n"
-"                   Un e-mail de confirmation a été envoyé à %(email)s.\n"
-"                "
+"                        %(page_content)s\n"
+"                    "
 
 #: templates/tchopetyamo/accesscontrol/register.html:30
 #: templates/tchopetyamo/accesscontrol/register.html:51
@@ -4149,11 +4176,6 @@ msgstr ""
 "a> si vous n'avez pas de compte chez nous.\n"
 "                    "
 
-#: templates/tchopetyamo/shopping/optimum/cart.html:211
-#: templates/tchopetyamo/webnode/improve/home.html:124
-msgid "Claim your reward"
-msgstr "Réclamez votre récompense"
-
 #: templates/tchopetyamo/shopping/optimum/cart.html:448
 msgid "Please choose a delivery option."
 msgstr "Bien vouloir choisir une option de livraison."
@@ -4205,25 +4227,25 @@ msgstr "Voir le rapport du tableau de bord"
 msgid "Manage orders"
 msgstr "Gérer les commandes"
 
-#: trade/models.py:285
+#: trade/models.py:288
 msgid "Manage packages"
 msgstr "Gérer les packets"
 
-#: trade/models.py:334 trade/templates/trade/provider/dashboard.html:38
+#: trade/models.py:337 trade/templates/trade/provider/dashboard.html:38
 #: trade/templates/trade/provider/dashboard.html:65
 #: trade/templates/trade/provider/dashboard.html:87
 msgid "Day"
 msgstr "Jour"
 
-#: trade/models.py:335
+#: trade/models.py:338
 msgid "Week"
 msgstr "Semaine"
 
-#: trade/models.py:336
+#: trade/models.py:339
 msgid "Month"
 msgstr "Mois"
 
-#: trade/models.py:368
+#: trade/models.py:371
 msgid "Manage issues"
 msgstr "Gérer les problèmes"
 
@@ -4756,6 +4778,40 @@ msgstr "RCC"
 msgid "Package details"
 msgstr "Détails du paquet"
 
+#~ msgid "Install app on your Android device for easy and faster access.s."
+#~ msgstr ""
+#~ "\n"
+#~ "                        Installez l'application sur votre téléphone "
+#~ "Android pour un accès plus rapide.\n"
+#~ "                    "
+
+#~ msgid "Receive payments notifications in real time"
+#~ msgstr "Recevez les notifications de paiements en temps réel"
+
+#~ msgid "English"
+#~ msgstr "Anglais"
+
+#~ msgid "French"
+#~ msgstr "Français"
+
+#~ msgid "Manage Profiles"
+#~ msgstr "Gérer les profils"
+
+#~ msgid "Manage Revivals"
+#~ msgstr "Gérer les Relances"
+
+#~ msgid "Manage Daraja"
+#~ msgstr "Gérer Daraja"
+
+#~ msgid "Manage Continuous Rewarding"
+#~ msgstr "Gérer le Continuous Rewarding"
+
+#~ msgid "Delivery Option"
+#~ msgstr "Option de livraison"
+
+#~ msgid "New promo_code"
+#~ msgstr "Nouveau code promo"
+
 #~ msgid "Confirmed"
 #~ msgstr "Confirmé"
 
@@ -4872,9 +4928,6 @@ msgstr "Détails du paquet"
 
 #~ msgid "Payment successfully proceeded and you use a coupon."
 #~ msgstr "Payement effectué avec succès et vous avez utilisé un coupon."
-
-#~ msgid "Domain name"
-#~ msgstr "Nom de domaine"
 
 #~ msgid ""
 #~ "\n"
