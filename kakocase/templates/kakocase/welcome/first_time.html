@@ -244,7 +244,7 @@
                         <span class="text-muted text-center">{% trans 'And enjoy many advantages' %}</span>
                     </span>
                     <span class="col-sm-offset-4 col-sm-4">
-                        <a href="{{ service.url }}" class="btn btn-sm btn-block continue">
+                        <a href="{% url 'home' %}" class="btn btn-sm btn-block continue">
                             {% trans "Continue on" %} {{ service.project_name }} <i class="animated infinite slideInLeft">&rarr;</i>
                         </a>
                     </span>
