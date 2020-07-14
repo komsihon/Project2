@@ -6,14 +6,13 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
-from ikwen.core.fields import MultiImageField
-from ikwen.billing.models import SupportBundle, CloudBillingPlan
-
 from ikwen.accesscontrol.backends import UMBRELLA
+from ikwen.billing.models import SupportBundle, CloudBillingPlan
+from ikwen.core.fields import MultiImageField
 from ikwen.core.models import Model, AbstractConfig, AbstractWatchModel, Service
-from ikwen.theming.models import Theme
 from ikwen.core.utils import to_dict, add_database_to_settings, set_counters, increment_history_field, \
     get_service_instance
+from ikwen.theming.models import Theme
 
 # Number of seconds since the Order was issued, that the Retailer
 # has left to commit to deliver the customer himself. After that
