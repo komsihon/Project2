@@ -66,7 +66,7 @@ class OrderResource(resources.ModelResource):
             if product.size:
                 detail += ' - Size: %s' % product.size
             detail = '%s - Qty: %d' % (detail, entry.count)
-            details.append(detail)
+            details.append(detail.replace(',', ' ').replace(';', ' '))
         return '\n'.join(details)
 
     def dehydrate_delivery_address(self, order):
@@ -79,7 +79,7 @@ class OrderResource(resources.ModelResource):
         address += '\n%s' % a.phone
         if a.email:
             address += '\n%s' % a.email
-        return address
+        return address.replace(',', ' ').replace(';', ' ')
 
     def dehydrate_deal(self, order):
         d = order.deal
