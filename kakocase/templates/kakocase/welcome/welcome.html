@@ -1,14 +1,12 @@
-{% extends 'kakocase/welcome/base.html' %}
+{% extends 'core/base_bs.html' %}
 {% load i18n static humanize webdesign media_from_provider %}
 
 {% block meta %}
-    <meta name="theme-color" content="#233682">
-    <meta name="msapplication-navbutton-color" content="#233682">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    {{ block.super }}
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ service.url }}" />
     <meta property="og:image" itemprop="image" content="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}" />
-    <meta property="og:title" content="{{ config.small_description }}"/>
+    <meta property="og:title" content="{{ config.short_description }}"/>
     <meta property="og:description" content="{{ config.description }}">
     <meta property="description" content="{{ config.description }}" />
     {% if service.is_pwa_ready %}
@@ -21,6 +19,7 @@
 {% endblock %}
 
 {% block head_style %}
+    {{ block.super }}
     <link rel="shortcut icon" type="image/png" href="{{ settings.IKWEN_MEDIA_URL }}{{ service.config.logo.name }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
