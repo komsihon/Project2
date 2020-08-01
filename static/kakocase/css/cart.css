@@ -13,6 +13,8 @@ body, .header-bottom  {background: #f9f8f8}
 .cart-item h3 {font-size: 18px; color: #666}
 .cart-item span.size {color: #999; font-weight: 400}
 .cart-item .buy-packing {display: block}
+.cart-item.no-qty .quantity-select .value-minus1 {display: none}
+.cart-item.no-qty .quantity-select .value-plus1 {display: none}
 
 .cart-item-description {
 	float: right;

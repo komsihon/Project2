@@ -353,6 +353,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .product-tile .product-img figure > a .grid-img + .grid-img {position: absolute; top: 0; right: 0; -moz-transition: right 0.7s cubic-bezier(0.75, 0, 0.175, 1), opacity 0.7s cubic-bezier(0.75, 0, 0.175, 1); -o-transition: right 0.7s cubic-bezier(0.75, 0, 0.175, 1), opacity 0.7s cubic-bezier(0.75, 0, 0.175, 1); -webkit-transition: right 0.7s cubic-bezier(0.75, 0, 0.175, 1), opacity 0.7s cubic-bezier(0.75, 0, 0.175, 1); transition: right 0.7s cubic-bezier(0.75, 0, 0.175, 1), opacity 0.7s cubic-bezier(0.75, 0, 0.175, 1)}
 /*.product-tile .product-img figure > a .grid-img + .grid-img img {max-width: none;}*/
 .product-img { position: relative;}
+.product-img .img {height: 250px;}
 .product-about {padding-bottom: .4em;}
 .product-about {padding-bottom: .4em;clear: both;}
 .product-about h6 {font-size: 1.3em;margin-bottom: 0.4em;height: 40px;}
@@ -400,10 +401,11 @@ a.my-cart-b {text-decoration: none;}
 .tab-wl3 .container {padding-left: 0}
 
 .filter-container {padding: 0;margin-top: 50px;}
-.top-filter {float: left;font-weight: 700;margin-top: -5px;text-align: center;width: 100%;}
-.top-filter .filter {border-bottom: 1px solid #c5c5c5;border-right: solid 1px #c5c5c5;float: left;width: 50%;text-align: center;padding: 10px 0;}
+.top-filter {float: left;font-weight: 700;text-align: center;width: 100%;}
+.top-filter .filter {border-bottom: 1px solid #c5c5c5;border-right: solid 1px #c5c5c5;float: left;height: 45px;width: 50%;text-align: center;padding: 10px 0;}
 .top-filter .filter.is-active {background: #edf2f4; border-bottom: 1px solid transparent}
-.top-filter .sort {border-bottom: 1px solid #c5c5c5;float: left;width: 50%;text-align: center;padding: 13px 0 18px;}
+.top-filter .sort {border-bottom: 1px solid #c5c5c5;float: left;height: 45px;padding:10px 0;text-align: center;width: 50%;}
+.top-filter .sort ul {margin:0;}
 .filter-container .price-filter {background: #edf2f4;border-bottom:1px solid #c5c5c5;clear: both;height: 65px;float: left;transition-property: all;transition-duration: .5s;top: 0;transition-timing-function: cubic-bezier(0, 1, 0.5, 1);width: 100%;z-index: 2;overflow: hidden;}
 .filter-container .price-filter.is-off {height: 0;overflow: hidden;border-bottom: transparent;}
 .price input#amount, .price input#amount1 {font-size: 18px;outline: none;background: none;word-spacing: 1em;color: #000 !important;/* position: absolute; */text-align: center;width: 100%;}
@@ -741,7 +743,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 
 .top-edge-panel .currency-switcher{margin: 0px 0px;}
 .top-edge-panel .currency-switcher i.fa {color: #fff; float: left; font-size:20px}
-.top-edge-panel .currency-switcher select, .top-edge-panel .lang-switcher select {margin: -1px 5px 0;text-shadow: 1px 2px 2px rgba(0, 0, 0, .15);color: #fff;background: transparent;border: #201737 1px solid;}
+.top-edge-panel .currency-switcher select, .top-edge-panel .lang-switcher select {margin: -1px 5px 0;text-shadow: 1px 2px 2px rgba(0, 0, 0, .15);color: #fff;background: transparent;border: #ddd 1px solid;}
 .mob-company {color: #fff;float: right; overflow: hidden; width: 70%}
 .mob-company .mob-slogan-ctnr {float: left; clear: both;width: 500%}
 
