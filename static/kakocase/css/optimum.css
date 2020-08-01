@@ -388,7 +388,7 @@ a.my-cart-b {text-decoration: none;}
 .ribben1:after {content: ''; position: absolute; top: 82%;right: 78%;width: 0; height: 0; border-top: 24px solid #6D1107; border-right: 14px solid transparent; border-left: 3px solid transparent; transform: rotate(97deg);}
 .ribben2 p{font-size:1em; color:#fff;}
 .ribben2 {background: #0D59AF;position: absolute;top: 15%;left: -4%;padding: 0.5em;width: 42%;}
-.ribben2:after {border-top: 24px solid #04448C;border-right: 14px solid transparent;border-left: 3px solid transparent;content: '';height: 0;transform: rotate(97deg);position: absolute;/* top: 82%; */right: 83%;width: 0;}
+.ribben2:after {border-top: 24px solid #04448C;border-right: 14px solid transparent;border-left: 3px solid transparent;content: '';height: 0;transform: rotate(97deg);position: absolute;top: 82%;right: 83%;width: 0;}
 
 
 .dropdown-menu.categories-menu>li>a {font-size: 1em;font-weight: 700;text-transform: uppercase;}
