@@ -831,7 +831,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .ban-bottom-w3l, .new-arrivals-w3agile, .product-agile, .latest-w3, .footer-w3l, .products-agileinfo, .typo-w3, .mail-w3ls, .single-wl3 {padding: 1em 0;}
     .ribben2:after {right: 79%;border-top: 19px solid #04448C;top: 91%;}
     #tile-view .ribben2:after {right: 89%;border-top: 14px solid #04448C;top: 93%;}
-    .ribben2 {left: -2%;width: 50%;}
+    .ribben2 {left: -1%;width: 50%;}
      #tile-view .ribben2 {left: -2%;width: 50%;}
     .arrival-grid {float: left; /*width: 25%;*/}
     .latest-grid {float: left; width: 33.3%}
@@ -871,7 +871,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .single-right h4 {margin-bottom: .2em}
     .price.item-price-verbose {font-size: 1.5em; margin-top: 0}
     .tab-wl3 {padding: 0 15px}
-    .ribben2:after {right: 85%;top: 88%;}
+    .ribben2:after {right: 90%;top: 91%;}
     .top-rates {margin-top: 3.5em; }
 
     .single-grid {padding-left: 15px;padding-right:15px}
