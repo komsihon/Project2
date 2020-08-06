@@ -117,13 +117,7 @@ class Home(TemplateSelector, TemplateView):
         else:
             return getattr(settings, 'PRODUCTS_PREVIEWS_PER_ROW', 4)
 
-    def get(self, request, *args, **kwargs):
-        service = get_service_instance()
-        cookie_name = "%s_first_time" % service.project_name_slug
-
-        if request.user.is_anonymous() and not request.COOKIES.get(cookie_name):
-            return HttpResponseRedirect(reverse('first_time'))
-
+    def get_context_data(self, **kwargs):
         context = super(Home, self).get_context_data(**kwargs)
 
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)
@@ -166,7 +160,16 @@ class Home(TemplateSelector, TemplateView):
         context['fw_section'] = fw_section_qs[0] if fw_section_qs.count() > 0 else None
         fw_popup_qs = Banner.objects.filter(display=FULL_SCREEN_POPUP, is_active=True).order_by('-id')
         context['fs_popups'] = fw_popup_qs[0] if fw_popup_qs.count() > 0 else None
-        return render(request, self.get_template_names(), context)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        service = get_service_instance()
+        cookie_name = "%s_first_time" % service.project_name_slug
+
+        if request.user.is_anonymous() and not request.COOKIES.get(cookie_name):
+            return HttpResponseRedirect(reverse('first_time'))
+
+        return super(Home, self).get(request, *args, **kwargs)
 
 
 class SmartObjectDetail(TemplateSelector, TemplateView):
@@ -352,9 +355,9 @@ class ProductDetail(TemplateSelector, TemplateView):
     template_name = 'shopping/product_detail.html'
     optimum_template_name = 'shopping/optimum/product_detail.html'
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(ProductDetail, self).get_context_data(**kwargs)
-        add_member_auto_profiletag(request, **kwargs)
+        add_member_auto_profiletag(self.request, **kwargs)
         category_slug = kwargs['category_slug']
         product_slug = kwargs['product_slug']
         category = ProductCategory.objects.get(slug=category_slug)
@@ -399,7 +402,7 @@ class ProductDetail(TemplateSelector, TemplateView):
             except:
                 continue
         context['deal_list'] = deal_list
-        member = request.user
+        member = self.request.user
         from daraja.models import Dara
         if member.is_authenticated():
             try:
@@ -411,7 +414,7 @@ class ProductDetail(TemplateSelector, TemplateView):
                 context['is_dara'] = True
             except Dara.DoesNotExist:
                 pass
-        return render(request, self.get_template_names(), context)
+        return context
 
 
 class Cart(TemplateSelector, TemplateView):

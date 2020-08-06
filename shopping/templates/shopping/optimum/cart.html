@@ -227,7 +227,7 @@
                     {% endif %}
                 {% endif %}
             {% else %}
-                var currency = simpleCart.currency().symbol,
+                let currency = simpleCart.currency().symbol,
                     minCheckout = parseFloat($('#checkout-min').text()),
                     itemsPackingQty = 0,
                     deliveryPackingCost = {{ max_delivery_packing_cost }},

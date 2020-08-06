@@ -62,23 +62,23 @@ class OrderResource(resources.ModelResource):
             product = entry.product
             detail = product.name
             if product.reference:
-                detail += ' - Ref: %s' % product.reference
+                detail = product.reference + ' - ' + detail
             if product.size:
-                detail += ' - Size: %s' % product.size
-            detail = '%s - Qty: %d' % (detail, entry.count)
+                detail += ' - %s' % product.size
+            detail = '%s x %d' % (detail, entry.count)
             details.append(detail.replace(',', ' ').replace(';', ' '))
-        return '\n'.join(details)
+        return ' ** '.join(details)
 
     def dehydrate_delivery_address(self, order):
         a = order.delivery_address
-        address = 'Name: %s\n%s' % (a.name, a.details)
+        address = 'Name: %s - %s' % (a.name, a.details)
         if a.postal_code:
             address += ' - %s' % a.postal_code
         if a.country:
-            address += '\n%s - %s' % (a.city, a.country.iso3.upper())
-        address += '\n%s' % a.phone
+            address += ' - %s - %s' % (a.city, a.country.iso3.upper())
+        address += ' - %s' % a.phone
         if a.email:
-            address += '\n%s' % a.email
+            address += ' - %s' % a.email
         return address.replace(',', ' ').replace(';', ' ')
 
     def dehydrate_deal(self, order):
