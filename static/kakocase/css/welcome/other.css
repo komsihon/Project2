@@ -8,9 +8,9 @@ body{ background: url(../../img/welcome/other-background.jpg) no-repeat center c
 
 .container.desktop-landscape{ margin: 0 20px; padding-top: 40vh; }
 
-#navbar .glyphicon { color: #3498db !important; }
+#navbar .glyphicon { color: #3498db }
 /*#nav-xs.navbar-nav>li:first-child>a { display: none !important; }*/
-.navbar-nav>li>a { color: #3498db !important; }
+.navbar-nav>li>a { color: #3498db }
 
 .textBox.landscape { }
 

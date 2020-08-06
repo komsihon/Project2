@@ -750,7 +750,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 
 @media(max-width:384px){
     .arrival-grid, .cap-left {float: left;width: 100%;margin-top: 25px;}
-    h2.title {font-size: 2em; padding: 1em 0 .5em}
+    h2.title {font-size: 2em;padding: 15px 0 .5em;}
     .arrival-grid:first-child {margin-top: 0}
     .fw-section {padding: 1em 0; min-height: 183px;}
     .ban-bottom-w3l, .new-arrivals-w3agile, .product-agile, .latest-w3, .footer-w3l, .products-agileinfo, .typo-w3, .mail-w3ls, .single-wl3 {padding: 0}
@@ -789,8 +789,9 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 
 @media (max-width: 767px){
     .app-name {font-size: 15px;font-weight: 700;margin-top: 8px;}
-     .banner-w3 {margin-top: 180px;}
-     .install-promotion + .banner-w3 {margin-top: 45px;}
+     .banner-w3 {margin-top: 20px;height: 210px;}
+     #content {margin-top: 10px;}
+     .install-promotion + .banner-w3 {margin-top: -10px;}
     .core-slider_item .cta a.button1 {width: 125px; padding: 5px 0}
      .slogan {clear: both; font-size: 14px; font-style: italic}
     .product-agile .container {padding: 0}

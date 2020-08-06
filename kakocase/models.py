@@ -218,7 +218,7 @@ class DeliveryOption(Model):
     description = models.TextField(_("description"), blank=True,
                                    help_text=_("Description of the option. Typically coverage and conditions."))
     icon = models.ImageField(upload_to=UPLOAD_TO, width_field=24, height_field=24, blank=True, null=True,
-                             help_text=_("24x24 PNG icon to illustrate the option."))
+                             editable=False, help_text=_("24x24 PNG icon to illustrate the option."))
     cost = models.FloatField(_("cost"), help_text="Cost of the option.")
     packing_cost = models.IntegerField(_("packing cost"), default=0,
                                        help_text=_("Packing cost for this option if any."))

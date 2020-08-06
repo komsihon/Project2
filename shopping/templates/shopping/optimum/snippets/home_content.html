@@ -1,4 +1,5 @@
 {% load i18n static humanize user_agents media_from_provider currency %}
+{% if slideshow|length > 0 %}
 <div class="banner-w3">
     <div class="demo-1">
         <div class="swiper-container">
@@ -41,6 +42,8 @@
         </div>
     </div>
 </div>
+{% endif %}
+
 <div id="content" style="">
     {% if preview_smart_categories  %}
         <section class="product-agile">

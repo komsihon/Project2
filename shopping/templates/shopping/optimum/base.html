@@ -13,7 +13,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
         {% block meta %}{% endblock %}
         {% if service.is_pwa_ready %}
-            <link rel="manifest" href="/manifest.json' %}">
+            <link rel="manifest" href="/manifest.json">
         {% endif %}
         {% include 'core/snippets/color_and_icons.html' %}
 		{% block page_title %}{% endblock %}
@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.6.06.17.04" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.8.6" type="text/css" media="all" />
             <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.5.29" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
