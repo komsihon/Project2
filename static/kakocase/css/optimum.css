@@ -51,6 +51,9 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-top .header-right2 .my-coupon-list {position: absolute; display: block; margin-left: -73px; margin-top: -9px;}
 .header-top .header-right2 .my-coupon-list .fa-gift {font-size: 34px}
 .header-top .header-right2 .my-coupon-list .label.label-danger {margin-top: 14px;margin-left: -8px;}
+.header-top .push-subscribe.activate-notification {cursor: pointer}
+.header-top .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
+.header-top .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0px; top: 13px;position: absolute;color: #ff9800;}
 
 .edge-panel-left .stage .nav.nav-pills li {padding-left: 15px!important;}
 
@@ -124,6 +127,8 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .btn-deep-blue:hover:active {background: #006ee4;border-color: #007bff;}
 
 
+
+
 .header-bottom {background: #FFFFFF;/* box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1); */}
 .header-bottom.fixed {background: #FFFFFF;min-height: 75px;padding: .3em 0 0;position: fixed;top: -90px;width: 100%;z-index: 10;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);}
 .header-bottom.fixed .cd-header-buttons {top: 45px }
@@ -136,7 +141,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed #auth.top-right a {color: #1B242F}
 .header-bottom.fixed #auth.top-right .label-danger {margin-top: 10px;}
 .header-bottom.fixed .fa-4x {font-size: 2em}
-.header-bottom.fixed .simpleCart_quantity {font-size: 70%;margin-left: -48px; margin-top: -14px;}
+.header-bottom.fixed .simpleCart_quantity {font-size: 70%;margin-left: -48px;margin-top: -14px;}
 .header-bottom.fixed .cart-details {margin-top: 0}
 .header-bottom.fixed a.empty-cart span {display: block;margin-top: -6px;}
 .header-bottom.fixed .logo-nav-right {margin-top: 8px;}
@@ -147,7 +152,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed .logo-nav-left .company-logo-container {height: 75px; overflow: hidden; width: 200px;}
 .header-bottom.fixed .header-right2 {display: block}
 .header-bottom:not(.fixed) .header-right2 {display: none}
-.header-bottom.fixed .header-right2 .label.simpleCart_quantity {margin-left: -7px; margin-top: 12px}
+.header-bottom.fixed .header-right2 .kkc-cart~.label.simpleCart_quantity {margin-left: -7px; margin-top: 12px;}
 .header-bottom.fixed .header-right2 ul.dropdown-menu.user-menu {left: -110px}
 .header-bottom:not(.fixed) .header-right2 ul.dropdown-menu.user-menu {left: -85px;}
 
@@ -156,8 +161,15 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom .header-right2 .my-coupon-list .label.label-danger {margin-top: 17px; margin-left: -12px}
 
 .xs-nav-container {float: left;/* margin-left: 15px; */}
-.button-hover-handler {float: left;margin-left: 5px;height: 35px;width: 35px;border-radius: 20px;margin-top: 7px;}
+.button-hover-handler {float: left;margin-left: 5px;height: 35px;width: 35px;border-radius: 20px;margin-top:7px;}
 .button-hover-handler.active {background: #ffffff52}
+.button-hover-handler .action {display: block}
+.button-hover-handler .push-subscribe.activate-notification {cursor: pointer}
+.button-hover-handler .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
+.button-hover-handler .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; top: 13px;position: absolute;color: #ff9800;}
+.header-xs .xs-nav-container > .button-hover-handler {margin-top: 14px;}
+
+
 .company-logo-container {float: left;max-height: 110px;max-width: 200px;overflow: hidden;}
 .company-logo-container img {max-height: 113px;}
 

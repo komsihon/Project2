@@ -22,7 +22,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.8.6" type="text/css" media="all" />
-            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.5.29" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.08.08" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css?v=20.4.29.20.37" />
@@ -89,51 +89,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             {% if user.is_authenticated %}
                                 <ul>
                                     <li>
-                                        <a href="{{ settings.IKWEN_CONSOLE_URL }}">
-                                            {% if user.get_notice_count > 0 %}
-                                                <span class="label label-danger"
-                                                      style="">{% if user.get_notice_count > 99 %}99+{% else %}{{ user.get_notice_count }}{% endif %}</span>
-                                            {% endif %}
-                                            <i class="fa fa-bell" aria-hidden="true"
-                                               style="line-height: .4em; margin-top: 10px"></i>
-                                        </a>
+                                        <div class="push-subscribe activate-notification" >
+                                            <button class="fa fa-bell push-subscribe-btn" aria-hidden="true">
+                                                <i class="fa fa-circle"></i>
+                                            </button>
+                                        </div>
                                     </li>
-                                    <li id="user-menu" class="dropdown">
-                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ user.first_name }} <i class="fa fa-user" aria-hidden="true"></i>
-                                        </a>
-                                        <ul class="user-menu dropdown-menu" aria-labelledby="user-menu">
-                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                            {% if user.is_staff %}
-                                                <li>
-                                                    <a href="{% url 'ikwen:staff_router' %}">Admin</a>
-                                                </li>
-                                            {% endif %}
-                                            <li>{% url "ikwen:account_setup" as account_setup_url %}
-                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
-                                            </li>
-                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            {% else %}
-                                <ul class="anonymous">
-                                    <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
-                                </ul>
-                            {% endif %}
-                        </div>
-                        {% if config.allow_shopping and config.show_prices %}
-                            <div class="header-right2">
-                                <div class="cart box_1">
-{#                                    <div class="toggle-cd-search">#}
-{#                                        <div class="open" style="float: left" title="{% trans 'Open search box' %}"><i class="fa fa-search"></i></div>#}
-{#                                        <div class="close2" style="float: left" title="{% trans 'Close search box' %}"><i class="fa fa-times"></i></div>#}
-{#                                    </div>#}
-                                    <ul>
+                                        {% if config.allow_shopping and config.show_prices %}
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
-                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity"></span>
+                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity" style="margin-left: -4px"></span>
                                             </a>
                                             <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="left: -157px; width: 200px; top: 31px">
                                                 <li>
@@ -163,10 +128,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             </a>
                                         </li>
                                         {% endif %}
-                                    </ul>
-                                </div>
-                            </div>
-                        {% endif %}
+                                    {% endif %}
+                                    <li>
+                                        <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                            {% if user.get_notice_count > 0 %}
+                                                <span class="label label-danger"
+                                                      style="">{% if user.get_notice_count > 99 %}99+{% else %}{{ user.get_notice_count }}{% endif %}</span>
+                                            {% endif %}
+                                            <i class="fa fa-window-maximize" aria-hidden="true"
+                                               style="line-height: .4em; margin-top: 10px"></i>
+                                        </a>
+                                    </li>
+                                    <li id="user-menu" class="dropdown">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{ user.first_name }} <i class="fa fa-user" aria-hidden="true"></i>
+                                        </a>
+                                        <ul class="user-menu dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
+                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                            {% if user.is_staff %}
+                                                <li>
+                                                    <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                                </li>
+                                            {% endif %}
+                                            <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                            </li>
+                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <ul class="anonymous">
+                                    <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
+                                </ul>
+                            {% endif %}
+                        </div>
                         {% if config.can_manage_currencies %}
                             {% include 'shopping/snippets/currency_switcher.html' %}
                         {% endif %}
@@ -335,11 +332,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <div class="xs-nav-container">
                             {% if user.is_authenticated %}
                                 <div class="button-hover-handler">
+                                    <div class="push-subscribe activate-notification" >
+                                        <button class="fa fa-bell push-subscribe-btn" aria-hidden="true">
+                                            <i class="fa fa-circle"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="button-hover-handler console">
                                     <a class="action" href="{{ settings.IKWEN_CONSOLE_URL }}">
                                         {% if user.get_notice_count > 0 %}
                                             <span class="badge badge-danger hidden-xs">{{ user.get_notice_count }}</span>
                                         {% endif %}
-                                        <i class="fa fa-bell"></i>
+                                        <i class="fa fa-window-maximize" style="margin-top: 3px"></i>
                                     </a>
                                 </div>
                                 <div class="action dropdown" style="float: right; width: 20px">
