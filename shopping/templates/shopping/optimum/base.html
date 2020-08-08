@@ -22,7 +22,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
             <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.8.6" type="text/css" media="all" />
-            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.08.08" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.08.08-06-49" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css?v=20.4.29.20.37" />
@@ -89,7 +89,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             {% if user.is_authenticated %}
                                 <ul>
                                     <li>
-                                        <div class="push-subscribe activate-notification" >
+                                        <div class="push-subscribe activate-notification">
                                             <button class="fa fa-bell push-subscribe-btn" aria-hidden="true">
                                                 <i class="fa fa-circle"></i>
                                             </button>
@@ -98,9 +98,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         {% if config.allow_shopping and config.show_prices %}
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
-                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity" style="margin-left: -4px"></span>
+                                                <i class="kkc-cart fa fa-shopping-bag fa-4x"></i>
+                                                <span class="label label-danger simpleCart_quantity" style="margin-left: -4px"></span>
                                             </a>
-                                            <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="left: -157px; width: 200px; top: 31px">
+                                            <ul class="user-menu dropdown-menu dropdown-menu-right" aria-labelledby="confirm-checkout" style="left: -157px; width: 200px; top: 31px">
                                                 <li>
                                                     <div class="cart-details">
                                                         <a href="{% url 'shopping:cart' %}">
@@ -131,17 +132,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     {% endif %}
                                     <li>
                                         <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                            <i class="fa fa-window-maximize" aria-hidden="true"
+                                               style="line-height: .4em; margin-top: 10px"></i>
                                             {% if user.get_notice_count > 0 %}
                                                 <span class="label label-danger"
                                                       style="">{% if user.get_notice_count > 99 %}99+{% else %}{{ user.get_notice_count }}{% endif %}</span>
                                             {% endif %}
-                                            <i class="fa fa-window-maximize" aria-hidden="true"
-                                               style="line-height: .4em; margin-top: 10px"></i>
                                         </a>
                                     </li>
                                     <li id="user-menu" class="dropdown">
                                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {{ user.first_name }} <i class="fa fa-user" aria-hidden="true"></i>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
                                         </a>
                                         <ul class="user-menu dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
                                             <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
@@ -203,40 +204,77 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                             <div class="open" style="float: left" title="{% trans 'Open search box' %}"><i class="fa fa-search"></i></div>
                                             <div class="close2" style="float: left" title="{% trans 'Close search box' %}"><i class="fa fa-times"></i></div>
                                         </div>
-                                        <ul>
-                                            <li class="dropdown">
-                                                <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
-                                                    <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity"></span>
-                                                </a>
-                                                <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="width: 200px">
-                                                    <li>
-                                                        <div class="cart-details">
-                                                            <a href="{% url 'shopping:cart' %}">
-                                                                <h5>
-                                                                    <div class="total">
-                                                                        <span class="simpleCart_total"></span>
-                                                                    </div>
-                                                                </h5>
-                                                            </a>
-                                                            <a href="javascript:;" class="empty-cart" data-toggle="modal"
-                                                               data-target="#confirm-empty-cart">
-                                                                <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
-                                                            </a>
+                                        <div class="top-right">
+                                            <ul>
+                                                <li>
+                                                    <div class="push-subscribe activate-notification">
+                                                        <button class="fa fa-bell push-subscribe-btn" aria-hidden="true">
+                                                            <i class="fa fa-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown" id="confirm-checkout" aria-haspopup="true" aria-expanded="true">
+                                                        <i class="kkc-cart fa fa-shopping-bag fa-4x"></i><span class="label label-danger simpleCart_quantity"></span>
+                                                    </a>
+                                                    <ul class="user-menu dropdown-menu" aria-labelledby="confirm-checkout" style="width: 200px">
+                                                        <li>
+                                                            <div class="cart-details">
+                                                                <a href="{% url 'shopping:cart' %}">
+                                                                    <h5>
+                                                                        <div class="total">
+                                                                            <span class="simpleCart_total"></span>
+                                                                        </div>
+                                                                    </h5>
+                                                                </a>
+                                                                <a href="javascript:;" class="empty-cart" data-toggle="modal"
+                                                                   data-target="#confirm-empty-cart">
+                                                                    <span style="font-weight: 300">{% trans "Empty Cart" %}</span>
+                                                                </a>
+                                                                <div class="clearfix"></div>
+                                                            </div>
                                                             <div class="clearfix"></div>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                        <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning">{% trans 'Checkout' %}</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            {% if coupon_summary.threshold_reached %}
-                                            <li>
-                                                <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
-                                                    <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
-                                                </a>
-                                            </li>
-                                            {% endif %}
-                                        </ul>
+                                                            <a href="{% url 'shopping:cart' %}" class="btn btn-sm btn-block btn-warning">{% trans 'Checkout' %}</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                {% if coupon_summary.threshold_reached %}
+                                                <li>
+                                                    <a class="my-coupon-list" href="{% url 'shopping:coupon_list' %}">
+                                                        <i class="fa fa-gift"></i><span class="label label-danger">{% if total_coupons > 99 %}99+{% else %}{{ total_coupons }}{% endif %}</span>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                <li>
+                                                    <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                                        <i class="fa fa-window-maximize" aria-hidden="true"
+                                                           style="line-height: .4em; margin-top: 10px"></i>
+                                                        {% if user.get_notice_count > 0 %}
+                                                            <span class="label label-danger"
+                                                                  style="">{% if user.get_notice_count > 99 %}99+{% else %}{{ user.get_notice_count }}{% endif %}</span>
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                                <li id="user-menu" class="dropdown">
+                                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                    </a>
+                                                    <ul class="user-menu dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
+                                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                        <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                                        {% if user.is_staff %}
+                                                            <li>
+                                                                <a href="{% url 'ikwen:staff_router' %}">Admin</a>
+                                                            </li>
+                                                        {% endif %}
+                                                        <li>{% url "ikwen:account_setup" as account_setup_url %}
+                                                            <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                                        </li>
+                                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             {% endif %}
