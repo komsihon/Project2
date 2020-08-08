@@ -28,6 +28,7 @@ body {background: none!important;}
 #promotion {margin-bottom: 50px}
 
 #our-products {margin-bottom: 60px}
+#our-products .coupon-group .swiper-button-next, #our-products .coupon-group .swiper-button-prev {top: 42%!important;}
 #our-products .description {float: none!important;}
 #our-products .description h2 {margin-bottom: 30px;}
 #our-products .description p {margin-bottom: 35px;font-size: 18px;}
