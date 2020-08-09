@@ -390,6 +390,9 @@ a.my-cart-b {text-decoration: none;}
 .ribben2 {background: #0D59AF;position: absolute;top: 15%;left: -4%;padding: 0.5em;width: 42%;}
 .ribben2:after {border-top: 24px solid #04448C;border-right: 14px solid transparent;border-left: 3px solid transparent;content: '';height: 0;transform: rotate(97deg);position: absolute;top: 82%;right: 83%;width: 0;}
 
+.ribbon{ color: #fff; font-weight: 600; line-height: 2.9; border-bottom: 40px solid #28a745; border-left: 34px solid transparent; border-right: 48px solid transparent; height: 0; width: 170px; position: absolute; top: 9%; right: -5%; transform: rotateZ(50deg); }
+.ribbon-danger { border-bottom-color: #c10023 }
+.ribbon-info { border-bottom-color: #0D59AF }
 
 .dropdown-menu.categories-menu>li>a {font-size: 1em;font-weight: 700;text-transform: uppercase;}
 .dropdown ul.dropdown-menu.categories-menu {border-radius:4px; box-shadow:none; margin-top: 8px;}
@@ -400,8 +403,8 @@ a.my-cart-b {text-decoration: none;}
 
 .tab-wl3 .container {padding-left: 0}
 
-.filter-container {padding: 0;margin-top: 50px;}
-.top-filter {float: left;font-weight: 700;text-align: center;width: 100%;}
+.filter-container {padding-top: 90px;}
+.top-filter {display: none !important;float: left;font-weight: 700;text-align: center;width: 100%;}
 .top-filter .filter {border-bottom: 1px solid #c5c5c5;border-right: solid 1px #c5c5c5;float: left;height: 45px;width: 50%;text-align: center;padding: 10px 0;}
 .top-filter .filter.is-active {background: #edf2f4; border-bottom: 1px solid transparent}
 .top-filter .sort {border-bottom: 1px solid #c5c5c5;float: left;height: 45px;padding:10px 0;text-align: center;width: 50%;}
@@ -789,8 +792,8 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 
 @media (max-width: 767px){
     .app-name {font-size: 15px;font-weight: 700;margin-top: 8px;}
-     .banner-w3 {margin-top: 20px;height: 210px;}
-     #content {margin-top: 10px;}
+     .banner-w3 {/* margin-top: 20px; */}
+     #content {/* margin-top: 10px; */}
      .install-promotion + .banner-w3 {margin-top: -10px;}
     .core-slider_item .cta a.button1 {width: 125px; padding: 5px 0}
      .slogan {clear: both; font-size: 14px; font-style: italic}
@@ -806,7 +809,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     #bottom-tabs li {text-align: center;width: 50%;}
     #suggestions {border-top: 1px solid #eee; padding: 1em 0 2em}
     .bottom-cntr {position: absolute;margin-top: 160px;right: 10px;}
-    .bottom-cntr > form {float: left;margin-left: 40px;}
+    .bottom-cntr > form {float: left;margin-left: 40px;margin-top: -40px;}
     .bottom-cntr i {color: #FFF; font-size: 15px}
     #price-range {margin: 1em auto 1em;}
     .single-right .price.item-price-verbose {font-size: 1.5em}
@@ -825,6 +828,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     .kkc-cart {float: none;font-size: 2em;margin-top: 5px;width: 100%;height: 100%;z-index: 10;}
     .cart-shopping .empty-cart {color: red;background-color: #bbbbbbc2; margin-bottom: 9px; bottom: 45px; font-size: 25px; height: 50px; left: 0; line-height: 2; position: absolute; width: inherit; z-index: 1;}
     .kkc-cart {}
+    .ribbon {right: -6%}
 
     #side-nav .panel-top .cover .company .name {float: right}
 }

@@ -85,6 +85,6 @@ label sup {color: #ff0000}
     .single-wl3 .container {padding: 0 10px}
     .open-bank-account a {float: left; margin-top: 10px; width: 100%}
     .single-grid {padding-left: 0}
-    .content {margin-top: 0}
+    .content {margin-top: 0;padding-top: 125px;}
     .item_add {float: right;}
 }

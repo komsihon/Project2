@@ -102,17 +102,17 @@
                                             </figure>
                                         </div>
                                         {% if product.stock == 0 %}
-                                            <div class="ribben2">
+                                            <div class="ribbon ribbon-danger" >
                                                 <p>{% trans "SOLD OUT" %}</p>
                                             </div>
                                         {% else %}
                                             {% if product.badge_text %}
-                                                <div class="ribben">
+                                                <div class="ribbon ribbon-info">
                                                     <p>{{ product.badge_text }}</p>
                                                 </div>
                                             {% endif %}
                                             {% if config.auto_manage_sales and product.on_sale %}
-                                                <div class="ribben1">
+                                                <div class="ribbon">
                                                     <p>{% trans "SALE" context 'Sale on a product' %}</p>
                                                 </div>
                                             {% endif %}
@@ -237,17 +237,17 @@
                                             </figure>
                                         </div>
                                         {% if product.stock == 0 %}
-                                            <div class="ribben2">
+                                            <div class="ribbon ribbon-danger" >
                                                 <p>{% trans "SOLD OUT" %}</p>
                                             </div>
                                         {% else %}
                                             {% if product.badge_text %}
-                                                <div class="ribben">
+                                                <div class="ribbon ribbon-info">
                                                     <p>{{ product.badge_text }}</p>
                                                 </div>
                                             {% endif %}
                                             {% if config.auto_manage_sales and product.on_sale %}
-                                                <div class="ribben1">
+                                                <div class="ribbon">
                                                     <p>{% trans "SALE" context 'Sale on a product' %}</p>
                                                 </div>
                                             {% endif %}
@@ -327,17 +327,17 @@
                                         </figure>
                                     </div>
                                     {% if product.stock == 0 %}
-                                        <div class="ribben2">
+                                        <div class="ribbon ribbon-danger" >
                                             <p>{% trans "SOLD OUT" %}</p>
                                         </div>
                                     {% else %}
                                         {% if product.badge_text %}
-                                            <div class="ribben">
+                                            <div class="ribbon ribbon-info">
                                                 <p>{{ product.badge_text }}</p>
                                             </div>
                                         {% endif %}
                                         {% if config.auto_manage_sales and product.on_sale %}
-                                            <div class="ribben1">
+                                            <div class="ribbon">
                                                 <p>{% trans "SALE" context 'Sale on a product' %}</p>
                                             </div>
                                         {% endif %}

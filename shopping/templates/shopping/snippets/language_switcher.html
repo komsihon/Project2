@@ -1,6 +1,6 @@
 {% load i18n %}
 <form class="lang-switcher" method="POST" action="{% url 'set_language' %}">{% csrf_token %}
-    <i class="fa fa-language visible-xs visible-sm pull-left"></i>
+{#    <i class="fa fa-language visible-xs visible-sm pull-left"></i>#}
     {% get_available_languages as LANGUAGES %}
     {% get_current_language as LANGUAGE_CODE %}
     <label for="language" class="sr-only">{% trans "Language" %}</label>

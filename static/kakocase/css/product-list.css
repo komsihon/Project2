@@ -20,7 +20,7 @@ border-bottom: 1px solid #eee; margin-bottom: .8em; padding-bottom: 1.5em}
 .top-rates:first-child {padding-top: 0;margin-top: 0em;}
 
 @media (max-width: 767px) {
-    .content { margin-top: 50px !important;}
+    .content {padding-top: 50px !important;}
     #modal-deal-details .bank-logo {float: none; margin: auto}
     .nav-xs { background-color: #fff !important;}
     .bank-notice {width: 100%}
@@ -31,7 +31,7 @@ border-bottom: 1px solid #eee; margin-bottom: .8em; padding-bottom: 1.5em}
     h2.title {padding-top: 1.5em}
 }
 @media (max-width: 991px) {
-    .container {padding: 0 }
+    .container {padding: 0;}
     #menu-panel {padding: 0 5px 0 0}
     .single-wl3 .container {padding: 0}
 }
