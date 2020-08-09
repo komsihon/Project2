@@ -47,10 +47,15 @@ p{padding:0 0;margin:0 0;  }
 ul{padding:0 0;margin: -5px 0 -6px;}
 li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-top {background: #ececec;padding: 8px 0 9px;height: 40px;}
-.header-top .fa {cursor: pointer}
+.header-top .fa {cursor: pointer;}
 .header-top .header-right2 .my-coupon-list {position: absolute; display: block; margin-left: -73px; margin-top: -9px;}
 .header-top .header-right2 .my-coupon-list .fa-gift {font-size: 34px}
 .header-top .header-right2 .my-coupon-list .label.label-danger {margin-top: 14px;margin-left: -8px;}
+
+
+.header-top .push-subscribe.activate-notification {cursor: pointer; display: none}
+.header-top .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
+.header-top .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; top: 13px;position: absolute;color: #ff9800;}
 
 .edge-panel-left .stage .nav.nav-pills li {padding-left: 15px!important;}
 
@@ -106,8 +111,9 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .top-right {float: right}
 
 #auth .fa {font-size: 24px}
+#auth .fa.fa-gift {font-size: 30px}
 #auth.top-right ul {margin: 0 0 -6px;}
-#auth.top-right .label-danger {margin-left: 17px;position: absolute;z-index: 10;margin-top: 10px;}
+#auth.top-right .label-danger {margin-left: -5px;position: absolute;z-index: 10;margin-top: 10px;}
 
 #modal-generic-notice .modal-content.modal-info {padding: 15px;}
 #modal-generic-notice .modal-header {border-bottom: none}
@@ -124,6 +130,8 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .btn-deep-blue:hover:active {background: #006ee4;border-color: #007bff;}
 
 
+
+
 .header-bottom {background: #FFFFFF;/* box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1); */}
 .header-bottom.fixed {background: #FFFFFF;min-height: 75px;padding: .3em 0 0;position: fixed;top: -90px;width: 100%;z-index: 10;box-shadow: 1px 1px 9px 4px rgba(0, 0, 0, .1);}
 .header-bottom.fixed .cd-header-buttons {top: 45px }
@@ -136,7 +144,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed #auth.top-right a {color: #1B242F}
 .header-bottom.fixed #auth.top-right .label-danger {margin-top: 10px;}
 .header-bottom.fixed .fa-4x {font-size: 2em}
-.header-bottom.fixed .simpleCart_quantity {font-size: 70%;margin-left: -48px; margin-top: -14px;}
+.header-bottom.fixed .simpleCart_quantity {font-size: 70%;margin-left: -48px;margin-top: -14px;}
 .header-bottom.fixed .cart-details {margin-top: 0}
 .header-bottom.fixed a.empty-cart span {display: block;margin-top: -6px;}
 .header-bottom.fixed .logo-nav-right {margin-top: 8px;}
@@ -147,17 +155,26 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed .logo-nav-left .company-logo-container {height: 75px; overflow: hidden; width: 200px;}
 .header-bottom.fixed .header-right2 {display: block}
 .header-bottom:not(.fixed) .header-right2 {display: none}
-.header-bottom.fixed .header-right2 .label.simpleCart_quantity {margin-left: -7px; margin-top: 12px}
+.header-bottom.fixed .header-right2 .kkc-cart~.label.simpleCart_quantity {margin-left: -7px; margin-top: 12px;}
 .header-bottom.fixed .header-right2 ul.dropdown-menu.user-menu {left: -110px}
 .header-bottom:not(.fixed) .header-right2 ul.dropdown-menu.user-menu {left: -85px;}
 
-.header-bottom .header-right2 .my-coupon-list {position: absolute; display: block; margin-left: -71px; margin-top: -9px;}
-.header-bottom .header-right2 .my-coupon-list .fa-gift {font-size: 37px}
-.header-bottom .header-right2 .my-coupon-list .label.label-danger {margin-top: 17px; margin-left: -12px}
+.header-bottom .header-right2 .my-coupon-list {position: relative;display: block;margin-left: 0;margin-top: 0;}
+.header-bottom .header-right2 .fa {font-size: 25px}
+.header-bottom .header-right2 .fa.fa-gift {font-size: 32px}
+.header-bottom .header-right2 .label.label-danger {margin-top: 17px; margin-left: -12px}
 
 .xs-nav-container {float: left;/* margin-left: 15px; */}
-.button-hover-handler {float: left;margin-left: 5px;height: 35px;width: 35px;border-radius: 20px;margin-top: 7px;}
+.button-hover-handler {float: left;margin-left: 5px;height: 35px;width: 35px;border-radius: 20px;margin-top:7px;}
 .button-hover-handler.active {background: #ffffff52}
+.button-hover-handler .action {display: block}
+.button-hover-handler .push-subscribe.activate-notification, .header-bottom.fixed .header-right2 .push-subscribe.activate-notification {cursor: pointer; display: none}
+.button-hover-handler .push-subscribe .push-subscribe-btn, .header-bottom.fixed .header-right2 .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
+.button-hover-handler .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; top: 13px;position: absolute;color: #ff9800;}
+.header-bottom.fixed .header-right2 .push-subscribe.activate-notification .fa-circle {font-size: 11px!important; margin-left: 0; top: 23px;position: fixed;color: #ff9800;}
+.header-xs .xs-nav-container > .button-hover-handler {margin-top: 14px;}
+
+
 .company-logo-container {float: left;max-height: 110px;max-width: 200px;overflow: hidden;}
 .company-logo-container img {max-height: 113px;}
 
@@ -167,7 +184,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .core-slider_item .cta a.button1 {background: #e38f2b; color: #fff;  display: block; font-weight: 700; margin: auto; padding: 15px 0; text-align: center; width: 225px}
 
 .header-right2 {float: right;margin-right: 18px;margin-top: 4px;}
-.header-right2 .user-menu .btn-warning {background: var(--color-orange); color: #fff; height: 40px; line-height: 32px; font-size: 14px}
+.header-right2 .user-menu .btn-warning {background: var(--color-orange) !important; color: #fff; height: 40px; line-height: 32px; font-size: 14px}
 .logo-nav-left {float: left;margin-top:  10px;}
 .simpleCart_quantity {font-size: 82%;margin-left: -9px;margin-top: 10px;position: absolute;z-index: 10;}
 .kkc-cart {float: left;font-size: 26px;margin-top: -1px;}
