@@ -52,6 +52,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-top .header-right2 .my-coupon-list .fa-gift {font-size: 34px}
 .header-top .header-right2 .my-coupon-list .label.label-danger {margin-top: 14px;margin-left: -8px;}
 
+.header-top .top-right .dropdown .user-menu.dropdown-menu {left: -157px; top: 31px}
 
 .header-top .push-subscribe.activate-notification {cursor: pointer; display: none}
 .header-top .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
@@ -107,6 +108,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .top-right .dropdown-menu li a {background: #fff; color:#777; font-weight: 400}
 
 .top-right .dropdown-menu li a:hover {color:#333}
+.top-right .dropdown .user-menu.checkout-section {padding: 15px 0; min-width: 250px}
 .top-right ul li.text a {color:#fff}
 .top-right {float: right}
 
@@ -137,7 +139,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .header-bottom.fixed .cd-header-buttons {top: 45px }
 .header-bottom.fixed .box_1 {margin-top: 22px;}
 .header-bottom.fixed .logo-nav-left a {font-size: 23px;left: 10px; position: absolute; top: 10px;}
-.header-bottom.fixed .logo-nav-left img {max-height: 60px; left: 10px;position: absolute;top: 0px;max-width: 200px;}
+.header-bottom.fixed .logo-nav-left img {max-height: 60px; left: 10px;position: absolute;top: 0;max-width: 200px;}
 .header-bottom.fixed .navbar-nav {margin-top: 9px}
 .header-bottom.fixed #auth.top-right ul {margin: -10px 0 -6px;position: absolute;right: 12px;top: 0;}
 .header-bottom.fixed #auth.top-right .fa {color: #1B242F; font-size: 17px}
@@ -184,11 +186,11 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .core-slider_item .cta a.button1 {background: #e38f2b; color: #fff;  display: block; font-weight: 700; margin: auto; padding: 15px 0; text-align: center; width: 225px}
 
 .header-right2 {float: right;margin-right: 18px;margin-top: 4px;}
-.header-right2 .user-menu .btn-warning {background: var(--color-orange) !important; color: #fff; height: 40px; line-height: 32px; font-size: 14px}
+.top-right .user-menu.checkout-section .btn-warning {background: var(--color-orange); margin-top: 20px; color: #fff; height: 40px; line-height: 32px; font-size: 14px}
 .logo-nav-left {float: left;margin-top:  10px;}
 .simpleCart_quantity {font-size: 82%;margin-left: -9px;margin-top: 10px;position: absolute;z-index: 10;}
 .kkc-cart {float: left;font-size: 26px;margin-top: -1px;}
-.cart-details {float: left;margin: 10px}
+.cart-details {float: left;margin: 10px;}
 
 .fw-section {background: no-repeat center;background-size:cover; text-align: center;min-height: 534px;padding: 3em 0}
 .product-agile {padding: 3em 0;}
@@ -291,7 +293,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 
 .invalid-code {color: #e51c23;float: left;margin-top: -15px;font-size:  13px;display: none;}
 .navbar {position: relative; margin-bottom: 0}
-.navbar-nav > li > a {font-size: 18px;font-weight: 700;padding: 0 15px;}
+.navbar-nav > li > a {font-size: 18px;font-weight: 700;line-height: 35px;padding: 0 15px;}
 .navbar-nav > li > a:hover { color:#99141d !important; }
 
 /*.cart-shopping.show { bottom: 0; position: sticky; background-color: #5f0000}*/
