@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from threading import Thread
 
+from PIL import Image
 from ajaxuploader.views import AjaxFileUploader
 from currencies.context_processors import currencies
 from django.conf import settings
@@ -483,8 +484,13 @@ class ProductPhotoUploadBackend(DefaultUploadBackend):
         path = self.UPLOAD_DIR + "/" + filename
         self._dest.close()
         media_root = getattr(settings, 'MEDIA_ROOT')
+        full_path = media_root + path
+        img = Image.open(full_path)
+        if img.size != (600, 700) and img.size != (600, 400):
+            return {'error': _('Please upload an image of either "600 x 700 px" or "600 x 400px".'),
+                    'wrong_size': True}
         try:
-            with open(media_root + path, 'r') as f:
+            with open(full_path, 'r') as f:
                 content = File(f)
                 destination = media_root + Photo.UPLOAD_TO + "/" + filename
                 photo = Photo()

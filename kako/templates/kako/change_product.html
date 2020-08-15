@@ -143,7 +143,12 @@
                             <div class="delete has-shade" title="{% trans 'Delete image' %}">&times;</div>
                         </div>
                         {% if settings.IS_PROVIDER %}
-                            <div class="frame uploader"></div>
+                            <div class="frame uploader">
+                                <p style="font-size: 12px; margin-top: 170px">
+                                    <strong>600 x 700px</strong> or
+                                    <strong>400 x 600px</strong>
+                                </p>
+                            </div>
                         {% endif %}
                     </div>
                     {% if settings.IS_PROVIDER and product %}
@@ -237,21 +242,21 @@
                     else photos = [];
                     product.photos = [];
                     for (var i=0; i<photos.length; i++) {
-                        var photo = photos[i];
+                        let photo = photos[i];
                         if (photo.id != id) product.photos.push(photo)
                     }
                     localStorage.setItem('product', JSON.stringify(product));
                     $.getJSON('{% url 'kako:delete_photo' %}', {photo_id: $photo.attr('id'), product_id: productId});
                 });
                 $('form#submit-product').on('change', 'input, textarea', function() {
-                    var product = getLocalProduct();
+                    let product = getLocalProduct();
                     localStorage.setItem('product', JSON.stringify(product));
                 }).submit(function() {
-                    var isCorrect = checkInput();
+                    let isCorrect = checkInput();
                     if (isCorrect) localStorage.removeItem('product');
                     return isCorrect;
                 });
-                var pageLoading = true,
+                let pageLoading = true,
                     product;
                 function getLocalProduct() {
                     product = localStorage.getItem('product') ? JSON.parse(localStorage.getItem('product')):{};
@@ -260,18 +265,18 @@
                         pageLoading = false;
                         return product
                     }
-                    var photos = [];
+                    let photos = [];
                     if (product != {} && product.photos) photos = product.photos; //Keep a copy of photos objects
-                    var productAsArray = $('form#submit-product').serialize().split('&');
-                    for (var i=0; i<productAsArray.length; i++) {
-                        var elt = productAsArray[i].split('=');
+                    let productAsArray = $('form#submit-product').serialize().split('&');
+                    for (let i=0; i<productAsArray.length; i++) {
+                        let elt = productAsArray[i].split('=');
                         product[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
                     }
                     product.photos = photos; //Then restore the photos objects on the update serialized form
                     return product
                 }
                 function checkInput() {
-                    var check = true;
+                    let check = true;
                     $('input.required').each(function() {
                         if (!(this).val()) {
                             ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
@@ -279,31 +284,31 @@
                             check = false;
                         }
                     });
-                    var photosIDs = $('#photos_ids').val().replace(',', '');
+                    let photosIDs = $('#photos_ids').val().replace(',', '');
                     if (!photosIDs) {
                         return confirm("{% trans "Product without photos will be automatically hidden. Continue ?" %}");
                     }
                     return check;
                 }
-                var uploader = new qq.FileUploader({
+                let uploader = new qq.FileUploader({
                     action: "{% url 'kako:product_photo_uploader' %}",
                     element: $('div#upload-container .uploader')[0],
                     buttonText: "+",
                     multiple: false,
                     onSubmit: function(id, fileName) {
-                        var uploadId = 'u' + id;
+                        let uploadId = 'u' + id;
                         $('div#upload-container .image.tpl').clone().removeClass('tpl').addClass('loading ' + uploadId).insertBefore('div#upload-container .image.tpl');
                     },
                     onProgress: function(id, fileName, loaded, total) {
-                        var ratio = loaded / total,
+                        let ratio = loaded / total,
                             percent = ratio * 100,
                             uploadId = 'u' + id;
                         $('div#upload-container .image.loading.' + uploadId + ' .progress').animate({opacity: 1 - ratio, width: percent + '%'});
-                        if (ratio == 1) $('div#upload-container .image.loading.' + uploadId + ' .spinner').show()
+                        if (ratio === 1) $('div#upload-container .image.loading.' + uploadId + ' .spinner').show()
                     },
                     onComplete: function(id, fileName, responseJSON) {
                         if(responseJSON.success) {
-                            var uploadId = 'u' + id,
+                            let uploadId = 'u' + id,
                                 photo = {id: responseJSON.id, url: responseJSON.url},
                                 photosIDs = $('#photos_ids').val(),
                                 img = new Image(),
@@ -318,8 +323,10 @@
                             $('#photos_ids').val(product.photos_IDs);
                             product.photos.push(photo);
                             localStorage.setItem('product', JSON.stringify(product));
+                        } else if (responseJSON.wrong_size) {
+                            ikwen.showNoticeDialog('error', {% trans "Incorrect image size" %}, responseJSON.error)
                         } else {
-                            alert("upload failed!");
+                            alert("Upload failed ! " + responseJSON.error);
                         }
                     },
                     params: {
@@ -353,9 +360,9 @@
                         $('#id_min_order').val(product.min_order);
                         $('#id_visible').prop('checked', product.visible);
                         if (product.photos) {
-                            var photosIDs = '';
-                            for (var i=0; i<product.photos.length; i++) {
-                                var $photo = $('div#upload-container .image.tpl').clone().removeClass('tpl'),
+                            let photosIDs = '';
+                            for (let i=0; i<product.photos.length; i++) {
+                                let $photo = $('div#upload-container .image.tpl').clone().removeClass('tpl'),
                                     photo = product.photos[i];
                                 $photo.attr('id', photo.id);
                                 photosIDs += ',' + photo.id;
@@ -386,10 +393,10 @@
 
                 {# END #}
 
-                var $new = $('<option value="new">{% trans "New" %} ...</option>');
+                let $new = $('<option value="new">{% trans "New" %} ...</option>');
                 $new.appendTo('#id_category');
                 $('#id_category').on('change', function() {
-                    var val = $(this).val();
+                    let val = $(this).val();
                     if (val === 'new') {
                         window.location = "{% url 'kako:change_category' %}"
                     }
