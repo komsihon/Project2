@@ -143,8 +143,9 @@
                             <div class="delete has-shade" title="{% trans 'Delete image' %}">&times;</div>
                         </div>
                         {% if settings.IS_PROVIDER %}
-                            <div class="frame uploader">
-                                <p style="font-size: 12px; margin-top: 170px">
+                            <div style="float: left">
+                                <div class="frame uploader"></div>
+                                <p style="clear:both;float:left;font-size: 12px; margin-top: -5px">
                                     <strong>600 x 700px</strong> or
                                     <strong>400 x 600px</strong>
                                 </p>
@@ -324,7 +325,7 @@
                             product.photos.push(photo);
                             localStorage.setItem('product', JSON.stringify(product));
                         } else if (responseJSON.wrong_size) {
-                            ikwen.showNoticeDialog('error', {% trans "Incorrect image size" %}, responseJSON.error)
+                            ikwen.showNoticeDialog('error', "{% trans "Incorrect image size" %}", responseJSON.error)
                         } else {
                             alert("Upload failed ! " + responseJSON.error);
                         }
