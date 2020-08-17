@@ -54,7 +54,7 @@
                             {% include 'core/snippets/spinner.html' %}
                         </div>
                     </div>
-                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %}</p>
+                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %} ({% if object_type == 'banner' %}1920{% else %}600{% endif %} &times; {% if object_type == 'banner' %}800{% else %}700{% endif %}px)</p>
                 </section>
             </div>
             <h3 class="col-xs-12">{% trans "Content" %}</h3>
@@ -169,13 +169,13 @@
                     var ratio = loaded / total,
                         percent = ratio * 100;
                     $('div#upload-container .image .progress').animate({width: percent + '%'});
-                    if (ratio == 1) $('div#upload-container .image .spinner').show()
                 },
                 onComplete: function(id, fileName, responseJSON) {
                     if(responseJSON.success) {
                         var imageUrl = responseJSON.path,
                             img = new Image(),
                             category = getLocalSmartObject();
+                        $('div#upload-container .image .spinner').show();
                         img.onload = function() {
                             $('div#upload-container .image').css('background-color', "#fff")  // Causes the placeholder image to disappear
                                     .css('background-image', "url('" + imageUrl +"')")
@@ -192,7 +192,9 @@
                 params: {
                     'csrf_token': '{{ csrf_token }}',
                     'csrf_name': 'csrfmiddlewaretoken',
-                    'csrf_xname': 'X-CSRFToken'
+                    'csrf_xname': 'X-CSRFToken',
+                    'required_with': {% if object_type == 'banner' %}1920{% else %}600{% endif %},
+                    'required_height': {% if object_type == 'banner' %}800{% else %}700{% endif %}
                 }
             });
             {% if smart_object and smart_object.image.name %}

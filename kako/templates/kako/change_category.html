@@ -1,25 +1,8 @@
-{% extends 'core/app_base_admin.html' %}
+{% extends 'core/change_object_base.html' %}
 {% load i18n humanize staticfiles auth_tokens %}
 
 {% block page_title %}
 <title> {% if category %}{{ category }}{% else %}{% trans "New category" %}{% endif %} - {{ service.project_name }} </title>
-{% endblock %}
-
-{% block head_style %}
-    {{ block.super }}
-    <style>
-        .verify {border: 1px solid #e74c3c}  {# Highlights form errors (Check performed by javascript) #}
-        div#upload-container { float: left; margin-top: 3px; width: 74% }
-        div#upload-container .image {background: url('{% static 'ikwen/img/no_photo.png' %}') no-repeat center; background-size: 100%; border: solid 1px #DBE6FF; height: 225px; float: left; margin: 5px; overflow: hidden; width: 280px}
-        div#upload-container .image .progress {float: left; background: #3C63FF; height: 10px; margin-top: 228px}
-        div#upload-container .image .spinner {margin-top: 90px}
-        div#upload-container .uploader {display: none; height: 225px; position: absolute; text-align: center; width: 280px}
-        div#upload-container .image:hover .uploader {display: block}
-        .qq-uploader {background: rgba(0, 0, 0, .7); height: 40px; padding-top: 8px}
-        .qq-upload-button {background: none; border: none; box-shadow: none; color: #fff; text-shadow: none; height: 100px; width: 100%}
-        .qq-upload-button-hover {box-shadow: none; color: #fff}
-        .qq-upload-list {display: none}
-    </style>
 {% endblock %}
 
 {% block breadcrumb_location %}
@@ -54,7 +37,7 @@
                             {% include 'core/snippets/spinner.html' %}
                         </div>
                     </div>
-                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %} (640px &times; 426px Recommended)</p>
+                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %} (640px &times; 420px)</p>
                 </section>
                 <div class="form-group col-xs-12 col-sm-4 col-md-3" style="clear: both; padding-top: 15px">
                     <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
@@ -121,13 +104,13 @@
                     var ratio = loaded / total,
                         percent = ratio * 100;
                     $('div#upload-container .image .progress').animate({width: percent + '%'});
-                    if (ratio == 1) $('div#upload-container .image .spinner').show()
                 },
                 onComplete: function(id, fileName, responseJSON) {
                     if(responseJSON.success) {
                         var imageUrl = responseJSON.path,
                             img = new Image(),
                             category = getLocalCategory();
+                        $('div#upload-container .image .spinner').show();
                         img.onload = function() {
                             $('div#upload-container .image').css('background-color', "#fff")  // Causes the placeholder image to disappear
                                     .css('background-image', "url('" + imageUrl +"')")
@@ -137,6 +120,8 @@
                         category.image_url = imageUrl;
                         $('#image_url').val(imageUrl);
                         localStorage.setItem('category', JSON.stringify(category));
+                    } else if (responseJSON.wrong_size) {
+                            ikwen.showNoticeDialog('error', "{% trans "Incorrect image size" %}", responseJSON.error)
                     } else {
                         alert("upload failed!");
                     }
@@ -144,7 +129,9 @@
                 params: {
                     'csrf_token': '{{ csrf_token }}',
                     'csrf_name': 'csrfmiddlewaretoken',
-                    'csrf_xname': 'X-CSRFToken'
+                    'csrf_xname': 'X-CSRFToken',
+                    'required_width': 620,
+                    'required_height': 420
                 }
             });
             {% if category %}

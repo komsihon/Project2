@@ -305,7 +305,6 @@
                             percent = ratio * 100,
                             uploadId = 'u' + id;
                         $('div#upload-container .image.loading.' + uploadId + ' .progress').animate({opacity: 1 - ratio, width: percent + '%'});
-                        if (ratio === 1) $('div#upload-container .image.loading.' + uploadId + ' .spinner').show()
                     },
                     onComplete: function(id, fileName, responseJSON) {
                         if(responseJSON.success) {
@@ -314,6 +313,7 @@
                                 photosIDs = $('#photos_ids').val(),
                                 img = new Image(),
                                 product = getLocalProduct();
+                            $('div#upload-container .image.loading.' + uploadId + ' .spinner').show();
                             $('div#upload-container .image.loading.' + uploadId).attr('id', photo.id);
                             img.onload = function() {
                                 $('div#upload-container .image.loading.' + uploadId).removeClass('loading').css('background-image', "url('" + photo.url +"')")

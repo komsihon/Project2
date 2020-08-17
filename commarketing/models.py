@@ -1,6 +1,5 @@
 import os
 
-from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -29,23 +28,10 @@ POPUP = 'Popup'
 FULL_WIDTH_SECTION = 'FullWidthSection'
 FULL_SCREEN_POPUP = 'FullScreenPopup'
 
-if getattr(settings, 'TEMPLATE_WITH_HOME_TILES', False):
-    DISPLAY_CHOICES = (
-        # (DEFAULT, _("Default")),
-        (SLIDE, _("Slide")),
-        (TILES, _("Tiles")),
-        (POPUP, _("Popup")),
-        (FULL_WIDTH_SECTION, _("Full-width section")),
-        (FULL_SCREEN_POPUP, _("Full screen popup"))
-    )
-else:
-    DISPLAY_CHOICES = (
-        # (DEFAULT, _("Default")),
-        (SLIDE, _("Slide")),
-        (POPUP, _("Popup")),
-        (FULL_WIDTH_SECTION, _("Full-width section")),
-        (FULL_SCREEN_POPUP, _("Full screen popup"))
-    )
+DISPLAY_CHOICES = (
+    (SLIDE, _("Slide")),
+    (FULL_WIDTH_SECTION, _("Full-width section"))
+)
 
 
 class SmartObject(Model):

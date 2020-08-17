@@ -50,7 +50,7 @@
                             {% include 'core/snippets/spinner.html' %}
                         </div>
                     </div>
-                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %}</p>
+                    <p class="help clear">{% trans "Nice cover photo to help customer have an idea" %} (1920 &times; 800px)</p>
                 </section>
             </div>
             <h3 class="col-xs-12">{% trans "Content" %}</h3>
@@ -166,7 +166,7 @@
                     var ratio = loaded / total,
                         percent = ratio * 100;
                     $('div#upload-container .image .progress').animate({width: percent + '%'});
-                    if (ratio == 1) $('div#upload-container .image .spinner').show()
+                    if (ratio === 1) $('div#upload-container .image .spinner').show()
                 },
                 onComplete: function(id, fileName, responseJSON) {
                     if(responseJSON.success) {
@@ -182,6 +182,8 @@
                         category.image_url = imageUrl;
                         $('#image_url').val(imageUrl);
                         localStorage.setItem('smartCategory', JSON.stringify(category));
+                    } else if (responseJSON.wrong_size) {
+                            ikwen.showNoticeDialog('error', "{% trans "Incorrect image size" %}", responseJSON.error)
                     } else {
                         alert("upload failed!");
                     }
