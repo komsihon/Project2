@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from ikwen_kakocase.shopping.paypal.views import SetExpressCheckout, GetExpressCheckoutDetails, DoExpressCheckout, PayPalCancel
 from ikwen_kakocase.shopping.views import ProductList, ProductDetail, confirm_checkout, Cart, \
     check_stock, check_stock_single, Home, Contact, load_checkout_summary, Checkout, review_product, test_return_url, \
-    ChooseDeal, Cancel, load_countries, CouponList
+    ChooseDeal, Cancel, load_countries, CouponList, OrderHistory
 
 urlpatterns = patterns(
     '',
@@ -30,6 +30,9 @@ urlpatterns = patterns(
     url(r'^cancel$', Cancel.as_view(), name='cancel'),
 
     url(r'^coupons$', login_required(CouponList.as_view()), name='coupon_list'),
+
+    url(r'^ordersHistory$', login_required(OrderHistory.as_view()), name='orders_history'),
+
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),
     url(r'^products/(?P<smart_category_slug>[-\w]+)/$', ProductList.as_view(), name='smart_object_detail'),

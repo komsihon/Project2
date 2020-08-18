@@ -50,7 +50,7 @@ from ikwen_kakocase.kakocase.models import OperatorProfile, ProductCategory, SOL
     INSUFFICIENT_STOCK_EVENT, LOW_STOCK_EVENT, CATEGORIES_PREVIEWS_PER_ROW, DeliveryOption
 from ikwen_kakocase.sales.models import PromoCode
 from ikwen_kakocase.sales.views import apply_promotion_discount
-from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review
+from ikwen_kakocase.shopping.models import AnonymousBuyer, Customer, Review, DeliveryAddress
 from ikwen_kakocase.shopping.utils import parse_order_info, send_order_confirmation_email, \
     after_order_confirmation, send_order_confirmation_sms
 from ikwen_kakocase.trade.models import Order, BrokenProduct, LateDelivery, Deal
@@ -1013,3 +1013,78 @@ def load_countries(*args, **kwargs):
 
 class CouponList(TemplateView):
     template_name = 'shopping/coupon_list.html'
+
+
+class OrderHistory(TemplateView):
+    template_name = 'shopping/optimum/order_history.html'
+
+    def post(self, request, *args, **kwargs):
+        member = request.user
+        delivery_address = DeliveryAddress.objects.create()
+        country_iso2 = request.POST.get('country_iso2')
+        if country_iso2:
+            try:
+                country = Country.objects.get(iso2=country_iso2)
+                delivery_address.country = country
+            except:
+                pass
+        city = request.POST.get('city')
+        if city:
+            delivery_address.city = city
+        address = request.POST.get('address')
+        if address:
+            delivery_address.details = address
+        postal_code = request.POST.get('postal_code')
+        if postal_code:
+            delivery_address.postal_code = postal_code
+        phone = request.POST.get('phone')
+        if phone:
+            delivery_address.phone = phone
+        email = request.POST.get('email')
+        if email:
+            delivery_address.email = email
+        if member.customer:
+            customer = member.customer
+            delivery_address.save()
+            customer.delivery_addresses.append(delivery_address)
+            customer.save()
+            item = request.POST.get('item')
+            self.delete_address(request, item)
+
+        return HttpResponseRedirect(reverse('shopping:orders_history'))
+
+    def get(self, request, *args, **kwargs):
+        action = self.request.GET.get('action')
+        if action == 'delete':
+            return self.delete_address(request)
+        return super(OrderHistory, self).get(request, *args, **kwargs)
+
+    def delete_address(self, request, item_arg=None):
+        member = request.user
+        item = request.GET.get('item')
+        if not item:
+            item = item_arg
+        if member.customer:
+            customer = member.customer
+            customer.delivery_addresses.pop(int(item))
+            customer.save()
+            messages.success(self.request, 'Address deleted')
+            return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
+        return HttpResponseRedirect(reverse('shopping:orders_history'))
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderHistory, self).get_context_data(**kwargs)
+        context['countries'] = Country.objects.all()
+        member = self.request.user
+        customer = None
+        if member.customer:
+            customer = member.customer
+        context['customer'] = customer
+        try:
+            order_history_list = Order.objects\
+                .filter(member=member, status__in=[Order.SHIPPED, Order.PENDING, Order.DELIVERED]).order_by('-id')[:20]
+            context['order_history_list'] = order_history_list
+        except:
+            pass
+        context['member'] = member
+        return context

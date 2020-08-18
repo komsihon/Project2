@@ -153,6 +153,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                     <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                                 </li>
                                             {% endif %}
+                                            <li>
+                                                <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
+                                            </li>
                                             <li>{% url "ikwen:account_setup" as account_setup_url %}
                                                 <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                             </li>
@@ -267,6 +270,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                                     <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                                                 </li>
                                                             {% endif %}
+                                                            <li>
+                                                                <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
+                                                            </li>
                                                             <li>{% url "ikwen:account_setup" as account_setup_url %}
                                                                 <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                                             </li>
@@ -399,6 +405,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                 <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                             </li>
                                         {% endif %}
+                                        <li>
+                                            <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
+                                        </li>
                                         <li>{% url "ikwen:account_setup" as account_setup_url %}
                                             <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                         </li>

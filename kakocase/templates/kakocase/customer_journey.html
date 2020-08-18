@@ -151,9 +151,11 @@
                                                     {% trans 'P.O BOX:' %} &nbsp;{{ address.postal_code }}
                                                 {% endif %}
                                             </div>
-                                            <div style="font-weight: bold;">
-                                                {{ address.city }}, {{ address.country }}
-                                            </div>
+                                            {% if address.city and address.country %}
+                                                <div style="font-weight: bold;">
+                                                    {{ address.city }}, {{ address.country }}
+                                                </div>
+                                            {% endif %}
                                             <div class="text-muted">
                                                 {{ address.email }}, {{ address.phone }}
                                             </div>
