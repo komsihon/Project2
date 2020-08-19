@@ -56,7 +56,9 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 
 .header-top .push-subscribe.activate-notification {cursor: pointer; display: none}
 .header-top .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
-.header-top .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; top: 13px;position: absolute;color: #ff9800;}
+.header-top .push-subscribe .fa-circle {font-size: 11px!important;margin-left: 0;top: 6px;position: absolute;color: #ff9800;}
+.header-top .push-subscribe, .header-bottom.fixed .header-right2 .push-subscribe, .button-hover-handler .push-subscribe, .header-bottom.fixed .header-right2 .push-subscribe  {animation: shake .8s; animation-iteration-count: infinite}
+.header-top .push-subscribe:hover .header-top .push-subscribe:active {animation: none;}
 
 .edge-panel-left .stage .nav.nav-pills li {padding-left: 15px!important;}
 
@@ -1046,5 +1048,19 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 .fadeOutDown {
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0px) rotate(0deg); }
+  10% { transform: translateX(-2px) rotate(10deg); }
+  20% { transform: translateX(3px) rotate(-10deg); }
+  /*30% { transform: translate(3px, 2px) rotate(0deg); }*/
+  /*40% { transform: translate(1px, -1px) rotate(1deg); }*/
+  /*50% { transform: translate(-1px, 2px) rotate(-1deg); }*/
+  /*60% { transform: translate(-3px, 1px) rotate(0deg); }*/
+  /*70% { transform: translate(3px, 1px) rotate(-1deg); }*/
+  /*80% { transform: translate(-1px, -1px) rotate(1deg); }*/
+  /*90% { transform: translate(1px, 2px) rotate(0deg); }*/
+  /*100% { transform: translate(1px, -2px) rotate(-1deg); }*/
 }
 /*Animation set : END*/

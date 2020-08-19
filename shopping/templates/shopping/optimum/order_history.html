@@ -8,24 +8,8 @@
 {% block head_style %}
     {{ block.super }}
     <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/order-history.css' %}?v=19.08.20" />
     <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <style>
-        section {margin:50px 0;}
-        section h3 {margin: 15px 0; font-weight: 500}
-        section > div {margin-top: 15px}
-        section:last-of-type .ik-li {border-top: solid #efefee 1px}
-        .welcome-title h2 {font-weight: 800}
-        .welcome-title {width:150px; height: 150px; border: none; background-size: cover; background-position: center}
-        .object-list .ik-li {padding: 15px; margin-top: 15px; border: none; background-color: transparent}
-        .object-list .ik-li:hover {background-color: #efefee}
-        @media only screen and (max-width: 767px) {
-            .ik-li {
-                padding-left: 0!important;
-                padding-right: 0!important;
-            }
-
-        }
-    </style>
 {% endblock %}
 
 {% block breadcrumb_location %}
@@ -42,17 +26,19 @@
         <div class="container">
             <div id="stage" style="float: none; margin: auto">
                 <div>
-                    <div class="text-center">
-                        <span class="welcome-title img-circle img-thumbnail" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})">
-{#                            <i class="fa fa-shopping-cart" style="font-size: 70px; font-weight: 600; color: red"></i>#}
-                        </span>
+                    <div class="text-center hidden-xs">
+                        <span class="welcome-title img-circle img-thumbnail" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})"></span>
+                    </div>
+                    <div class="visible-xs">
+                        <span class="welcome-title img-circle img-thumbnail pull-left col-xs-offset-1" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})"></span>
+                        <h3 class="subtitle">{% trans 'Orders history' %}</h3>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <h2 class="text-center">{% trans 'Orders history' %}</h2>
+                <h2 class="text-center hidden-xs subtitle">{% trans 'Orders history' %}</h2>
                 <div class="col-sm-8 col-sm-offset-2" >
                     <section>
-                        <h3>{% trans 'Orders' %}</h3>
+                        <h4>{% trans 'Orders' %}</h4>
                         <div>
                             <label>{% trans 'Count' %}</label>
                             <span class="pull-right {% if not customer.total_orders_count %}text-muted{% endif %}">
@@ -86,7 +72,7 @@
                     </section>
                     {% if order_history_list|length > 0 %}
                         <section>
-                            <h3>{% trans 'Delivery Addresses' %}</h3>
+                            <h4>{% trans 'Delivery Addresses' %}</h4>
                             <ul class="object-list list-group delivery-addresses">
                                 {% for address in customer.delivery_addresses %}
                                 <li class="ik-li list-group-item" id="address-{{ forloop.counter }}" data-address="address-{{ forloop.counter }}" data-item="{{ forloop.counter0 }}">
@@ -176,7 +162,7 @@
                             <div class="clearfix"></div>
                         </section>
                         <section>
-                            <h3>{% trans "History" %}</h3>
+                            <h4>{% trans "History" %}</h4>
                             <ul class="object-list list-group">
                                 {% for order in order_history_list %}
                                 {% url 'shopping:cart' order.id as obj_url %}

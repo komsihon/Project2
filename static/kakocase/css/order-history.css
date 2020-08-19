@@ -1,0 +1,19 @@
+#content {min-height: 1000px; padding-top: 40px}
+section {margin:50px 0;}
+section h3 {margin: 15px 0; font-weight: 500}
+section > div {margin-top: 15px}
+section:last-of-type .ik-li {border-top: solid #efefee 1px}
+#stage .subtitle {font-weight: 800}
+#stage .welcome-title {width: 60px;height: 60px;border: none;background-size: cover;background-position: center;}
+.object-list .ik-li {padding: 15px; margin-top: 15px; border: none; background-color: transparent}
+.object-list .ik-li:hover {background-color: #efefee}
+@media only screen and (max-width: 767px) {
+    .ik-li {
+        padding-left: 0!important;
+        padding-right: 0!important;
+    }
+    button.navbar-toggle.menu-button {padding: 9px 10px!important;}
+    #stage .welcome-title {width:40px; height: 40px; margin-right: 15px}
+    #stage .subtitle {line-height: 45px}
+
+}
