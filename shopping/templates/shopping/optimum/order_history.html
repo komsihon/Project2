@@ -91,12 +91,6 @@
                                 {% for address in customer.delivery_addresses %}
                                 <li class="ik-li list-group-item" id="address-{{ forloop.counter }}" data-address="address-{{ forloop.counter }}" data-item="{{ forloop.counter0 }}">
                                     <div class="col-sm-10 address-details">
-                                        <input type="hidden" id="set-country" value="{{ address.country }}">
-                                        <input type="hidden" id="current-city" value="{{ address.city }}">
-                                        <input type="hidden" id="current-address" value="{{ address.details }}">
-                                        <input type="hidden" id="current-postal-code" value="{{ address.postal_code }}">
-                                        <input type="hidden" id="current-email" value="{{ address.email }}">
-                                        <input type="hidden" id="current-phone" value="{{ address.phone }}">
                                         <div>
                                             {{ address.details }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             {% if address.postal_code %}
@@ -119,11 +113,9 @@
                                     </div>
                                     <form method="post" class="form-group tpl set-address">
                                         {% csrf_token %}
-                                        <input type="hidden" id="previous-address-index" name="previous_address_index" />
-                                        <input type="hidden" name="delivery_option_id" value="{{ request.GET.delivery_option_id }}" />
                                         <input type="hidden" name="item" value="{{ forloop.counter0 }}" />
                                         <div>
-                                            {% if not pick_up_in_store %}
+                                            {% if address.city and address.country  %}
                                                 <div class="form-group row">
                                                     <label for="country" class="col-sm-4 col-md-3">{% trans "Country" %}</label>
                                                     <div class="col-sm-7 col-md-7">
@@ -169,16 +161,6 @@
                                                     <input id="email" class="form-control required" type="text" name="email" value="{{ user.email }}"/>
                                                 </div>
                                             </div>
-                                            {% if user.is_anonymous %}
-                                                <div class="form-group row">
-                                                    <label for="name" class="col-sm-4 col-md-3">{% trans "Your name" %}</label>
-                                                    <div class="col-sm-7 col-md-7">
-                                                        <input id="name" class="form-control required" type="text" name="name"/>
-                                                    </div>
-                                                </div>
-                                            {% else %}
-                                                <input id="name" type="hidden" name="name" value="{{ user.full_name }}"/>
-                                            {% endif %}
                                             <div class="form-group row">
                                                 <div class="col-sm-5 col-md-4 col-sm-offset-5 col-md-offset-6">
                                                     <button type="submit" class="btn btn-warning cta" style="width: 200px">

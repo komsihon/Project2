@@ -1031,9 +1031,9 @@ class OrderHistory(TemplateView):
         city = request.POST.get('city')
         if city:
             delivery_address.city = city
-        address = request.POST.get('address')
-        if address:
-            delivery_address.details = address
+        address_details = request.POST.get('details')
+        if address_details:
+            delivery_address.details = address_details
         postal_code = request.POST.get('postal_code')
         if postal_code:
             delivery_address.postal_code = postal_code
@@ -1068,7 +1068,7 @@ class OrderHistory(TemplateView):
             customer = member.customer
             customer.delivery_addresses.pop(int(item))
             customer.save()
-            messages.success(self.request, 'Address deleted')
+            # messages.success(self.request, 'Address deleted')
             return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
         return HttpResponseRedirect(reverse('shopping:orders_history'))
 
