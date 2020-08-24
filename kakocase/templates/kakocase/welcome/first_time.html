@@ -26,6 +26,7 @@
     <link rel='stylesheet' href="{% static 'kakocase/css/welcome/base.css' %}?v=20.8.6" />
     <link rel='stylesheet' href="{% static 'ikwen/swiper/css/swiper.min.css' %}" />
     <link rel="stylesheet" href="{% static 'kakocase/css/welcome/welcome.css' %}?v=20-08-08"/>
+    <link rel="stylesheet" href="{% static 'kakocase/css/welcome/first-time.css' %}">
     <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}"/>
 
     <!--Conditional custom css -->
@@ -48,6 +49,16 @@
 {% block content %}
     <div id="content">
         <div  class="container">
+            <div class="anchor">
+                <a class="js-scrollTo" href="#banner-bottom" style="text-decoration: none; display: block">
+                    <div class="round">
+                        <div id="cta">
+                            <i class="arrow primera glyphicon glyphicon-menu-down"></i>
+                            <i class="arrow segunda glyphicon glyphicon-menu-down"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
             <div class="section row">
                 <div id="banner-img" class="col-md-4 col-sm-2 img-illustration">
                     <img class="main-img" src="{% static 'kakocase/img/welcome/about-service.jpg' %}">
@@ -285,6 +296,16 @@
             resize();
             $(window).on('resize', () => {
                 resize();
+            });
+            let scrollBreakPoint = 0.9;
+            $(window).scroll((event) => {
+                let scrollTop = $(window).scrollTop(),
+                    scrollTopPercent = (scrollTop)/($(document).height() - $(window).height());
+                if (scrollTopPercent >= scrollBreakPoint){
+                    $('.anchor').hide();
+                } else {
+                    $('.anchor').show();
+                }
             });
 
         })()

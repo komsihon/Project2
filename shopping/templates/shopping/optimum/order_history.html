@@ -2,23 +2,14 @@
 {% load i18n humanize static auth_tokens %}
 
 {% block page_title %}
-<title> {% if obj.member.is_ghost %}{{ obj.member.email }}{% else %}{{ obj.member.full_name }}{% endif %} - {{ service.project_name }} </title>
+<title>{% trans 'Your orders history' %} - {{ service.project_name }} </title>
 {% endblock %}
 
 {% block head_style %}
     {{ block.super }}
     <link rel='stylesheet' href="{% static 'ikwen/css/base.css' %}" />
-    <link rel='stylesheet' href="{% static 'kakocase/css/order-history.css' %}?v=19.08.20" />
+    <link rel='stylesheet' href="{% static 'kakocase/css/order-history.css' %}?v=19.08.22-06.23" />
     <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-{% endblock %}
-
-{% block breadcrumb_location %}
-    <li>
-        <a href="{% url 'ikwen:community' %}">{% trans 'Community' %}</a>
-    </li>
-    <li>
-        {% trans "Customer Journey" %}
-    </li>
 {% endblock %}
 
 {% block content %}
@@ -30,7 +21,7 @@
                         <span class="welcome-title img-circle img-thumbnail" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})"></span>
                     </div>
                     <div class="visible-xs">
-                        <span class="welcome-title img-circle img-thumbnail pull-left col-xs-offset-1" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})"></span>
+                        <span class="welcome-title img-circle img-thumbnail col-xs-offset-1 col-xs-3" style=" background-image: url({% static 'kakocase/img/order-history2.png' %})"></span>
                         <h3 class="subtitle">{% trans 'Orders history' %}</h3>
                     </div>
                     <div class="clearfix"></div>
@@ -70,12 +61,12 @@
                             </span>
                         </div>
                     </section>
-                    {% if order_history_list|length > 0 %}
-                        <section>
+                    {% if customer.delivery_addresses %}
+                        <section id="delivery-addresses">
                             <h4>{% trans 'Delivery Addresses' %}</h4>
                             <ul class="object-list list-group delivery-addresses">
                                 {% for address in customer.delivery_addresses %}
-                                <li class="ik-li list-group-item" id="address-{{ forloop.counter }}" data-address="address-{{ forloop.counter }}" data-item="{{ forloop.counter0 }}">
+                                <li class="ik-li list-group-item" id="address-{{ forloop.counter0 }}" data-address="address-{{ forloop.counter0 }}" data-item="{{ forloop.counter0 }}">
                                     <div class="col-sm-10 address-details">
                                         <div>
                                             {{ address.details }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -149,7 +140,14 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-5 col-md-4 col-sm-offset-5 col-md-offset-6">
-                                                    <button type="submit" class="btn btn-warning cta" style="width: 200px">
+                                                    <button  class="btn btn-secondary cta cancel">
+                                                            {% trans "Cancel" %}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-5 col-md-4 col-sm-offset-5 col-md-offset-6">
+                                                    <button type="submit" class="btn btn-warning cta save">
                                                             {% trans "Save" %}
                                                     </button>
                                                 </div>
@@ -161,6 +159,8 @@
                             </ul>
                             <div class="clearfix"></div>
                         </section>
+                    {% endif %}
+                    {% if order_history_list|length > 0 %}
                         <section>
                             <h4>{% trans "History" %}</h4>
                             <ul class="object-list list-group">
@@ -207,13 +207,23 @@
                 let params = {
                     'item': $(e.target).parents('.ik-li').data('item'),
                     'action': $(e.target).data('action')
-                };
+                }, $parent=$(e.target).parents('.ik-li');
                 $.getJSON('', params, (data) => {
                     if(data.success) {
-                        $(`.ik-li#address-${params.item}`).remove();
+                        $parent.remove();
+                        reIndex();
                         ikwen.showFloatingNotice("Address removed", 2000);
                     }
-                })
+                });
+                function reIndex(){
+                    let liArray = $("[id^='address-']").toArray();
+                    $.each(liArray, (index, element) => {
+                        $(element).attr({'id': 'address-' + index, 'data-address': 'address-' + index, 'data-item': index});
+                    });
+                    if (liArray.length === 0)
+                        $('#delivery-addresses').remove();
+
+                }
             });
         })()
     </script>

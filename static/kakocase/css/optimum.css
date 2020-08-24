@@ -56,7 +56,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 
 .header-top .push-subscribe.activate-notification {cursor: pointer; display: none}
 .header-top .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
-.header-top .push-subscribe .fa-circle {font-size: 11px!important;margin-left: 0;top: 6px;position: absolute;color: #ff9800;}
+.header-top .push-subscribe .fa-circle {font-size: 11px!important;margin-left: 0; -moz-margin-left: -9px; top: 6px;position: absolute;color: #ff9800;}
 .header-top .push-subscribe, .header-bottom.fixed .header-right2 .push-subscribe, .button-hover-handler .push-subscribe, .header-bottom.fixed .header-right2 .push-subscribe  {animation: shake .8s; animation-iteration-count: infinite}
 .header-top .push-subscribe:hover .header-top .push-subscribe:active {animation: none;}
 
@@ -106,7 +106,7 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .top-left  a{color: #222;font-size: 1em;text-transform: capitalize;text-decoration: none;font-weight: 700;float: left;margin-top: 4px;}
 
 .top-right ul li {display: inline-block;padding: 0 1em;}
-.top-right ul li a {font-size: 1em;text-transform: capitalize;color: #222;text-decoration: none;font-weight: 700;line-height: 25px;}
+.top-right ul li a {font-size: 1em;text-transform: capitalize;color: #222;text-decoration: none;font-weight: 700;line-height: 35px;}
 .top-right .dropdown-menu li a {background: #fff; color:#777; font-weight: 400}
 
 .top-right .dropdown-menu li a:hover {color:#333}
@@ -174,8 +174,8 @@ li {list-style-type: none;padding: 3px;color: #2a2424;}
 .button-hover-handler .action {display: block}
 .button-hover-handler .push-subscribe.activate-notification, .header-bottom.fixed .header-right2 .push-subscribe.activate-notification {cursor: pointer; display: none}
 .button-hover-handler .push-subscribe .push-subscribe-btn, .header-bottom.fixed .header-right2 .push-subscribe .push-subscribe-btn {line-height: .4em; margin-top: 10px; border: 0; padding: 0; background: transparent}
-.button-hover-handler .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; top: 13px;position: absolute;color: #ff9800;}
-.header-bottom.fixed .header-right2 .push-subscribe.activate-notification .fa-circle {font-size: 11px!important; margin-left: 0; top: 23px;position: fixed;color: #ff9800;}
+.button-hover-handler .push-subscribe .fa-circle {font-size: 11px!important; margin-left: 0; -moz-marign-left: -12px; top: -4px;position: absolute;color: #ff9800;}
+.header-bottom.fixed .header-right2 .push-subscribe.activate-notification .fa-circle {font-size: 11px!important; margin-left: 0; top: 7px;position: fixed;color: #ff9800;}
 .header-xs .xs-nav-container > .button-hover-handler {margin-top: 14px;}
 
 
@@ -218,7 +218,7 @@ h2.title {padding: 10px 0 30px; text-align: center}
 .header-xs .coupons-notification {font-size: 12px; position: absolute; top: 18px; left: 20px; color: var(--color-orange)}
 .header-xs .action .badge {font-size: 10px;/* margin: 24px 0 0 11px; */position: absolute;z-index: 3;}
 .header-xs .cd-search-trigger {float: left;margin-top: 0;margin-right: 2px;}
-.header-xs a {color: #fff;}
+.header-xs a {color: #fff;line-height: 35px;}
 .cd-search input {background: rgba(0, 0, 0, 0.75);border-radius: 0;border: none;color: #fff;font-size: 2em; box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05); -webkit-box-shadow: inset 0 1px 0 #e2e3df, 0 3px 6px rgba(0, 0, 0, 0.05);
 -webkit-appearance: none; -moz-appearance: none; -ms-appearance: none;-o-appearance: none; appearance: none; width: 100%;}
 .cd-search-trigger span {position: absolute; height: 100%;width: 100%;top: 0; left: 0;}

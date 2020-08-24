@@ -1,0 +1,83 @@
+html {
+    scroll-behavior: smooth;
+}
+#navbar, .navbar.active {background: #fff !important;}
+.navbar .icon-bar, .navbar.active .icon-bar {background: #9a321b}
+#navbar .glyphicon {color: #9a321b !important}
+.anchor {margin-top: 0; float: right; position: fixed; bottom: 7%; right: 8%; z-index: 10000; align-items: center; justify-content: center; display: flex; width: 50px; height: 50px}
+.anchor .round {
+    position: absolute;
+    /*{#border: 2px solid {% if config.brand_color %}{{ config.brand_color }}{% else %}#9a321b{% endif %};#}*/
+    border: 2px solid #9a321b;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.anchor #cta{
+    width:100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#cta .arrow{left: 31%; font-size: 16px;}
+.arrow {position: absolute; margin-left:0; width: 12px; height: 12px; background-size: contain; top: 8px; color: #9a321b}
+.segunda{margin-top: 8px}
+@keyframes bounceAlpha {
+  0% {opacity: 1; transform: translateY(0px) scale(1);}
+  25%{opacity: 0; transform:translateY(10px) scale(0.9);}
+  26%{opacity: 0; transform:translateY(-10px) scale(0.9);}
+  55% {opacity: 1; transform: translateY(0px) scale(1);}
+}
+
+.bounceAlpha {
+    animation-name: bounceAlpha;
+    animation-duration:1.4s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+}
+.arrow.primera.bounceAlpha {
+    animation-name: bounceAlpha;
+    animation-duration:1.4s;
+    animation-delay:0.2s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+}
+
+.arrow.primera {
+    animation-name: bounceAlpha;
+    animation-duration: 4s;
+    animation-delay: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+.arrow {
+    animation-name: bounceAlpha;
+    animation-duration: 4s;
+    animation-delay: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@media (min-width:768px) {
+    /*#cta .arrow {*/
+    /*    font-size: 16px;*/
+    /*}*/
+    .round:hover .arrow{
+        animation-name: bounceAlpha;
+        animation-duration:1.4s;
+        animation-iteration-count:infinite;
+        animation-timing-function:linear;
+    }
+    .round:hover .arrow.primera{
+        animation-name: bounceAlpha;
+        animation-duration:1.4s;
+        animation-delay:0.2s;
+        animation-iteration-count:infinite;
+        animation-timing-function:linear;
+    }
+}
+@media (max-width: 767px) {
+}
