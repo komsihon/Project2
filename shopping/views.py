@@ -132,7 +132,7 @@ class Home(TemplateSelector, TemplateView):
         for item in preview_categories:
             products = item.get_visible_items()
             products_list = apply_promotion_discount(list(products))
-            item.as_matrix = as_matrix(products_list, self._get_row_len(), strict=True)
+            item.as_matrix = as_matrix(products_list, self._get_row_len())
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
@@ -140,12 +140,11 @@ class Home(TemplateSelector, TemplateView):
         to_be_removed = []
         for item in preview_smart_categories:
             if item.content_type == CATEGORIES:
-                item.as_matrix = as_matrix(item.get_category_queryset(), CATEGORIES_PREVIEWS_PER_ROW, strict=True)
+                item.as_matrix = as_matrix(item.get_category_queryset(), CATEGORIES_PREVIEWS_PER_ROW)
             else:
                 products = item.get_product_queryset()
                 products_list = apply_promotion_discount(list(products))
-
-                item.as_matrix = as_matrix(products_list, self._get_row_len(), strict=True)
+                item.as_matrix = as_matrix(products_list, self._get_row_len())
             if not item.as_matrix:
                 to_be_removed.append(item)
         for item in to_be_removed:
