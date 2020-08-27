@@ -21,8 +21,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <link rel="stylesheet" href="{% static 'kakocase/css/bootstrap.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/css/font-awesome/css/font-awesome.min.css' %}" />
             <link rel="stylesheet" href="{% static 'kakocase/swiper/css/swiper.min.css' %}">
-            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.08.19-19.06" type="text/css" media="all" />
-            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.08.10" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'kakocase/css/optimum.css' %}?v=20.8.10" type="text/css" media="all" />
+            <link rel="stylesheet" href="{% static 'ikwen/css/pwa.css' %}?v=20.8.10" type="text/css" media="all" />
             {% if request.session.theme %}
                 {% with theme=request.session.theme %}
                     <link rel='stylesheet' href="{% static 'kakocase/themes/' %}{{ theme.template_slug }}/{{ theme.slug }}.css?v=20.08.10" />
@@ -153,9 +153,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                     <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                                 </li>
                                             {% endif %}
-                                            <li>
-                                                <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
-                                            </li>
                                             <li>{% url "ikwen:account_setup" as account_setup_url %}
                                                 <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                             </li>
@@ -270,9 +267,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                                     <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                                                 </li>
                                                             {% endif %}
-                                                            <li>
-                                                                <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
-                                                            </li>
                                                             <li>{% url "ikwen:account_setup" as account_setup_url %}
                                                                 <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                                             </li>
@@ -405,9 +399,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                                 <a href="{% url 'ikwen:staff_router' %}">Admin</a>
                                             </li>
                                         {% endif %}
-                                        <li>
-                                            <a href="{% url 'shopping:orders_history' %}">{% trans "History" %}</a>
-                                        </li>
                                         <li>{% url "ikwen:account_setup" as account_setup_url %}
                                             <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
                                         </li>
@@ -629,7 +620,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         {% include 'shopping/snippets/modal_delivery_location_warning.html' %}
         <div id="pwa-overlay">
             <div class="text-has-shade text-center visible-xs visible-sm">
-                <h3 style="color: #fff; margin: 5vh 0; font-weight: 600">{% trans "Click the button below" %}</h3>
+                <p class="app">
+                    {% blocktrans %}Please, <strong>Add</strong> application to your home.{% endblocktrans %}</p>
+                <p class="push">
+                    {% blocktrans %}Please, click <strong>Authorize</strong> to receive order alerts and bonuses.{% endblocktrans %}</p>
                 <div>
                     <i class="fa fa-arrow-down" style="font-size: 27px"></i>
                 </div>
