@@ -35,6 +35,7 @@ urlpatterns = patterns(
 
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),
+    url(r'^content/(?P<banner_slug>[-\w]+)/$', ProductList.as_view(), name='banner_product_list'),
     url(r'^products/(?P<smart_category_slug>[-\w]+)/$', ProductList.as_view(), name='smart_object_detail'),
     url(r'^search/$', ProductList.as_view(), name='search'),
     url(r'^load_countries$', load_countries, name='load_countries'),

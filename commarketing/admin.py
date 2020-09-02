@@ -6,4 +6,4 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 class SmartCategoryAdmin(admin.ModelAdmin):
-    fields = ('title', 'content_type', 'badge_text',)
+    fields = ('title', 'content_type', 'badge_text', 'show_on_home', )

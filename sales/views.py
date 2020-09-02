@@ -139,7 +139,7 @@ def apply_promotion_discount(product_list):
         except IndexError:
             continue
         else:
-            product.on_sale =True
+            product.on_sale = True
             product.previous_price = product.retail_price
             retail_price = product.retail_price - product.retail_price * promo.rate / 100
             product.retail_price = retail_price
@@ -166,22 +166,20 @@ def apply_promotion_discount(product_list):
             product_list.remove(product)
 
     copy_product_list = copy(product_list)
-
-    for product in copy_product_list:
-        # promotion on the hold website
-        try:
-            promo = Promotion.objects.filter(item=None, rate__gt=0, category=None, start_on__lte=now,
-                                             end_on__gt=now, is_active=True).order_by('-id')[0]
-        except IndexError:
-            continue
-        else:
-            product.on_sale =True
+    try:
+        # promotion on the whole website
+        promo = Promotion.objects.filter(item=None, rate__gt=0, category=None, start_on__lte=now,
+                                         end_on__gt=now, is_active=True).order_by('-id')[0]
+        for product in copy_product_list:
+            product.on_sale = True
             product.previous_price = product.retail_price
             retail_price = product.retail_price - product.retail_price * promo.rate / 100
             product.retail_price = retail_price
 
             final_product_result.append(product)
             product_list.remove(product)
+    except IndexError:
+        pass
 
     for product in product_list:
         final_product_result.append(product)

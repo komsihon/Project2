@@ -122,11 +122,11 @@ class Home(TemplateSelector, TemplateView):
 
         preview_sections_count = getattr(settings, 'PREVIEW_SECTIONS_COUNT', 7)
         preview_smart_categories = list(SmartCategory.objects
-                                        .filter(items_count__gt=0, is_active=True, appear_in_menu=False)
+                                        .filter(items_count__gt=0, is_active=True, show_on_home=True)
                                         .order_by('order_of_appearance', 'title', '-updated_on')[:preview_sections_count])
         additional = preview_sections_count - len(preview_smart_categories)
         preview_categories = list(ProductCategory.objects
-                                  .filter(items_count__gt=0, is_active=True, appear_in_menu=False)
+                                  .filter(items_count__gt=0, is_active=True, show_on_home=True)
                                   .order_by('order_of_appearance', 'name', '-updated_on')[:additional])
         to_be_removed = []
         for item in preview_categories:
@@ -249,6 +249,7 @@ class ProductList(TemplateSelector, HybridListView):
         q = self.request.GET.get('q')
         category_slug = self.kwargs.get('category_slug')
         smart_category_slug = self.kwargs.get('smart_category_slug')
+        banner_slug = self.kwargs.get('banner_slug')
         base_queryset = self.get_queryset()
         if q:
             product_queryset = base_queryset.filter(tags__icontains=q).order_by('name')
@@ -263,13 +264,10 @@ class ProductList(TemplateSelector, HybridListView):
             context['object_id'] = category.id
             context['content_type'] = PRODUCTS
         else:
-            try:
-                smart_object = Banner.objects.filter(slug=smart_category_slug).order_by('-updated_on')[0]
-            except:
-                try:
-                    smart_object = SmartCategory.objects.filter(slug=smart_category_slug).order_by('-updated_on')[0]
-                except:
-                    raise Http404('No Smart Object matches the given query.')
+            if banner_slug:
+                smart_object = get_object_or_404(Banner, slug=banner_slug)
+            else:
+                smart_object = get_object_or_404(SmartCategory, slug=smart_category_slug)
             context['smart_object'] = smart_object
             context['obj_group'] = smart_object
             if smart_object.content_type == CATEGORIES:
@@ -277,7 +275,7 @@ class ProductList(TemplateSelector, HybridListView):
                 product_queryset = None
             else:
                 base_queryset = smart_object.get_product_queryset()
-                product_queryset = base_queryset.order_by('-updated_on')
+                product_queryset = base_queryset
 
             context['object_id'] = smart_object.id
             context['content_type'] = smart_object.content_type
