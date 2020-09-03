@@ -85,7 +85,7 @@ class ProductCategory(AbstractWatchModel):
                                               "<strong>E.g.:</strong> -20%, -30%, New, etc."))
     appear_in_menu = models.BooleanField(_("appear in menu"), default=False,
                                          help_text=_("Category will appear in main menu if checked."))
-    show_on_home = models.BooleanField(verbose_name="Show on home ?", default=True,
+    show_on_home = models.BooleanField(_("Show on home ?"), default=True,
                                        help_text=_("Check to show a preview of products on home page."))
     is_active = models.BooleanField(verbose_name="Active ?", default=True,
                                     help_text=_("Make it visible or no."))

@@ -70,11 +70,9 @@ class ChangeSmartObject(TemplateView):
         if object_type == BANNER:
             model = Banner
             model_admin = BannerAdmin
-            fields = ("title", "display", "cta", "content_type")
         else:
             model = SmartCategory
             model_admin = SmartCategoryAdmin
-            fields = ("title", "content_type", "description", "badge_text")
         if smart_object_id:
             smart_object = get_object_or_404(model, pk=smart_object_id)
             if smart_object.content_type == CATEGORIES:
@@ -86,7 +84,7 @@ class ChangeSmartObject(TemplateView):
                     # smart_object.content = [RecurringPaymentService.objects.get(pk=pk) for pk in smart_object.items_fk_list]
                     smart_object.content = []
         object_admin = get_model_admin_instance(model, model_admin)
-        ModelForm = modelform_factory(model, fields=fields)
+        ModelForm = modelform_factory(model, fields=model_admin.fields)
         form = ModelForm(instance=smart_object)
         model_admin_form = helpers.AdminForm(form, list(object_admin.get_fieldsets(self.request)),
                                              object_admin.get_prepopulated_fields(self.request))

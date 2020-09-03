@@ -121,7 +121,7 @@ class SmartCategory(SmartObject):
                                               "<strong>E.g.:</strong> -20%, -30%, New, etc."))
     appear_in_menu = models.BooleanField(default=False,
                                          help_text=_("Smart Category will appear in main menu if checked."))
-    show_on_home = models.BooleanField(verbose_name="Show on home ?", default=True,
+    show_on_home = models.BooleanField(_("Show on home ?"), default=True,
                                        help_text=_("Check to show a preview of items contained on home page."))
 
     def _get_module(self):
