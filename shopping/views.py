@@ -143,7 +143,9 @@ class Home(TemplateSelector, TemplateView):
                 item.as_matrix = as_matrix(item.get_category_queryset(), CATEGORIES_PREVIEWS_PER_ROW)
             else:
                 products = item.get_product_queryset()
-                products_list = apply_promotion_discount(list(products))
+                products_list = []
+                if products:
+                    products_list = apply_promotion_discount(list(products))
                 item.as_matrix = as_matrix(products_list, self._get_row_len())
             if not item.as_matrix:
                 to_be_removed.append(item)
