@@ -1,26 +1,12 @@
-{% extends 'shopping/base.html' %}
-{% load i18n staticfiles humanize auth_tokens currency %}
-
-{% block page_title %}
-    <title>{% trans "Confirm payment" %} - {{ service.project_name }}</title>
-{% endblock %}
-
-{% block content %}
-    <div id="content" class="checkout-content">
-        <h2 class="checkout-header">{% trans "Checkout" %}</h2>
-        <div class="container" style="height: 450px">
-            <form action="{% url 'shopping:paypal_do_checkout' %}" method="POST" style="margin-top: 3em">
-                {% csrf_token %}
-                <input type="hidden" name="order_id" value="{{ request.GET.order_id }}">
-                <div class="alert alert-warning">
-                    {% trans "Do you confirm this payment ?" %}
-                    <p class="price">
-                        {{ CURRENCY.symbol }}
-                        {{ amount|currency:CURRENCY.code|floatformat:CURRENCY.precision|intcomma }}
-                    </p>
-                </div>
-                <button type="submit" class="btn btn-warning" style="width: 150px">{% trans "Pay" %}</button>
-            </form>
-        </div>
-    </div>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+     <head>
+        <title>Redirecting ...</title>
+    </head>
+    <body onload="document.redirect.submit()">
+        <form method="post" id='redirect' name="redirect" action="{% url 'shopping:paypal_do_checkout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ request.GET.order_id }}">
+        </form>
+    </body>
+</html>

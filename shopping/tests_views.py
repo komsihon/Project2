@@ -18,7 +18,7 @@ from ikwen.core.utils import get_service_instance, add_database_to_settings
 from ikwen_kakocase.kako.models import Product, ProductCategory
 from ikwen_kakocase.kako.tests_views import wipe_test_data
 from ikwen_kakocase.kakocase.models import OperatorProfile, DeliveryOption
-from ikwen_kakocase.shopping.models import Review, Customer
+from ikwen_kakocase.shopping.models import Review, Customer, AnonymousBuyer
 from ikwen_kakocase.trade.models import Order, Package
 
 from daraja.models import Dara, BonusWallet
@@ -74,6 +74,7 @@ class ShoppingViewsTestCase(unittest.TestCase):
         """
         Page must return HTTP 200 status, products with largest items_sold must come first.
         """
+        self.client.login(username='member4', password='admin')
         response = self.client.get(reverse('shopping:home'))
         self.assertEqual(response.status_code, 200)
 
@@ -126,6 +127,146 @@ class ShoppingViewsTestCase(unittest.TestCase):
         """
         response = self.client.get(reverse('shopping:cart'))
         self.assertEqual(response.status_code, 200)
+
+    @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b101', IS_RETAILER=True,
+                       EMAIL_BACKEND='django.core.mail.backends.filebased.EmailBackend',
+                       EMAIL_FILE_PATH='test_emails/shopping/',
+                       UNIT_TESTING=True)  # TESTING=True causes OperatorProfile.get_rel() to return the same object
+    def test_confirm_checkout_with_anonymous_user(self):
+        """
+        Saves order, splits it into packages, updates counters and sets order AOTC
+        """
+        yesterday = timezone.now() - timedelta(days=1)
+        for db in ('default',):
+            for profile in OperatorProfile.objects.using(db).all():
+                profile.counters_reset_on = yesterday
+                profile.save()
+            for category in ProductCategory.objects.using(db).all():
+                category.counters_reset_on = yesterday
+                category.save()
+            for product in Product.objects.using(db).all():
+                product.counters_reset_on = yesterday
+                product.save()
+
+        response = self.client.post(reverse('shopping:paypal_set_checkout'),
+                                    {'name': 'Simo Messina', 'phone': '655003321', 'email': 'member4@ikwen.com',
+                                     'country_iso2': 'CM', 'city': 'Yaounde', 'details': 'Odza',
+                                     'entries': '5805d1fa008099bd4151feb6:1,55d1fa8feb60008099bd4154:6',
+                                     'delivery_option_id': '55d1feb9b37b301e070604d3'})
+        json_resp = json.loads(response.content)
+        self.client.post(reverse('shopping:paypal_do_checkout'), data={'order_id': json_resp['order_id']})
+
+        order = Order.objects.all()[0]
+        self.assertIsNone(order.member)
+        self.assertIsNotNone(order.aotc)
+        buyer = AnonymousBuyer.objects.get(phone='655003321')
+        self.assertEqual(len(buyer.delivery_addresses), 1)
+        # pack1 = Package.objects.using('test_kc_tecnomobile').all()[0]
+        # pack2 = Package.objects.using('test_kc_sabc').all()[0]
+        # self.assertEqual(Package.objects.using('test_kc_tecnomobile').all().count(), 1)
+        # self.assertEqual(Package.objects.using('test_kc_sabc').all().count(), 1)
+        # self.assertEqual(Package.objects.using('test_kc_ems').all().count(), 2)
+        # self.assertEqual(pack1.entries[0].product.id, '55d1fa8feb60008099bd4151')
+        # self.assertEqual(pack2.entries[0].product.id, '55d1fa8feb60008099bd4153')
+        #
+        # ab = AnonymousBuyer.objects
+        # self.assertEqual(ab.using('default').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
+        # self.assertEqual(ab.using('test_kc_tecnomobile').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
+        # self.assertEqual(ab.using('test_kc_sabc').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
+        # self.assertEqual(ab.using('test_kc_ems').exclude(pk='57b336eb6d04b379b531a001').count(), 1)
+        #
+        # # Assuming IKWEN collects 2% on revenue of provider and one of retailer
+        # self.assertEqual(pack1.provider_revenue, 430000)
+        # self.assertEqual(pack1.provider_earnings, 421400)
+        # self.assertEqual(pack1.retailer_earnings, 49000)
+        # self.assertEqual(pack2.provider_revenue, 2760)
+        # self.assertEqual(pack2.provider_earnings, 2704.8)
+        # self.assertEqual(pack2.retailer_earnings, 529.2)
+        # self.assertEqual(order.retailer_earnings, 49529.2)
+        # self.assertEqual(order.delivery_earnings, 2940)
+        # self.assertEqual(order.ikwen_order_earnings, 9666)
+        # self.assertEqual(order.ikwen_delivery_earnings, 60)
+        #
+        # # Check counters
+        # cache.clear()
+        # retailer_profile = get_service_instance().config
+        # self.assertEqual(retailer_profile.items_traded_history, [18, 9, 57, 23, 46, 7.0])
+        # self.assertEqual(retailer_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(retailer_profile.earnings_history, [4150, 1900, 36608, 3040, 9175, 49529.2])
+        # self.assertEqual(retailer_profile.turnover_history, [33800, 22700, 204150, 40890, 70235, 483300.0])
+        #
+        # tecno_profile = OperatorProfile.objects.get(pk='56922874b37b33706b51f001')
+        # self.assertEqual(tecno_profile.items_traded_history, [18, 9, 57, 23, 46, 1.0])
+        # self.assertEqual(tecno_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(tecno_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 49000.0])
+        #
+        # sabc_profile = OperatorProfile.objects.get(pk='56922874b37b33706b51f002')
+        # self.assertEqual(sabc_profile.items_traded_history, [18, 9, 57, 23, 46, 6.0])
+        # self.assertEqual(sabc_profile.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(sabc_profile.earnings_history, [33800, 22700, 204150, 40890, 70235, 529.2])
+        #
+        # tecno_profile_original = OperatorProfile.objects.using('test_kc_tecnomobile').get(pk='56922874b37b33706b51f001')
+        # self.assertEqual(tecno_profile_original.items_traded_history, [18, 9, 57, 23, 46, 1.0])
+        # self.assertEqual(tecno_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(tecno_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 421400.0])
+        #
+        # tecno_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b101', provider='paypal')
+        # self.assertEqual(tecno_wallet.balance, 421400)
+        #
+        # retailer_profile_mirror1 = retailer_profile.get_from('test_kc_tecnomobile')
+        # self.assertEqual(retailer_profile_mirror1.items_traded_history, [18, 9, 57, 23, 46, 1.0])
+        # self.assertEqual(retailer_profile_mirror1.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(retailer_profile_mirror1.earnings_history, [4150, 1900, 36608, 3040, 9175, 421400.0])
+        #
+        # sabc_profile_original = OperatorProfile.objects.using('test_kc_sabc').get(pk='56922874b37b33706b51f002')
+        # self.assertEqual(sabc_profile_original.items_traded_history, [18, 9, 57, 23, 46, 6.0])
+        # self.assertEqual(sabc_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(sabc_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2704.8])
+        #
+        # sabc_wallet = OperatorWallet.objects.using(WALLETS_DB_ALIAS).get(nonrel_id='56eb6d04b37b3379b531b102', provider='paypal')
+        # self.assertEqual(sabc_wallet.balance, 2704.8)
+        #
+        # ems_profile_original = OperatorProfile.objects.using('test_kc_ems').get(pk='56922874b37b33706b51f005')
+        # self.assertEqual(ems_profile_original.items_traded_history, [18, 9, 57, 23, 46, 7])
+        # self.assertEqual(ems_profile_original.orders_count_history, [11, 4, 41, 15, 27, 1])
+        # self.assertEqual(ems_profile_original.earnings_history, [33800, 22700, 204150, 40890, 70235, 2940])
+        #
+        # retailer_profile_mirror2 = retailer_profile.get_from('test_kc_sabc')
+        # self.assertEqual(retailer_profile_mirror2.items_traded_history, [18, 9, 57, 23, 46, 6.0])
+        # self.assertEqual(retailer_profile_mirror2.orders_count_history, [11, 4, 41, 15, 27, 1.0])
+        # self.assertEqual(retailer_profile_mirror2.earnings_history, [4150, 1900, 36608, 3040, 9175, 2704.8])
+        #
+        # category1 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b51')
+        # self.assertListEqual(category1.items_traded_history, [18, 9, 57, 23, 46, 1])
+        # self.assertListEqual(category1.orders_count_history, [11, 4, 41, 15, 27, 1])
+        # self.assertListEqual(category1.earnings_history, [4150, 1900, 36608, 3040, 9175, 49000])
+        #
+        # category2 = ProductCategory.objects.get(pk='569228a9b37b3301e0706b52')
+        # self.assertListEqual(category2.items_traded_history, [30, 16, 52, 78, 31, 6])
+        # self.assertListEqual(category2.orders_count_history, [11, 4, 27, 41, 15, 1])
+        # self.assertListEqual(category2.earnings_history, [4150, 3040, 9175, 1900, 36608, 529.2])
+        #
+        # category1_mirror = ProductCategory.objects.using('test_kc_tecnomobile').get(pk='569228a9b37b3301e0706b51')
+        # self.assertListEqual(category1_mirror.items_traded_history, [18, 9, 57, 23, 46, 1])
+        # self.assertListEqual(category1_mirror.orders_count_history, [11, 4, 41, 15, 27, 1])
+        # self.assertListEqual(category1_mirror.earnings_history, [4150, 1900, 36608, 3040, 9175, 421400])
+        #
+        # category2_mirror = ProductCategory.objects.using('test_kc_sabc').get(pk='569228a9b37b3301e0706b52')
+        # self.assertListEqual(category2_mirror.items_traded_history, [30, 16, 52, 78, 31, 6])
+        # self.assertListEqual(category2_mirror.orders_count_history, [11, 4, 27, 41, 15, 1])
+        # self.assertListEqual(category2_mirror.earnings_history, [4150, 3040, 9175, 1900, 36608, 2704.8])
+        #
+        # product1_original = Product.objects.using('test_kc_tecnomobile').get(pk='55d1fa8feb60008099bd4151')
+        # self.assertEqual(product1_original.stock, 44)
+        #
+        # product1 = Product.objects.get(pk='55d1fa8feb60008099bd4151')
+        # self.assertListEqual(product1.units_sold_history, [30, 14, 48, 45, 1])
+        # self.assertEqual(product1.total_units_sold, 138)
+        # self.assertEqual(product1.stock, 44)
+        #
+        # product2 = Product.objects.get(pk='55d1fa8feb60008099bd4153')
+        # self.assertListEqual(product2.units_sold_history, [74, 51, 35, 89, 6])
+        # self.assertEqual(product2.total_units_sold, 255)
 
     @override_settings(IKWEN_SERVICE_ID='56eb6d04b37b3379b531b103')
     def test_Cart_with_checkout_confirmation(self):
