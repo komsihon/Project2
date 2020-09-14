@@ -664,14 +664,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div>
         {# modal END #}
         {% if service.is_pwa_ready %}
-            <script src="{% static 'ikwen/js/pwa-main.js' %}"></script>
+            <script src="{% static 'ikwen/js/pwa-main.js' %}?v=20.9.14"></script>
         {% endif %}
         <script src="{% static 'kakocase/js/bootstrap-3.1.1.min.js' %}"></script>
         <script src="{% static 'kakocase/js/simpleCart.min.js' %}"></script>
         <script src="{% static 'kakocase/swiper/js/swiper.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
-        <script src="{% static 'ikwen/js/ikwen-util.js' %}"></script>
+        <script src="{% static 'ikwen/js/ikwen-util.js' %}?v=20.9.14"></script>
         <script type="text/javascript">
             (function () {
                 let winWidth = $(window).width();
