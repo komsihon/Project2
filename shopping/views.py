@@ -710,6 +710,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
     gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.ikwen.com/v1')
     endpoint = gateway_url + '/request_payment'
+    user_id = request.user.username if request.user.is_authenticated() else '<Anonymous>'
     params = {
         'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
         'amount': order.total_cost,
@@ -717,7 +718,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         'notification_url': service.url + strip_base_alias(notification_url),
         'return_url': service.url + strip_base_alias(return_url),
         'cancel_url': service.url + strip_base_alias(cancel_url),
-        'user_id': request.user.username
+        'user_id': user_id
     }
     try:
         r = requests.get(endpoint, params, verify=False)
@@ -790,19 +791,23 @@ def confirm_checkout(request, *args, **kwargs):
 
     after_order_confirmation(order, momo_tx=tx)
     member = order.member
-    buyer_name = member.full_name
+    if member:
+        buyer_name = member.full_name
+    else:
+        buyer_name = order.delivery_address.name
     buyer_email = order.delivery_address.email
     buyer_phone = order.delivery_address.phone
 
-    activate(member.language)
+    reward_pack_list = []
+    if member:
+        activate(member.language)
+        try:
+            reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
+                                                           amount=order.items_cost, model_name='trade.Order')
+        except:
+            logger.error('%s - Failed to reward member %s for '
+                         'order %s of %dF' % (order.retailer.project_name, member.username, order.id, order.items_cost))
     subject = _("Order successful")
-    try:
-        reward_pack_list, coupon_count = reward_member(order.retailer, member, Reward.PAYMENT,
-                                                       amount=order.items_cost, model_name='trade.Order')
-    except:
-        reward_pack_list = []
-        logger.error('%s - Failed to reward member %s for '
-                     'order %s of %dF' % (order.retailer.project_name, member.username, order.id, order.items_cost))
     send_order_confirmation_email(request, subject, buyer_name, buyer_email, order, reward_pack_list=reward_pack_list)
     if getattr(settings, 'UNIT_TESTING', False):
         send_order_confirmation_sms(buyer_name, buyer_phone, order)

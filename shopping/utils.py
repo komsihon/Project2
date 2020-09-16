@@ -448,8 +448,10 @@ def after_order_confirmation(order, update_stock=True, momo_tx=None):
     delcom_profile_original = OperatorProfile.objects.using(delcom_db).get(pk=delcom.config.id)
     dara, dara_service_original, provider_mirror = None, None, None
     sudo_group = Group.objects.get(name=SUDO)
-    customer = member.customer
-    referrer = customer.referrer
+    customer, referrer = None, None
+    if member:
+        customer = member.customer
+        referrer = customer.referrer
     referrer_share_rate = 0
     payment_mean_slug = order.payment_mean.slug
     if payment_mean_slug == DARA_CASH:
@@ -522,12 +524,13 @@ def after_order_confirmation(order, update_stock=True, momo_tx=None):
     increment_history_field(config, 'turnover_history', provider_revenue)
     increment_history_field(config, 'earnings_history', provider_earnings)
 
-    set_counters(customer)
-    customer.last_payment_on = datetime.now()
-    increment_history_field(customer, 'orders_count_history')
-    increment_history_field(customer, 'items_purchased_history', order.items_count)
-    increment_history_field(customer, 'turnover_history', provider_revenue)
-    increment_history_field(customer, 'earnings_history', provider_earnings)
+    if member:
+        set_counters(customer)
+        customer.last_payment_on = datetime.now()
+        increment_history_field(customer, 'orders_count_history')
+        increment_history_field(customer, 'items_purchased_history', order.items_count)
+        increment_history_field(customer, 'turnover_history', provider_revenue)
+        increment_history_field(customer, 'earnings_history', provider_earnings)
 
     if dara:
         referrer_share_rate = dara.share_rate
