@@ -604,7 +604,7 @@ h2.typoh2{ margin: 0 0 10px;}
 .checkout-content {background: #f9f8f8}
 .payment-btn-img {border-radius: 3px}
 .currency-switcher, .lang-switcher {float:right;margin-top: -4px;}
-.currency-switcher select, .lang-switcher select {background: #fff;border: none;color: #2d2d2d;margin: 10px 50px 0;}
+.currency-switcher select, .lang-switcher select {background: #fff;border: none;color: #2d2d2d;margin: 10px 20px 0 0;}
 .currency-switcher select:active {color: #888;}
 #megadropdown-tabs-xs .currency-switcher {margin: 5px}
 #megadropdown-tabs-xs .currency-switcher select {color: #888;}
@@ -830,7 +830,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
     #bottom-tabs li {text-align: center;width: 50%;}
     #suggestions {border-top: 1px solid #eee; padding: 1em 0 2em}
     .bottom-cntr {position: absolute;margin-top: 160px;right: 10px;}
-    .bottom-cntr > form {float: left;margin-left: 40px;margin-top: -40px;}
+    .bottom-cntr > form {float: left;/* margin-left: 40px; *//* margin-top: -40px; */}
     .bottom-cntr i {color: #FFF; font-size: 15px}
     #price-range {margin: 1em auto 1em;}
     .single-right .price.item-price-verbose {font-size: 1.5em}
