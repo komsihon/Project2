@@ -812,7 +812,7 @@ li.bt-nn h6 {font-size: 1.2em; text-align: right; color: #621622;margin: 1em 0;}
 }
 
 @media (max-width: 767px){
-    .app-name {font-size: 15px;font-weight: 700;margin-top: 8px;}
+    .app-name {font-size: 12px;font-weight: 700;margin-top: 8px;}
      .banner-w3 {/* margin-top: 20px; */}
      #content {/* margin-top: 10px; */}
      .install-promotion + .banner-w3 {margin-top: -10px;}
