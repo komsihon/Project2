@@ -205,7 +205,7 @@
         </div>
     </div>
     {% include 'shopping/snippets/modal_suggest_login.html' %}
-    <form id="start-checkout" action="{% if user.is_authenticated %}{% url 'shopping:checkout' %}{% endif %}">
+    <form id="start-checkout" action="{% comment %}{% if user.is_authenticated %}{% endcomment %}{% url 'shopping:checkout' %}{% comment %}{% endif %}{% endcomment %}">
         <input type="hidden" id="next" name="next">
         <input type="hidden" id="delivery-option-id" name="delivery_option_id">
         <input type="hidden" id="buy-packing" name="buy_packing">
@@ -217,7 +217,7 @@
     {{ block.super }}
     <script>
         (function() {
-            var promoRate = 0;
+            let promoRate = 0;
             $('.input-group.promo').hide();
             {% if order %}  {#  *** RETURNING TO THIS PAGE AFTER A COMPLETE CHECKOUT ***  #}
                 {% if not order.is_more_than_one_hour_old %}
@@ -234,17 +234,17 @@
                     itemsPackingCost = 0,
                     totalPackingCost = 0;
                 $('body').on('click', '.value-plus1', function() {
-                    var id = $(this).data('id'),
+                    let id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0],
                         max = $(this).data('max');
-                    var divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) + 1;
+                    let divUpd = $(this).parent().find('.value1'), newVal = parseInt(divUpd.text(), 10) + 1;
                     if (newVal > max) {
                         ikwen.showFloatingNotice("{% trans "Available stock limit reached." %}", "", 3);
                         return;
                     }
                     item.increment();
                     simpleCart.update();
-                    var packing = parseFloat(item.get('packing'));
+                    let packing = parseFloat(item.get('packing'));
                     if (packing > 0) {
                         itemsPackingQty += 1;
                         itemsPackingCost += packing;
@@ -255,12 +255,12 @@
                     $('.cart-item.packing .item_quantity span').text(itemsPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.value-minus1', function() {
-                    var id = $(this).data('id'),
+                    let id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0];
                     if (item.quantity() === 1) return;
                     item.decrement();
                     simpleCart.update();
-                    var packing = parseFloat(item.get('packing'));
+                    let packing = parseFloat(item.get('packing'));
                     if (packing > 0) {
                         itemsPackingQty -= 1;
                         itemsPackingCost -= packing;
@@ -271,7 +271,7 @@
                     $('.cart-item.packing .item_quantity span').text(itemsPackingQty);
                     loadCheckoutSummary();
                 }).on('click', '.close1', function() {
-                    var $cartItem = $(this).parents('.cart-item'),
+                    let $cartItem = $(this).parents('.cart-item'),
                         id = $(this).data('id'),
                         item = simpleCart.find({'id': id})[0];
                     item.remove();
@@ -281,7 +281,7 @@
                     });
                     loadCheckoutSummary();
                 }).on('click', '.apply-promo-code', function() {
-                    var code = $('.promo').find('input[type=text]').val();
+                    let code = $('.promo').find('input[type=text]').val();
                        $.getJSON("{% url 'sales:find_promo_code' %}", {code: code}, function(resp) {
                         if (resp.error) {
                             $(".invalid-code").fadeIn().show();
@@ -307,7 +307,7 @@
                 }).on('keypress', '.promo input[type=text]',function () {
                     $(".invalid-code").fadeOut().hide()
                 }).on('click', '#check-packing', function() {
-                    var buyPacking = $('#check-packing').prop('checked'),
+                    let buyPacking = $('#check-packing').prop('checked'),
                         itemsCost = parseFloat($('#items-summary').data('total')),
                         $delOpt = $('.delivery-option.active'),
                         deliveryCost = 0,
@@ -332,7 +332,7 @@
                     simpleCart.load();
                     $('.cart-item:not(.tpl, .packing)').remove();
                     simpleCart.each(function(item) {
-                        var _item = item,
+                        let _item = item,
                             url = item.get('url'),
                             size = item.get('size'),
                             packingCost = item.get('packing'),
@@ -378,7 +378,7 @@
                             }
                         });
                     });
-                    var $packageItem = $('.cart-item.packing');
+                    let $packageItem = $('.cart-item.packing');
                     $packageItem.find('.item_quantity span').text(itemsPackingQty);
                     totalPackingCost = itemsPackingCost + deliveryPackingCost;
                     $packageItem.find('.subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
@@ -412,7 +412,7 @@
                     else $('.alert.min-checkout').addClass('hide');
                 }
                 {% if user.is_anonymous %}
-                    var anonymousBuyerId = localStorage.getItem('anonymousBuyerId');
+                    let anonymousBuyerId = localStorage.getItem('anonymousBuyerId');
                     if (anonymousBuyerId) {
                         $('#anonymous-buyer-id').val(anonymousBuyerId);
                     }
@@ -420,13 +420,13 @@
                 $('#checkout-summary').on('click', '.delivery-option', function() {
                     $('.delivery-option').removeClass('active');
                     $(this).addClass('active');
-                    var delOptId = $(this).data('id'),
+                    let delOptId = $(this).data('id'),
                         delOptType = $(this).data('type'),
                         itemsCost = parseFloat($('#items-summary').data('total')),
                         deliveryCost = parseFloat($(this).data('cost')),
                         total = itemsCost + deliveryCost;
                     deliveryPackingCost = parseFloat($(this).data('packing-cost'));
-                    if (isNaN(deliveryPackingCost)) deliveryPackingCost = 0
+                    if (isNaN(deliveryPackingCost)) deliveryPackingCost = 0;
                     totalPackingCost = itemsPackingCost + deliveryPackingCost;
                     $('.cart-item.packing .subtotal').html(currency + ' ' + totalPackingCost.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     if (delOptType === 'HomeDelivery') {
@@ -436,7 +436,7 @@
                         $('.cart-item.packing').removeClass('no');
                     } else {
                         $('#check-packing').prop('disabled', false);
-                        var buyPacking = $('#check-packing').prop('checked');
+                        let buyPacking = $('#check-packing').prop('checked');
                         if (buyPacking) total += totalPackingCost;
                     }
                     $('div#delivery .price .currency').html(simpleCart.currency().symbol);
@@ -444,7 +444,7 @@
                     $('.co.total .price .val').text(total.formatMoney({{ CURRENCY.precision }}, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}'));
                     $('#delivery-option-id').val(delOptId)
                 }).on('click', '.start-checkout', function() {
-                    var deliveryOptionId = $('.delivery-option.active').data('id'),
+                    let deliveryOptionId = $('.delivery-option.active').data('id'),
                         paymentMeanSlug = $(this).data('slug'),
                         isCashFlex = $(this).data('is_cashflex');
                     if (!deliveryOptionId) {
@@ -473,7 +473,7 @@
                 {% url 'shopping:checkout' as checkout_url %}
                 {% url 'ikwen:sign_in' as sign_in_url %}
                 $('div#suggest-login .register').click(function() {
-                    var actionUrl = '{% url 'ikwen:register' %}',
+                    let actionUrl = '{% url 'ikwen:register' %}',
                         deliveryOptionId = $('.delivery-option.active').data('id');
                     $('#next').val('{{ checkout_url }}');
                     $('#delivery-option-id').val(deliveryOptionId);
@@ -481,15 +481,22 @@
                     return false;
                 });
                 $('div#suggest-login .connect').click(function () {
-                    var actionUrl = '{{ sign_in_url }}',
+                    let actionUrl = '{{ sign_in_url }}',
                         deliveryOptionId = $('.delivery-option.active').data('id');
                     $('#next').val('{{ checkout_url }}');
                     $('#delivery-option-id').val(deliveryOptionId);
                     $('form#start-checkout').attr('action', actionUrl).submit();
                     return false;
                 });
+                $('div#suggest-login .start-checkout').click(function () {
+                    let actionUrl = '{{ checkout_url }}',
+                        deliveryOptionId = $('.delivery-option.active').data('id');
+                    $('#delivery-option-id').val(deliveryOptionId);
+                    $('form#start-checkout').attr('action', actionUrl).submit();
+                    return false;
+                });
                 $('div#suggest-login .turn-down').click(function() {
-                    var actionUrl = '{{ checkout_url }}',
+                    let actionUrl = '{{ checkout_url }}',
                         deliveryOptionId = $('.delivery-option.active').data('id');
                     $('#delivery-option-id').val(deliveryOptionId);
                     $('form#start-checkout').attr('action', actionUrl).submit();
@@ -497,7 +504,7 @@
                 });
             {% endif %}
 
-            var couponSwiper = new Swiper('#coupons .swiper-container', {
+            let couponSwiper = new Swiper('#coupons .swiper-container', {
                 slidesPerView: 'auto',
                 nextButton: '.swiper-button-next',
                 prevButton: '.swiper-button-prev'
