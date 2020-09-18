@@ -327,6 +327,8 @@ class OperatorProfile(AbstractConfig):
     theme = models.ForeignKey(Theme, blank=True, null=True, related_name='+')
     checkout_min = models.IntegerField(_("checkout minimum"), default=getattr(settings, 'CHECKOUT_MIN', 3000),
                                        help_text=_("Minimum amount you allow to customers to buy."))
+    allow_anonymous_checkout = models.BooleanField(_("Allow anonymous checkout ?"), default=False,
+                                                   help_text=_("Check to allow purchase without creating account."))
     auto_manage_sales = models.BooleanField(_("Auto-manage sales"), default=True,
                                             help_text=_("If checked, may show a strike-through <em>previous price</em> "
                                                         "right before the current <em>retail price</em> and a "
