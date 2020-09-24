@@ -3,12 +3,10 @@
 
 {% block head_js %}
     {{ block.super }}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {'packages': ['line', 'corechart']});
 
         $(document).on('ready', () => {
-            google.charts.setOnLoadCallback(drawTrendChart);
             google.charts.setOnLoadCallback(drawOrdersChart);
             google.charts.setOnLoadCallback(drawAepoChart);
             google.charts.setOnLoadCallback(drawTopCategoriesChart);
@@ -17,7 +15,6 @@
             google.charts.setOnLoadCallback(drawTopDarasChart)
         });
         $(window).resize('resize', () => {
-            google.charts.setOnLoadCallback(drawTrendChart);
             google.charts.setOnLoadCallback(drawOrdersChart);
             google.charts.setOnLoadCallback(drawAepoChart);
             google.charts.setOnLoadCallback(drawTopCategoriesChart);
@@ -27,37 +24,8 @@
         });
 
 
-        let earningsHistoryCurrentMonth = {{ earnings_history_current_month|safe }},
-            earningsHistoryPreviousMonth = {{ earnings_history_previous_month|safe }},
+        let earningsHistoryCurrentMonth = {{ earnings_history|safe }},
             transactionCountHistory = {{ transaction_count_history|safe }};
-
-
-        function drawTrendChart(){
-            let data = new google.visualization.DataTable(),
-            values = [];
-            data.addColumn('number', "{% trans 'Day' %}");
-            data.addColumn('number', "{% trans 'This month' %}");
-            data.addColumn('number', "{% trans 'Previous Month' %}");
-
-            for (let i=0; i<earningsHistoryCurrentMonth.length; i ++) {
-                values.push([i, earningsHistoryCurrentMonth[i], earningsHistoryPreviousMonth[i]]);
-            }
-            data.addRows(values);
-            let options = {
-                title: "{% trans 'Earnings (XAF)' %}",
-                {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
-                hAxis: {title: ""},
-                vAxis: {minValue: 0},
-            };
-            if ($(window).width() < 1200){
-                options.legend = {position: 'none'};
-            }
-            if ($(window).width() < 768){
-                options.explorer = {axis: 'horizontal'};
-            }
-            let chart = new google.charts.Line(document.getElementById('trend-chart'));
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
 
         function drawOrdersChart() {
             let data = new google.visualization.DataTable(),
@@ -156,6 +124,7 @@
                 {% endif %}
             {% endfor %}
         }
+
         function drawTopDarasChart(){
             let values, data, chart, dara_total;
             {% for period, data in daras_report.items %}
