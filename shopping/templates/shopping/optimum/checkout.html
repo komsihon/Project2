@@ -210,13 +210,9 @@
                 $('div#previous-addresses ul:not(.in)').collapse('show');
                 $('#new-address.in').collapse('hide');
                 $('div#previous-addresses h3').text("{% trans "Click on a previous address below to use it." %}");
-                if ($('.previous-address').length == 1) $('.previous-address').addClass('selected');
+                if ($('.previous-address').length === 1) $('.previous-address').addClass('selected');
                 else $('.previous-address').removeClass('selected');
             }).on('click', '.submit-checkout, .payment-method:not(.processing)', function() {
-                if ($(this).hasClass('momo')) {
-                    ikwen.showFloatingNotice("{% trans "Unavailable for now" %}");
-                    return;
-                }
                 let actionURL = $(this).data('action-url');
                 $('.payment-method').addClass('processing');
                 $('#payment-methods .spinner').show();
