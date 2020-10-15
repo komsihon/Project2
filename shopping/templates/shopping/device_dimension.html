@@ -1,0 +1,46 @@
+{% extends "shopping/optimum/base.html" %}
+{% load i18n humanize static auth_tokens  %}
+{% block page_title %}
+    <title>{% trans "Get the dimension of your device" %} - ikwen </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        .device-dimension  {background: rgb(2,0,36); padding-top: 200px; text-align: center; height: 550px}
+        .device-dimension h1  {margin-bottom: 30px}
+        .device-dimension * {color: #fff;}
+    </style>
+{% endblock %}
+
+{% block meta %}
+    <meta name="apple-mobile-web-app-title" content="Device dimension" />
+
+    <meta name="abstract" content="{% trans "Get the dimension of your device" %}"/>
+    <meta name="description" content="{% trans "Get the dimension of your device" %}"/>
+
+    <meta property="og:title" content="Foulassi - {% trans "Get the dimension of your device" %}" />
+    <meta property="og:description" content="{% trans "Get the dimension of your device" %}" />
+{% endblock %}
+
+
+{% block content %}
+    <div class="device-dimension">
+        <h1>{% trans 'Your device is:' %}</h1>
+        <h3>
+            <span class="width"></span> px wide and
+            <span class="height"></span> px high
+        </h3>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        (() => {
+           $('.width').text($(window).width());
+           $('.height').text($(window).height());
+        })();
+    </script>
+{% endblock %}

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from ikwen_kakocase.shopping.paypal.views import SetExpressCheckout, GetExpressCheckoutDetails, DoExpressCheckout, PayPalCancel
 from ikwen_kakocase.shopping.views import ProductList, ProductDetail, confirm_checkout, Cart, \
     check_stock, check_stock_single, Home, Contact, load_checkout_summary, Checkout, review_product, test_return_url, \
-    ChooseDeal, Cancel, load_countries, CouponList, OrderHistory
+    ChooseDeal, Cancel, load_countries, CouponList, OrderHistory, DisplayDeviceDimension
 
 urlpatterns = patterns(
     '',
@@ -13,7 +13,7 @@ urlpatterns = patterns(
     url(r'^contact/$', Contact.as_view(), name='contact'),
     url(r'^cart/$', Cart.as_view(), name='cart'),
     url(r'^cart/(?P<order_id>[-\w]+)/$', Cart.as_view(), name='cart'),
-    url(r'^checkout/$', Checkout.as_view(), name='checkout'),
+    url(r'^checkout/$', login_required(Checkout.as_view()), name='checkout'),
     url(r'^check_stock$', check_stock, name='check_stock'),
     url(r'^check_stock_single$', check_stock_single, name='check_stock_single'),
     url(r'^load_checkout_summary$', load_checkout_summary, name='load_checkout_summary'),
@@ -32,6 +32,7 @@ urlpatterns = patterns(
     url(r'^coupons$', login_required(CouponList.as_view()), name='coupon_list'),
 
     url(r'^ordersHistory$', login_required(OrderHistory.as_view()), name='orders_history'),
+    url(r'^deviceDimensions/$', DisplayDeviceDimension.as_view(), name='display_device_dimension'),
 
 
     url(r'^review_product/(?P<product_id>[-\w]+)/$', review_product, name='review_product'),

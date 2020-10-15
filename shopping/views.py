@@ -1092,3 +1092,7 @@ class OrderHistory(TemplateView):
             pass
         context['member'] = member
         return context
+
+
+class DisplayDeviceDimension(TemplateView):
+    template_name = 'shopping/device_dimension.html'

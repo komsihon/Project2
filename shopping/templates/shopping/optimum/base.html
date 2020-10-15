@@ -576,6 +576,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <li><i class="fa fa-phone" aria-hidden="true" style="font-size: 20px"></i><a href="#">{{ config.contact_phone }}</a></li>
                                 {% endif %}
                                 <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:{{ config.contact_email }}">{{ config.contact_email }}</a></li>
+                                {% if is_allowed %}
+                                    <li><a href="{% url 'shopping:display_device_dimension' %}">{% trans 'Debug' %}</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     <div class="clearfix"> </div>
