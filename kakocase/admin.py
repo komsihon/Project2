@@ -38,11 +38,11 @@ else:
         if config.is_pro_version:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices', 'allow_shopping',
                                           'allow_anonymous_checkout', 'notification_email', 'notification_phone',
-                                          'return_url', 'is_ecommerce_active', 'register_with_dob')}
+                                          'return_url', 'is_ecommerce_active')}
         else:
             _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'show_prices',
                                           'allow_shopping', 'allow_anonymous_checkout', 'notification_email',
-                                          'notification_phone', 'is_ecommerce_active', 'register_with_dob')}
+                                          'notification_phone', 'is_ecommerce_active')}
     elif getattr(settings, 'IS_RETAILER', False):
         _website_fields = {'fields': ('checkout_min', 'auto_manage_sales', 'is_certified',)}
     elif getattr(settings, 'IS_DELIVERY_COMPANY', False):
@@ -51,8 +51,10 @@ else:
         _website_fields = {'fields': ('website_url', 'create_account_url', 'cashflex_eula_url',
                                       'notification_email', 'notification_phone', 'return_url', )}
     _fieldsets = [
-        (_('Company'), {'fields': ('company_name', 'short_description', 'slogan', 'description')}),
+        (_('Company'), {'fields': ('company_name', 'registration_number', 'taxpayer_number')}),
+        (_('Brand'), {'fields': ('short_description', 'slogan', 'description')}),
         (_('Website'), _website_fields),
+        (_('User accounts'), {'fields': ('register_with_email', 'register_with_dob',)}),
         (_('Address & Contact'), {'fields': ('contact_email', 'contact_phone', 'whatsapp_phone', 'address', 'country', 'city')}),
         (_('Social'), {'fields': ('facebook_link', 'twitter_link',
                                   'youtube_link', 'instagram_link', 'linkedin_link', )}),

@@ -710,7 +710,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         return HttpResponse(json.dumps({'notification_url': notification_url}), content_type='text/json')
     gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.ikwen.com/v1')
     endpoint = gateway_url + '/request_payment'
-    user_id = request.user.username if request.user.is_authenticated() else '<Anonymous>'
+    payer_id = request.user.username if request.user.is_authenticated() else '<Anonymous>'
     params = {
         'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
         'amount': order.total_cost,
@@ -718,7 +718,7 @@ def set_momo_order_checkout(request, payment_mean, *args, **kwargs):
         'notification_url': service.url + strip_base_alias(notification_url),
         'return_url': service.url + strip_base_alias(return_url),
         'cancel_url': service.url + strip_base_alias(cancel_url),
-        'user_id': user_id
+        'payer_id': payer_id
     }
     try:
         r = requests.get(endpoint, params, verify=False)
