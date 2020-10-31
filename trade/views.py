@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import logging
 from threading import Thread
@@ -10,14 +10,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.db.models import Q
+from django.db.models import Q, Model as DjangoModel
 from django.http import HttpResponse
 from django.http.response import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.defaultfilters import slugify
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from ikwen.core.constants import CONFIRMED
 from ikwen_kakocase.trade.admin import OrderResource
 
@@ -40,6 +40,31 @@ from ikwen_kakocase.trade.models import Order, LateDelivery, BrokenProduct, Pack
 logger = logging.getLogger('ikwen')
 
 
+class StatusListFilter(object):
+    title = _('Status')
+    parameter_name = 'status'
+
+    def lookups(self):
+        choices = []
+        if getattr(settings, 'IS_BANK', False):
+            choices = [
+                (Order.PENDING_FOR_APPROVAL, _("Pending for approval")),
+                (Order.REJECTED, _('Rejected')),
+            ]
+        choices.extend([
+            (Order.PENDING, _('Pending')),
+            (Order.SHIPPED, _('Shipped')),
+            (Order.DELIVERED, _('Delivered'))
+        ])
+        return choices
+
+    def queryset(self, request, queryset):
+        value = request.GET.get(self.parameter_name)
+        if value:
+            return queryset.filter(status=value)
+        return queryset
+
+
 class OrderList(HybridListView):
     template_name = 'trade/order_list.html'
     html_results_template_name = 'trade/snippets/order_list_results.html'
@@ -47,20 +72,24 @@ class OrderList(HybridListView):
     context_object_name = 'order_list'
     search_field = 'tags'
     list_filter = (
-        ('status', _('Status')),
+        StatusListFilter,
         ('created_on', _("Date")),
     )
     export_resource = OrderResource
     show_add = False
+
+    def clean_leaks(self):
+        ytd = datetime.now() - timedelta(days=1)
+        Order.objects.filter(status=Order.PENDING_FOR_PAYMENT, created_on__lte=ytd).delete()
 
     def get_base_queryset(self):
         q = self.request.GET.get('q')
         status = self.request.GET.get('status')
         by_rcc = False
         if getattr(settings, 'IS_BANK', False):
-            queryset = Order.objects.exclude(status=Order.PENDING_FOR_PAYMENT)
+            queryset = Order.objects.select_related('member').exclude(status=Order.PENDING_FOR_PAYMENT)
         else:
-            queryset = Order.objects.exclude(Q(status=Order.PENDING_FOR_PAYMENT) & Q(status=Order.PENDING_FOR_APPROVAL))
+            queryset = Order.objects.select_related('member').exclude(Q(status=Order.PENDING_FOR_PAYMENT) & Q(status=Order.PENDING_FOR_APPROVAL))
         if q:
             try:
                 Order.objects.get(rcc=q.lower())
