@@ -54,7 +54,7 @@ def allowed_users(request):
         }
     try:
         email = request.user.email
-        if email in ['rsihon@gmail.com', 'wilfriedwillend@gmail.com', 'silatchomsiaka@gmail.com']:
+        if email in ['rsihon@gmail.com', 'wilfriedwillend@gmail.com', 'silatchomsiaka@gmail.com', 'rmbogning@gmail.com']:
             return {
                 'is_allowed': True
             }
