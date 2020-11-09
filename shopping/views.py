@@ -450,6 +450,25 @@ class Checkout(TemplateSelector, TemplateView):
     template_name = 'shopping/checkout.html'
     optimum_template_name = 'shopping/optimum/checkout.html'
 
+    def get(self, request, *args, **kwargs):
+        action = self.request.GET.get('action')
+        if action == 'delete':
+            return self.delete_address(request)
+        return super(Checkout, self).get(request, *args, **kwargs)
+
+    def delete_address(self, request, item_arg=None):
+        member = request.user
+        item = request.GET.get('item')
+        if not item:
+            item = item_arg
+        if member.customer:
+            customer = member.customer
+            customer.delivery_addresses.pop(int(item))
+            customer.save()
+            # messages.success(self.request, 'Address deleted')
+            return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
+        return HttpResponseRedirect(reverse('shopping:orders_history'))
+
     def get_context_data(self, **kwargs):
         context = super(Checkout, self).get_context_data(**kwargs)
         context['countries'] = Country.objects.all()

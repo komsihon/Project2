@@ -68,7 +68,7 @@
                             <li><a href="{% url 'ikwen:sign_in' %}">{% trans "Login" %}</a></li>
                         {% endif %}
                         {% if is_allowed %}
-                            <li><a href="{% url 'shopping:display_device_dimension' %}">{% trans 'Debug' %}</a></li>
+                            <li><i class="fas fa-debug" style="margin-right: 10px"></i><a href="{% url 'shopping:display_device_dimension' %}">{% trans 'Debug' %}</a></li>
                         {% endif %}
                         <li>{{ is_allowed }}</li>
                     </ul>

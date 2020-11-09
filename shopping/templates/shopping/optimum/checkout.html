@@ -7,7 +7,11 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link href="{% static 'kakocase/css/checkout.css' %}?v=20.2.27" rel="stylesheet" type="text/css">
+    <link href="{% static 'kakocase/css/checkout.css' %}?v=20.11.09" rel="stylesheet" type="text/css">
+    <link href="{% static 'ikwen/css/base.css' %}?v=20.08.25" rel="stylesheet" type="text/css">
+    <style>
+        .previous-address .actions i {padding: 5px; z-index: 2}
+    </style>
 {% endblock %}
 
 {% block horizontal_menu %}
@@ -42,7 +46,7 @@
                                 {% for address in previous_addresses %}
                                     <li class="previous-address{% if previous_addresses|length == 1 %} selected{% endif %}" data-index="{{ forloop.counter0 }}">
                                         <div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-6">
                                                 <p>{{ address.details }}</p>
                                                 {% if address.city and address.country %}
                                                 <p class="country-city">
@@ -53,8 +57,13 @@
                                                     {{ address.email }}
                                                 </p>
                                                 <p class="details">
-                                                    <em>{{ address.phone }}</em>
+                                                    <span style="font-style: italic; {% if config.brand_color %}color: {{ config.brand_color }}{% endif %}">{{ address.phone }}</span>
                                                 </p>
+                                            </div>
+                                            <div class="actions col-sm-2">
+                                                <i class="fa fa-edit edit" data-action="edit" title="{% trans 'Edit' %}"></i>
+                                                <i class="glyphicon glyphicon-trash delete" data-action="delete" title="{% trans 'Delete' %}"></i>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="col-sm-4">
                                             {% if payment_mean_list|length == 1 %}
@@ -63,13 +72,13 @@
                                                     <img src="{{ payment_mean_list.0.button_img_url }}" alt="{{ payment_mean_list.0.name }} Checkout" class="payment-btn-img">
                                                 </button>
                                             {% else %}
-                                                <button type="button" class="btn btn-warning show-payment-methods" style="width: 180px"
+                                                <button type="button" class="btn btn-warning show-payment-methods" style="width: 100%"
                                                         data-toggle="modal" data-target="#payment-methods">
                                                     {% trans "Pay" %}
                                                 </button>
                                             {% endif %}
                                             </div>
-                                            <div class="clear"></div>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </li>
                                 {% endfor %}
@@ -200,12 +209,22 @@
                 $('.previous-address').removeClass('selected');
                 $('#new-address.in').collapse('hide');
                 $(this).toggleClass('selected');
-            }).on('click', 'button.new-address', function() {
+            }).on('click', '.edit, button.new-address', function() {
                 $('#previous-address-index').val('');
                 $('.previous-address').removeClass('selected');
                 $('div#previous-addresses ul.in').collapse('hide');
                 $('div#new-address .spinner').hide();
+                if($(this).data('action') === 'edit'){
+                    let $parent = $(this).parents('.previous-address'),
+                        params = {
+                            'item': $parent.data('index'),
+                            'action': 'delete'
+                        };
+                    deleteDeliveryAddress(params, $parent);
+                    ikwen.showFloatingNotice("Address changed", 2000);
+                }
                 $('div#previous-addresses h3').text("{% trans "Click here to view previous addresses." %}");
+
             }).on('click', '#previous-addresses h3', function() {
                 $('div#previous-addresses ul:not(.in)').collapse('show');
                 $('#new-address.in').collapse('hide');
@@ -253,6 +272,34 @@
                 if (!check) ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
                 return check;
             });
+            $('body').on('click', '.delete', (e) => {
+                let $parent = $(e.target).parents('.previous-address'),
+                    params = {
+                    'item': $parent.data('index'),
+                    'action': 'delete'
+                };
+                deleteDeliveryAddress(params, $parent);
+                ikwen.showFloatingNotice("Address removed", 2000);
+            });
+
+            function deleteDeliveryAddress(params, $parent){
+                $.getJSON('', params, (data) => {
+                    if(data.success) {
+                        $parent.remove();
+                        reIndex();
+                    }
+                });
+            }
+            function reIndex(){
+                let liArray = $(".previous-address").toArray();
+                $.each(liArray, (index, element) => {
+                    $(element).attr({'data-index': index});
+                    if (index === 0)
+                        $(element).addClass('selected');
+                });
+                if (liArray.length === 0)
+                    $('.previous-address').remove();
+            }
         })()
     </script>
 {% endblock %}

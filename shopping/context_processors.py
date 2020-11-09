@@ -48,16 +48,21 @@ def user_coupon_list(request):
 
 
 def allowed_users(request):
-    if request.user.is_anonymous:
+    if not request.user.is_authenticated:
         return {
             'is_allowed': False
         }
-    email = request.user.email
-    if email in ['rsihon@gmail.com', 'wilfriedwillend@gmail.com', 'silatchomsiaka@gmail.com']:
-        return {
-            'is_allowed': True
-        }
-    else:
+    try:
+        email = request.user.email
+        if email in ['rsihon@gmail.com', 'wilfriedwillend@gmail.com', 'silatchomsiaka@gmail.com']:
+            return {
+                'is_allowed': True
+            }
+        else:
+            return {
+                'is_allowed': False
+            }
+    except:
         return {
             'is_allowed': False
         }
