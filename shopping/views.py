@@ -1115,3 +1115,24 @@ class OrderHistory(TemplateView):
 
 class DisplayDeviceDimension(TemplateView):
     template_name = 'shopping/device_dimension.html'
+
+
+class SingleProduct(TemplateView):
+    template_name = 'shopping/optimum/single_product.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SingleProduct, self).get_context_data(**kwargs)
+        context['template_cache_duration'] = 400
+        service = get_service_instance()
+        db = service.database
+        add_database(db)
+        # try:
+        #     current_product = Product.objects.select_related('provider').filter(category=category)[0]
+        # except IndexError:
+        #     raise Http404('No product matches the given query.')
+        current_product = Product.objects.using(db).filter(visible=True)[0]
+        product = apply_promotion_discount([current_product])[0]
+        category = product.category
+        context['product'] = product
+        context['category'] = category
+        return context
