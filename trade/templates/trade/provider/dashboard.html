@@ -4,144 +4,93 @@
 {% block head_js %}
     {{ block.super }}
     <script type="text/javascript">
-        google.charts.load('current', {'packages': ['line', 'corechart']});
+        (function() {
+            google.charts.load('current', {'packages': ['line', 'corechart']});
 
-        $(document).on('ready', () => {
-            google.charts.setOnLoadCallback(drawOrdersChart);
-            google.charts.setOnLoadCallback(drawAepoChart);
-            google.charts.setOnLoadCallback(drawTopCategoriesChart);
-            google.charts.setOnLoadCallback(drawTopCustomersChart);
-            google.charts.setOnLoadCallback(drawTopProductsChart);
-            google.charts.setOnLoadCallback(drawTopDarasChart)
-        });
-        $(window).resize('resize', () => {
-            google.charts.setOnLoadCallback(drawOrdersChart);
-            google.charts.setOnLoadCallback(drawAepoChart);
-            google.charts.setOnLoadCallback(drawTopCategoriesChart);
-            google.charts.setOnLoadCallback(drawTopCustomersChart);
-            google.charts.setOnLoadCallback(drawTopProductsChart);
-            google.charts.setOnLoadCallback(drawTopDarasChart);
-        });
+            $(document).on('ready', () => {
+                google.charts.setOnLoadCallback(drawTopCategoriesChart);
+                google.charts.setOnLoadCallback(drawTopCustomersChart);
+                google.charts.setOnLoadCallback(drawTopProductsChart);
+                google.charts.setOnLoadCallback(drawTopDarasChart)
+            });
+            $(window).resize('resize', () => {
+                google.charts.setOnLoadCallback(drawTopCategoriesChart);
+                google.charts.setOnLoadCallback(drawTopCustomersChart);
+                google.charts.setOnLoadCallback(drawTopProductsChart);
+                google.charts.setOnLoadCallback(drawTopDarasChart);
+            });
 
-
-        let earningsHistoryCurrentMonth = {{ earnings_history|safe }},
-            transactionCountHistory = {{ transaction_count_history|safe }};
-
-        function drawOrdersChart() {
-            let data = new google.visualization.DataTable(),
-            values = [];
-            data.addColumn('number', "{% trans 'Day' %}");
-            data.addColumn('number', "{% trans 'Orders' %}");
-
-            for (let i=0; i<transactionCountHistory.length; i ++) {
-                values.push([i, transactionCountHistory[i]]);
+            function drawTopCategoriesChart(){
+                let values, data, chart, category_total;
+                {% for period, data in categories_report.items %}
+                     values = [['Category name', 'Earnings']];
+                    {% if data and data.0.total > 0 %}
+                        {% for category in data|slice:"5" %}
+                            {% if category.total > 0 %}
+                                category_total = "{{ category.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                                values.push(["{{ category.name }}", parseFloat(category_total)]);
+                            {% endif %}
+                        {% endfor %}
+                        data = google.visualization.arrayToDataTable(values);
+                        chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-categories-chart'));
+                        chart.draw(data);
+                    {% endif %}
+                {% endfor %}
             }
-            data.addRows(values);
-            let options = {
-                {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
-                hAxis: {title: ""},
-                vAxis: {minValue: 0},
-                colors : ['rgb(255, 153, 0)'],
-                legend: {position: 'none'},
-                explorer: {axis: 'horizontal'}
-            };
-            let chart = new google.charts.Line(document.getElementById('orders-chart'));
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
 
-        function drawAepoChart(){
-            let data = new google.visualization.DataTable(),
-            values = [];
-            data.addColumn('number', "{% trans 'Day' %}");
-            data.addColumn('number', "{% trans 'AEPO' %}");
-
-            for (let i=0; i<earningsHistoryCurrentMonth.length; i ++) {
-                let avg = earningsHistoryCurrentMonth[i]/transactionCountHistory[i];
-                values.push([i, Number(avg.toFixed(2))]);
+            function drawTopProductsChart() {
+               let values, data, chart;
+                {% for period, data in products_report.items %}
+                     values = [['Product name', 'Units ordered']];
+                    {% if data and data.0.total > 0 %}
+                        {% for product in data|slice:"5" %}
+                            {% if product.total > 0 %}
+                                values.push(["{{ product.name }}" + "{% if product.size %}('{{ product.size }}'){% endif %}", {{ product.total }}]);
+                            {% endif %}
+                        {% endfor %}
+                        data = google.visualization.arrayToDataTable(values);
+                        chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-products-chart'));
+                        chart.draw(data);
+                    {% endif %}
+                {% endfor %}
             }
-            data.addRows(values);
-            let options = {
-                {#hAxis: {title: "{% trans 'Day' %}", titleTextStyle: {color: '#203e96'}, textPosition: 'in'},#}
-                hAxis: {title: ""},
-                vAxis: {minValue: 0},
-                colors : ['rgb(153, 0, 153)'],
-                legend: {position: 'none'},
-                explorer: {axis: 'horizontal'}
-            };
-            let chart = new google.charts.Line(document.getElementById('aepo-chart'));
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
 
-        function drawTopCategoriesChart(){
-            let values, data, chart, category_total;
-            {% for period, data in categories_report.items %}
-                 values = [['Category name', 'Earnings']];
-                {% if data and data.0.total > 0 %}
-                    {% for category in data|slice:"5" %}
-                        {% if category.total > 0 %}
-                            category_total = "{{ category.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
-                            values.push(["{{ category.name }}", parseFloat(category_total)]);
-                        {% endif %}
-                    {% endfor %}
-                    data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-categories-chart'));
-                    chart.draw(data);
-                {% endif %}
-            {% endfor %}
-        }
+            function drawTopCustomersChart() {
+                let values, data, chart, customer_total;
+                {% for period, data in customers_report.items %}
+                     values = [['Customer name', 'Earnings']];
+                    {% if data and data.0.total > 0 %}
+                        {% for customer in data|slice:"5" %}
+                            {% if customer.total > 0 %}
+                                customer_total = "{{ customer.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                                values.push(["{{ customer.member.full_name }}", parseFloat(customer_total)]);
+                            {% endif %}
+                        {% endfor %}
+                        data = google.visualization.arrayToDataTable(values);
+                        chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
+                        chart.draw(data);
+                    {% endif %}
+                {% endfor %}
+            }
 
-        function drawTopProductsChart(){
-           let values, data, chart;
-            {% for period, data in products_report.items %}
-                 values = [['Product name', 'Units ordered']];
-                {% if data and data.0.total > 0 %}
-                    {% for product in data|slice:"5" %}
-                        {% if product.total > 0 %}
-                            values.push(["{{ product.name }}" + "{% if product.size %}('{{ product.size }}'){% endif %}", {{ product.total }}]);
-                        {% endif %}
-                    {% endfor %}
-                    data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-products-chart'));
-                    chart.draw(data);
-                {% endif %}
-            {% endfor %}
-        }
-
-        function drawTopCustomersChart() {
-            let values, data, chart, customer_total;
-            {% for period, data in customers_report.items %}
-                 values = [['Customer name', 'Earnings']];
-                {% if data and data.0.total > 0 %}
-                    {% for customer in data|slice:"5" %}
-                        {% if customer.total > 0 %}
-                            customer_total = "{{ customer.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
-                            values.push(["{{ customer.member.full_name }}", parseFloat(customer_total)]);
-                        {% endif %}
-                    {% endfor %}
-                    data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-customers-chart'));
-                    chart.draw(data);
-                {% endif %}
-            {% endfor %}
-        }
-
-        function drawTopDarasChart(){
-            let values, data, chart, dara_total;
-            {% for period, data in daras_report.items %}
-                values = [['Dara name', 'Earnings']];
-                {% if data and data.0.total > 0 %}
-                    {% for dara in data|slice:"5" %}
-                        {% if dara.total > 0 %}
-                            dara_total = "{{ dara.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
-                            values.push(["{{ dara.member.full_name }}", parseFloat(dara_total)]);
-                        {% endif %}
-                    {% endfor %}
-                    data = google.visualization.arrayToDataTable(values);
-                    chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-daras-chart'));
-                    chart.draw(data);
-                {% endif %}
-            {% endfor %}
-        }
+            function drawTopDarasChart() {
+                let values, data, chart, dara_total;
+                {% for period, data in daras_report.items %}
+                    values = [['Dara name', 'Earnings']];
+                    {% if data and data.0.total > 0 %}
+                        {% for dara in data|slice:"5" %}
+                            {% if dara.total > 0 %}
+                                dara_total = "{{ dara.total }}".replace('{{ settings.DECIMAL_SEPARATOR }}', '.');
+                                values.push(["{{ dara.member.full_name }}", parseFloat(dara_total)]);
+                            {% endif %}
+                        {% endfor %}
+                        data = google.visualization.arrayToDataTable(values);
+                        chart = new google.visualization.PieChart(document.getElementById('{{ period }}-top-daras-chart'));
+                        chart.draw(data);
+                    {% endif %}
+                {% endfor %}
+            }
+        })()
     </script>
 {% endblock %}
 
@@ -179,7 +128,7 @@
                         <em class="report last_week tpl">{{ orders_report.last_week.count|intcomma }}</em>
                         <em class="report last_28_days tpl">{{ orders_report.last_28_days.count|intcomma }}</em>
                     </div>
-                    <div id="orders-chart" class="line-chart"></div>
+                    <div id="transactions-count-chart" class="line-chart"></div>
                 </div>
             </div>
         </div>
@@ -197,7 +146,7 @@
                         <em class="report last_week tpl">{{ CRNCY.symbol }} {{ orders_report.last_week.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                         <em class="report last_28_days tpl">{{ CRNCY.symbol }} {{ orders_report.last_28_days.aepo|floatformat:CRNCY.precision|intcomma }}</em>
                     </div>
-                    <div id="aepo-chart" class="line-chart"></div>
+                    <div id="arpt-chart" class="line-chart"></div>
                 </div>
             </div>
         </div>
