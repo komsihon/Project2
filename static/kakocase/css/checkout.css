@@ -13,7 +13,8 @@ body, .header-bottom  {background: #f9f8f8}
 #previous-addresses h3:hover {color: #ac2925; transition: color .3s}
 .previous-address {border: 3px solid transparent; color: #555; cursor: pointer; display: block;
 	font-size: 15px; padding: .6em 1em; transition: border .1s, color .3s, background-color .3s}
-.previous-address:not(.selected):hover {background: #f6f6f6; color: #0d59af; transition: color .3s, background-color .3s}
+.previous-address:not(.selected) i:hover {background: #f6f6f6; color: #0d59af; transition: color .3s, background-color .3s}
+.previous-address:not(.selected) i:active {background: #f6f6f6; color: #ac2925; transition: color .3s, background-color .3s}
 .previous-address.selected {border: 3px solid #FFB74D; float: left; transition: border .1s, color .3s, background-color .3s; width: 100%}
 .previous-address .country-city {color: #444; font-weight: 700}
 .previous-address .details {color: #777; font-size: 13px}

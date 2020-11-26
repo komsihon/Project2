@@ -450,6 +450,25 @@ class Checkout(TemplateSelector, TemplateView):
     template_name = 'shopping/checkout.html'
     optimum_template_name = 'shopping/optimum/checkout.html'
 
+    def get(self, request, *args, **kwargs):
+        action = self.request.GET.get('action')
+        if action == 'delete':
+            return self.delete_address(request)
+        return super(Checkout, self).get(request, *args, **kwargs)
+
+    def delete_address(self, request, item_arg=None):
+        member = request.user
+        item = request.GET.get('item')
+        if not item:
+            item = item_arg
+        if member.customer:
+            customer = member.customer
+            customer.delivery_addresses.pop(int(item))
+            customer.save()
+            # messages.success(self.request, 'Address deleted')
+            return HttpResponse(json.dumps({'success': True}), 'content-type: text/json')
+        return HttpResponseRedirect(reverse('shopping:orders_history'))
+
     def get_context_data(self, **kwargs):
         context = super(Checkout, self).get_context_data(**kwargs)
         context['countries'] = Country.objects.all()
@@ -1096,3 +1115,24 @@ class OrderHistory(TemplateView):
 
 class DisplayDeviceDimension(TemplateView):
     template_name = 'shopping/device_dimension.html'
+
+
+class SingleProduct(TemplateView):
+    template_name = 'shopping/optimum/single_product.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SingleProduct, self).get_context_data(**kwargs)
+        context['template_cache_duration'] = 400
+        service = get_service_instance()
+        db = service.database
+        add_database(db)
+        # try:
+        #     current_product = Product.objects.select_related('provider').filter(category=category)[0]
+        # except IndexError:
+        #     raise Http404('No product matches the given query.')
+        current_product = Product.objects.using(db).filter(visible=True)[0]
+        product = apply_promotion_discount([current_product])[0]
+        category = product.category
+        context['product'] = product
+        context['category'] = category
+        return context

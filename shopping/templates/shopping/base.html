@@ -333,6 +333,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i><a href="#">{{ config.contact_phone }}</a></li>
                                 {% endif %}
                                 <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:{{ config.contact_email }}">{{ config.contact_email }}</a></li>
+                                {% if is_allowed %}
+                                    <li><i class="fa fa-eye" aria-hidden="true" style="font-size: 20px; line-height: 27px"></i><a href="{% url 'shopping:display_device_dimension' %}">{% trans 'Debug' %}</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     <div class="clearfix"> </div>
