@@ -481,6 +481,7 @@ def after_order_confirmation(order, update_stock=True, momo_tx=None):
         else:
             momo_tx.fees += order.ikwen_delivery_earnings + order.logicom_partner_earnings
         momo_tx.dara_fees = order.referrer_earnings
+        momo_tx.dara_id = dara.id
         momo_tx.save(using='wallets')
 
     set_ikwen_earnings_and_stats(order)

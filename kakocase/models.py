@@ -310,10 +310,6 @@ class OperatorProfile(AbstractConfig):
     bundle = models.ForeignKey(TsunamiBundle, blank=True, null=True)
     # Managed by ikwen staff
     business_type = models.CharField(_("business type"), max_length=30)  # PROVIDER, RETAILER, DELIVERY_MAN or BANK
-    ikwen_share_rate = models.FloatField(_("ikwen share rate"), default=0,
-                                         help_text=_("Percentage ikwen collects on the turnover made by this person."))
-    ikwen_share_fixed = models.FloatField(_("ikwen share fixed"), default=0,
-                                          help_text=_("Fixed amount ikwen collects on the turnover made by this person."))
 
     is_certified = models.BooleanField(_("certified"), default=False)
     can_manage_delivery_options = models.BooleanField(_("Manage delivery options"), default=False,
@@ -437,6 +433,7 @@ class OperatorProfile(AbstractConfig):
                 obj_mirror.ikwen_share_fixed = self.ikwen_share_fixed
                 obj_mirror.payment_delay = self.payment_delay
                 obj_mirror.cash_out_min = self.cash_out_min
+                obj_mirror.cash_out_rate = self.cash_out_rate
                 obj_mirror.is_certified = self.is_certified
                 obj_mirror.can_manage_delivery_options = self.can_manage_delivery_options
                 obj_mirror.can_manage_currencies = self.can_manage_currencies
