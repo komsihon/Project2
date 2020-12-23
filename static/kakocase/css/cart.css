@@ -7,6 +7,11 @@
 */
 
 body, .header-bottom  {background: #f9f8f8}
+body.show-highlight  {overflow: hidden}
+#choose-delivery-overlay {background: rgba(0, 0, 0, .7);color: #fff;font-size: 16px;display: none;height: 100%;
+	overflow: hidden;padding: 30px 10px 0;position: fixed;top: 0;width: 100%;z-index: 1000;}
+#choose-delivery-overlay p {color: #fff; margin: 5vh 0}
+.hide-del-option-choice {display: none; width: 100%}
 .header-top.header-top {background: #ffffff}
 .cart-item {background: #fff; margin-bottom: 1em; padding: 15px}
 .cart-item h2 {font-size: 24px; margin-bottom: 1em}
@@ -30,6 +35,7 @@ body, .header-bottom  {background: #f9f8f8}
 #checkout-summary .spinner {background: rgba(255, 255, 255, .6); height: 100%; padding-top: 20%;
 	position: absolute; width: 100%; z-index: 100}
 .co {background: #fff;margin-bottom: 1em;padding: 15px 10px;float: left;width: 100%;}
+#delivery.co.highlight {position: fixed; top: 20vh; width: 270px; z-index: 10000}
 .multiple-delivery-options .co:not(.total) h4 {color: #666}
 .multiple-delivery-options .co:not(.total) .price {color: #009688; font-size: 1.5em}
 .delivery-option:not(:first-of-type) {border-top: 1px solid #eee}
@@ -64,6 +70,10 @@ body, .header-bottom  {background: #f9f8f8}
 #promo-code {display: block;clear: both;}
 #promo-code input[type=text]{text-transform: uppercase;border-right: transparent;}
 .promo-code-rate {color: #ad3949; font-size: 17px; text-transform: uppercase}
+
+@media (max-width: 991px) {
+	#delivery.co.highlight {width: 220px}
+}
 
 @media (max-width: 800px) {
 	#checkout-summary {}
@@ -116,6 +126,7 @@ body, .header-bottom  {background: #f9f8f8}
 	.checkout-header {margin-top: 50px}
 	.cart-item-info .subtotal {text-align: right}
 	.include-packing {margin-left: 10px}
+	#delivery.co.highlight {top: auto; bottom: 5vh; width: 100%}
 	#checkout-confirmation .check-mark {width: 100%; text-align: center}
 	#checkout-confirmation .check-mark img {width: 60px; display: inline}
 	#checkout-confirmation .order-details {width: 100%; margin-top: 15px}

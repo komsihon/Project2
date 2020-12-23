@@ -8,7 +8,7 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link href="{% static 'kakocase/css/cart.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'kakocase/css/cart.css' %}?v=20.12.23" rel="stylesheet" type="text/css">
     <link href="{% static 'ikwen/css/console.css' %}" media="screen" rel="stylesheet" type="text/css" />
     <style>
         #coupons .progress {margin: 0}
@@ -202,6 +202,11 @@
                     {% endif %}
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="choose-delivery-overlay">
+        <div class="text-has-shade text-center visible-xs visible-sm">
+            <p>{% trans "Please click on the delivery option of your choice" %}</p>
         </div>
     </div>
     {% include 'shopping/snippets/modal_suggest_login.html' %}
@@ -448,7 +453,7 @@
                         paymentMeanSlug = $(this).data('slug'),
                         isCashFlex = $(this).data('is_cashflex');
                     if (!deliveryOptionId) {
-                        $('#warning-delivery-location').modal('show');
+                        highlightChooseDelivery();
                         return false;
                     }
                     if (isCashFlex) {
@@ -467,7 +472,7 @@
                 }).on('click', '.promo-code', function () {
                     $(this).remove();
                     $('.input-group.promo').show();
-                });
+                }).on('click', '.hide-del-option-choice', quitDeliveryChoiceHighlight);
 
                 {# *** START CHECKOUT PROCESS *** #}
                 {% url 'shopping:checkout' as checkout_url %}
@@ -522,6 +527,18 @@
                 }
             });
             $('.cart-shopping').addClass('hide');
+            function highlightChooseDelivery() {
+                $('#delivery.co').addClass('highlight');
+                $('body').addClass('show-highlight');
+                $('.hide-del-option-choice').show();
+                $('#choose-delivery-overlay').fadeIn();
+            }
+            function quitDeliveryChoiceHighlight() {
+                $('#delivery.co').removeClass('highlight');
+                $('body').removeClass('show-highlight');
+                $('.hide-del-option-choice').hide();
+                $('#choose-delivery-overlay').fadeOut();
+            }
         })()
     </script>
 {% endblock %}
