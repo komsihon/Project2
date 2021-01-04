@@ -22,9 +22,9 @@
             {% url 'kako:change_category' as change_category_url %}
             {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
             <form id="submit-category" class="admin-form" method="post">{% csrf_token %}
-                <input type="hidden" name="image_url" id="image_url" value="" />
+                <input type="hidden" name="image" id="image_url" value="" />
                 {% include 'core/snippets/model_admin_form.html' %}
-                <section class="photos" style="width: 100%">
+                <section class="photos col-sm-4 col-lg-3">
                     <label class="required" style="float: left; width: 100%">{% trans "Cover image" %}</label>
                     <div id="upload-container">
                         {% if category.image and category.image.name %}
@@ -57,14 +57,14 @@
             $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
             $('.form-row textarea').addClass('form-control input-sm');
             $('form#submit-category').on('change', 'input, textarea', function() {
-                var category = getLocalCategory();
+                let category = getLocalCategory();
                 localStorage.setItem('category', JSON.stringify(category));
             }).submit(function() {
-                var isCorrect = checkInput();
+                let isCorrect = checkInput();
                 if (isCorrect) localStorage.removeItem('category');
                 return isCorrect;
             });
-            var pageLoading = true,
+            let pageLoading = true,
                 category;
             function getLocalCategory() {
                 category = localStorage.getItem('category') ? JSON.parse(localStorage.getItem('category')):{};
@@ -73,15 +73,15 @@
                     pageLoading = false;
                     return category
                 }
-                var categoryAsArray = $('form#submit-category').serialize().split('&');
-                for (var i=0; i<categoryAsArray.length; i++) {
-                    var elt = categoryAsArray[i].split('=');
+                let categoryAsArray = $('form#submit-category').serialize().split('&');
+                for (let i=0; i<categoryAsArray.length; i++) {
+                    let elt = categoryAsArray[i].split('=');
                     category[elt[0]] = decodeURIComponent(elt[1]).replace(/\+/g, ' ');
                 }
                 return category
             }
             function checkInput() {
-                var check = true;
+                let check = true;
                 $('input.required').each(function() {
                     if (!(this).val()) {
                         ikwen.showFloatingNotice("{% trans "Missing information. Please check." %}", '', 6);
@@ -89,25 +89,25 @@
                         check = false;
                     }
                 });
-                var img = $('#image_url').val();
+                let img = $('#image_url').val();
                 if (!img) {
                     return confirm("{% trans "Categories look better with image. Continue without it ?" %}");
                 }
                 return check;
             }
-            var uploader = new qq.FileUploader({
+            let uploader = new qq.FileUploader({
                 action: "{% url 'ikwen:upload_image' %}",
                 element: $('div#upload-container .uploader')[0],
                 buttonText: "{% trans "Upload cover" %}",
                 multiple: false,
                 onProgress: function(id, fileName, loaded, total) {
-                    var ratio = loaded / total,
+                    let ratio = loaded / total,
                         percent = ratio * 100;
                     $('div#upload-container .image .progress').animate({width: percent + '%'});
                 },
                 onComplete: function(id, fileName, responseJSON) {
                     if(responseJSON.success) {
-                        var imageUrl = responseJSON.path,
+                        let imageUrl = responseJSON.path,
                             img = new Image(),
                             category = getLocalCategory();
                         $('div#upload-container .image .spinner').show();
@@ -130,7 +130,9 @@
                     'csrf_token': '{{ csrf_token }}',
                     'csrf_name': 'csrfmiddlewaretoken',
                     'csrf_xname': 'X-CSRFToken',
-                    'required_width': 620,
+                    'model_name': '{{ model }}',
+                    'object_id': '{% if obj.id %}{{ obj.id }}{% endif %}',
+                    'required_width': 640,
                     'required_height': 420
                 }
             });
