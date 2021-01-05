@@ -460,7 +460,7 @@ def after_order_confirmation(order, update_stock=True, momo_tx=None):
         referrer_db = referrer.database
         add_database(referrer_db)
         try:
-            dara = Dara.objects.get(member=referrer.member)
+            dara = Dara.objects.get(member=referrer.member, share_rate__gt=0)
         except Dara.DoesNotExist:
             logging.error("%s - Dara %s not found" % (service.project_name, member.username))
         try:
